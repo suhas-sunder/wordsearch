@@ -1,6 +1,6 @@
 # WordSearch
 
-Live on: https://www.wordsearch.com
+Live on: [https://www.wordsearch.com](https://www.ilovewordsearch.com)
 
 A modern, production-ready template for building full-stack React applications using React Router.
 
