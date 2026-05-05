@@ -1,22 +1,19 @@
-# WordSearch
+# I Love Word Search
 
 Live on: https://www.ilovewordsearch.com
 
-A modern, production-ready template for building full-stack React applications using React Router.
+An SEO-first Next.js word search platform with a deterministic puzzle generator, printable worksheet surfaces, curated category/topic pages, and specialty alphabet-pack scaffolding.
 
 ## Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- Next.js App Router with static editorial pages.
+- Deterministic seeded word-search generation.
+- SVG puzzle preview shared by screen, print, and utility pages.
+- Printable student and answer-key surfaces with QR/share state.
+- Structured content for core hubs, categories, topics, collections, guides, and specialty generators.
+- TypeScript, Tailwind CSS, and focused unit/SEO tests.
 
 ## Getting Started
-
-### Installation
 
 Install the dependencies:
 
@@ -24,21 +21,26 @@ Install the dependencies:
 npm install
 ```
 
-### Development
-
-Start the development server with HMR:
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+Your application will be available at `http://localhost:3000`.
 
 ## Building for Production
 
-Create a production build:
+```bash
+npm run build
+```
+
+## Validation
 
 ```bash
+npm run typecheck
+npm run lint
+npm test
 npm run build
 ```
 
@@ -46,43 +48,22 @@ npm run build
 
 ### Docker Deployment
 
-To build and run using Docker:
-
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+docker build -t ilove-word-search .
+docker run -p 3000:3000 ilove-word-search
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+The containerized application can be deployed to any platform that supports Docker.
 
 ### DIY Deployment
 
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
+Deploy with a host that supports Next.js, or run the compiled app with:
 
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── server.js
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+```bash
+npm run build
+npm run start
 ```
 
 ## Styling
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+Tailwind CSS v4 is connected through `app/globals.css`. The design system uses Inter, Source Serif 4, and Atkinson Hyperlegible Next via `next/font/google`.

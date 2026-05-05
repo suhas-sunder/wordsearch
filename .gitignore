@@ -2,6 +2,10 @@
 /node_modules/
 *.tsbuildinfo
 
-# React Router
+# Next.js
+/.next/
+/out/
+
+# Previous framework output
 /.react-router/
 /build/
