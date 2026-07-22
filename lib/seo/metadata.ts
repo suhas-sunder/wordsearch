@@ -28,7 +28,7 @@ export function noindexMetadata(title: string, description: string, canonical = 
     description,
     robots: {
       index: false,
-      follow: false
+      follow: true
     },
     alternates: {
       canonical

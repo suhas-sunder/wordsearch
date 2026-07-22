@@ -8,9 +8,10 @@ interface PrintablePuzzleProps {
   answerKey?: boolean;
   qrDataUrl?: string;
   utilityLabel?: string;
+  headingLevel?: 1 | 2;
 }
 
-export function PrintablePuzzle({ puzzle, answerKey = false, qrDataUrl, utilityLabel }: PrintablePuzzleProps) {
+export function PrintablePuzzle({ puzzle, answerKey = false, qrDataUrl, utilityLabel, headingLevel = 1 }: PrintablePuzzleProps) {
   const words = orderWordBank(
     puzzle.placed.map((placement) => ({
       id: placement.wordId,
@@ -22,13 +23,14 @@ export function PrintablePuzzle({ puzzle, answerKey = false, qrDataUrl, utilityL
     puzzle.request.wordBankOrder
   );
   const target = shareUrl(puzzle.sharePath);
+  const Heading = headingLevel === 1 ? "h1" : "h2";
 
   return (
     <article className="print-sheet" aria-label={answerKey ? "Answer key" : "Printable word search"}>
       <header className="print-header">
         <div>
           <p className="print-brand">www.iLoveWordSearch.com</p>
-          <h1>{puzzle.request.title}</h1>
+          <Heading>{puzzle.request.title}</Heading>
           {puzzle.request.subtitle && <p className="print-subtitle">{puzzle.request.subtitle}</p>}
           <p className="print-instructions">
             {answerKey ? "Answer key. Keep this page separate from student copies." : puzzle.request.instructions}

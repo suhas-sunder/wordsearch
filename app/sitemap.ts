@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "/",
     ...corePages.map((page) => `/${page.slug}`),
-    ...supportPages.map((page) => `/${page.slug}`),
+    ...supportPages.filter((page) => page.slug !== "search").map((page) => `/${page.slug}`),
     ...categories.map((category) => `/categories/${category.slug}`),
     ...topics.map((topic) => `/word-searches/${topic.slug}`),
     ...collections.map((collection) => `/collections/${collection.slug}`),

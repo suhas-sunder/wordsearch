@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     default: "I Love Word Search | Free Printable and Online Word Search Puzzles",
     template: "%s | I Love Word Search"
   },
-  description: "Create, print, play, and share word search puzzles with answer keys, PDF-ready layouts, large-print modes, and curated topic pages.",
+  description: "Find free printable and online word search puzzles, browse curated topics, or create a custom seeded puzzle.",
   applicationName: "I Love Word Search",
   alternates: {
     canonical: "/"

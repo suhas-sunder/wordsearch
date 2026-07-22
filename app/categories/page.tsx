@@ -1,27 +1,29 @@
-import { IndexablePage } from "@/components/page/IndexablePage";
+import Link from "next/link";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { AdSlot } from "@/components/layout/AdSlot";
+import { DiscoveryCards } from "@/components/page/DiscoveryCards";
 import { CategoryGrid, TopicStrip } from "@/components/page/PageSections";
+import { featuredPuzzles } from "@/content/discovery";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = pageMetadata(
-  "Word Search Categories | Browse Printable Puzzle Hubs",
-  "Browse word search category hubs for animals, holidays, science, math, geography, language arts, and more.",
+  "Word Search Categories and Puzzle Topics",
+  "Browse real word search categories and curated topic pages for animals, holidays, science, math, geography, reading, and more.",
   "/categories"
 );
 
 export default function CategoriesPage() {
   return (
-    <IndexablePage
-      title="Word Search Categories"
-      h1="Word Search Categories"
-      description="Browse broad word search hubs with printable, online, PDF, answer key, and large-print options in-page."
-      intro="Category hubs collect useful topic pages without creating duplicate modifier pages for every possible filter."
-      path="/categories"
-      words={["animals", "holidays", "science", "math", "reading", "history", "travel", "sports", "music", "faith"]}
-      modules={["faq"]}
-      breadcrumbs={[{ label: "Categories" }]}
-    >
+    <main>
+      <Breadcrumbs items={[{ label: "Categories" }]} />
+      <section className="hub-hero site-shell">
+        <div><span className="eyebrow">Puzzle directory</span><h1>Word Search Categories</h1><p className="value-prop">Choose a broad subject, then narrow it to an existing printable and online puzzle topic.</p></div>
+        <aside className="intent-panel"><strong>Not sure where to begin?</strong><p>Search by theme, audience, season, or format.</p><Link className="primary-button" href="/search">Search the catalog</Link></aside>
+      </section>
       <CategoryGrid />
+      <AdSlot placement="utility-banner" />
+      <section className="content-section site-shell soft-section"><div className="section-heading"><h2>Featured puzzle topics</h2><p>Start with a real curated puzzle rather than an empty filter page.</p></div><DiscoveryCards items={featuredPuzzles} /></section>
       <TopicStrip />
-    </IndexablePage>
+    </main>
   );
 }

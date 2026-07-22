@@ -1,16 +1,18 @@
 import { notFound } from "next/navigation";
 import { IndexablePage } from "@/components/page/IndexablePage";
+import { hasRouteHub, RouteHub } from "@/components/page/RouteHub";
 import { corePages, getSitePage, supportPages } from "@/content/routes";
-import { decodeShareState } from "@/lib/share-state/state";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 interface Props {
   params: Promise<{ slug: string }>;
-  searchParams?: Promise<{ state?: string }>;
 }
 
 export async function generateStaticParams() {
-  return [...corePages, ...supportPages].map((page) => ({ slug: page.slug }));
+  const explicitRoutes = new Set(["word-search-generator", "search", "categories", "guides"]);
+  return [...corePages, ...supportPages]
+    .filter((page) => !explicitRoutes.has(page.slug))
+    .map((page) => ({ slug: page.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -20,12 +22,11 @@ export async function generateMetadata({ params }: Props) {
   return pageMetadata(page.title, page.description, `/${page.slug}`);
 }
 
-export default async function SitePage({ params, searchParams }: Props) {
+export default async function SitePage({ params }: Props) {
   const { slug } = await params;
-  const query = searchParams ? await searchParams : {};
   const page = getSitePage(slug);
   if (!page) notFound();
-  const state = slug === "word-search-generator" ? decodeShareState(query.state) : null;
+  if (hasRouteHub(slug)) return <RouteHub page={page} />;
   return (
     <IndexablePage
       title={page.title}
@@ -38,7 +39,6 @@ export default async function SitePage({ params, searchParams }: Props) {
       alphabetPack={page.alphabetPack}
       modules={page.modules}
       faq={page.faq}
-      requestOverride={state}
       breadcrumbs={[{ label: page.h1 }]}
     />
   );

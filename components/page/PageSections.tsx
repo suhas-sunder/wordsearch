@@ -28,7 +28,7 @@ export function CategoryGrid() {
     <section className="content-section site-shell">
       <div className="section-heading">
         <h2>Browse by Category</h2>
-        <p>Canonical hubs group real topic demand without multiplying thin filter pages.</p>
+        <p>Start with a broad subject, then choose an existing puzzle topic that fits.</p>
       </div>
       <div className="link-grid">
         {categories.map((category) => (
@@ -48,7 +48,7 @@ export function TopicStrip({ categorySegment }: { categorySegment?: string }) {
     <section className="content-section site-shell">
       <div className="section-heading">
         <h2>Featured Topics</h2>
-        <p>Each topic has one canonical page with print, PDF, answer key, large-print, and play modes in-page.</p>
+        <p>Open a curated topic with printable, PDF, answer-key, large-print, and online options.</p>
       </div>
       <div className="topic-list">
         {source.slice(0, 24).map((topic) => (
@@ -64,7 +64,7 @@ export function CollectionGrid() {
     <section className="content-section site-shell">
       <div className="section-heading">
         <h2>Curated Collections</h2>
-        <p>Collections exist only when the user intent is meaningfully distinct.</p>
+        <p>Browse focused groups for classrooms, holidays, travel, parties, and quiet puzzle time.</p>
       </div>
       <div className="link-grid compact">
         {collections.map((collection) => (
@@ -164,7 +164,7 @@ export function EditorialModules({ modules, faq }: { modules: string[]; faq?: Ar
       {modules.includes("specialty") && <SpecialtyGrid />}
       {modules.includes("guides") && <GuideGrid />}
       <HowItWorks />
-      <AdSlot />
+      <AdSlot placement="seo-content-square" />
       {modules.includes("faq") && <FaqBlock items={faq} />}
     </>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { Download, FileText, KeyRound, Play, Printer, QrCode, RefreshCw, Share2, Shuffle, Upload } from "lucide-react";
 import { generatePuzzle, directionsByDifficulty } from "@/lib/puzzle/generate";
@@ -259,14 +260,14 @@ export function WordSearchBuilder({ initialRequest, compact = false }: BuilderPr
             <button type="button" className="primary-button" onClick={() => patch({ seed: nextSeed(String(request.seed ?? "seed")) })}>
               <Shuffle size={16} aria-hidden="true" /> Shuffle
             </button>
-            <a className="utility-link" href={`/play/${encoded}`} target="_blank" rel="noreferrer"><Play size={16} aria-hidden="true" /> Play</a>
-            <a className="utility-link" href={`/print/${encoded}`} target="_blank" rel="noreferrer"><Printer size={16} aria-hidden="true" /> Print</a>
-            <a className="utility-link" href={`/pdf/${encoded}`} target="_blank" rel="noreferrer"><FileText size={16} aria-hidden="true" /> PDF</a>
-            <a className="utility-link" href={`/answer-key/${encoded}`} target="_blank" rel="noreferrer"><KeyRound size={16} aria-hidden="true" /> Key</a>
+            <Link className="utility-link" href={`/play/${encoded}`} prefetch={false}><Play size={16} aria-hidden="true" /> Play</Link>
+            <Link className="utility-link" href={`/print/${encoded}`} prefetch={false}><Printer size={16} aria-hidden="true" /> Print</Link>
+            <Link className="utility-link" href={`/pdf/${encoded}`} prefetch={false}><FileText size={16} aria-hidden="true" /> PDF</Link>
+            <Link className="utility-link" href={`/answer-key/${encoded}`} prefetch={false}><KeyRound size={16} aria-hidden="true" /> Key</Link>
             <button type="button" onClick={copyShare}><Share2 size={16} aria-hidden="true" /> {shareCopied ? "Copied" : "Share"}</button>
           </div>
           <div className="preview-paper">
-            <PrintablePuzzle puzzle={puzzle} qrDataUrl={qrDataUrl} />
+            <PrintablePuzzle puzzle={puzzle} qrDataUrl={qrDataUrl} headingLevel={2} />
           </div>
           <div className="validation-panel" aria-live="polite">
             {puzzle.warnings.length ? (

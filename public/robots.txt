@@ -10,7 +10,6 @@ Disallow: /cgi-bin/
 Disallow: /tmp/
 Disallow: /private/
 Disallow: /feed/
-Disallow: /search
 Disallow: /?s=
 Disallow: /*?replytocom
 Disallow: /*.php$

@@ -21,7 +21,7 @@ export default async function PlayPage({ params }: Props) {
       <h1>{puzzle.request.title}</h1>
       <p className="value-prop">Tap or click any letter in a found word to mark it. The print view below uses the same seed.</p>
       <OnlineSolver puzzle={puzzle} />
-      <PrintablePuzzle puzzle={puzzle} qrDataUrl={qrDataUrl} utilityLabel="Print this exact puzzle" />
+      <PrintablePuzzle puzzle={puzzle} qrDataUrl={qrDataUrl} utilityLabel="Print this exact puzzle" headingLevel={2} />
     </main>
   );
 }
