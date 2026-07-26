@@ -1,9 +1,9 @@
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { AdSlot } from "@/components/layout/AdSlot";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { getGuide, guideRedirects, guides } from "@/content/guides";
+import { getGuide, guides } from "@/content/guides";
 import { authors } from "@/content/model";
 import { getRouteRecord } from "@/content/registry";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -13,13 +13,14 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return [...guides.map((guide) => ({ slug: guide.slug })), ...Object.keys(guideRedirects).map((slug) => ({ slug }))];
+  return guides.map((guide) => ({ slug: guide.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  if (guideRedirects[slug]) permanentRedirect(`/guides/${guideRedirects[slug]}`);
   const guide = getGuide(slug);
   if (!guide) return {};
   const record = getRouteRecord(`/guides/${guide.slug}`);
@@ -33,7 +34,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function GuidePage({ params }: Props) {
   const { slug } = await params;
-  if (guideRedirects[slug]) permanentRedirect(`/guides/${guideRedirects[slug]}`);
   const guide = getGuide(slug);
   if (!guide) notFound();
   const path = `/guides/${guide.slug}`;

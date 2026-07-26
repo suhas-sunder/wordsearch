@@ -1,10 +1,10 @@
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { AdSlot } from "@/components/layout/AdSlot";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { categories } from "@/content/categories";
-import { collectionRedirects, collections, getCollection } from "@/content/collections";
+import { collections, getCollection } from "@/content/collections";
 import type { PuzzleContentRecord } from "@/content/model";
 import { getRouteRecord, routeInventory } from "@/content/registry";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -14,13 +14,14 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return [...collections.map((collection) => ({ slug: collection.slug })), ...Object.keys(collectionRedirects).map((slug) => ({ slug }))];
+  return collections.map((collection) => ({ slug: collection.slug }));
 }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  if (collectionRedirects[slug]) permanentRedirect(`/collections/${collectionRedirects[slug]}`);
   const collection = getCollection(slug);
   if (!collection) return {};
   const record = getRouteRecord(`/collections/${collection.slug}`);
@@ -34,7 +35,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function CollectionPage({ params }: Props) {
   const { slug } = await params;
-  if (collectionRedirects[slug]) permanentRedirect(`/collections/${collectionRedirects[slug]}`);
   const collection = getCollection(slug);
   if (!collection) notFound();
   const path = `/collections/${collection.slug}`;

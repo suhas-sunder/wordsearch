@@ -7,20 +7,22 @@ import type { PuzzleResult } from "@/lib/puzzle/types";
 import {
   normalizePuzzleOutputOptions,
   outputOptionsForRequest,
-  sanitizePuzzleFilename,
   type PageOrientation,
   type PaperSize,
   type PuzzleOutputOptions
 } from "@/lib/puzzle/output-options";
+import { downloadBrowserPuzzlePdf } from "@/lib/pdf/browser-download";
 import { puzzlePlayUrl } from "@/lib/share-state/state";
 import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
 
 const outputStorageKey = "ilws:puzzle-output-options";
 
 type UtilityDialog = "print" | "pdf" | "share" | "answers" | null;
+export type PreviewMode = "puzzle" | "answer";
 
 export interface PuzzleUtilitiesContext {
   answersVisible: boolean;
+  previewMode: PreviewMode;
   options: PuzzleOutputOptions;
   compactToolbar: ReactNode;
   previewToolbar: ReactNode;
@@ -31,7 +33,6 @@ interface PuzzleUtilitiesProps {
   puzzle: PuzzleResult;
   unfinished?: boolean;
   leadingActions?: ReactNode;
-  previewIncludesShare?: boolean;
   onAnnouncement?: (message: string) => void;
   children: (context: PuzzleUtilitiesContext) => ReactNode;
 }
@@ -49,9 +50,10 @@ function optionCheckbox(
   );
 }
 
-export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, previewIncludesShare = false, onAnnouncement, children }: PuzzleUtilitiesProps) {
+export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, onAnnouncement, children }: PuzzleUtilitiesProps) {
   const [options, setOptions] = useState(() => outputOptionsForRequest(puzzle.request));
   const [answersVisible, setAnswersVisible] = useState(false);
+  const [previewMode, setPreviewMode] = useState<PreviewMode>("puzzle");
   const [dialog, setDialog] = useState<UtilityDialog>(null);
   const [mounted, setMounted] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState("");
@@ -165,6 +167,12 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, pr
     announce("All answers are visible. Found-word progress is unchanged.");
   }
 
+  function togglePreviewMode() {
+    const next = previewMode === "puzzle" ? "answer" : "puzzle";
+    setPreviewMode(next);
+    announce(next === "answer" ? "Answer key preview is visible." : "Puzzle preview is visible.");
+  }
+
   function startPrint() {
     closeDialog();
     window.requestAnimationFrame(() => window.requestAnimationFrame(() => window.print()));
@@ -174,25 +182,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, pr
     setPdfStatus("working");
     setPdfError("");
     try {
-      const response = await fetch("/api/puzzle-pdf", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ puzzle, options, shareUrl: playUrl })
-      });
-      if (!response.ok) {
-        const failure = await response.json().catch(() => null) as { error?: unknown } | null;
-        throw new Error(typeof failure?.error === "string" ? failure.error : "The PDF could not be generated.");
-      }
-      const blob = await response.blob();
-      if (blob.type !== "application/pdf" || blob.size === 0) throw new Error("The server returned an invalid PDF response.");
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = sanitizePuzzleFilename(puzzle.request.title);
-      document.body.appendChild(anchor);
-      anchor.click();
-      anchor.remove();
-      window.setTimeout(() => URL.revokeObjectURL(url), 1_000);
+      await downloadBrowserPuzzlePdf(puzzle, options, playUrl);
       setPdfStatus("idle");
       closeDialog();
       announce("PDF download started.");
@@ -227,9 +217,20 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, pr
     }
   }
 
-  const answerButton = (
+  const solverAnswerButton = (
     <button type="button" className={`secondary-button ${answersVisible ? "active" : ""}`} aria-pressed={answersVisible} onClick={requestAnswerToggle}>
       <KeyRound size={17} aria-hidden="true" /> {answersVisible ? "Hide Answers" : "Show Answers"}
+    </button>
+  );
+
+  const previewAnswerButton = (
+    <button
+      type="button"
+      className={`secondary-button ${previewMode === "answer" ? "active" : ""}`}
+      aria-pressed={previewMode === "answer"}
+      onClick={togglePreviewMode}
+    >
+      <KeyRound size={17} aria-hidden="true" /> {previewMode === "answer" ? "Hide Answers" : "Show Answers"}
     </button>
   );
 
@@ -237,7 +238,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, pr
     <>
       <button type="button" className="secondary-button" onClick={(event) => openDialog("print", event)}><Printer size={17} aria-hidden="true" /> Print</button>
       <button type="button" className="secondary-button" onClick={(event) => openDialog("pdf", event)}><FileDown size={17} aria-hidden="true" /> Download PDF</button>
-      {answerButton}
+      {solverAnswerButton}
       <button type="button" className="secondary-button" onClick={(event) => openDialog("share", event)}><Share2 size={17} aria-hidden="true" /> Share</button>
     </>
   );
@@ -245,25 +246,30 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, pr
   const compactToolbar = <>{utilityButtons}</>;
   const previewToolbar = (
     <div className="preview-toolbar output-preview-toolbar" aria-label="Preview and output controls">
-      {leadingActions}
       <label>Paper<select value={options.paperSize} onChange={(event) => updateOptions({ paperSize: event.target.value as PaperSize })}><option value="letter">Letter</option><option value="a4">A4</option></select></label>
       <label>Layout<select value={options.orientation} onChange={(event) => updateOptions({ orientation: event.target.value as PageOrientation })}><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
       {optionCheckbox("Large print", options.printScale === "large", (checked) => updateOptions({ printScale: checked ? "large" : "standard" }))}
       {optionCheckbox("Name/date", options.nameDateLine, (checked) => updateOptions({ nameDateLine: checked }))}
-      {optionCheckbox("Answer page", options.includeAnswerKey, (checked) => updateOptions({ includeAnswerKey: checked }))}
-      <button type="button" className="secondary-button" onClick={(event) => openDialog("print", event)}><Printer size={17} aria-hidden="true" /> Print this puzzle</button>
-      <button type="button" className="secondary-button" onClick={(event) => openDialog("pdf", event)}><FileDown size={17} aria-hidden="true" /> Download PDF</button>
-      {previewIncludesShare && answerButton}
-      {previewIncludesShare && <button type="button" className="secondary-button" onClick={(event) => openDialog("share", event)}><Share2 size={17} aria-hidden="true" /> Share</button>}
+      <div className="preview-toolbar-actions" role="group" aria-label="Preview actions">
+        <button type="button" className="secondary-button" onClick={(event) => openDialog("share", event)}><Share2 size={17} aria-hidden="true" /> Share</button>
+        <button type="button" className="secondary-button" onClick={(event) => openDialog("print", event)}><Printer size={17} aria-hidden="true" /> Print this puzzle</button>
+        <button type="button" className="secondary-button" onClick={(event) => openDialog("pdf", event)}><FileDown size={17} aria-hidden="true" /> Download PDF</button>
+        {previewAnswerButton}
+      </div>
+      {leadingActions && <div className="preview-toolbar-context-actions" role="group" aria-label="Puzzle actions">{leadingActions}</div>}
     </div>
   );
 
   const printablePreview = (
-    <div className="preview-paper preview-paper-stack">
-      <PrintablePuzzle puzzle={puzzle} qrDataUrl={qrDataUrl} headingLevel={2} options={options} shareTarget={playUrl} />
-      {(answersVisible || options.includeAnswerKey) && (
-        <PrintablePuzzle puzzle={puzzle} answerKey qrDataUrl={qrDataUrl} headingLevel={2} options={options} shareTarget={playUrl} />
-      )}
+    <div className="preview-paper preview-paper-single" data-preview-mode={previewMode}>
+      <PrintablePuzzle
+        puzzle={puzzle}
+        answerKey={previewMode === "answer"}
+        qrDataUrl={qrDataUrl}
+        headingLevel={2}
+        options={options}
+        shareTarget={playUrl}
+      />
     </div>
   );
 
@@ -277,7 +283,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, pr
 
   return (
     <>
-      {children({ answersVisible, options, compactToolbar, previewToolbar, printablePreview })}
+      {children({ answersVisible, previewMode, options, compactToolbar, previewToolbar, printablePreview })}
       {printPortal}
       <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{utilityAnnouncement}</p>
       <dialog

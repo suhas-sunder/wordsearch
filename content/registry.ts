@@ -266,7 +266,7 @@ const redirectRecords: UtilityContentRecord[] = redirectDefinitions.map(({ sourc
 
 export const routeInventory: ContentRecord[] = [home, ...coreRecords, ...supportRecords, ...newTrustRecords, ...categoryRecords, ...topicRecords, ...collectionRecords, ...guideRecords, ...specialtyRecords, ...redirectRecords];
 
-export const utilityRoutePatterns = ["/search?q=", "/play/[id]", "/print/[id]", "/pdf/[id]", "/answer-key/[id]", "/embed/[id]", "/custom/[slug]", "?state=", "?print=", "?difficulty=", "?largePrint="] as const;
+export const utilityRoutePatterns = ["/search?q=", "/play/[id]", "/print/[id]", "/pdf/[id]", "/answer-key/[id]", "/embed/[id]", "/custom/[id]", "?state=", "?print=", "?difficulty=", "?largePrint="] as const;
 
 export function getRouteRecord(path: string) {
   return routeInventory.find((record) => record.canonicalPath === path);

@@ -1,0 +1,47 @@
+# Canonical content consolidation redirects
+/word-searches/animals/dogs-word-search /word-searches/animals/dog-word-search 301!
+/word-searches/animals/cats-word-search /word-searches/animals/cat-word-search 301!
+/word-searches/food-and-drink/breakfast-foods-word-search /word-searches/food-and-drink/breakfast-word-search 301!
+/word-searches/geography/canada-provinces-word-search /word-searches/geography/canada-word-search 301!
+/word-searches/geography/maps-word-search /word-searches/geography/map-vocabulary-word-search 301!
+/word-searches/language-arts/spelling-words-word-search /word-searches/classroom-values/spelling-word-search 301!
+/word-searches/nature-and-weather/gardening-word-search /word-searches/nature-and-weather/garden-word-search 301!
+/word-searches/science/plants-word-search /word-searches/nature-and-weather/plants-word-search 301!
+/word-searches/holidays/earth-day-word-search /word-searches/nature-and-weather/earth-day-word-search 301!
+/word-searches/travel/camping-word-search /word-searches/nature-and-weather/camping-word-search 301!
+/word-searches/travel/mountains-word-search /word-searches/nature-and-weather/mountains-word-search 301!
+/word-searches/science/flowers-word-search /word-searches/nature-and-weather/flowers-word-search 301!
+/word-searches/science/weather-word-search /word-searches/nature-and-weather/weather-word-search 301!
+/word-searches/travel/beach-word-search /word-searches/nature-and-weather/beach-word-search 301!
+/word-searches/wellness/friendship-word-search /word-searches/classroom-values/friendship-word-search 301!
+/word-searches/wellness/kindness-word-search /word-searches/classroom-values/kindness-word-search 301!
+/collections/classroom-word-searches /collections/classroom-word-search-worksheets 301!
+/guides/how-to-print-word-searches /guides/how-to-print-a-word-search 301!
+/guides/word-search-difficulty-by-age /guides/word-search-difficulty-guide 301!
+/guides/how-to-make-large-print-word-searches /guides/large-print-word-searches 301!
+/guides/how-to-build-custom-word-lists /guides/custom-word-lists-for-word-searches 301!
+/guides/word-search-benefits-for-vocabulary-practice /guides/vocabulary-practice-with-word-searches 301!
+
+# Historical public aliases
+/word-search-maker /word-search-generator 301!
+/make-your-own-word-search /word-search-generator 301!
+/create-a-word-search /word-search-generator 301!
+/word-search-printable /free-printable-word-searches 301!
+/printable-word-search /free-printable-word-searches 301!
+/free-word-search-printable /free-printable-word-searches 301!
+/word-search-online-free /online-word-search 301!
+/free-online-word-search /online-word-search 301!
+/free-word-search-pdf /word-search-pdf 301!
+/printable-word-search-pdf /word-search-pdf 301!
+/word-search-worksheet /word-search-worksheets 301!
+/free-large-print-word-search /large-print-word-searches 301!
+/word-search-large-print-free /large-print-word-searches 301!
+
+# Arbitrary puzzle state is decoded in the browser. These are static-file
+# rewrites, not Functions or Edge Functions, and preserve existing share URLs.
+/play/* /play.html 200
+/print/* /print.html 200
+/pdf/* /pdf.html 200
+/answer-key/* /answer-key.html 200
+/embed/* /embed.html 200
+/custom/* /custom.html 200

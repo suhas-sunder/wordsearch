@@ -50,10 +50,10 @@ describe("launch readiness safeguards", () => {
   test("ineligible utility and trust routes do not render ad slots", () => {
     const files = [
       "app/search/page.tsx",
-      "app/print/[id]/page.tsx",
-      "app/pdf/[id]/page.tsx",
-      "app/answer-key/[id]/page.tsx",
-      "app/play/[id]/page.tsx",
+      "app/print/page.tsx",
+      "app/pdf/page.tsx",
+      "app/answer-key/page.tsx",
+      "app/play/page.tsx",
       "app/contact/page.tsx",
       "app/privacy/page.tsx",
       "app/terms/page.tsx",
@@ -84,22 +84,48 @@ describe("launch readiness safeguards", () => {
     expect(deferred).toContain('aria-busy={status === "loading"}');
   });
 
-  test("the focused search island does not bundle the full content catalog", () => {
+  test("the focused search island loads and searches the catalog locally on demand", () => {
     const search = readFileSync(`${root}/components/search/PuzzleSearch.tsx`, "utf8");
+    const browserCatalog = readFileSync(`${root}/lib/search/browser-catalog.ts`, "utf8");
     expect(search).toContain('import type { SearchCatalogItem }');
-    expect(search).not.toContain("findSearchResults");
-    expect(search).toContain('fetch(`/api/search?');
+    expect(search).toContain("searchStaticCatalog(value");
+    expect(search).not.toContain("/api/search");
+    expect(browserCatalog).toContain('fetch("/search-index.json"');
+    expect(browserCatalog).not.toContain("@/content/");
   });
 
-  test("layout exposes a keyboard skip target and encoded routes reject fallback puzzles", () => {
+  test("layout exposes a keyboard skip target and static utility shells reject fallback puzzles", () => {
     const layout = readFileSync(`${root}/app/layout.tsx`, "utf8");
-    const embed = readFileSync(`${root}/app/embed/[id]/page.tsx`, "utf8");
-    const custom = readFileSync(`${root}/app/custom/[slug]/page.tsx`, "utf8");
+    const utility = readFileSync(`${root}/components/puzzle/StaticPuzzleRoute.tsx`, "utf8");
     expect(layout).toContain('href="#main-content"');
     expect(layout).toContain('id="main-content" tabIndex={-1}');
-    expect(embed).toContain("decodePuzzleShareState");
-    expect(embed).toContain("notFound()");
-    expect(embed).not.toContain("defaultPuzzleRequest");
-    expect(custom).toContain("notFound()");
+    expect(utility).toContain("decodePuzzleShareState");
+    expect(utility).toContain('data-utility-state="invalid"');
+    expect(utility).not.toContain("defaultPuzzleRequest");
+  });
+
+  test("Netlify publishes only the static export and browser features use no API routes", () => {
+    const nextConfig = readFileSync(`${root}/next.config.ts`, "utf8");
+    const netlify = readFileSync(`${root}/netlify.toml`, "utf8");
+    const redirects = readFileSync(`${root}/public/_redirects`, "utf8");
+    const utilities = readFileSync(`${root}/components/puzzle/PuzzleUtilities.tsx`, "utf8");
+    expect(nextConfig).toContain('output: "export"');
+    expect(netlify).toMatch(/publish\s*=\s*"out"/);
+    expect(netlify).not.toContain("@netlify/plugin-nextjs");
+    expect(redirects).toContain("/play/* /play.html 200");
+    expect(redirects).toContain("/pdf/* /pdf.html 200");
+    expect(utilities).toContain("downloadBrowserPuzzlePdf");
+    expect(utilities).not.toContain('fetch("/api/');
+  });
+
+  test("printable preview mode is separate from Print and PDF answer composition", () => {
+    const utilities = readFileSync(`${root}/components/puzzle/PuzzleUtilities.tsx`, "utf8");
+    expect(utilities).toContain('export type PreviewMode = "puzzle" | "answer"');
+    expect(utilities).toContain('data-preview-mode={previewMode}');
+    expect(utilities).toContain('answerKey={previewMode === "answer"}');
+    expect(utilities).not.toContain('optionCheckbox("Answer page"');
+    expect(utilities).toContain('optionCheckbox("Answer key page", options.includeAnswerKey');
+    expect(utilities).toContain("options.includeAnswerKey && <PrintablePuzzle");
+    expect(utilities).not.toContain("(answersVisible || options.includeAnswerKey)");
   });
 });

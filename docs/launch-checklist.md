@@ -5,7 +5,7 @@ This checklist is specific to the current Next.js App Router deployment of I Lov
 ## Before the milestone commit
 
 - Confirm the worktree contains only the intended milestone and keep it unstaged until review.
-- Use the repository-supported Node version (Netlify currently specifies Node 22; the Docker image currently uses Node 20).
+- Use the repository-supported Node version (Netlify and the static Docker build currently specify Node 22).
 - Run:
 
   ```text
@@ -15,7 +15,9 @@ This checklist is specific to the current Next.js App Router deployment of I Lov
   npm run typecheck
   npm test
   npm run build
+  npm run audit:static-host
   npm run start
+  npm run test:preview
   npm run audit:routes
   npm run test:a11y
   npm run test:e2e
@@ -24,11 +26,20 @@ This checklist is specific to the current Next.js App Router deployment of I Lov
   git diff --check
   ```
 
-- Run production-server commands against `http://localhost:3000` unless `BASE_URL` points at another production-like instance.
+- `npm run build` generates the browser search index and must create the
+  complete `out` directory, including `search-index.json`. `npm run start`
+  serves that directory through the repository's static validation server; it
+  does not start Next.js.
+- Run static-site audit commands against `http://localhost:3000` unless
+  `BASE_URL` points at another production-like instance.
 - Confirm `https://www.ilovewordsearch.com` remains the single canonical site URL in the registry, metadata base, share URLs, sitemap, robots output, and deployment configuration.
 - Verify `/sitemap.xml` has exactly the expected canonical inventory and `/robots.txt` references the production sitemap.
-- Open a representative PDF download and confirm its title, words, dimensions, orientation, answer page, filename, and response headers.
-- Test the actual mobile layouts, solver, dialogs, print preview, QR code, clipboard recovery, and invalid-state 404s.
+- Open a representative browser-generated PDF download and confirm its title,
+  words, dimensions, orientation, answer page, filename, and embedded QR image.
+- Test the actual mobile layouts, solver, dialogs, print preview, QR code,
+  clipboard recovery, and explicit invalid-state error shells.
+- Confirm the preview toolbar shows exactly one puzzle or answer sheet while
+  Print and PDF answer-page inclusion remains independently selectable.
 
 ## Environment and integrations
 
@@ -52,9 +63,15 @@ Reviewed on 2026-07-26 with local Node 25.9.0 and npm 10.9.0.
 
 ## Deployment and discovery
 
-- Deploy the validated build without changing the canonical host.
+- Netlify must publish only `out`. Do not enable the Next.js runtime plugin,
+  Functions, or Edge Functions.
+- `_redirects` supplies the reviewed permanent redirects and static rewrites for
+  arbitrary encoded utility URLs. `_headers` supplies security and noindex
+  response headers.
+- Deploy the validated static files without changing the canonical host.
 - At the provider/DNS layer, confirm HTTP to HTTPS and non-`www` to `www` normalize in one hop, without adding a chain before application redirects.
-- Confirm the provider preserves application 308 redirects, cache headers, PDF headers, 404 status codes, and the safe headers configured in `next.config.ts`.
+- Confirm Netlify applies the committed 301 redirects, static utility rewrites,
+  cache behavior, and `_headers` rules.
 - Submit the canonical sitemap to Google Search Console and Bing Webmaster Tools after the production host is reachable and ownership is verified.
 - Do not submit search, print, PDF, answer, play, embed, custom state, draft, redirect, or invalid URLs for indexing.
 
@@ -63,10 +80,13 @@ Reviewed on 2026-07-26 with local Node 25.9.0 and npm 10.9.0.
 - Re-run `BASE_URL=https://www.ilovewordsearch.com npm run audit:routes` after DNS and deployment settle.
 - Check homepage, generator, Easy and Hard puzzles, a category, collection, guide, `/topics`, search, About, 404, and an invalid state on real mobile and desktop devices.
 - Confirm canonical tags, Open Graph URLs, sitemap and robots output contain no localhost URLs.
-- Confirm PDF generation and downloads work from the deployed server.
+- Confirm PDF generation and downloads work locally in the browser without a
+  request to an API or Function.
 - Confirm the preferred-host and HTTPS redirects are one hop and do not chain with consolidation aliases.
 - Confirm ads remain absent and leave no empty layout gaps.
-- Watch server errors and broken-link reports during the first deployment window.
+- Watch browser errors, broken-link reports, and Netlify function metrics during
+  the first deployment window. Normal application use should produce zero
+  Function and Edge Function invocations.
 - Review Search Console indexing and Core Web Vitals after real field data exists; local Lighthouse results are risk indicators, not 75th-percentile field evidence.
 
 ## Rollback

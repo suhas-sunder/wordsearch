@@ -1,4 +1,5 @@
 import { chromium } from "playwright";
+import { readFile } from "node:fs/promises";
 
 const baseUrl = process.env.BASE_URL ?? "http://localhost:3000";
 const routes = [
@@ -198,6 +199,14 @@ await stateIsolationPage.addInitScript(() => {
 await stateIsolationPage.goto(`${baseUrl}/word-searches/history/ancient-egypt-word-search`, { waitUntil: "networkidle" });
 if (await stateIsolationPage.getByLabel("Puzzle title").inputValue() !== "Ancient Egypt Word Search") failures.push("curated puzzle restored a saved custom title");
 if (!(await stateIsolationPage.getByLabel("Words and clues").inputValue()).includes("PHARAOH")) failures.push("curated puzzle restored a saved custom word list");
+const sharedGeneratorState = encodedPuzzle({
+  title: "Shared Generator Puzzle",
+  wordsText: "STATIC\nEXPORT\nBROWSER",
+  seed: "shared-generator-fixed"
+});
+await stateIsolationPage.goto(`${baseUrl}/word-search-generator?state=${sharedGeneratorState}`, { waitUntil: "networkidle" });
+if (await stateIsolationPage.getByLabel("Puzzle title").inputValue() !== "Shared Generator Puzzle") failures.push("shared generator URL did not override a saved custom title");
+if (!(await stateIsolationPage.getByLabel("Words and clues").inputValue()).includes("STATIC")) failures.push("shared generator URL did not restore its word list");
 await stateIsolationPage.close();
 
 const interactionPage = await browser.newPage({ viewport: { width: 390, height: 900 } });
@@ -249,26 +258,15 @@ await printDialog.getByRole("button", { name: "Open print dialog" }).click();
 await utilityPage.waitForFunction(() => window.__printCalled === true);
 if (await printDialog.isVisible()) failures.push("Print dialog remained open while print was invoked");
 
-let failPdfOnce = true;
-await utilityPage.route("**/api/puzzle-pdf", async (route) => {
-  if (failPdfOnce) {
-    failPdfOnce = false;
-    await route.fulfill({ status: 500, contentType: "application/json", body: JSON.stringify({ error: "test failure" }) });
-    return;
-  }
-  await route.continue();
-});
 await utilityPage.getByRole("button", { name: "Download PDF" }).first().click();
 const pdfDialog = utilityPage.getByRole("dialog", { name: "Download PDF" });
-await pdfDialog.getByRole("button", { name: "Download PDF" }).click();
-await pdfDialog.getByRole("alert").waitFor({ state: "visible" });
-if (!(await pdfDialog.getByRole("alert").isVisible())) failures.push("PDF failure did not expose a retryable error");
 const downloadPromise = utilityPage.waitForEvent("download");
-await pdfDialog.getByRole("button", { name: "Retry PDF" }).click();
+await pdfDialog.getByRole("button", { name: "Download PDF" }).click();
 const pdfDownload = await downloadPromise;
 if (!pdfDownload.suggestedFilename().endsWith("-word-search.pdf")) failures.push(`PDF filename is unsafe or unclear: ${pdfDownload.suggestedFilename()}`);
+const pdfPath = await pdfDownload.path();
+if (!pdfPath || (await readFile(pdfPath)).subarray(0, 5).toString("ascii") !== "%PDF-") failures.push("browser-generated PDF download is not a real PDF");
 if (await pdfDialog.isVisible()) failures.push("PDF dialog remained open after download began");
-await utilityPage.unroute("**/api/puzzle-pdf");
 
 await utilityPage.evaluate(() => {
   Object.defineProperty(navigator, "clipboard", { configurable: true, value: { writeText: async (value) => { window.__copiedShareUrl = value; } } });
@@ -305,10 +303,19 @@ if (playHref) {
     if (!data.pageClass.includes("print-page-a4-landscape")) failures.push(`legacy utility ignored output options at ${data.path}`);
     await checkPage.close();
   }
+  for (const path of [`/play/${encoded}`, `/embed/${encoded}`, `/custom/${encoded}`]) {
+    const checkPage = await browser.newPage({ viewport: { width: 1024, height: 1000 } });
+    await checkPage.goto(`${baseUrl}${path}`, { waitUntil: "networkidle" });
+    if (!(await checkPage.locator('[data-utility-state="ready"]').isVisible())) failures.push(`static utility state did not load at ${path}`);
+    if (!(await checkPage.locator(".puzzle-svg, .solver-grid").count())) failures.push(`static utility missing grid at ${path}`);
+    await checkPage.close();
+  }
 }
 for (const path of ["/play/invalid-state", "/print/invalid-state", "/pdf/invalid-state", "/answer-key/invalid-state"]) {
   const response = await utilityPage.goto(`${baseUrl}${path}`, { waitUntil: "networkidle" });
-  if (response?.status() !== 404) failures.push(`invalid utility state did not return 404 at ${path}`);
+  if (response?.status() !== 200) failures.push(`static utility shell did not load at ${path}`);
+  if (!(await utilityPage.locator('[data-utility-state="invalid"]').isVisible())) failures.push(`invalid utility state did not show its explicit error at ${path}`);
+  if (await utilityPage.locator(".puzzle-svg, .solver-grid").count()) failures.push(`invalid utility state generated a fallback grid at ${path}`);
 }
 await utilityPage.goto(`${baseUrl}/word-search-generator`, { waitUntil: "networkidle" });
 await utilityPage.emulateMedia({ media: "print" });

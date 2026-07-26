@@ -1855,12 +1855,7 @@ input[type="checkbox"] {
   border-top: 1px solid var(--line);
 }
 
-.preview-paper-stack {
-  display: grid;
-  gap: 22px;
-}
-
-.preview-paper-stack > .print-answer-sheet {
+.preview-paper-single > .print-answer-sheet {
   border-style: dashed;
 }
 
@@ -1904,6 +1899,19 @@ input[type="checkbox"] {
   align-items: flex-end;
 }
 
+.preview-toolbar-actions,
+.preview-toolbar-context-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-toolbar-actions > *,
+.preview-toolbar-context-actions > * {
+  min-height: 42px;
+}
+
 .output-preview-toolbar > label:not(.output-checkbox) {
   display: grid;
   gap: 3px;
@@ -1914,12 +1922,12 @@ input[type="checkbox"] {
 
 .output-preview-toolbar select {
   width: auto;
-  min-height: 38px;
+  min-height: 42px;
   padding: 6px 28px 6px 9px;
 }
 
 .output-checkbox {
-  min-height: 38px;
+  min-height: 42px;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -2292,8 +2300,15 @@ input[type="checkbox"] {
   }
 
   .output-preview-toolbar > label:not(.output-checkbox),
-  .output-preview-toolbar select {
+  .output-preview-toolbar select,
+  .preview-toolbar-actions,
+  .preview-toolbar-context-actions {
     width: 100%;
+  }
+
+  .preview-toolbar-actions > *,
+  .preview-toolbar-context-actions > * {
+    flex: 1 1 138px;
   }
 }
 

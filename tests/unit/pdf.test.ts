@@ -2,7 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
-import { POST } from "@/app/api/puzzle-pdf/route";
+import { createBrowserPuzzlePdf } from "@/lib/pdf/browser-download";
 import { createPuzzlePdf, validatePuzzleForPdf } from "@/lib/pdf/create-puzzle-pdf";
 import { generatePuzzle } from "@/lib/puzzle/generate";
 import { defaultPuzzleOutputOptions, pdfPageSpec, sanitizePuzzleFilename } from "@/lib/puzzle/output-options";
@@ -118,47 +118,15 @@ describe("real PDF generation", () => {
     })).rejects.toThrow("QR image data is required");
   });
 
-  test("serves a real attachment with a safe filename from the download endpoint", async () => {
-    const response = await POST(new Request("http://localhost/api/puzzle-pdf", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        puzzle,
-        options: { ...defaultPuzzleOutputOptions, qrCode: false },
-        shareUrl: puzzlePlayUrl(puzzle.request)
-      })
-    }));
-    const bytes = new Uint8Array(await response.arrayBuffer());
-    expect(response.status).toBe(200);
-    expect(response.headers.get("content-type")).toBe("application/pdf");
-    expect(response.headers.get("content-disposition")).toContain("pdf-integrity-test-word-search.pdf");
-    expect(response.headers.get("x-robots-tag")).toContain("noindex");
+  test("creates the downloadable PDF blob and safe filename entirely in the browser layer", async () => {
+    const result = await createBrowserPuzzlePdf(
+      puzzle,
+      { ...defaultPuzzleOutputOptions, qrCode: false },
+      puzzlePlayUrl(puzzle.request)
+    );
+    const bytes = new Uint8Array(await result.blob.arrayBuffer());
+    expect(result.blob.type).toBe("application/pdf");
+    expect(result.filename).toBe("pdf-integrity-test-word-search.pdf");
     expect(Buffer.from(bytes.subarray(0, 5)).toString("ascii")).toBe("%PDF-");
-  });
-
-  test("returns useful client errors for missing seed and unsupported output options", async () => {
-    const missingSeed = structuredClone(puzzle);
-    missingSeed.request.seed = "";
-    const invalidPuzzleResponse = await POST(new Request("http://localhost/api/puzzle-pdf", {
-      method: "POST",
-      body: JSON.stringify({
-        puzzle: missingSeed,
-        options: defaultPuzzleOutputOptions,
-        shareUrl: puzzlePlayUrl(missingSeed.request)
-      })
-    }));
-    expect(invalidPuzzleResponse.status).toBe(400);
-    await expect(invalidPuzzleResponse.json()).resolves.toMatchObject({ error: expect.stringContaining("invalid") });
-
-    const invalidOptionsResponse = await POST(new Request("http://localhost/api/puzzle-pdf", {
-      method: "POST",
-      body: JSON.stringify({
-        puzzle,
-        options: { ...defaultPuzzleOutputOptions, paperSize: "legal" },
-        shareUrl: puzzlePlayUrl(puzzle.request)
-      })
-    }));
-    expect(invalidOptionsResponse.status).toBe(400);
-    await expect(invalidOptionsResponse.json()).resolves.toMatchObject({ error: expect.stringContaining("unsupported") });
   });
 });

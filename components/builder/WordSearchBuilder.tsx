@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { Download, Play, RefreshCw, Shuffle, Upload } from "lucide-react";
 import { generatePuzzle, directionsByDifficulty } from "@/lib/puzzle/generate";
 import type { AlphabetPackId, Difficulty, DirectionKey, PuzzleRequest } from "@/lib/puzzle/types";
 import { nextSeed } from "@/lib/puzzle/prng";
-import { stateId } from "@/lib/share-state/state";
+import { decodeShareState, stateId } from "@/lib/share-state/state";
 import { PuzzleUtilities } from "@/components/puzzle/PuzzleUtilities";
 
 export interface BuilderProps {
@@ -56,9 +55,16 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   const [debouncedRequest, setDebouncedRequest] = useState(request);
   const [isPending, startTransition] = useTransition();
   const fileInput = useRef<HTMLInputElement | null>(null);
+  const urlStateActive = useRef(false);
 
   useEffect(() => {
     if (!persistState) return;
+    const sharedState = decodeShareState(new URLSearchParams(window.location.search).get("state"));
+    if (sharedState) {
+      urlStateActive.current = true;
+      setRequest((current) => ({ ...current, ...sharedState }));
+      return;
+    }
     const storage = safeLocalStorage();
     if (!storage) return;
     const saved = storage.getItem("ilws:last-builder-state");
@@ -78,7 +84,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     const handle = window.setTimeout(() => {
       startTransition(() => setDebouncedRequest(request));
       const storage = safeLocalStorage();
-      if (storage) storage.setItem("ilws:last-builder-state", JSON.stringify(request));
+      if (storage && !urlStateActive.current) storage.setItem("ilws:last-builder-state", JSON.stringify(request));
     }, 220);
     return () => window.clearTimeout(handle);
   }, [persistState, request]);
@@ -126,13 +132,12 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   return (
     <PuzzleUtilities
       puzzle={puzzle}
-      previewIncludesShare
       leadingActions={
         <>
           <button type="button" className="primary-button" onClick={() => patch({ seed: nextSeed(String(request.seed ?? "seed")) })}>
             <Shuffle size={16} aria-hidden="true" /> Shuffle
           </button>
-          <Link className="utility-link" href={`/play/${encoded}`} prefetch={false}><Play size={16} aria-hidden="true" /> Play</Link>
+          <a className="utility-link" href={`/play/${encoded}`}><Play size={16} aria-hidden="true" /> Play</a>
         </>
       }
     >

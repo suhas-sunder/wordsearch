@@ -6,10 +6,10 @@ export const size = {
   height: 630
 };
 export const contentType = "image/png";
+export const dynamic = "force-static";
 
-export default async function Image({ searchParams }: { searchParams?: Promise<{ title?: string }> }) {
-  const query = searchParams ? await searchParams : {};
-  const title = query.title ?? "I Love Word Search";
+export default function Image() {
+  const title = "I Love Word Search";
   return new ImageResponse(
     (
       <div style={{ width: "100%", height: "100%", background: "white", display: "flex", alignItems: "center", justifyContent: "center", color: "#172033", padding: 72 }}>

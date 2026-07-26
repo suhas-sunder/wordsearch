@@ -1,6 +1,5 @@
 import { IndexablePage } from "@/components/page/IndexablePage";
 import { getSitePage } from "@/content/routes";
-import { decodeShareState } from "@/lib/share-state/state";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 const generatorPage = getSitePage("word-search-generator")!;
@@ -11,9 +10,7 @@ export const metadata = pageMetadata(
   "/word-search-generator"
 );
 
-export default async function WordSearchGeneratorPage({ searchParams }: { searchParams?: Promise<{ state?: string }> }) {
-  const query = searchParams ? await searchParams : {};
-  const state = decodeShareState(query.state);
+export default function WordSearchGeneratorPage() {
   return (
     <IndexablePage
       title={generatorPage.title}
@@ -27,8 +24,7 @@ export default async function WordSearchGeneratorPage({ searchParams }: { search
       modules={["specialty", "faq"]}
       faq={generatorPage.faq}
       adTemplate="generator"
-      requestOverride={state}
-      persistBuilderState={!state}
+      persistBuilderState
       breadcrumbs={[{ label: "Word Search Generator" }]}
     />
   );

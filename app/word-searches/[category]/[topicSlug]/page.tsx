@@ -1,31 +1,25 @@
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CuratedPuzzlePage } from "@/components/page/CuratedPuzzlePage";
 import { IndexablePage } from "@/components/page/IndexablePage";
 import { categories } from "@/content/categories";
 import type { PuzzleContentRecord } from "@/content/model";
 import { getRouteRecord, routeInventory } from "@/content/registry";
-import { getTopic, topicRedirects, topics } from "@/content/topics";
+import { getTopic, topics } from "@/content/topics";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 interface Props {
   params: Promise<{ category: string; topicSlug: string }>;
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
-  return [
-    ...topics.map((topic) => ({ category: topic.categorySegment, topicSlug: topic.topicSlug })),
-    ...Object.keys(topicRedirects).map((slug) => {
-      const [category, topicSlug] = slug.split("/");
-      return { category, topicSlug };
-    })
-  ];
+  return topics.map((topic) => ({ category: topic.categorySegment, topicSlug: topic.topicSlug }));
 }
 
 export async function generateMetadata({ params }: Props) {
   const { category, topicSlug } = await params;
-  const redirectTarget = topicRedirects[`${category}/${topicSlug}`];
-  if (redirectTarget) permanentRedirect(`/word-searches/${redirectTarget}`);
   const topic = getTopic(category, topicSlug);
   if (!topic) return {};
   const record = getRouteRecord(`/word-searches/${topic.slug}`);
@@ -34,8 +28,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function TopicPage({ params }: Props) {
   const { category, topicSlug } = await params;
-  const redirectTarget = topicRedirects[`${category}/${topicSlug}`];
-  if (redirectTarget) permanentRedirect(`/word-searches/${redirectTarget}`);
   const topic = getTopic(category, topicSlug);
   if (!topic) notFound();
   const categoryInfo = categories.find((item) => item.pathSegment === topic.categorySegment);

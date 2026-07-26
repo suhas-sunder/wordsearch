@@ -9,6 +9,8 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const explicitRoutes = new Set(["word-search-generator", "search", "categories", "topics", "guides", "about", "contact", "accessibility", "privacy", "terms", "copyright"]);
   return [...corePages, ...supportPages]

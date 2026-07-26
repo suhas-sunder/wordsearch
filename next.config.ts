@@ -1,38 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "export",
+  trailingSlash: false,
   poweredByHeader: false,
-  // Keep metadata in <head> for every client, including audit and unfurling agents.
-  htmlLimitedBots: /.*/,
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" }
-        ]
-      }
-    ];
+  images: {
+    unoptimized: true
   },
-  async redirects() {
-    return [
-      { source: "/word-search-maker", destination: "/word-search-generator", permanent: true },
-      { source: "/make-your-own-word-search", destination: "/word-search-generator", permanent: true },
-      { source: "/create-a-word-search", destination: "/word-search-generator", permanent: true },
-      { source: "/word-search-printable", destination: "/free-printable-word-searches", permanent: true },
-      { source: "/printable-word-search", destination: "/free-printable-word-searches", permanent: true },
-      { source: "/free-word-search-printable", destination: "/free-printable-word-searches", permanent: true },
-      { source: "/word-search-online-free", destination: "/online-word-search", permanent: true },
-      { source: "/free-online-word-search", destination: "/online-word-search", permanent: true },
-      { source: "/free-word-search-pdf", destination: "/word-search-pdf", permanent: true },
-      { source: "/printable-word-search-pdf", destination: "/word-search-pdf", permanent: true },
-      { source: "/word-search-worksheet", destination: "/word-search-worksheets", permanent: true },
-      { source: "/free-large-print-word-search", destination: "/large-print-word-searches", permanent: true },
-      { source: "/word-search-large-print-free", destination: "/large-print-word-searches", permanent: true }
-    ];
-  }
+  // Keep metadata in <head> for every client, including audit and unfurling agents.
+  htmlLimitedBots: /.*/
 };
 
 export default nextConfig;

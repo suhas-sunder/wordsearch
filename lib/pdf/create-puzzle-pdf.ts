@@ -74,7 +74,8 @@ function drawCenteredText(page: PDFPage, text: string, font: PDFFont, size: numb
 function pngBytes(dataUrl: string) {
   const encoded = dataUrl.split(",")[1];
   if (!encoded) throw new Error("QR image data is invalid.");
-  return Uint8Array.from(Buffer.from(encoded, "base64"));
+  const binary = globalThis.atob(encoded);
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
 
 function orderedLabels(puzzle: PuzzleResult) {

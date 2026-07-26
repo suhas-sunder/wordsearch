@@ -5,6 +5,8 @@
 # Next.js
 /.next/
 /out/
+/.netlify/
+/public/search-index.json
 
 # Previous framework output
 /.react-router/

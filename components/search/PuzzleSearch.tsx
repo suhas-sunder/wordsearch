@@ -4,7 +4,8 @@ import { FormEvent, KeyboardEvent, useEffect, useId, useRef, useState } from "re
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
-import type { SearchCatalogItem } from "@/lib/search/catalog";
+import { searchStaticCatalog } from "@/lib/search/browser-catalog";
+import type { SearchCatalogItem } from "@/lib/search/search";
 
 interface PuzzleSearchProps {
   initialQuery?: string;
@@ -34,31 +35,25 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
       setSuggestionStatus("idle");
       return;
     }
-    const controller = new AbortController();
+    let active = true;
     const timer = window.setTimeout(() => {
       setSuggestionStatus("loading");
-      fetch(`/api/search?q=${encodeURIComponent(value)}&limit=${compact ? 6 : 8}`, {
-        signal: controller.signal,
-        headers: { Accept: "application/json" }
-      })
-        .then(async (response) => {
-          if (!response.ok) throw new Error("Search suggestions are unavailable.");
-          return response.json() as Promise<{ results?: SearchCatalogItem[] }>;
-        })
-        .then((payload) => {
-          setSuggestions(Array.isArray(payload.results) ? payload.results : []);
+      searchStaticCatalog(value, compact ? 6 : 8)
+        .then((results) => {
+          if (!active) return;
+          setSuggestions(results);
           setSuggestionStatus("ready");
           setActiveIndex(0);
         })
-        .catch((error) => {
-          if (error instanceof DOMException && error.name === "AbortError") return;
+        .catch(() => {
+          if (!active) return;
           setSuggestions([]);
           setSuggestionStatus("error");
         });
     }, 120);
     return () => {
+      active = false;
       window.clearTimeout(timer);
-      controller.abort();
     };
   }, [compact, query]);
 

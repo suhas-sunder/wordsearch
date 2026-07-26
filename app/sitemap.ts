@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getSitemapRecords, SITE_URL } from "@/content/registry";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return getSitemapRecords().map((record) => ({
     url: `${SITE_URL}${record.canonicalPath}`,

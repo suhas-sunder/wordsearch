@@ -304,33 +304,16 @@ const invalidRoutes = [
   "/categories/not-a-real-category",
   "/word-searches/animals/not-a-real-puzzle",
   "/collections/not-a-real-collection",
-  "/guides/not-a-real-guide",
-  "/play/not-valid-state",
-  "/print/not-valid-state",
-  "/pdf/not-valid-state",
-  "/answer-key/not-valid-state",
-  "/embed/not-valid-state",
-  "/custom/not-valid-state"
+  "/guides/not-a-real-guide"
 ];
 for (const path of invalidRoutes) {
   const response = await fetchManual(path);
   if (response.status !== 404) fail(path, `expected 404, received ${response.status}`);
 }
-const invalidPdf = await fetchManual("/api/puzzle-pdf", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ puzzle: null, options: null })
-});
-if (invalidPdf.status !== 400 || !/^application\/json\b/i.test(invalidPdf.headers.get("content-type") ?? "")) {
-  fail("/api/puzzle-pdf", `malformed request expected JSON 400, received ${invalidPdf.status} ${invalidPdf.headers.get("content-type")}`);
+for (const apiPath of ["/api/puzzle-pdf", "/api/search?q=animals&limit=6"]) {
+  const response = await fetchManual(apiPath);
+  if (response.status !== 404) fail(apiPath, `removed runtime API expected static 404, received ${response.status}`);
 }
-if (!/no-store/i.test(invalidPdf.headers.get("cache-control") ?? "") || !/noindex/i.test(invalidPdf.headers.get("x-robots-tag") ?? "")) {
-  fail("/api/puzzle-pdf", "malformed PDF responses are missing private no-store/noindex headers");
-}
-const searchApi = await fetchManual("/api/search?q=animals&limit=6");
-const searchPayload = await searchApi.json().catch(() => null);
-if (searchApi.status !== 200 || !Array.isArray(searchPayload?.results) || searchPayload.results.length === 0) fail("/api/search", "valid query did not return JSON suggestions");
-if (!/no-store/i.test(searchApi.headers.get("cache-control") ?? "") || !/noindex/i.test(searchApi.headers.get("x-robots-tag") ?? "")) fail("/api/search", "search suggestions are missing private no-store/noindex headers");
 
 const internalTargets = new Map();
 for (const report of pageReports.values()) {
@@ -366,6 +349,6 @@ if (failures.length) {
 console.log([
   `Route audit passed ${sitemapUrls.length} canonical sitemap URLs.`,
   `Validated ${manifest.redirects.length} consolidation redirects and ${manifest.legacyAliases.length} legacy aliases as permanent, single-hop redirects.`,
-  `Validated ${noindexRoutes.length} representative noindex states and ${invalidRoutes.length} invalid routes plus malformed PDF API input.`,
+  `Validated ${noindexRoutes.length} representative noindex states, ${invalidRoutes.length} invalid content routes, and absence of runtime API endpoints.`,
   `Validated ${internalTargets.size} unique internal link targets, rendered SEO, JSON-LD, breadcrumbs, social metadata, headers, robots, and the social image.`
 ].join("\n"));

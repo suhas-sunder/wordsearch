@@ -6,7 +6,7 @@ An SEO-first Next.js word search platform with a deterministic puzzle generator,
 
 ## Features
 
-- Next.js App Router with static editorial pages.
+- Next.js App Router with a full static export.
 - Deterministic seeded word-search generation.
 - SVG puzzle preview shared by screen, print, and utility pages.
 - Printable student and answer-key surfaces with QR/share state.
@@ -33,7 +33,14 @@ Your application will be available at `http://localhost:3000`.
 
 ```bash
 npm run build
+npm run audit:static-host
+npm run start
 ```
+
+The deployable site is written to `out`. The local `start` command serves only
+that exported directory and emulates the committed Netlify redirects and
+headers for validation. The build also generates `out/search-index.json`, which
+the browser loads for search and autocomplete without an API.
 
 ## Validation
 
@@ -46,23 +53,11 @@ npm run build
 
 ## Deployment
 
-### Docker Deployment
+### Netlify
 
-```bash
-docker build -t ilove-word-search .
-docker run -p 3000:3000 ilove-word-search
-```
-
-The containerized application can be deployed to any platform that supports Docker.
-
-### DIY Deployment
-
-Deploy with a host that supports Next.js, or run the compiled app with:
-
-```bash
-npm run build
-npm run start
-```
+Netlify runs `npm run build` and publishes `out`. Search, PDF generation, puzzle
+state, utility routes, redirects, and headers require no Function or Edge
+Function. Do not add the Netlify Next.js runtime plugin.
 
 ## Styling
 
