@@ -1,4 +1,7 @@
 import { categories } from "@/content/categories";
+import { curatedTopicsPrompt6 } from "@/content/curated-topics-prompt6";
+import { curatedTopics } from "@/content/curated-topics";
+import type { Difficulty } from "@/lib/puzzle/types";
 
 export interface Topic {
   slug: string;
@@ -10,6 +13,20 @@ export interface Topic {
   words: string[];
   bestFor: string;
   notes: string[];
+  publicationStatus?: "draft" | "published";
+  difficulty?: Difficulty;
+  audience?: string[];
+  seed?: string;
+  introduction?: string;
+  context?: string;
+  difficultyNote?: string;
+  printNote?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  reviewedOn?: string;
+  rows?: number;
+  columns?: number;
+  relatedSlugs?: string[];
 }
 
 const baseWords: Record<string, string[]> = {
@@ -64,7 +81,7 @@ function wordsFor(segment: string, slug: string) {
   return Array.from(new Set([...topicWords, ...(baseWords[segment] ?? baseWords.animals)])).slice(0, 14);
 }
 
-export const topics: Topic[] = Object.entries(seeds).flatMap(([segment, slugs]) =>
+const draftTopics: Topic[] = Object.entries(seeds).flatMap(([segment, slugs]) =>
   slugs.map((slug) => {
     const title = `${titleFromSlug(slug)} Word Search`;
     const categorySlug = categoryForSegment[segment] ?? "animals-word-searches";
@@ -86,6 +103,87 @@ export const topics: Topic[] = Object.entries(seeds).flatMap(([segment, slugs]) 
     };
   })
 );
+
+const replacedDraftAliases = new Set([
+  "dogs-word-search",
+  "cats-word-search",
+  "breakfast-foods-word-search",
+  "canada-provinces-word-search",
+  "maps-word-search",
+  "spelling-words-word-search",
+  "gardening-word-search"
+]);
+
+const publishedTopicSources = [...curatedTopics, ...curatedTopicsPrompt6];
+const curatedTopicNames = new Set(publishedTopicSources.map((topic) => topic.topicSlug));
+
+function relatedRoutesFor(routeSlug: string, categorySegment: string, difficulty?: Difficulty) {
+  const sameCategory = publishedTopicSources.filter(
+    (topic) => topic.categorySegment === categorySegment && topic.routeSlug !== routeSlug
+  );
+  const categoryIndex = publishedTopicSources
+    .filter((topic) => topic.categorySegment === categorySegment)
+    .findIndex((topic) => topic.routeSlug === routeSlug);
+  const withinCategory = Array.from(
+    { length: Math.min(5, sameCategory.length) },
+    (_, offset) => sameCategory[(Math.max(categoryIndex, 0) + offset) % sameCategory.length]?.routeSlug
+  ).filter((slug): slug is string => Boolean(slug));
+  const crossCategory = publishedTopicSources.find(
+    (topic) =>
+      topic.categorySegment !== categorySegment &&
+      topic.difficulty === difficulty &&
+      !withinCategory.includes(topic.routeSlug)
+  );
+  return [...withinCategory, ...(crossCategory ? [crossCategory.routeSlug] : [])].slice(0, 6);
+}
+
+export const topics: Topic[] = [
+  ...publishedTopicSources.map((topic) => ({
+    slug: topic.routeSlug,
+    topicSlug: topic.topicSlug,
+    categorySegment: topic.categorySegment,
+    categorySlug: topic.categorySlug,
+    title: topic.title,
+    description: topic.context,
+    words: topic.words,
+    bestFor: `Suitable for ${topic.audience.join(", ")}`,
+    notes: [topic.context, topic.difficultyNote, topic.printNote],
+    publicationStatus: "published" as const,
+    difficulty: topic.difficulty,
+    audience: topic.audience,
+    seed: topic.seed,
+    introduction: topic.introduction,
+    context: topic.context,
+    difficultyNote: topic.difficultyNote,
+    printNote: topic.printNote,
+    metaTitle: topic.metaTitle,
+    metaDescription: topic.metaDescription,
+    reviewedOn: topic.reviewedOn,
+    rows: topic.rows,
+    columns: topic.columns,
+    relatedSlugs: relatedRoutesFor(topic.routeSlug, topic.categorySegment, topic.difficulty)
+  })),
+  ...draftTopics.filter((topic) => !curatedTopicNames.has(topic.topicSlug) && !replacedDraftAliases.has(topic.topicSlug))
+];
+
+export const topicRedirects: Record<string, string> = {
+  "animals/dogs-word-search": "animals/dog-word-search",
+  "animals/cats-word-search": "animals/cat-word-search",
+  "food-and-drink/breakfast-foods-word-search": "food-and-drink/breakfast-word-search",
+  "geography/canada-provinces-word-search": "geography/canada-word-search",
+  "geography/maps-word-search": "geography/map-vocabulary-word-search",
+  "language-arts/spelling-words-word-search": "classroom-values/spelling-word-search",
+  "nature-and-weather/gardening-word-search": "nature-and-weather/garden-word-search",
+  "science/plants-word-search": "nature-and-weather/plants-word-search",
+  "holidays/earth-day-word-search": "nature-and-weather/earth-day-word-search",
+  "travel/camping-word-search": "nature-and-weather/camping-word-search",
+  "travel/mountains-word-search": "nature-and-weather/mountains-word-search",
+  "science/flowers-word-search": "nature-and-weather/flowers-word-search",
+  "science/weather-word-search": "nature-and-weather/weather-word-search",
+  "travel/beach-word-search": "nature-and-weather/beach-word-search",
+  "wellness/friendship-word-search": "classroom-values/friendship-word-search",
+  "wellness/kindness-word-search": "classroom-values/kindness-word-search"
+};
 
 export function getTopic(categorySegment: string, topicSlug: string) {
   return topics.find((topic) => topic.categorySegment === categorySegment && topic.topicSlug === topicSlug);

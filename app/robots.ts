@@ -1,27 +1,15 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/content/registry";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
-        disallow: [
-          "/print/",
-          "/pdf/",
-          "/answer-key/",
-          "/play/",
-          "/embed/",
-          "/custom/",
-          "/*?difficulty=",
-          "/*?largePrint=",
-          "/*?seed=",
-          "/*?print=",
-          "/*?state="
-        ]
+        allow: "/"
       }
     ],
-    sitemap: "https://www.ilovewordsearch.com/sitemap.xml",
-    host: "https://www.ilovewordsearch.com"
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL
   };
 }

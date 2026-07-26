@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
-import { Download, FileText, KeyRound, Play, Printer, QrCode, RefreshCw, Share2, Shuffle, Upload } from "lucide-react";
+import { Download, Play, RefreshCw, Shuffle, Upload } from "lucide-react";
 import { generatePuzzle, directionsByDifficulty } from "@/lib/puzzle/generate";
 import type { AlphabetPackId, Difficulty, DirectionKey, PuzzleRequest } from "@/lib/puzzle/types";
 import { nextSeed } from "@/lib/puzzle/prng";
-import { encodeShareState, shareUrl, stateId } from "@/lib/share-state/state";
-import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
+import { stateId } from "@/lib/share-state/state";
+import { PuzzleUtilities } from "@/components/puzzle/PuzzleUtilities";
 
-interface BuilderProps {
+export interface BuilderProps {
   initialRequest: Partial<PuzzleRequest>;
   compact?: boolean;
+  persistState?: boolean;
 }
 
 const directionLabels: Array<[DirectionKey, string]> = [
@@ -44,7 +45,7 @@ function safeLocalStorage() {
   }
 }
 
-export function WordSearchBuilder({ initialRequest, compact = false }: BuilderProps) {
+export function WordSearchBuilder({ initialRequest, compact = false, persistState = false }: BuilderProps) {
   const [request, setRequest] = useState<Partial<PuzzleRequest>>({
     ...initialRequest,
     seed: initialRequest.seed ?? "ilws-builder",
@@ -53,12 +54,11 @@ export function WordSearchBuilder({ initialRequest, compact = false }: BuilderPr
     wordsText: initialRequest.wordsText ?? ""
   });
   const [debouncedRequest, setDebouncedRequest] = useState(request);
-  const [qrDataUrl, setQrDataUrl] = useState("");
-  const [shareCopied, setShareCopied] = useState(false);
   const [isPending, startTransition] = useTransition();
   const fileInput = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
+    if (!persistState) return;
     const storage = safeLocalStorage();
     if (!storage) return;
     const saved = storage.getItem("ilws:last-builder-state");
@@ -68,33 +68,23 @@ export function WordSearchBuilder({ initialRequest, compact = false }: BuilderPr
     } catch {
       storage.removeItem("ilws:last-builder-state");
     }
-  }, []);
+  }, [persistState]);
 
   useEffect(() => {
+    if (!persistState) {
+      startTransition(() => setDebouncedRequest(request));
+      return;
+    }
     const handle = window.setTimeout(() => {
       startTransition(() => setDebouncedRequest(request));
       const storage = safeLocalStorage();
       if (storage) storage.setItem("ilws:last-builder-state", JSON.stringify(request));
     }, 220);
     return () => window.clearTimeout(handle);
-  }, [request]);
+  }, [persistState, request]);
 
   const puzzle = useMemo(() => generatePuzzle(debouncedRequest), [debouncedRequest]);
   const encoded = useMemo(() => stateId(puzzle.request), [puzzle.request]);
-  const sharePath = `/word-search-generator?state=${encodeShareState(puzzle.request)}`;
-  const absoluteShareUrl = shareUrl(sharePath);
-
-  useEffect(() => {
-    let active = true;
-    import("qrcode").then((QRCode) =>
-      QRCode.toDataURL(absoluteShareUrl, { margin: 1, width: 112, errorCorrectionLevel: "M" }).then((url) => {
-        if (active) setQrDataUrl(url);
-      })
-    ).catch(() => setQrDataUrl(""));
-    return () => {
-      active = false;
-    };
-  }, [absoluteShareUrl]);
 
   function patch(next: Partial<PuzzleRequest>) {
     setRequest((current) => ({ ...current, ...next }));
@@ -111,16 +101,6 @@ export function WordSearchBuilder({ initialRequest, compact = false }: BuilderPr
         ? directions.filter((item) => item !== direction)
         : [...directions, direction]
     });
-  }
-
-  async function copyShare() {
-    try {
-      await navigator.clipboard.writeText(absoluteShareUrl);
-      setShareCopied(true);
-      window.setTimeout(() => setShareCopied(false), 1800);
-    } catch {
-      setShareCopied(false);
-    }
   }
 
   function downloadSvg() {
@@ -144,7 +124,19 @@ export function WordSearchBuilder({ initialRequest, compact = false }: BuilderPr
   const directions = request.directions ?? directionsByDifficulty[request.difficulty ?? "medium"];
 
   return (
-    <section className={`builder-surface ${compact ? "compact" : ""}`} aria-label="Word search builder">
+    <PuzzleUtilities
+      puzzle={puzzle}
+      previewIncludesShare
+      leadingActions={
+        <>
+          <button type="button" className="primary-button" onClick={() => patch({ seed: nextSeed(String(request.seed ?? "seed")) })}>
+            <Shuffle size={16} aria-hidden="true" /> Shuffle
+          </button>
+          <Link className="utility-link" href={`/play/${encoded}`} prefetch={false}><Play size={16} aria-hidden="true" /> Play</Link>
+        </>
+      }
+    >
+      {({ previewToolbar, printablePreview }) => <section className={`builder-surface ${compact ? "compact" : ""}`} aria-label="Word search builder">
       <div className="builder-head">
         <div>
           <h2>Build a word search</h2>
@@ -199,7 +191,7 @@ export function WordSearchBuilder({ initialRequest, compact = false }: BuilderPr
           </fieldset>
           <fieldset>
             <legend>Alphabet pack</legend>
-            <select value={request.alphabetPack ?? "latin"} onChange={(event) => patch({ alphabetPack: event.target.value as AlphabetPackId })}>
+            <select aria-label="Alphabet pack" value={request.alphabetPack ?? "latin"} onChange={(event) => patch({ alphabetPack: event.target.value as AlphabetPackId })}>
               {packOptions.map(([id, label]) => <option key={id} value={id}>{label}</option>)}
             </select>
           </fieldset>
@@ -256,19 +248,8 @@ export function WordSearchBuilder({ initialRequest, compact = false }: BuilderPr
           </details>
         </div>
         <div className="builder-preview" aria-busy={isPending}>
-          <div className="preview-toolbar">
-            <button type="button" className="primary-button" onClick={() => patch({ seed: nextSeed(String(request.seed ?? "seed")) })}>
-              <Shuffle size={16} aria-hidden="true" /> Shuffle
-            </button>
-            <Link className="utility-link" href={`/play/${encoded}`} prefetch={false}><Play size={16} aria-hidden="true" /> Play</Link>
-            <Link className="utility-link" href={`/print/${encoded}`} prefetch={false}><Printer size={16} aria-hidden="true" /> Print</Link>
-            <Link className="utility-link" href={`/pdf/${encoded}`} prefetch={false}><FileText size={16} aria-hidden="true" /> PDF</Link>
-            <Link className="utility-link" href={`/answer-key/${encoded}`} prefetch={false}><KeyRound size={16} aria-hidden="true" /> Key</Link>
-            <button type="button" onClick={copyShare}><Share2 size={16} aria-hidden="true" /> {shareCopied ? "Copied" : "Share"}</button>
-          </div>
-          <div className="preview-paper">
-            <PrintablePuzzle puzzle={puzzle} qrDataUrl={qrDataUrl} headingLevel={2} />
-          </div>
+          {previewToolbar}
+          {printablePreview}
           <div className="validation-panel" aria-live="polite">
             {puzzle.warnings.length ? (
               <ul>
@@ -286,14 +267,14 @@ export function WordSearchBuilder({ initialRequest, compact = false }: BuilderPr
           </div>
           <div className="export-row">
             <button type="button" onClick={downloadSvg}><Download size={16} aria-hidden="true" /> SVG</button>
-            <button type="button" onClick={() => window.print()}><Printer size={16} aria-hidden="true" /> Browser print</button>
-            <span><QrCode size={16} aria-hidden="true" /> QR links to the exact seeded state</span>
+            <span>Print, PDF, answer key, play, share, and QR all use this exact seeded state.</span>
           </div>
           <div className="sr-only" aria-live="polite">
             {puzzle.placed.length} words placed. {puzzle.excluded.length} words excluded. {Array.from(placedLabels).length} unique placed answers.
           </div>
         </div>
       </div>
-    </section>
+    </section>}
+    </PuzzleUtilities>
   );
 }

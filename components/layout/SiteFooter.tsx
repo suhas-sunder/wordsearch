@@ -27,6 +27,7 @@ export function SiteFooter() {
         </div>
         <div>
           <h2>Browse</h2>
+          <Link href="/topics">All topics</Link>
           <Link href="/categories">All categories</Link>
           {categories.slice(0, 4).map((category) => (
             <Link key={category.slug} href={`/categories/${category.slug}`}>{category.title.replace(" Word Searches", "")}</Link>
@@ -35,10 +36,14 @@ export function SiteFooter() {
         <div>
           <h2>Site</h2>
           <Link href="/about">About</Link>
+          <Link href="/how-word-searches-are-made">How puzzles are made</Link>
+          <Link href="/editorial-policy">Editorial policy</Link>
+          <Link href="/contact">Contact</Link>
           <Link href="/faq">FAQ</Link>
           <Link href="/accessibility">Accessibility</Link>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
+          <Link href="/copyright">Copyright</Link>
         </div>
       </div>
     </footer>

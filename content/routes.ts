@@ -16,7 +16,7 @@ export interface SitePage {
 export const corePages: SitePage[] = [
   {
     slug: "word-search-generator",
-    title: "Word Search Generator | Make Printable and Online Puzzles",
+    title: "Free Word Search Generator | Make and Print Puzzles",
     h1: "Word Search Generator",
     description: "Make a custom word search with print, PDF, answer key, share, and online play controls.",
     intro: "Start with your own word list, choose the difficulty, and keep the exact seed so every output matches.",
@@ -30,7 +30,7 @@ export const corePages: SitePage[] = [
   },
   {
     slug: "free-printable-word-searches",
-    title: "Free Printable Word Searches | PDF Worksheets with Answer Keys",
+    title: "Free Printable Word Searches | PDFs and Answer Keys",
     h1: "Free Printable Word Searches",
     description: "Browse free printable word searches with clean worksheets, matching answer keys, and real curated topics.",
     intro: "This print-first collection helps visitors choose an existing puzzle before using the custom generator.",
@@ -40,7 +40,7 @@ export const corePages: SitePage[] = [
   },
   {
     slug: "online-word-search",
-    title: "Online Word Search | Play and Share Custom Puzzles",
+    title: "Play Word Search Online Free | I Love Word Search",
     h1: "Online Word Search",
     description: "Choose a curated word search to play in the browser, then share or print the same seeded puzzle when needed.",
     intro: "This play-first collection leads to existing topics and a featured online puzzle without duplicating the builder.",
@@ -50,7 +50,7 @@ export const corePages: SitePage[] = [
   },
   {
     slug: "word-search-pdf",
-    title: "Word Search PDF Maker | Printable Puzzle and Solution Pages",
+    title: "Word Search PDFs | Printable Puzzles and Answer Keys",
     h1: "Word Search PDF Maker",
     description: "Prepare PDF-ready word searches with clean puzzle pages, matching solutions, QR links, and printing guidance.",
     intro: "The PDF hub explains the export workflow and routes visitors to existing puzzles or the custom generator.",
@@ -100,7 +100,7 @@ export const corePages: SitePage[] = [
   },
   {
     slug: "large-print-word-searches",
-    title: "Large Print Word Searches | Readable Printable Puzzles",
+    title: "Free Large Print Word Searches | Printable PDFs",
     h1: "Large Print Word Searches",
     description: "Browse large-print word searches with readable themes, bigger cells, high contrast, and clean print surfaces.",
     intro: "This collection pairs real adult-friendly topics with guidance for readable print settings.",
@@ -110,7 +110,7 @@ export const corePages: SitePage[] = [
   },
   {
     slug: "word-searches-for-kids",
-    title: "Word Searches for Kids | Easy Printable Puzzles",
+    title: "Free Word Searches for Kids | Play Online or Print",
     h1: "Word Searches for Kids",
     description: "Kid-friendly word searches with simple themes, easy directions, and printable answer keys.",
     intro: "Choose age-appropriate word lists and keep the grid readable without turning the page into classroom clutter.",
@@ -140,7 +140,7 @@ export const corePages: SitePage[] = [
   },
   {
     slug: "word-searches-for-teachers",
-    title: "Word Searches for Teachers | Classroom Worksheet Generator",
+    title: "Word Searches for Teachers | Printable Classroom Puzzles",
     h1: "Word Searches for Teachers",
     description: "Find teacher-ready word searches, subject collections, classroom worksheets, answer keys, and custom vocabulary tools.",
     intro: "Choose an existing resource for quick use or send a lesson-specific list to the generator.",

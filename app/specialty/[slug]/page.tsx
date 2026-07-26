@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const route = getSpecialty(slug);
   if (!route) return {};
-  return pageMetadata(route.title, route.description, `/specialty/${route.slug}`);
+  return pageMetadata(route.title, route.description, `/specialty/${route.slug}`, { indexable: false });
 }
 
 export default async function SpecialtyPage({ params }: Props) {
@@ -34,6 +34,7 @@ export default async function SpecialtyPage({ params }: Props) {
       difficulty="medium"
       hiddenMessage={route.slug.includes("hidden-message") ? "GREAT JOB" : undefined}
       modules={["specialty", "faq"]}
+      adTemplate="draft"
       breadcrumbs={[{ label: "Specialty", href: "/specialty-word-search-generators" }, { label: route.title }]}
     />
   );

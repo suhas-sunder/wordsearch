@@ -1,6 +1,7 @@
 import { categories } from "@/content/categories";
 import { collections } from "@/content/collections";
 import { guides } from "@/content/guides";
+import { getRouteRecord } from "@/content/registry";
 import { corePages } from "@/content/routes";
 import { topics } from "@/content/topics";
 
@@ -40,20 +41,21 @@ function audienceFor(value: string) {
   return undefined;
 }
 
-const topicItems: SearchCatalogItem[] = topics.map((topic) => ({
+const topicItems: SearchCatalogItem[] = topics.filter((topic) => topic.publicationStatus === "published").map((topic) => ({
   id: `topic:${topic.slug}`,
   href: `/word-searches/${topic.slug}`,
   title: topic.title,
   description: topic.description,
   type: "Puzzle",
   category: categoryBySegment.get(topic.categorySegment) ?? topic.categorySegment,
-  format: "Printable and online",
-  audience: audienceFor(`${topic.title} ${topic.bestFor}`),
+  difficulty: topic.difficulty,
+  format: "Printable, online, PDF, answer key, large print, share, QR",
+  audience: topic.audience?.join(", ") ?? audienceFor(`${topic.title} ${topic.bestFor}`),
   season: seasonFor(topic.title),
   terms: [...topic.words, topic.bestFor, ...topic.notes, topic.categorySegment]
 }));
 
-const categoryItems: SearchCatalogItem[] = categories.map((category) => ({
+const categoryItems: SearchCatalogItem[] = categories.filter((category) => category.publicationStatus === "published").map((category) => ({
   id: `category:${category.slug}`,
   href: `/categories/${category.slug}`,
   title: category.title,
@@ -63,7 +65,7 @@ const categoryItems: SearchCatalogItem[] = categories.map((category) => ({
   terms: [category.pathSegment, category.accent, ...category.notes, ...category.related]
 }));
 
-const collectionItems: SearchCatalogItem[] = collections.map((collection) => ({
+const collectionItems: SearchCatalogItem[] = collections.filter((collection) => collection.publicationStatus === "published").map((collection) => ({
   id: `collection:${collection.slug}`,
   href: `/collections/${collection.slug}`,
   title: collection.title,
@@ -75,7 +77,7 @@ const collectionItems: SearchCatalogItem[] = collections.map((collection) => ({
   terms: [...collection.words, collection.angle, ...collection.relatedTopics]
 }));
 
-const guideItems: SearchCatalogItem[] = guides.map((guide) => ({
+const guideItems: SearchCatalogItem[] = guides.filter((guide) => guide.publicationStatus === "published").map((guide) => ({
   id: `guide:${guide.slug}`,
   href: `/guides/${guide.slug}`,
   title: guide.title,
@@ -85,7 +87,7 @@ const guideItems: SearchCatalogItem[] = guides.map((guide) => ({
   terms: [...guide.words, ...guide.sections.flatMap((section) => [section.heading, section.body])]
 }));
 
-const toolItems: SearchCatalogItem[] = corePages.map((page) => ({
+const toolItems: SearchCatalogItem[] = corePages.filter((page) => getRouteRecord(`/${page.slug}`)?.indexable).map((page) => ({
   id: `tool:${page.slug}`,
   href: `/${page.slug}`,
   title: page.h1,

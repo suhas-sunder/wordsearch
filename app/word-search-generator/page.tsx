@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo/metadata";
 const generatorPage = getSitePage("word-search-generator")!;
 
 export const metadata = pageMetadata(
-  "Word Search Generator - Make a Custom Puzzle",
+  "Free Word Search Generator | Make and Print Puzzles",
   "Create a custom word search with deterministic preview, print, PDF, answer key, online play, sharing, and QR output.",
   "/word-search-generator"
 );
@@ -26,7 +26,9 @@ export default async function WordSearchGeneratorPage({ searchParams }: { search
       alphabetPack={generatorPage.alphabetPack}
       modules={["specialty", "faq"]}
       faq={generatorPage.faq}
+      adTemplate="generator"
       requestOverride={state}
+      persistBuilderState={!state}
       breadcrumbs={[{ label: "Word Search Generator" }]}
     />
   );

@@ -1,0 +1,43 @@
+{
+  "canonicalHost": "https://www.ilovewordsearch.com",
+  "sitemapCount": 217,
+  "redirects": [
+    { "source": "/word-searches/animals/dogs-word-search", "target": "/word-searches/animals/dog-word-search" },
+    { "source": "/word-searches/animals/cats-word-search", "target": "/word-searches/animals/cat-word-search" },
+    { "source": "/word-searches/food-and-drink/breakfast-foods-word-search", "target": "/word-searches/food-and-drink/breakfast-word-search" },
+    { "source": "/word-searches/geography/canada-provinces-word-search", "target": "/word-searches/geography/canada-word-search" },
+    { "source": "/word-searches/geography/maps-word-search", "target": "/word-searches/geography/map-vocabulary-word-search" },
+    { "source": "/word-searches/language-arts/spelling-words-word-search", "target": "/word-searches/classroom-values/spelling-word-search" },
+    { "source": "/word-searches/nature-and-weather/gardening-word-search", "target": "/word-searches/nature-and-weather/garden-word-search" },
+    { "source": "/word-searches/science/plants-word-search", "target": "/word-searches/nature-and-weather/plants-word-search" },
+    { "source": "/word-searches/holidays/earth-day-word-search", "target": "/word-searches/nature-and-weather/earth-day-word-search" },
+    { "source": "/word-searches/travel/camping-word-search", "target": "/word-searches/nature-and-weather/camping-word-search" },
+    { "source": "/word-searches/travel/mountains-word-search", "target": "/word-searches/nature-and-weather/mountains-word-search" },
+    { "source": "/word-searches/science/flowers-word-search", "target": "/word-searches/nature-and-weather/flowers-word-search" },
+    { "source": "/word-searches/science/weather-word-search", "target": "/word-searches/nature-and-weather/weather-word-search" },
+    { "source": "/word-searches/travel/beach-word-search", "target": "/word-searches/nature-and-weather/beach-word-search" },
+    { "source": "/word-searches/wellness/friendship-word-search", "target": "/word-searches/classroom-values/friendship-word-search" },
+    { "source": "/word-searches/wellness/kindness-word-search", "target": "/word-searches/classroom-values/kindness-word-search" },
+    { "source": "/collections/classroom-word-searches", "target": "/collections/classroom-word-search-worksheets" },
+    { "source": "/guides/how-to-print-word-searches", "target": "/guides/how-to-print-a-word-search" },
+    { "source": "/guides/word-search-difficulty-by-age", "target": "/guides/word-search-difficulty-guide" },
+    { "source": "/guides/how-to-make-large-print-word-searches", "target": "/guides/large-print-word-searches" },
+    { "source": "/guides/how-to-build-custom-word-lists", "target": "/guides/custom-word-lists-for-word-searches" },
+    { "source": "/guides/word-search-benefits-for-vocabulary-practice", "target": "/guides/vocabulary-practice-with-word-searches" }
+  ],
+  "legacyAliases": [
+    { "source": "/word-search-maker", "target": "/word-search-generator" },
+    { "source": "/make-your-own-word-search", "target": "/word-search-generator" },
+    { "source": "/create-a-word-search", "target": "/word-search-generator" },
+    { "source": "/word-search-printable", "target": "/free-printable-word-searches" },
+    { "source": "/printable-word-search", "target": "/free-printable-word-searches" },
+    { "source": "/free-word-search-printable", "target": "/free-printable-word-searches" },
+    { "source": "/word-search-online-free", "target": "/online-word-search" },
+    { "source": "/free-online-word-search", "target": "/online-word-search" },
+    { "source": "/free-word-search-pdf", "target": "/word-search-pdf" },
+    { "source": "/printable-word-search-pdf", "target": "/word-search-pdf" },
+    { "source": "/word-search-worksheet", "target": "/word-search-worksheets" },
+    { "source": "/free-large-print-word-search", "target": "/large-print-word-searches" },
+    { "source": "/word-search-large-print-free", "target": "/large-print-word-searches" }
+  ]
+}

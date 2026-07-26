@@ -10,11 +10,11 @@ import { categorySchema, sitePageSchema, topicSchema } from "@/content/schema";
 describe("route and content architecture", () => {
   test("contains required route families", () => {
     expect(corePages.map((page) => page.slug)).toContain("word-search-generator");
-    expect(categories).toHaveLength(16);
-    expect(collections).toHaveLength(10);
-    expect(guides).toHaveLength(12);
+    expect(categories.filter((category) => category.publicationStatus === "published")).toHaveLength(15);
+    expect(collections.filter((collection) => collection.publicationStatus === "published")).toHaveLength(13);
+    expect(guides.filter((guide) => guide.publicationStatus === "published")).toHaveLength(12);
     expect(specialtyRoutes).toHaveLength(13);
-    expect(topics.length).toBeGreaterThan(120);
+    expect(topics.filter((topic) => topic.publicationStatus === "published")).toHaveLength(150);
   });
 
   test("validates structured content", () => {

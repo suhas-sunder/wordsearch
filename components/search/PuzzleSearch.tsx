@@ -1,10 +1,10 @@
 "use client";
 
-import { FormEvent, KeyboardEvent, useId, useMemo, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
-import { findSearchResults, type SearchCatalogItem } from "@/lib/search/catalog";
+import type { SearchCatalogItem } from "@/lib/search/catalog";
 
 interface PuzzleSearchProps {
   initialQuery?: string;
@@ -23,8 +23,44 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
   const [query, setQuery] = useState(initialQuery);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const suggestions = useMemo(() => query.trim().length >= 2 ? findSearchResults(query, compact ? 6 : 8) : [], [compact, query]);
+  const [suggestions, setSuggestions] = useState<SearchCatalogItem[]>([]);
+  const [suggestionStatus, setSuggestionStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
   const showPanel = open && query.trim().length >= 2;
+
+  useEffect(() => {
+    const value = query.trim();
+    if (value.length < 2) {
+      setSuggestions([]);
+      setSuggestionStatus("idle");
+      return;
+    }
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => {
+      setSuggestionStatus("loading");
+      fetch(`/api/search?q=${encodeURIComponent(value)}&limit=${compact ? 6 : 8}`, {
+        signal: controller.signal,
+        headers: { Accept: "application/json" }
+      })
+        .then(async (response) => {
+          if (!response.ok) throw new Error("Search suggestions are unavailable.");
+          return response.json() as Promise<{ results?: SearchCatalogItem[] }>;
+        })
+        .then((payload) => {
+          setSuggestions(Array.isArray(payload.results) ? payload.results : []);
+          setSuggestionStatus("ready");
+          setActiveIndex(0);
+        })
+        .catch((error) => {
+          if (error instanceof DOMException && error.name === "AbortError") return;
+          setSuggestions([]);
+          setSuggestionStatus("error");
+        });
+    }, 120);
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
+  }, [compact, query]);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -94,7 +130,14 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
       </form>
       {showPanel && (
         <div className="search-suggestions" id={listboxId} role="listbox" aria-label="Puzzle search suggestions">
-          {suggestions.length > 0 ? (
+          {suggestionStatus === "loading" ? (
+            <div className="search-empty" role="status">Searching reviewed puzzles…</div>
+          ) : suggestionStatus === "error" ? (
+            <div className="search-empty" role="status">
+              <strong>Suggestions are temporarily unavailable.</strong>
+              <span>Press Search to open the full results page.</span>
+            </div>
+          ) : suggestions.length > 0 ? (
             suggestions.map((item, index) => (
               <Link
                 id={`${listboxId}-${index}`}

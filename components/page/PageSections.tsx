@@ -4,7 +4,7 @@ import { collections } from "@/content/collections";
 import { guides } from "@/content/guides";
 import { specialtyRoutes } from "@/content/specialty";
 import { topics } from "@/content/topics";
-import { AdSlot } from "@/components/layout/AdSlot";
+import { AdSlot, type AdTemplate } from "@/components/layout/AdSlot";
 
 export function QuickLinks() {
   const links = [
@@ -31,7 +31,7 @@ export function CategoryGrid() {
         <p>Start with a broad subject, then choose an existing puzzle topic that fits.</p>
       </div>
       <div className="link-grid">
-        {categories.map((category) => (
+        {categories.filter((category) => category.publicationStatus === "published").map((category) => (
           <Link key={category.slug} href={`/categories/${category.slug}`}>
             <strong>{category.title}</strong>
             <span>{category.description}</span>
@@ -43,7 +43,8 @@ export function CategoryGrid() {
 }
 
 export function TopicStrip({ categorySegment }: { categorySegment?: string }) {
-  const source = categorySegment ? topics.filter((topic) => topic.categorySegment === categorySegment) : topics.slice(0, 18);
+  const published = topics.filter((topic) => topic.publicationStatus === "published");
+  const source = categorySegment ? published.filter((topic) => topic.categorySegment === categorySegment) : published.slice(0, 18);
   return (
     <section className="content-section site-shell">
       <div className="section-heading">
@@ -67,7 +68,7 @@ export function CollectionGrid() {
         <p>Browse focused groups for classrooms, holidays, travel, parties, and quiet puzzle time.</p>
       </div>
       <div className="link-grid compact">
-        {collections.map((collection) => (
+        {collections.filter((collection) => collection.publicationStatus === "published").map((collection) => (
           <Link key={collection.slug} href={`/collections/${collection.slug}`}>
             <strong>{collection.title}</strong>
             <span>{collection.description}</span>
@@ -105,7 +106,7 @@ export function GuideGrid() {
         <p>Short, useful guides support the generator workflow without bloating puzzle pages.</p>
       </div>
       <div className="link-grid compact">
-        {guides.map((guide) => (
+        {guides.filter((guide) => guide.publicationStatus === "published").map((guide) => (
           <Link key={guide.slug} href={`/guides/${guide.slug}`}>
             <strong>{guide.title}</strong>
             <span>{guide.description}</span>
@@ -155,7 +156,7 @@ export function FaqBlock({ items }: { items?: Array<{ question: string; answer: 
   );
 }
 
-export function EditorialModules({ modules, faq }: { modules: string[]; faq?: Array<{ question: string; answer: string }> }) {
+export function EditorialModules({ modules, faq, adTemplate }: { modules: string[]; faq?: Array<{ question: string; answer: string }>; adTemplate: AdTemplate }) {
   return (
     <>
       {modules.includes("categories") && <CategoryGrid />}
@@ -164,7 +165,7 @@ export function EditorialModules({ modules, faq }: { modules: string[]; faq?: Ar
       {modules.includes("specialty") && <SpecialtyGrid />}
       {modules.includes("guides") && <GuideGrid />}
       <HowItWorks />
-      <AdSlot placement="seo-content-square" />
+      <AdSlot placement="seo-content-square" template={adTemplate} />
       {modules.includes("faq") && <FaqBlock items={faq} />}
     </>
   );

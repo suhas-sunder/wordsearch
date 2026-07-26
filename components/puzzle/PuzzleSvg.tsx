@@ -5,11 +5,21 @@ interface PuzzleSvgProps {
   puzzle: PuzzleResult;
   answerKey?: boolean;
   compact?: boolean;
+  largePrint?: boolean;
+  showCoordinates?: boolean;
+  inkSaving?: boolean;
 }
 
-export function PuzzleSvg({ puzzle, answerKey = false, compact = false }: PuzzleSvgProps) {
-  const cell = compact ? 30 : puzzle.request.largePrint ? 42 : 34;
-  const labelGutter = puzzle.request.showCoordinates ? cell : 0;
+export function PuzzleSvg({
+  puzzle,
+  answerKey = false,
+  compact = false,
+  largePrint = puzzle.request.largePrint,
+  showCoordinates = puzzle.request.showCoordinates,
+  inkSaving = false
+}: PuzzleSvgProps) {
+  const cell = compact ? 30 : largePrint ? 42 : 34;
+  const labelGutter = showCoordinates ? cell : 0;
   const width = puzzle.cols * cell + labelGutter;
   const height = puzzle.rows * cell + labelGutter;
   const highlightIds = new Set(puzzle.placed.map((placement) => placement.wordId));
@@ -22,13 +32,13 @@ export function PuzzleSvg({ puzzle, answerKey = false, compact = false }: Puzzle
       aria-label={`${puzzle.request.title} word search grid, ${puzzle.rows} rows by ${puzzle.cols} columns`}
     >
       <rect x="0" y="0" width={width} height={height} fill="white" />
-      {puzzle.request.showCoordinates &&
+      {showCoordinates &&
         Array.from({ length: puzzle.cols }, (_, col) => (
           <text key={`col-${col}`} x={labelGutter + col * cell + cell / 2} y={cell * 0.65} textAnchor="middle" className="grid-coordinate">
             {col + 1}
           </text>
         ))}
-      {puzzle.request.showCoordinates &&
+      {showCoordinates &&
         Array.from({ length: puzzle.rows }, (_, row) => (
           <text key={`row-${row}`} x={cell * 0.5} y={labelGutter + row * cell + cell * 0.65} textAnchor="middle" className="grid-coordinate">
             {row + 1}
@@ -46,7 +56,7 @@ export function PuzzleSvg({ puzzle, answerKey = false, compact = false }: Puzzle
                 y={y}
                 width={cell}
                 height={cell}
-                fill={placement && highlightIds.has(placement.wordId) ? "#d8f3e1" : "white"}
+                fill={placement && highlightIds.has(placement.wordId) && !inkSaving ? "#d8f3e1" : "white"}
                 stroke="#111827"
                 strokeWidth={compact ? 0.7 : 1}
               />
@@ -56,7 +66,11 @@ export function PuzzleSvg({ puzzle, answerKey = false, compact = false }: Puzzle
                 dominantBaseline="middle"
                 textAnchor="middle"
                 className="puzzle-token"
-                fontSize={token.length > 3 ? cell * 0.24 : token.length > 1 ? cell * 0.32 : cell * 0.48}
+                fontSize={token.length > 3
+                  ? cell * (largePrint ? 0.29 : 0.24)
+                  : token.length > 1
+                    ? cell * (largePrint ? 0.39 : 0.32)
+                    : cell * (largePrint ? 0.58 : 0.48)}
               >
                 {token}
               </text>
@@ -76,7 +90,7 @@ export function PuzzleSvg({ puzzle, answerKey = false, compact = false }: Puzzle
               y1={labelGutter + first.row * cell + cell / 2}
               x2={labelGutter + last.col * cell + cell / 2}
               y2={labelGutter + last.row * cell + cell / 2}
-              stroke={["#1b7a47", "#1d4ed8", "#9a3412", "#6d28d9"][index % 4]}
+              stroke={inkSaving ? "#111827" : ["#1b7a47", "#1d4ed8", "#9a3412", "#6d28d9"][index % 4]}
               strokeWidth={Math.max(3, cell * 0.12)}
               strokeLinecap="round"
               opacity="0.72"

@@ -1,8 +1,11 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
+import { CuratedPuzzlePage } from "@/components/page/CuratedPuzzlePage";
 import { IndexablePage } from "@/components/page/IndexablePage";
-import { getCategoryBySlug } from "@/content/categories";
-import { getTopic, topics } from "@/content/topics";
+import { categories } from "@/content/categories";
+import type { PuzzleContentRecord } from "@/content/model";
+import { getRouteRecord, routeInventory } from "@/content/registry";
+import { getTopic, topicRedirects, topics } from "@/content/topics";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 interface Props {
@@ -10,21 +13,50 @@ interface Props {
 }
 
 export function generateStaticParams() {
-  return topics.map((topic) => ({ category: topic.categorySegment, topicSlug: topic.topicSlug }));
+  return [
+    ...topics.map((topic) => ({ category: topic.categorySegment, topicSlug: topic.topicSlug })),
+    ...Object.keys(topicRedirects).map((slug) => {
+      const [category, topicSlug] = slug.split("/");
+      return { category, topicSlug };
+    })
+  ];
 }
 
 export async function generateMetadata({ params }: Props) {
   const { category, topicSlug } = await params;
+  const redirectTarget = topicRedirects[`${category}/${topicSlug}`];
+  if (redirectTarget) permanentRedirect(`/word-searches/${redirectTarget}`);
   const topic = getTopic(category, topicSlug);
   if (!topic) return {};
-  return pageMetadata(topic.title, topic.description, `/word-searches/${topic.slug}`);
+  const record = getRouteRecord(`/word-searches/${topic.slug}`);
+  return pageMetadata(record?.metadata.title ?? `${topic.title} | Play Online or Print`, record?.metadata.description ?? topic.description, `/word-searches/${topic.slug}`, { indexable: record?.indexable ?? false });
 }
 
 export default async function TopicPage({ params }: Props) {
   const { category, topicSlug } = await params;
+  const redirectTarget = topicRedirects[`${category}/${topicSlug}`];
+  if (redirectTarget) permanentRedirect(`/word-searches/${redirectTarget}`);
   const topic = getTopic(category, topicSlug);
   if (!topic) notFound();
-  const categoryInfo = getCategoryBySlug(topic.categorySegment);
+  const categoryInfo = categories.find((item) => item.pathSegment === topic.categorySegment);
+  const record = getRouteRecord(`/word-searches/${topic.slug}`);
+  if (record?.contentType === "puzzle" && record.indexable) {
+    const related = (record.relatedContentIds ?? [])
+      .map((id) => routeInventory.find((item) => item.id === id))
+      .filter((item): item is PuzzleContentRecord => item?.contentType === "puzzle" && item.indexable)
+      .map((item) => ({ id: item.id, title: item.title, path: item.canonicalPath }));
+    return (
+      <CuratedPuzzlePage
+        record={record}
+        category={{
+          id: `category-${topic.categorySlug}`,
+          title: categoryInfo?.title ?? topic.categorySegment,
+          path: `/categories/${topic.categorySlug}`
+        }}
+        related={related}
+      />
+    );
+  }
   const related = topics.filter((item) => item.categorySegment === topic.categorySegment && item.slug !== topic.slug).slice(0, 8);
 
   return (
@@ -37,6 +69,7 @@ export default async function TopicPage({ params }: Props) {
       words={topic.words}
       difficulty="medium"
       modules={["faq"]}
+      adTemplate="draft"
       breadcrumbs={[
         { label: "Topics", href: "/topics" },
         { label: categoryInfo?.title ?? topic.categorySegment, href: categoryInfo ? `/categories/${categoryInfo.slug}` : "/categories" },

@@ -2,16 +2,20 @@ import Link from "next/link";
 import { AdSlot } from "@/components/layout/AdSlot";
 import { DiscoveryCards } from "@/components/page/DiscoveryCards";
 import { PuzzleSearch } from "@/components/search/PuzzleSearch";
+import { categories } from "@/content/categories";
+import { collections } from "@/content/collections";
 import {
   categoryPicks,
   featuredPuzzles,
   printablePicks,
   seasonalPicks
 } from "@/content/discovery";
+import { guides } from "@/content/guides";
+import { topics } from "@/content/topics";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 export const metadata = pageMetadata(
-  "Free Printable and Online Word Search Puzzles",
+  "Free Printable and Online Word Search Puzzles | I Love Word Search",
   "Find curated word search puzzles to print, play online, download as PDFs, or customize with the free word search generator.",
   "/"
 );
@@ -20,8 +24,13 @@ const audiences = [
   { href: "/word-searches-for-kids", title: "Kids", description: "Easy themes, simple directions, and printable answer keys." },
   { href: "/word-searches-for-teachers", title: "Teachers", description: "Subject collections, classroom worksheets, and custom vocabulary tools." },
   { href: "/word-searches-for-adults", title: "Adults", description: "Adult-friendly themes with online, print, and harder options." },
+  { href: "/word-searches-for-seniors", title: "Seniors", description: "Adult-oriented topics with optional large-print output and no health claims." },
+  { href: "/homeschool-word-searches", title: "Homeschool", description: "Flexible subject puzzles, printables, and custom word-list options." },
+  { href: "/esl-word-searches", title: "ESL", description: "Concrete vocabulary topics with easy-direction and answer-key options." },
   { href: "/large-print-word-searches", title: "Large Print", description: "Readable grids, larger cells, and calm adult themes." }
 ];
+
+const reviewedPuzzleCount = topics.filter((item) => item.publicationStatus === "published").length;
 
 const allTools = [
   ["/word-search-generator", "Word Search Generator", "Make a custom seeded puzzle from your own word list."],
@@ -43,11 +52,11 @@ const faq = [
 export default function HomePage() {
   return (
     <main>
-      <AdSlot placement="top-banner" />
+      <AdSlot placement="top-banner" template="home" />
 
       <section className="home-hero site-shell">
         <div className="home-hero-copy">
-          <span className="eyebrow">Find your next puzzle</span>
+          <span className="eyebrow">{reviewedPuzzleCount} reviewed puzzles · {categories.filter((item) => item.publicationStatus === "published").length} categories</span>
           <h1>Free printable and online word search puzzles</h1>
           <p className="value-prop">Search real curated topics, browse by category, play online, print a worksheet, or create a custom puzzle from your own words.</p>
           <PuzzleSearch />
@@ -101,7 +110,7 @@ export default function HomePage() {
 
       <section className="content-section site-shell">
         <div className="section-heading heading-row">
-          <div><span className="eyebrow">Explore themes</span><h2>Browse by Category</h2></div>
+          <div><span className="eyebrow">Explore {categories.filter((item) => item.publicationStatus === "published").length} themes</span><h2>Browse by Category</h2></div>
           <Link className="section-link" href="/categories">All categories <span aria-hidden="true">→</span></Link>
         </div>
         <DiscoveryCards items={categoryPicks} />
@@ -132,7 +141,19 @@ export default function HomePage() {
         <Link className="primary-button" href="/word-search-generator">Open the generator</Link>
       </section>
 
-      <AdSlot placement="utility-banner" />
+      <section className="content-section site-shell soft-section">
+        <div className="section-heading">
+          <span className="eyebrow">More ways to browse</span>
+          <h2>{collections.filter((item) => item.publicationStatus === "published").length} collections and {guides.filter((item) => item.publicationStatus === "published").length} practical guides</h2>
+          <p>Collections group reviewed puzzles by difficulty, subject, season, and output. Guides explain how the puzzle, print, PDF, and answer workflows fit together.</p>
+        </div>
+        <div className="hero-actions">
+          <Link className="primary-button" href="/collections/word-searches-with-answer-keys">Browse answer-key puzzles</Link>
+          <Link className="secondary-button" href="/guides">Read the guides</Link>
+        </div>
+      </section>
+
+      <AdSlot placement="utility-banner" template="home" />
 
       <section className="content-section site-shell editorial-home">
         <div>
@@ -141,7 +162,7 @@ export default function HomePage() {
           <p>Printable word searches work well for classroom handouts, family tables, travel, and other offline settings. Online puzzles are the quickest way to start solving on a phone, tablet, or computer.</p>
           <p>PDF-ready pages use the same puzzle grid as the preview, and answer keys keep the exact seeded placements. That means a student copy, saved PDF, and solution page stay aligned.</p>
         </div>
-        <AdSlot placement="seo-content-square" />
+        <AdSlot placement="seo-content-square" template="home" />
         <div>
           <h2>Ready-made puzzle or custom list?</h2>
           <p>Choose a curated puzzle when an existing topic already fits. Categories make it easier to narrow a broad idea such as animals, science, history, travel, or holidays without wading through unrelated pages.</p>
@@ -150,7 +171,7 @@ export default function HomePage() {
       </section>
 
       <section className="content-section site-shell tools-section">
-        <AdSlot placement="bottom-tools-banner" />
+        <AdSlot placement="bottom-tools-banner" template="home" />
         <div className="section-heading"><span className="eyebrow">Puzzle tools</span><h2>All Tools</h2><p>Use the primary destination that matches what you want to do next.</p></div>
         <div className="tool-grid">
           {allTools.map(([href, title, description]) => (

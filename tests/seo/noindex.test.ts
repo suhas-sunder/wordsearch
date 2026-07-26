@@ -3,13 +3,12 @@ import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
 
 describe("robots rules", () => {
-  test("disallows utility surfaces and query state URLs", () => {
+  test("allows crawling so utility noindex directives can be observed", () => {
     const rules = robots().rules;
     const first = Array.isArray(rules) ? rules[0] : rules;
-    expect(first.disallow).toContain("/print/");
-    expect(first.disallow).toContain("/pdf/");
-    expect(first.disallow).toContain("/answer-key/");
-    expect(first.disallow).toContain("/*?state=");
+    expect(first.allow).toBe("/");
+    expect(first.disallow).toBeUndefined();
+    expect(robots().sitemap).toBe("https://www.ilovewordsearch.com/sitemap.xml");
   });
 
   test("does not include search result pages in the sitemap", () => {

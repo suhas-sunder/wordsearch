@@ -1,6 +1,7 @@
+import { notFound } from "next/navigation";
 import { noindexMetadata } from "@/lib/seo/metadata";
-import { decodeShareState } from "@/lib/share-state/state";
-import { generatePuzzle, defaultPuzzleRequest } from "@/lib/puzzle/generate";
+import { decodePuzzleShareState } from "@/lib/share-state/state";
+import { generatePuzzle } from "@/lib/puzzle/generate";
 import { PuzzleSvg } from "@/components/puzzle/PuzzleSvg";
 
 interface Props {
@@ -11,7 +12,8 @@ export const metadata = noindexMetadata("Embedded Word Search", "Noindex embedde
 
 export default async function EmbedPage({ params }: Props) {
   const { id } = await params;
-  const state = decodeShareState(id) ?? defaultPuzzleRequest;
+  const state = decodePuzzleShareState(id);
+  if (!state) notFound();
   const puzzle = generatePuzzle(state);
   return (
     <main className="utility-page site-shell">
