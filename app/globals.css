@@ -1754,7 +1754,7 @@ input[type="checkbox"] {
 }
 
 .ad-top-region {
-  padding: 24px 16px 30px;
+  display: none;
 }
 
 .ad-placement-top-banner {
@@ -1813,6 +1813,11 @@ input[type="checkbox"] {
 }
 
 @media (min-width: 768px) {
+  .ad-top-region {
+    display: block;
+    padding: 24px 16px 30px;
+  }
+
   .ad-placement-top-banner {
     display: grid;
     width: 468px;

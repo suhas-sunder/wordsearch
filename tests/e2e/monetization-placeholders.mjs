@@ -64,9 +64,11 @@ for (const viewport of viewports) {
     check(await slots.locator("a, button, input, select, textarea").count() === 0, `${viewport.name} ${route}: placeholder became interactive`);
 
     const top = page.locator("[data-ad-placement='top-banner']");
+    const topRegion = page.locator(".ad-top-region");
     const left = page.locator("[data-ad-placement='sidebar-left']");
     const right = page.locator("[data-ad-placement='sidebar-right']");
     check(await top.isVisible() === (viewport.width >= 768), `${viewport.name} ${route}: top-banner visibility mismatch`);
+    check(await topRegion.isVisible() === (viewport.width >= 768), `${viewport.name} ${route}: top region visibility mismatch`);
     check(await left.isVisible() === (viewport.width >= 1600), `${viewport.name} ${route}: left sidebar visibility mismatch`);
     check(await right.isVisible() === (viewport.width >= 1600), `${viewport.name} ${route}: right sidebar visibility mismatch`);
 
@@ -75,6 +77,20 @@ for (const viewport of viewports) {
 
     const headerBox = await page.locator(".site-header").boundingBox();
     const topBox = await top.boundingBox();
+    const topRegionBox = await topRegion.boundingBox();
+    const pageFrameBox = await page.locator(".ad-page-frame").boundingBox();
+    if (viewport.width < 768) {
+      check(topRegionBox === null, `${viewport.name} ${route}: hidden top region still consumes layout space`);
+      if (headerBox && pageFrameBox) check(Math.abs(pageFrameBox.y - (headerBox.y + headerBox.height)) <= 1, `${viewport.name} ${route}: blank top-ad gap remains below the header`);
+    } else {
+      check(Boolean(topRegionBox), `${viewport.name} ${route}: top region is missing`);
+      if (topBox) {
+        const expectedTopSize = viewport.width >= 1024 ? { width: 728, height: 90 } : { width: 468, height: 60 };
+        check(Math.abs(topBox.width - expectedTopSize.width) <= 1, `${viewport.name} ${route}: top-banner width mismatch`);
+        check(Math.abs(topBox.height - expectedTopSize.height) <= 1, `${viewport.name} ${route}: top-banner height mismatch`);
+      }
+      if (topRegionBox && pageFrameBox) check(pageFrameBox.y >= topRegionBox.y + topRegionBox.height, `${viewport.name} ${route}: page content overlaps the top region`);
+    }
     if (topBox && headerBox) check(topBox.y >= headerBox.y + headerBox.height, `${viewport.name} ${route}: top banner overlaps the header`);
 
     const anchorBox = await page.locator(anchor).first().boundingBox();

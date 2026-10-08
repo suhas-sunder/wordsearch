@@ -267,9 +267,22 @@ No puzzle, print, PDF, SEO, route, canonical, sitemap, or navigation regression 
 
 - Real AdSense scripts, unit IDs, fill/unfilled behavior, consent handling, CSP changes, and production request behavior remain deliberately unimplemented and must be separately reviewed when actual codes are supplied.
 - Real creative rendering can have behavior that static placeholders cannot simulate. The later integration must preserve these exact reserved dimensions and route policies rather than replacing the shell.
+- The top banner and both sidebar units are viewport-limited placements. When real AdSense `<ins>` units are introduced, the actual units—not only outer wrappers—must follow the approved visibility policy: the top banner must make no ad request below 768px, and either sidebar must make no ad request below 1600px. The live pass must use Google's approved responsive-ad-code approach and verify browser network behavior at excluded viewport sizes.
 - The site currently has unrelated uncommitted content/SEO growth work in the same worktree. A future milestone commit should review the combined diff carefully and keep workstream ownership clear.
 - Lighthouse uses one run per configured route, so performance numbers are guardrails rather than statistically stable benchmarks.
 
 ## 16. Final verdict
 
 READY FOR CHATGPT REVIEW
+
+## 17. ChatGPT review correction: mobile top-region gap
+
+ChatGPT's review of commit `e2dc5565d03615ef805eb5c193ba5c1471dacaa8` found one bounded mobile-layout defect: below 768px the top placeholder was hidden, but `.ad-top-region` retained `24px 16px 30px` padding and left an approximately 54px blank gap below the site header.
+
+The root cause was that visibility was applied only to `.ad-placement-top-banner`, while spacing remained on its always-rendered wrapper. The correction makes `.ad-top-region` `display: none` by default and restores `display: block` plus the accepted padding inside the existing `min-width: 768px` media query. The accepted 468x60 size from 768px and 728x90 size from 1024px remain unchanged. No other placement, breakpoint, route policy, content width, page structure, or print rule changed.
+
+The focused browser regression now checks all existing 390, 768, 1280, 1600, and 1920px viewports. Below 768px it requires the top region to have no layout box and the page frame to begin immediately after the site header. At 768px and above it requires the region to be visible, verifies the exact accepted top-banner dimensions, and confirms route content begins after the region. Existing overflow, print, content-width, placement, ad-free-route, and network-request assertions remain intact.
+
+Correction validation completed successfully with TypeScript type checking, ESLint, the full unit suite, the focused monetization browser suite, and a production build. Direct browser coverage confirmed no top-ad gap or horizontal overflow at 390px, the accepted placeholder and breathing room at 768px, unchanged main content width at wider viewports, and no ad regions in print.
+
+No live AdSense script, `adsbygoogle`, publisher ID, `<ins>` unit, Google request, `data-ad-slot`, or real unit code was introduced. All six supplied real slot IDs remain absent. The `main` branch remains untouched at `bbfb87da830cc4b980ea924c8c43ba0d36cab790`.
