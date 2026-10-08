@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AdSlot } from "@/components/layout/AdSlot";
+import { BelowHeaderAd, MonetizedPageShell } from "@/components/layout/AdSlot";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { topics } from "@/content/topics";
@@ -35,8 +35,9 @@ export default function TopicsPage() {
   return (
     <>
       <JsonLd data={[breadcrumbJsonLd(breadcrumbs, "/topics"), itemList]} />
-      <main>
-        <Breadcrumbs items={breadcrumbs} />
+      <MonetizedPageShell template="topics">
+        <main>
+          <Breadcrumbs items={breadcrumbs} />
         <header className="hub-hero site-shell">
           <div>
             <span className="eyebrow">{publishedTopics.length} reviewed puzzles</span>
@@ -53,7 +54,7 @@ export default function TopicsPage() {
           </aside>
         </header>
 
-        <AdSlot placement="utility-banner" template="topics" />
+        <BelowHeaderAd template="topics" />
 
         <section className="content-section site-shell">
           <div className="section-heading">
@@ -78,7 +79,8 @@ export default function TopicsPage() {
           </div>
           <Link className="primary-button" href="/word-search-generator">Open the generator</Link>
         </section>
-      </main>
+        </main>
+      </MonetizedPageShell>
     </>
   );
 }

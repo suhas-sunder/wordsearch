@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AdSlot } from "@/components/layout/AdSlot";
+import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
 import { DiscoveryCards } from "@/components/page/DiscoveryCards";
 import { PuzzleSearch } from "@/components/search/PuzzleSearch";
 import { categories } from "@/content/categories";
@@ -51,10 +51,9 @@ const faq = [
 
 export default function HomePage() {
   return (
-    <main>
-      <AdSlot placement="top-banner" template="home" />
-
-      <section className="home-hero site-shell">
+    <MonetizedPageShell template="home">
+      <main>
+        <section className="home-hero site-shell">
         <div className="home-hero-copy">
           <span className="eyebrow">{reviewedPuzzleCount} reviewed puzzles · {categories.filter((item) => item.publicationStatus === "published").length} categories</span>
           <h1>Free printable and online word search puzzles</h1>
@@ -75,6 +74,8 @@ export default function HomePage() {
           <Link href="/word-search-pdf"><span>Save a puzzle as PDF</span><span aria-hidden="true">→</span></Link>
         </div>
       </section>
+
+      <BelowHeaderAd template="home" />
 
       <section className="content-section site-shell">
         <div className="section-heading heading-row">
@@ -153,8 +154,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <AdSlot placement="utility-banner" template="home" />
-
       <section className="content-section site-shell editorial-home">
         <div>
           <span className="eyebrow">Choosing a word search</span>
@@ -162,7 +161,7 @@ export default function HomePage() {
           <p>Printable word searches work well for classroom handouts, family tables, travel, and other offline settings. Online puzzles are the quickest way to start solving on a phone, tablet, or computer.</p>
           <p>PDF-ready pages use the same puzzle grid as the preview, and answer keys keep the exact seeded placements. That means a student copy, saved PDF, and solution page stay aligned.</p>
         </div>
-        <AdSlot placement="seo-content-square" template="home" />
+        <SeoSectionAd template="home" />
         <div>
           <h2>Ready-made puzzle or custom list?</h2>
           <p>Choose a curated puzzle when an existing topic already fits. Categories make it easier to narrow a broad idea such as animals, science, history, travel, or holidays without wading through unrelated pages.</p>
@@ -171,7 +170,6 @@ export default function HomePage() {
       </section>
 
       <section className="content-section site-shell tools-section">
-        <AdSlot placement="bottom-tools-banner" template="home" />
         <div className="section-heading"><span className="eyebrow">Puzzle tools</span><h2>All Tools</h2><p>Use the primary destination that matches what you want to do next.</p></div>
         <div className="tool-grid">
           {allTools.map(([href, title, description]) => (
@@ -186,6 +184,7 @@ export default function HomePage() {
           {faq.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}
         </div>
       </section>
-    </main>
+      </main>
+    </MonetizedPageShell>
   );
 }

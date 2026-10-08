@@ -4,7 +4,7 @@ import { collections } from "@/content/collections";
 import { guides } from "@/content/guides";
 import { specialtyRoutes } from "@/content/specialty";
 import { topics } from "@/content/topics";
-import { AdSlot, type AdTemplate } from "@/components/layout/AdSlot";
+import { SeoSectionAd, type AdTemplate } from "@/components/layout/AdSlot";
 
 export function QuickLinks() {
   const links = [
@@ -165,7 +165,7 @@ export function EditorialModules({ modules, faq, adTemplate }: { modules: string
       {modules.includes("specialty") && <SpecialtyGrid />}
       {modules.includes("guides") && <GuideGrid />}
       <HowItWorks />
-      <AdSlot placement="seo-content-square" template={adTemplate} />
+      <SeoSectionAd template={adTemplate} />
       {modules.includes("faq") && <FaqBlock items={faq} />}
     </>
   );

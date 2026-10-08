@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { AdSlot } from "@/components/layout/AdSlot";
+import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
 import { DiscoveryCards } from "@/components/page/DiscoveryCards";
 import {
   adultPicks,
@@ -290,9 +290,10 @@ export function RouteHub({ page }: { page: SitePage }) {
   if (!config) return null;
 
   return (
-    <main>
-      <Breadcrumbs items={[{ label: page.h1 }]} />
-      <section className="hub-hero site-shell">
+    <MonetizedPageShell template="major-hub">
+      <main>
+        <Breadcrumbs items={[{ label: page.h1 }]} />
+        <section className="hub-hero site-shell">
         <div>
           <span className="eyebrow">{config.eyebrow} · {reviewedPuzzleCount} reviewed puzzles</span>
           <h1>{page.h1}</h1>
@@ -306,7 +307,9 @@ export function RouteHub({ page }: { page: SitePage }) {
           <strong>Start here when you want</strong>
           <ul>{config.points.map((point) => <li key={point}>{point}</li>)}</ul>
         </aside>
-      </section>
+        </section>
+
+        <BelowHeaderAd template="major-hub" />
 
       <section className="content-section site-shell">
         <div className="section-heading">
@@ -315,8 +318,6 @@ export function RouteHub({ page }: { page: SitePage }) {
         </div>
         <DiscoveryCards items={config.firstItems} />
       </section>
-
-      <AdSlot placement="utility-banner" template="major-hub" />
 
       <section className="content-section site-shell soft-section">
         <div className="section-heading">
@@ -334,6 +335,8 @@ export function RouteHub({ page }: { page: SitePage }) {
         <div>{config.editorial.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
       </section>
 
+      <SeoSectionAd template="major-hub" />
+
       <section className="content-section site-shell route-next-step">
         <div>
           <span className="eyebrow">Need a specific topic?</span>
@@ -345,6 +348,7 @@ export function RouteHub({ page }: { page: SitePage }) {
           <Link className="secondary-button" href="/word-search-generator">Open the generator</Link>
         </div>
       </section>
-    </main>
+      </main>
+    </MonetizedPageShell>
   );
 }

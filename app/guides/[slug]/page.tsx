@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { AdSlot } from "@/components/layout/AdSlot";
+import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getGuide, guides } from "@/content/guides";
@@ -57,9 +57,9 @@ export default async function GuidePage({ params }: Props) {
           dateModified: guide.reviewedOn
         })} />
       ) : null}
-      <main>
-        <AdSlot placement="top-banner" template="guide" />
-        <Breadcrumbs items={breadcrumbs} />
+      <MonetizedPageShell template="guide">
+        <main>
+          <Breadcrumbs items={breadcrumbs} />
         <article>
           <header className="hub-hero site-shell">
             <div>
@@ -79,6 +79,8 @@ export default async function GuidePage({ params }: Props) {
               <p><Link href="/how-word-searches-are-made">Methodology</Link></p>
             </aside>
           </header>
+
+          <BelowHeaderAd template="guide" />
 
           <section className="content-section site-shell guide-body">
             <ol className="steps">
@@ -100,7 +102,7 @@ export default async function GuidePage({ params }: Props) {
                 ))}
               </div>
             </div>
-            <AdSlot placement="seo-content-square" template="guide" />
+            <SeoSectionAd template="guide" />
           </section>
 
           <section className="content-section site-shell">
@@ -113,7 +115,6 @@ export default async function GuidePage({ params }: Props) {
         </article>
 
         <section className="content-section site-shell tools-section">
-          <AdSlot placement="bottom-tools-banner" template="guide" />
           <div className="section-heading"><h2>All tools</h2></div>
           <div className="topic-list">
             <Link href="/word-search-generator">Word Search Generator</Link>
@@ -122,7 +123,8 @@ export default async function GuidePage({ params }: Props) {
             <Link href="/word-search-pdf">Word Search PDFs</Link>
           </div>
         </section>
-      </main>
+        </main>
+      </MonetizedPageShell>
     </>
   );
 }

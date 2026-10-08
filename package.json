@@ -20,7 +20,8 @@
     "audit:static": "node tests/e2e/static-export-audit.mjs",
     "audit:static-host": "node tests/e2e/static-export-audit.mjs",
     "test:preview": "node tests/e2e/preview-toolbar.mjs",
-    "test:e2e": "node tests/e2e/browser-smoke.mjs"
+    "test:e2e": "node tests/e2e/browser-smoke.mjs && node tests/e2e/monetization-placeholders.mjs",
+    "test:ads": "node tests/e2e/monetization-placeholders.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

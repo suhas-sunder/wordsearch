@@ -1679,11 +1679,6 @@ input[type="checkbox"] {
   padding-top: 22px;
 }
 
-.tools-section > .ad-slot {
-  width: 100%;
-  margin: 0 0 42px;
-}
-
 .tool-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1742,32 +1737,135 @@ input[type="checkbox"] {
 }
 
 .ad-slot {
-  width: min(1180px, calc(100% - 32px));
-  min-height: 112px;
-  margin: 20px auto;
-  border: 1px dashed #c5ccd7;
-  border-radius: 8px;
+  box-sizing: border-box;
   display: grid;
   place-items: center;
-  color: #8791a0;
+  overflow: hidden;
+  border: 1px solid #d8dde5;
+  border-radius: 2px;
   background: #fafbfc;
-  font-size: 0.84rem;
+  color: #667085;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
 }
 
-.ad-slot-banner {
-  min-height: 96px;
+.ad-top-region {
+  padding: 24px 16px 30px;
 }
 
-.ad-slot-square {
-  width: min(300px, 100%);
-  min-height: 250px;
+.ad-placement-top-banner {
+  display: none;
+  max-width: 100%;
   margin: 0 auto;
 }
 
-.ad-slot-sidebar {
+.ad-page-frame,
+.ad-page-content {
+  min-width: 0;
+}
+
+.ad-sidebar-region {
+  display: none;
+}
+
+.ad-below-header-region {
+  padding: 30px 16px 34px;
+}
+
+.ad-seo-region {
+  padding: 38px 16px;
+}
+
+.ad-above-footer-region {
+  padding: 34px 16px 42px;
+}
+
+.ad-placement-below-header-banner,
+.ad-placement-above-footer-banner {
+  width: min(320px, 100%);
+  max-width: 100%;
+  height: 50px;
+  margin: 0 auto;
+}
+
+.ad-placement-seo-section-square {
+  width: min(300px, 100%);
+  height: 250px;
+  margin: 0 auto;
+}
+
+.ad-placement-sidebar-left,
+.ad-placement-sidebar-right {
   width: 160px;
-  min-height: 600px;
-  margin: 0;
+  height: 600px;
+}
+
+@media (min-width: 500px) {
+  .ad-placement-below-header-banner,
+  .ad-placement-above-footer-banner {
+    width: 468px;
+    height: 60px;
+  }
+}
+
+@media (min-width: 768px) {
+  .ad-placement-top-banner {
+    display: grid;
+    width: 468px;
+    height: 60px;
+  }
+
+  .ad-placement-below-header-banner,
+  .ad-placement-above-footer-banner {
+    width: 728px;
+    height: 90px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ad-placement-top-banner {
+    width: 728px;
+    height: 90px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .ad-placement-below-header-banner,
+  .ad-placement-above-footer-banner {
+    width: 970px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .ad-page-frame {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1212px) 160px;
+    gap: 24px;
+    width: min(100%, 1580px);
+    margin: 0 auto;
+  }
+
+  .ad-sidebar-region {
+    display: block;
+    padding-top: 28px;
+  }
+}
+
+@media (min-width: 1900px) {
+  .ad-page-frame {
+    grid-template-columns: 300px minmax(0, 1212px) 300px;
+    gap: 32px;
+    width: min(100%, 1876px);
+  }
+
+  .ad-placement-sidebar-left,
+  .ad-placement-sidebar-right {
+    width: 300px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2115,10 +2213,6 @@ input[type="checkbox"] {
     align-items: start;
   }
 
-  .ad-slot-sidebar {
-    display: none;
-  }
-
   .hero {
     gap: 20px;
     padding-top: 34px;
@@ -2373,7 +2467,12 @@ input[type="checkbox"] {
   .validation-panel,
   .export-row,
   .content-section,
-  .ad-slot {
+  .ad-slot,
+  .ad-top-region,
+  .ad-sidebar-region,
+  .ad-below-header-region,
+  .ad-seo-region,
+  .ad-above-footer-region {
     display: none !important;
   }
 

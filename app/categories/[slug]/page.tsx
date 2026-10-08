@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { AdSlot } from "@/components/layout/AdSlot";
+import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { categories, getCategoryBySlug } from "@/content/categories";
@@ -47,9 +47,9 @@ export default async function CategoryPage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbJsonLd(breadcrumbs, path)} />
       {topics.length ? <JsonLd data={itemListJsonLd(category.title, path, topics.map((topic) => ({ name: topic.title, path: `/word-searches/${topic.slug}` })))} /> : null}
-      <main>
-        <AdSlot placement="top-banner" template="category" />
-        <Breadcrumbs items={breadcrumbs} />
+      <MonetizedPageShell template="category">
+        <main>
+          <Breadcrumbs items={breadcrumbs} />
         <section className="hub-hero site-shell">
           <div>
             <span className="eyebrow">Category · {topics.length} reviewed puzzles</span>
@@ -62,6 +62,8 @@ export default async function CategoryPage({ params }: Props) {
             <Link className="primary-button" href="/word-search-generator">Open the generator</Link>
           </aside>
         </section>
+
+        <BelowHeaderAd template="category" />
 
         <section className="content-section site-shell">
           <div className="section-heading">
@@ -85,7 +87,7 @@ export default async function CategoryPage({ params }: Props) {
             <p>{category.notes[0]} {category.notes[1]}</p>
             <p>Open a topic to see its exact word list and difficulty before printing or sharing it.</p>
           </div>
-          <AdSlot placement="seo-content-square" template="category" />
+          <SeoSectionAd template="category" />
         </section>
 
         <section className="content-section site-shell">
@@ -98,7 +100,6 @@ export default async function CategoryPage({ params }: Props) {
         </section>
 
         <section className="content-section site-shell tools-section">
-          <AdSlot placement="bottom-tools-banner" template="category" />
           <div className="section-heading"><h2>All tools</h2></div>
           <div className="topic-list">
             <Link href="/free-printable-word-searches">Printable puzzles</Link>
@@ -107,7 +108,8 @@ export default async function CategoryPage({ params }: Props) {
             <Link href="/word-search-generator">Custom generator</Link>
           </div>
         </section>
-      </main>
+        </main>
+      </MonetizedPageShell>
     </>
   );
 }

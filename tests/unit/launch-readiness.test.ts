@@ -1,19 +1,12 @@
 import { readFileSync } from "node:fs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { afterEach, describe, expect, test } from "vitest";
-import { AdSlot, adPlacementConfig, adTemplateEligibility } from "@/components/layout/AdSlot";
+import { describe, expect, test } from "vitest";
+import { AD_PLACEMENTS, AdSlot, adTemplatePolicy } from "@/components/layout/AdSlot";
 import { routeInventory } from "@/content/registry";
 import manifest from "@/tests/e2e/route-audit-manifest.json";
 
 const root = process.cwd();
-const originalAdSetting = process.env.NEXT_PUBLIC_AD_PLACEHOLDERS;
-
-afterEach(() => {
-  if (originalAdSetting === undefined) delete process.env.NEXT_PUBLIC_AD_PLACEHOLDERS;
-  else process.env.NEXT_PUBLIC_AD_PLACEHOLDERS = originalAdSetting;
-});
-
 describe("launch readiness safeguards", () => {
   test("route-audit redirect manifest stays synchronized with the registry", () => {
     const registryRedirects = routeInventory
@@ -25,25 +18,29 @@ describe("launch readiness safeguards", () => {
     expect(manifest.sitemapCount).toBe(217);
   });
 
-  test("ad placeholders are absent by default and explicit in development mode", () => {
-    delete process.env.NEXT_PUBLIC_AD_PLACEHOLDERS;
-    expect(renderToStaticMarkup(createElement(AdSlot, { placement: "top-banner", template: "home" }))).toBe("");
-    process.env.NEXT_PUBLIC_AD_PLACEHOLDERS = "on";
+  test("ad placeholders use the six-role contract and ad-free templates reject them", () => {
     const enabled = renderToStaticMarkup(createElement(AdSlot, { placement: "top-banner", template: "home" }));
-    expect(enabled).toContain('aria-label="Advertisement"');
+    expect(enabled).toContain("<span>Advertisements</span>");
     expect(enabled).toContain('data-ad-placement="top-banner"');
-    expect(enabled).not.toContain("placeholder");
-    expect(Object.keys(adPlacementConfig)).toHaveLength(6);
-    expect(Object.values(adPlacementConfig).every((placement) => placement.label === "Advertisement")).toBe(true);
-    expect(adTemplateEligibility.draft).toEqual([]);
-    expect(adTemplateEligibility.utility).toEqual([]);
+    expect(enabled).toContain('data-ad-placeholder="true"');
+    expect(AD_PLACEMENTS).toEqual([
+      "top-banner",
+      "sidebar-left",
+      "sidebar-right",
+      "below-header-banner",
+      "seo-section-square",
+      "above-footer-banner"
+    ]);
+    expect(adTemplatePolicy.draft.placements).toEqual([]);
+    expect(adTemplatePolicy.utility.placements).toEqual([]);
     expect(renderToStaticMarkup(createElement(AdSlot, { placement: "top-banner", template: "draft" }))).toBe("");
   });
 
   test("CSS hides ads in print and sidebars on smaller screens", () => {
     const css = readFileSync(`${root}/app/globals.css`, "utf8");
     expect(css.slice(css.indexOf("@media print"))).toMatch(/\.ad-slot[\s\S]*display:\s*none !important/);
-    expect(css).toMatch(/@media \(max-width: 980px\)[\s\S]*\.ad-slot-sidebar[\s\S]*display:\s*none/);
+    expect(css).toMatch(/\.ad-placement-top-banner\s*\{[\s\S]*?display:\s*none/);
+    expect(css).toMatch(/@media \(min-width: 1600px\)[\s\S]*\.ad-sidebar-region[\s\S]*display:\s*block/);
     expect(css).toContain("@media (prefers-reduced-motion: reduce)");
   });
 

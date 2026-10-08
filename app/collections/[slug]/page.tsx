@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { AdSlot } from "@/components/layout/AdSlot";
+import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { categories } from "@/content/categories";
@@ -54,9 +54,9 @@ export default async function CollectionPage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbJsonLd(breadcrumbs, path)} />
       <JsonLd data={itemListJsonLd(collection.title, path, puzzles.map((puzzle) => ({ name: puzzle.title, path: puzzle.canonicalPath })))} />
-      <main>
-        <AdSlot placement="top-banner" template="collection" />
-        <Breadcrumbs items={breadcrumbs} />
+      <MonetizedPageShell template="collection">
+        <main>
+          <Breadcrumbs items={breadcrumbs} />
         <section className="hub-hero site-shell">
           <div>
             <span className="eyebrow">Reviewed collection · {puzzles.length} puzzles</span>
@@ -70,6 +70,8 @@ export default async function CollectionPage({ params }: Props) {
             <Link className="primary-button" href="/word-search-generator">Create a custom puzzle</Link>
           </aside>
         </section>
+
+        <BelowHeaderAd template="collection" />
 
         <section className="content-section site-shell">
           <div className="section-heading">
@@ -92,7 +94,7 @@ export default async function CollectionPage({ params }: Props) {
             <h2>How to choose</h2>
             <p>{collection.selectionGuidance}</p>
           </div>
-          <AdSlot placement="seo-content-square" template="collection" />
+          <SeoSectionAd template="collection" />
         </section>
 
         <section className="content-section site-shell">
@@ -105,7 +107,6 @@ export default async function CollectionPage({ params }: Props) {
         </section>
 
         <section className="content-section site-shell tools-section">
-          <AdSlot placement="bottom-tools-banner" template="collection" />
           <div className="section-heading"><h2>All tools</h2><p>Keep the same puzzle definition across each output.</p></div>
           <div className="topic-list">
             <Link href="/free-printable-word-searches">Printable puzzles</Link>
@@ -114,7 +115,8 @@ export default async function CollectionPage({ params }: Props) {
             <Link href="/word-search-generator">Custom generator</Link>
           </div>
         </section>
-      </main>
+        </main>
+      </MonetizedPageShell>
     </>
   );
 }
