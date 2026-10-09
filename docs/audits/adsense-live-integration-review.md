@@ -348,3 +348,53 @@ The same informational Next.js ESLint-plugin warning and non-failing Windows Lig
 This correction changes only the shared AdSense client coordinator, its shell wiring, monetization tests, and this retained-history report. The publisher ID, six slot IDs, 768px/1600px request breakpoints, fixed dimensions, route eligibility, print suppression, content width, placement order, one-loader policy, duplicate-push guard, and `NEXT_PUBLIC_ADSENSE_ENABLED=on` activation contract remain unchanged.
 
 `main` remains at `bbfb87da830cc4b980ea924c8c43ba0d36cab790` and was not modified. Production activation remains blocked on Suhas confirming the account-side Google-certified CMP / Privacy & messaging configuration and completing the final production checks. The repository does not claim to prove that external account configuration.
+
+
+## 20. Production follow-up: iLoveTimers parity and default activation
+
+After the first production deployment, Suhas verified that the placeholder layout was present but found two production mismatches:
+
+1. the top-under-navigation banner was hidden on mobile, unlike the established iLoveTimers implementation; and
+2. real AdSense remained disabled because production still required an unset `NEXT_PUBLIC_ADSENSE_ENABLED=on` environment variable.
+
+The follow-up keeps the approved six-slot mapping, page-wide `PENDING / EMPTY / FILLED` coordinator, sticky filled latch, route exclusions, side-rail breakpoint, print suppression, and fallback behavior unchanged.
+
+### Top banner parity
+
+The top banner now follows the iLoveTimers responsive contract and participates at every eligible viewport:
+
+- below 500px: 320x50
+- 500px through 799px: 468x60
+- 800px and wider: 728x90
+
+The top region is present below the navigation on mobile rather than being suppressed. Sidebars remain request-suppressed below 1600px because that breakpoint was chosen for Word Search's existing center-column geometry.
+
+### Production activation contract
+
+AdSense now follows the same production-default principle as iLoveTimers:
+
+- production with no activation variable: live AdSense enabled
+- `NEXT_PUBLIC_ADSENSE_ENABLED=on`: explicitly enabled
+- `NEXT_PUBLIC_ADSENSE_ENABLED=off`: emergency disable
+- non-production with no variable: disabled
+
+This removes the deployment mismatch where reviewed live code shipped but Netlify served only placeholders because no environment variable existed.
+
+Disabled-mode validation should now use an explicit `NEXT_PUBLIC_ADSENSE_ENABLED=off` build and `EXPECT_ADSENSE_ENABLED=off` browser expectation. Production/default browser validation expects live mode.
+
+### Fallback invariant retained
+
+No fallback semantics changed:
+
+- pending real units show no placeholders;
+- if every requested unit resolves empty, every eligible fallback appears;
+- if any unit fills, all fallbacks disappear page-wide and remain suppressed for that page lifecycle;
+- loader failure before any fill exposes fallbacks;
+- loader failure after a fill cannot undo the sticky filled state.
+
+The mobile top unit now participates in the page-wide requested-unit count. At 390px a normal page has four requested units: top, below-header, SEO square, and above-footer. Only the two side rails remain excluded below their 1600px breakpoint.
+
+### Privacy and production review
+
+The privacy page was updated so its factual description matches production-default AdSense and the emergency-disable/fallback behavior. The existing account-side Google-certified CMP requirement remains an external configuration responsibility; no homemade consent system was introduced.
+
