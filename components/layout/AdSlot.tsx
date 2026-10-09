@@ -1,15 +1,9 @@
 import type { ReactNode } from "react";
+import { AdSenseLoader, AdSenseUnit } from "@/components/layout/AdSense";
+import { ADSENSE_ENABLED, AD_PLACEMENTS, type AdPlacement } from "@/lib/monetization/adsense";
 
-export const AD_PLACEMENTS = [
-  "top-banner",
-  "sidebar-left",
-  "sidebar-right",
-  "below-header-banner",
-  "seo-section-square",
-  "above-footer-banner"
-] as const;
-
-export type AdPlacement = (typeof AD_PLACEMENTS)[number];
+export { AD_PLACEMENTS } from "@/lib/monetization/adsense";
+export type { AdPlacement } from "@/lib/monetization/adsense";
 
 const AD_PLACEMENT_ACCESSIBLE_LABELS: Readonly<Record<AdPlacement, string>> = {
   "top-banner": "Top banner advertisements",
@@ -69,18 +63,19 @@ export function templateAllowsPlacement(template: AdTemplate | undefined, placem
   return getAdTemplatePolicy(template).placements.includes(placement);
 }
 
-export function AdSlot({ placement, template }: { placement: AdPlacement; template?: AdTemplate }) {
+export function AdSlot({ placement, template, adsenseEnabled = ADSENSE_ENABLED }: { placement: AdPlacement; template?: AdTemplate; adsenseEnabled?: boolean }) {
   if (!templateAllowsPlacement(template, placement)) return null;
 
   return (
     <aside
-      className={`ad-slot ad-placement-${placement}`}
-      data-ad-placeholder="true"
+      className={`ad-slot ad-placement-${placement}${adsenseEnabled ? " ad-slot-live" : ""}`}
+      data-ad-placeholder={adsenseEnabled ? undefined : "true"}
       data-ad-placement={placement}
       data-ad-template={template}
+      data-ad-mode={adsenseEnabled ? "live" : "placeholder"}
       aria-label={AD_PLACEMENT_ACCESSIBLE_LABELS[placement]}
     >
-      <span>Advertisements</span>
+      {adsenseEnabled ? <AdSenseUnit placement={placement} /> : <span>Advertisements</span>}
     </aside>
   );
 }
@@ -101,6 +96,7 @@ export function MonetizedPageShell({ template, children }: { template: AdTemplat
 
   return (
     <>
+      {ADSENSE_ENABLED ? <AdSenseLoader /> : null}
       <div className="ad-top-region"><AdSlot placement="top-banner" template={template} /></div>
       <div className="ad-page-frame">
         <div className="ad-sidebar-region ad-sidebar-region-left"><AdSlot placement="sidebar-left" template={template} /></div>

@@ -1,6 +1,17 @@
 import { chromium } from "playwright";
 
 const baseUrl = process.env.BASE_URL ?? "http://localhost:3000";
+const adsenseEnabled = process.env.EXPECT_ADSENSE_ENABLED === "on";
+const adsenseClient = "ca-pub-4810616735714570";
+const adsenseLoader = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`;
+const placementSlots = {
+  "top-banner": "6498435012",
+  "below-header-banner": "8471746257",
+  "sidebar-left": "3872271670",
+  "sidebar-right": "5709851549",
+  "seo-section-square": "4396769879",
+  "above-footer-banner": "7230906061"
+};
 const eligibleRoutes = [
   { route: "/", anchor: ".home-hero", square: true },
   { route: "/word-search-generator", anchor: ".above-fold-builder", square: true },
@@ -44,8 +55,24 @@ function check(condition, message) {
   if (!condition) failures.push(message);
 }
 
+function expectedLivePlacements(width, square) {
+  const placements = ["below-header-banner", "above-footer-banner"];
+  if (square) placements.push("seo-section-square");
+  if (width >= 768) placements.push("top-banner");
+  if (width >= 1600) placements.push("sidebar-left", "sidebar-right");
+  return placements.sort();
+}
+
 for (const viewport of viewports) {
   const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height } });
+  if (adsenseEnabled) {
+    await context.route("https://pagead2.googlesyndication.com/**", async (route) => {
+      await route.fulfill({
+        contentType: "application/javascript",
+        body: "window.__ilwsMockAdSenseLoaderLoads = (window.__ilwsMockAdSenseLoaderLoads || 0) + 1;"
+      });
+    });
+  }
   context.on("request", (request) => {
     if (/googlesyndication|doubleclick|googleadservices|pagead2|adsbygoogle/i.test(request.url())) {
       externalAdRequests.add(request.url());
@@ -54,14 +81,59 @@ for (const viewport of viewports) {
 
   for (const { route, anchor, square } of eligibleRoutes) {
     const page = await context.newPage();
+    const pageAdRequests = [];
+    const runtimeErrors = [];
+    page.on("pageerror", (error) => runtimeErrors.push(error.message));
+    page.on("console", (message) => {
+      if (message.type() === "error") runtimeErrors.push(message.text());
+    });
+    page.on("request", (request) => {
+      if (/googlesyndication|doubleclick|googleadservices|pagead2|adsbygoogle/i.test(request.url())) pageAdRequests.push(request.url());
+    });
     const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
     check(Boolean(response) && response.status() < 400, `${viewport.name} ${route}: route did not load successfully`);
 
-    const slots = page.locator("[data-ad-placeholder='true']");
-    check(await slots.count() === (square ? 6 : 5), `${viewport.name} ${route}: unexpected placeholder count`);
-    const labels = await slots.allTextContents();
-    check(labels.every((label) => label.trim() === "Advertisements"), `${viewport.name} ${route}: placeholder label changed`);
-    check(await slots.locator("a, button, input, select, textarea").count() === 0, `${viewport.name} ${route}: placeholder became interactive`);
+    if (adsenseEnabled) {
+      const expectedPlacements = expectedLivePlacements(viewport.width, square);
+      await page.waitForFunction(
+        (expectedCount) => document.querySelectorAll("ins.adsbygoogle[data-ilws-ad-unit='true'][data-ilws-ad-requested='true']").length === expectedCount,
+        expectedPlacements.length
+      );
+      const units = page.locator("ins.adsbygoogle[data-ilws-ad-unit='true']");
+      check(await units.count() === expectedPlacements.length, `${viewport.name} ${route}: unexpected live-unit count`);
+      const livePlacements = (await units.evaluateAll((elements) => elements.map((element) => element.closest("[data-ad-placement]")?.getAttribute("data-ad-placement")).filter(Boolean))).sort();
+      check(JSON.stringify(livePlacements) === JSON.stringify(expectedPlacements), `${viewport.name} ${route}: live placement eligibility mismatch`);
+      for (const placement of expectedPlacements) {
+        const unit = page.locator(`[data-ad-placement='${placement}'] ins.adsbygoogle`);
+        check(await unit.getAttribute("data-ad-client") === adsenseClient, `${viewport.name} ${route}: publisher mismatch for ${placement}`);
+        check(await unit.getAttribute("data-ad-slot") === placementSlots[placement], `${viewport.name} ${route}: slot mismatch for ${placement}`);
+        check(await unit.getAttribute("data-ad-format") === null, `${viewport.name} ${route}: auto format leaked into ${placement}`);
+        check(await unit.getAttribute("data-full-width-responsive") === null, `${viewport.name} ${route}: full-width auto sizing leaked into ${placement}`);
+      }
+      const pushCount = await page.evaluate(() => window.adsbygoogle?.length ?? 0);
+      check(pushCount === expectedPlacements.length, `${viewport.name} ${route}: duplicate or missing unit initialization`);
+      check(await page.locator("head script[data-ilws-adsense-loader='true']").count() === 1, `${viewport.name} ${route}: loader was not installed once in the document head`);
+      check(pageAdRequests.filter((url) => url === adsenseLoader).length === 1, `${viewport.name} ${route}: shared loader request count was not one`);
+      check(pageAdRequests.every((url) => url === adsenseLoader), `${viewport.name} ${route}: unexpected advertising request escaped interception`);
+      if (route === "/" && viewport.width === 1280) {
+        const belowHeader = page.locator("[data-ad-placement='below-header-banner']");
+        const unit = belowHeader.locator("ins.adsbygoogle");
+        const fallback = belowHeader.locator(".ad-slot-live-fallback");
+        await unit.evaluate((element) => element.setAttribute("data-ad-status", "unfilled"));
+        await fallback.waitFor({ state: "visible" });
+        await unit.evaluate((element) => element.setAttribute("data-ad-status", "filled"));
+        await fallback.waitFor({ state: "hidden" });
+      }
+    } else {
+      const slots = page.locator("[data-ad-placeholder='true']");
+      check(await slots.count() === (square ? 6 : 5), `${viewport.name} ${route}: unexpected placeholder count`);
+      const labels = await slots.allTextContents();
+      check(labels.every((label) => label.trim() === "Advertisements"), `${viewport.name} ${route}: placeholder label changed`);
+      check(await slots.locator("a, button, input, select, textarea").count() === 0, `${viewport.name} ${route}: placeholder became interactive`);
+      check(await page.locator("ins.adsbygoogle, [data-ad-client], [data-ad-slot]").count() === 0, `${viewport.name} ${route}: disabled mode exposed a live unit`);
+      check(pageAdRequests.length === 0, `${viewport.name} ${route}: disabled mode requested the loader or advertising resource`);
+    }
+    check(runtimeErrors.length === 0, `${viewport.name} ${route}: runtime errors: ${runtimeErrors.join(" | ")}`);
 
     const top = page.locator("[data-ad-placement='top-banner']");
     const topRegion = page.locator(".ad-top-region");
@@ -122,27 +194,47 @@ check(Math.abs((contentWidths.get(1280) ?? 0) - (contentWidths.get(1920) ?? -100
 
 for (const viewport of [{ width: 390, height: 844 }, { width: 1600, height: 1000 }]) {
   const context = await browser.newContext({ viewport });
+  if (adsenseEnabled) {
+    await context.route("https://pagead2.googlesyndication.com/**", async (route) => {
+      await route.fulfill({ contentType: "application/javascript", body: "" });
+    });
+  }
   context.on("request", (request) => {
     if (/googlesyndication|doubleclick|googleadservices|pagead2|adsbygoogle/i.test(request.url())) externalAdRequests.add(request.url());
   });
   for (const route of adFreeRoutes) {
     const page = await context.newPage();
+    const pageAdRequests = [];
+    page.on("request", (request) => {
+      if (/googlesyndication|doubleclick|googleadservices|pagead2|adsbygoogle/i.test(request.url())) pageAdRequests.push(request.url());
+    });
     await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
     check(await page.locator("[data-ad-placeholder='true']").count() === 0, `${viewport.width}px ${route}: ad-free route rendered a placeholder`);
+    check(await page.locator("ins.adsbygoogle, [data-ad-client], [data-ad-slot]").count() === 0, `${viewport.width}px ${route}: ad-free route rendered a live unit`);
+    check(pageAdRequests.length === 0, `${viewport.width}px ${route}: ad-free route requested an advertising resource`);
+    check(await page.locator("head script[data-ilws-adsense-loader='true']").count() === 0, `${viewport.width}px ${route}: ad-free route installed the loader`);
     await page.close();
   }
   await context.close();
 }
 
 const printContext = await browser.newContext({ viewport: { width: 1280, height: 960 } });
+if (adsenseEnabled) {
+  await printContext.route("https://pagead2.googlesyndication.com/**", async (route) => {
+    await route.fulfill({ contentType: "application/javascript", body: "" });
+  });
+}
 const printPage = await printContext.newPage();
 await printPage.goto(`${baseUrl}/word-search-generator`, { waitUntil: "networkidle" });
 await printPage.emulateMedia({ media: "print" });
-const printVisibility = await printPage.locator("[data-ad-placeholder='true']").evaluateAll((elements) => elements.map((element) => getComputedStyle(element).display));
+const printVisibility = await printPage.locator(".ad-slot").evaluateAll((elements) => elements.map((element) => getComputedStyle(element).display));
 check(printVisibility.every((display) => display === "none"), "print media leaves a placeholder visible");
 await printContext.close();
 
-check(externalAdRequests.size === 0, `external ad requests detected: ${[...externalAdRequests].join(", ")}`);
+const unexpectedExternalAdRequests = adsenseEnabled
+  ? [...externalAdRequests].filter((url) => url !== adsenseLoader)
+  : [...externalAdRequests];
+check(unexpectedExternalAdRequests.length === 0, `unexpected external ad requests detected: ${unexpectedExternalAdRequests.join(", ")}`);
 await browser.close();
 
 if (failures.length) {
@@ -150,4 +242,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Monetization placeholders passed on ${eligibleRoutes.length} eligible routes at ${viewports.length} viewports and ${adFreeRoutes.length} ad-free routes.`);
+console.log(`Monetization ${adsenseEnabled ? "enabled" : "disabled"} mode passed on ${eligibleRoutes.length} eligible routes at ${viewports.length} viewports and ${adFreeRoutes.length} ad-free routes.`);
