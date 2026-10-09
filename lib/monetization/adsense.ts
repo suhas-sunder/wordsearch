@@ -21,14 +21,18 @@ export const ADSENSE_UNITS: Readonly<Record<AdPlacement, { name: string; slot: s
   "above-footer-banner": { name: "ilovewordsearch-above-footer", slot: "7230906061" }
 };
 
-export function resolveAdSenseEnabled(value: string | undefined) {
-  return value === "on";
+export function resolveAdSenseEnabled(
+  value: string | undefined,
+  production = process.env.NODE_ENV === "production"
+) {
+  if (value === "off") return false;
+  if (value === "on") return true;
+  return production;
 }
 
 export const ADSENSE_ENABLED = resolveAdSenseEnabled(process.env.NEXT_PUBLIC_ADSENSE_ENABLED);
 
 export function placementMediaQuery(placement: AdPlacement) {
-  if (placement === "top-banner") return "(min-width: 768px)";
   if (placement === "sidebar-left" || placement === "sidebar-right") return "(min-width: 1600px)";
   return null;
 }
