@@ -58,11 +58,13 @@ describe("AdSense monetization architecture", () => {
     expect(renderToStaticMarkup(createElement(AdSlot, { placement: "top-banner" }))).toBe("");
   });
 
-  test("the activation gate defaults off unless explicitly set to on", () => {
-    expect(resolveAdSenseEnabled(undefined)).toBe(false);
-    expect(resolveAdSenseEnabled("")).toBe(false);
-    expect(resolveAdSenseEnabled("true")).toBe(false);
-    expect(resolveAdSenseEnabled("on")).toBe(true);
+  test("production enables AdSense by default with explicit on/off overrides", () => {
+    expect(resolveAdSenseEnabled(undefined, false)).toBe(false);
+    expect(resolveAdSenseEnabled(undefined, true)).toBe(true);
+    expect(resolveAdSenseEnabled("off", true)).toBe(false);
+    expect(resolveAdSenseEnabled("off", false)).toBe(false);
+    expect(resolveAdSenseEnabled("on", true)).toBe(true);
+    expect(resolveAdSenseEnabled("on", false)).toBe(true);
 
     const disabled = renderToStaticMarkup(createElement(AdSlot, { placement: "below-header-banner", template: "home", adsenseEnabled: false }));
     expect(disabled).toContain('data-ad-mode="placeholder"');
@@ -81,7 +83,7 @@ describe("AdSense monetization architecture", () => {
       "seo-section-square": { name: "ilovewordsearch-seo-section-square", slot: "4396769879" },
       "above-footer-banner": { name: "ilovewordsearch-above-footer", slot: "7230906061" }
     });
-    expect(placementMediaQuery("top-banner")).toBe("(min-width: 768px)");
+    expect(placementMediaQuery("top-banner")).toBeNull();
     expect(placementMediaQuery("sidebar-left")).toBe("(min-width: 1600px)");
     expect(placementMediaQuery("sidebar-right")).toBe("(min-width: 1600px)");
     expect(placementMediaQuery("below-header-banner")).toBeNull();
@@ -124,8 +126,9 @@ describe("AdSense monetization architecture", () => {
 
   test("responsive CSS reserves sizes and removes all placeholders from print", () => {
     const css = source("app/globals.css");
-    expect(css).toMatch(/\.ad-placement-top-banner\s*\{[\s\S]*?display:\s*none/);
-    expect(css).toMatch(/@media \(min-width: 768px\)[\s\S]*?\.ad-placement-top-banner\s*\{[\s\S]*?display:\s*grid/);
+    expect(css).toMatch(/\.ad-placement-top-banner\s*\{[\s\S]*?display:\s*grid[\s\S]*?width:\s*min\(320px, 100%\)[\s\S]*?height:\s*50px/);
+    expect(css).toMatch(/@media \(min-width: 500px\)[\s\S]*?\.ad-placement-top-banner,[\s\S]*?width:\s*468px[\s\S]*?height:\s*60px/);
+    expect(css).toMatch(/@media \(min-width: 800px\)[\s\S]*?\.ad-placement-top-banner\s*\{[\s\S]*?width:\s*728px[\s\S]*?height:\s*90px/);
     expect(css).toMatch(/@media \(min-width: 1600px\)[\s\S]*?\.ad-sidebar-region\s*\{[\s\S]*?display:\s*block/);
     expect(css).toMatch(/@media \(min-width: 1900px\)[\s\S]*?grid-template-columns:\s*300px minmax\(0, 1212px\) 300px/);
     expect(css).toMatch(/\.ad-slot-live\s*\{[\s\S]*?pointer-events:\s*auto/);
