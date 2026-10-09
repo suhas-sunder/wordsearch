@@ -63,6 +63,35 @@ function expectedLivePlacements(width, square) {
   return placements.sort();
 }
 
+async function waitForRequestedUnits(page, count) {
+  await page.waitForFunction(
+    (expected) => document.querySelectorAll("ins.adsbygoogle[data-ilws-ad-unit='true'][data-ilws-ad-requested='true']").length === expected,
+    count
+  );
+}
+
+async function waitForFallbackCount(page, count) {
+  await page.waitForFunction(
+    (expected) => [...document.querySelectorAll(".ad-slot-live-fallback")].filter((element) => !element.hidden).length === expected,
+    count
+  );
+}
+
+async function setPlacementStatus(page, placement, status) {
+  await page.locator(`[data-ad-placement='${placement}'] ins.adsbygoogle`).evaluate(
+    (element, nextStatus) => element.setAttribute("data-ad-status", nextStatus),
+    status
+  );
+}
+
+async function setAllUnitStatuses(page, status) {
+  await page.locator("ins.adsbygoogle[data-ilws-ad-unit='true']").evaluateAll((elements, nextStatus) => {
+    elements.forEach((element, index) => {
+      element.setAttribute("data-ad-status", index % 2 === 0 && nextStatus === "unfilled" ? "unfill-optimized" : nextStatus);
+    });
+  }, status);
+}
+
 for (const viewport of viewports) {
   const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height } });
   if (adsenseEnabled) {
@@ -95,10 +124,7 @@ for (const viewport of viewports) {
 
     if (adsenseEnabled) {
       const expectedPlacements = expectedLivePlacements(viewport.width, square);
-      await page.waitForFunction(
-        (expectedCount) => document.querySelectorAll("ins.adsbygoogle[data-ilws-ad-unit='true'][data-ilws-ad-requested='true']").length === expectedCount,
-        expectedPlacements.length
-      );
+      await waitForRequestedUnits(page, expectedPlacements.length);
       const units = page.locator("ins.adsbygoogle[data-ilws-ad-unit='true']");
       check(await units.count() === expectedPlacements.length, `${viewport.name} ${route}: unexpected live-unit count`);
       const livePlacements = (await units.evaluateAll((elements) => elements.map((element) => element.closest("[data-ad-placement]")?.getAttribute("data-ad-placement")).filter(Boolean))).sort();
@@ -115,15 +141,6 @@ for (const viewport of viewports) {
       check(await page.locator("head script[data-ilws-adsense-loader='true']").count() === 1, `${viewport.name} ${route}: loader was not installed once in the document head`);
       check(pageAdRequests.filter((url) => url === adsenseLoader).length === 1, `${viewport.name} ${route}: shared loader request count was not one`);
       check(pageAdRequests.every((url) => url === adsenseLoader), `${viewport.name} ${route}: unexpected advertising request escaped interception`);
-      if (route === "/" && viewport.width === 1280) {
-        const belowHeader = page.locator("[data-ad-placement='below-header-banner']");
-        const unit = belowHeader.locator("ins.adsbygoogle");
-        const fallback = belowHeader.locator(".ad-slot-live-fallback");
-        await unit.evaluate((element) => element.setAttribute("data-ad-status", "unfilled"));
-        await fallback.waitFor({ state: "visible" });
-        await unit.evaluate((element) => element.setAttribute("data-ad-status", "filled"));
-        await fallback.waitFor({ state: "hidden" });
-      }
     } else {
       const slots = page.locator("[data-ad-placeholder='true']");
       check(await slots.count() === (square ? 6 : 5), `${viewport.name} ${route}: unexpected placeholder count`);
@@ -187,6 +204,124 @@ for (const viewport of viewports) {
     await page.close();
   }
   await context.close();
+}
+
+if (adsenseEnabled) {
+  async function openStatePage(width, route = "/", square = true) {
+    const context = await browser.newContext({ viewport: { width, height: 1000 } });
+    await context.route("https://pagead2.googlesyndication.com/**", async (requestRoute) => {
+      await requestRoute.fulfill({ contentType: "application/javascript", body: "" });
+    });
+    const page = await context.newPage();
+    await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
+    await waitForRequestedUnits(page, expectedLivePlacements(width, square).length);
+    return { context, page };
+  }
+
+  // A. Every requested unit is pending, so no page-wide fallback is visible.
+  {
+    const { context, page } = await openStatePage(1280);
+    await waitForFallbackCount(page, 0);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "A: pending units exposed fallback placeholders");
+    await context.close();
+  }
+
+  // B. All requested units resolve empty, so every eligible position shows fallback.
+  {
+    const { context, page } = await openStatePage(1280);
+    await setAllUnitStatuses(page, "unfilled");
+    await waitForFallbackCount(page, 4);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 4, "B: all-unfilled did not expose every eligible fallback");
+    await context.close();
+  }
+
+  // C and F. One fill suppresses all fallbacks and remains latched after becoming unfilled.
+  {
+    const { context, page } = await openStatePage(1280);
+    await setAllUnitStatuses(page, "unfilled");
+    await setPlacementStatus(page, "below-header-banner", "filled");
+    await waitForFallbackCount(page, 0);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "C: a filled unit did not suppress fallback page-wide");
+    await setPlacementStatus(page, "below-header-banner", "unfilled");
+    await page.waitForTimeout(50);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "F: FILLED latch was lost after a later unfilled status");
+    await context.close();
+  }
+
+  // D. A mixture of unfilled and unresolved units remains pending.
+  {
+    const { context, page } = await openStatePage(1280);
+    await setPlacementStatus(page, "below-header-banner", "unfilled");
+    await page.waitForTimeout(50);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "D: partial unfilled state exposed fallbacks while other units were pending");
+    await context.close();
+  }
+
+  // E. A late fill removes every fallback after an all-unfilled EMPTY state.
+  {
+    const { context, page } = await openStatePage(1280);
+    await setAllUnitStatuses(page, "unfilled");
+    await waitForFallbackCount(page, 4);
+    await setPlacementStatus(page, "above-footer-banner", "filled");
+    await waitForFallbackCount(page, 0);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "E: late fill left a page fallback visible");
+    await context.close();
+  }
+
+  // G. A definitive loader error before fill transitions the whole page to EMPTY.
+  {
+    const { context, page } = await openStatePage(1280);
+    await page.locator("head script[data-ilws-adsense-loader='true']").evaluate((script) => script.dispatchEvent(new Event("error")));
+    await waitForFallbackCount(page, 4);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 4, "G: loader error before fill did not expose every fallback");
+    await context.close();
+  }
+
+  // H. A loader error after fill cannot undo the sticky FILLED state.
+  {
+    const { context, page } = await openStatePage(1280);
+    await setPlacementStatus(page, "below-header-banner", "filled");
+    await waitForFallbackCount(page, 0);
+    await page.locator("head script[data-ilws-adsense-loader='true']").evaluate((script) => script.dispatchEvent(new Event("error")));
+    await page.waitForTimeout(50);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "H: loader error after fill overrode the FILLED latch");
+    await context.close();
+  }
+
+  // I. Responsive registration excludes suppressed units, adds newly eligible units as pending, and preserves FILLED through resize.
+  {
+    const { context, page } = await openStatePage(390);
+    await setAllUnitStatuses(page, "unfilled");
+    await waitForFallbackCount(page, 3);
+    await page.setViewportSize({ width: 1280, height: 1000 });
+    await waitForRequestedUnits(page, 4);
+    await waitForFallbackCount(page, 0);
+    await setPlacementStatus(page, "top-banner", "unfilled");
+    await waitForFallbackCount(page, 4);
+    await setPlacementStatus(page, "below-header-banner", "filled");
+    await waitForFallbackCount(page, 0);
+    await page.setViewportSize({ width: 1600, height: 1000 });
+    await waitForRequestedUnits(page, 6);
+    await setAllUnitStatuses(page, "unfilled");
+    await page.waitForTimeout(50);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "I: FILLED latch was lost when sidebars registered or statuses changed");
+    await page.setViewportSize({ width: 390, height: 1000 });
+    await waitForRequestedUnits(page, 3);
+    check(await page.locator("ins[data-ad-slot='6498435012'], ins[data-ad-slot='3872271670'], ins[data-ad-slot='5709851549']").count() === 0, "I: viewport-suppressed units remained registered below their breakpoints");
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "I: FILLED latch was lost after shrinking the viewport");
+    await context.close();
+  }
+
+  // J. Topics coordinates exactly five requested units and never invents the SEO square.
+  {
+    const { context, page } = await openStatePage(1600, "/topics", false);
+    check(await page.locator("ins.adsbygoogle[data-ilws-ad-unit='true']").count() === 5, "J: Topics requested-unit count was not five");
+    check(await page.locator("[data-ad-placement='seo-section-square']").count() === 0, "J: Topics unexpectedly rendered the SEO square");
+    await setAllUnitStatuses(page, "unfilled");
+    await waitForFallbackCount(page, 5);
+    check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 5, "J: Topics did not coordinate all five fallbacks");
+    await context.close();
+  }
 }
 
 check(Math.abs((contentWidths.get(1280) ?? 0) - (contentWidths.get(1600) ?? -100)) <= 2, "large-desktop sidebars changed the generator content width");

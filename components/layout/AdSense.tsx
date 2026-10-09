@@ -1,6 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+  type ReactNode
+} from "react";
 import {
   ADSENSE_CLIENT,
   ADSENSE_SCRIPT_SRC,
@@ -16,6 +27,102 @@ declare global {
 }
 
 type AdUnitStatus = "pending" | "filled" | "unfilled";
+type AdPageMode = "pending" | "empty" | "filled";
+
+interface AdPageState {
+  requested: Partial<Record<AdPlacement, AdUnitStatus>>;
+  loaderFailed: boolean;
+  hasEverFilled: boolean;
+}
+
+type AdPageAction =
+  | { type: "register"; placement: AdPlacement }
+  | { type: "unregister"; placement: AdPlacement }
+  | { type: "status"; placement: AdPlacement; status: AdUnitStatus }
+  | { type: "loader-error" };
+
+interface AdPageCoordinatorValue {
+  mode: AdPageMode;
+  register: (placement: AdPlacement) => void;
+  unregister: (placement: AdPlacement) => void;
+  reportStatus: (placement: AdPlacement, status: AdUnitStatus) => void;
+  reportLoaderError: () => void;
+}
+
+const AdPageCoordinatorContext = createContext<AdPageCoordinatorValue | null>(null);
+const initialAdPageState: AdPageState = {
+  requested: {},
+  loaderFailed: false,
+  hasEverFilled: false
+};
+
+function adPageReducer(state: AdPageState, action: AdPageAction): AdPageState {
+  if (action.type === "loader-error") {
+    return state.loaderFailed ? state : { ...state, loaderFailed: true };
+  }
+
+  if (action.type === "register") {
+    if (state.requested[action.placement]) return state;
+    return {
+      ...state,
+      requested: { ...state.requested, [action.placement]: "pending" }
+    };
+  }
+
+  if (action.type === "unregister") {
+    if (!state.requested[action.placement]) return state;
+    const requested = { ...state.requested };
+    delete requested[action.placement];
+    return { ...state, requested };
+  }
+
+  if (!state.requested[action.placement]) return state;
+  const hasEverFilled = state.hasEverFilled || action.status === "filled";
+  if (state.requested[action.placement] === action.status && hasEverFilled === state.hasEverFilled) {
+    return state;
+  }
+  return {
+    ...state,
+    requested: { ...state.requested, [action.placement]: action.status },
+    hasEverFilled
+  };
+}
+
+function resolvePageMode(state: AdPageState): AdPageMode {
+  if (state.hasEverFilled) return "filled";
+  if (state.loaderFailed) return "empty";
+  const statuses = Object.values(state.requested);
+  if (statuses.length > 0 && statuses.every((status) => status === "unfilled")) return "empty";
+  return "pending";
+}
+
+export function AdSensePageCoordinator({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(adPageReducer, initialAdPageState);
+  const register = useCallback((placement: AdPlacement) => dispatch({ type: "register", placement }), []);
+  const unregister = useCallback((placement: AdPlacement) => dispatch({ type: "unregister", placement }), []);
+  const reportStatus = useCallback(
+    (placement: AdPlacement, status: AdUnitStatus) => dispatch({ type: "status", placement, status }),
+    []
+  );
+  const reportLoaderError = useCallback(() => dispatch({ type: "loader-error" }), []);
+  const mode = resolvePageMode(state);
+  const value = useMemo(
+    () => ({ mode, register, unregister, reportStatus, reportLoaderError }),
+    [mode, register, unregister, reportStatus, reportLoaderError]
+  );
+
+  return (
+    <AdPageCoordinatorContext.Provider value={value}>
+      {children}
+    </AdPageCoordinatorContext.Provider>
+  );
+}
+
+function useAdPageCoordinator() {
+  const coordinator = useContext(AdPageCoordinatorContext);
+  if (!coordinator) throw new Error("Live AdSense units require AdSensePageCoordinator.");
+  return coordinator;
+}
 
 function readUnitStatus(unit: HTMLElement | null): AdUnitStatus {
   const status = unit?.dataset.adStatus;
@@ -25,17 +132,39 @@ function readUnitStatus(unit: HTMLElement | null): AdUnitStatus {
 }
 
 export function AdSenseLoader() {
+  const { reportLoaderError } = useAdPageCoordinator();
+
   useEffect(() => {
     const existing = Array.from(document.scripts).find((script) => script.src === ADSENSE_SCRIPT_SRC);
-    if (existing) return;
+    const script = existing ?? document.createElement("script");
+    const handleLoad = () => {
+      script.dataset.ilwsAdsenseLoaderState = "loaded";
+    };
+    const handleError = () => {
+      script.dataset.ilwsAdsenseLoaderState = "error";
+      reportLoaderError();
+    };
 
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = ADSENSE_SCRIPT_SRC;
-    script.crossOrigin = "anonymous";
-    script.dataset.ilwsAdsenseLoader = "true";
-    document.head.appendChild(script);
-  }, []);
+    if (script.dataset.ilwsAdsenseLoaderState === "error") {
+      reportLoaderError();
+      return;
+    }
+
+    script.addEventListener("load", handleLoad);
+    script.addEventListener("error", handleError);
+    if (!existing) {
+      script.async = true;
+      script.src = ADSENSE_SCRIPT_SRC;
+      script.crossOrigin = "anonymous";
+      script.dataset.ilwsAdsenseLoader = "true";
+      document.head.appendChild(script);
+    }
+
+    return () => {
+      script.removeEventListener("load", handleLoad);
+      script.removeEventListener("error", handleError);
+    };
+  }, [reportLoaderError]);
 
   return null;
 }
@@ -59,18 +188,24 @@ function usePlacementEligibility(placement: AdPlacement) {
 export function AdSenseUnit({ placement }: { placement: AdPlacement }) {
   const eligible = usePlacementEligibility(placement);
   const unitRef = useRef<HTMLModElement>(null);
-  const [status, setStatus] = useState<AdUnitStatus>("pending");
+  const { mode, register, unregister, reportStatus, reportLoaderError } = useAdPageCoordinator();
+
+  useLayoutEffect(() => {
+    if (!eligible) return;
+    register(placement);
+    return () => unregister(placement);
+  }, [eligible, placement, register, unregister]);
 
   useEffect(() => {
     const unit = unitRef.current;
     if (!eligible || !unit) return;
 
-    const update = () => setStatus(readUnitStatus(unit));
+    const update = () => reportStatus(placement, readUnitStatus(unit));
     const observer = new MutationObserver(update);
     observer.observe(unit, { attributes: true, attributeFilter: ["data-ad-status"] });
     update();
     return () => observer.disconnect();
-  }, [eligible]);
+  }, [eligible, placement, reportStatus]);
 
   useEffect(() => {
     const unit = unitRef.current;
@@ -80,9 +215,10 @@ export function AdSenseUnit({ placement }: { placement: AdPlacement }) {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (error) {
+      reportLoaderError();
       console.warn(`AdSense request failed for ${placement}.`, error);
     }
-  }, [eligible, placement]);
+  }, [eligible, placement, reportLoaderError]);
 
   if (!eligible) return null;
 
@@ -99,7 +235,7 @@ export function AdSenseUnit({ placement }: { placement: AdPlacement }) {
       <span
         className="ad-slot-live-fallback"
         data-ad-placeholder="true"
-        hidden={status !== "unfilled"}
+        hidden={mode !== "empty"}
       >
         Advertisements
       </span>

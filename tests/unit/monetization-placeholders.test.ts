@@ -16,6 +16,7 @@ import {
   placementMediaQuery,
   resolveAdSenseEnabled
 } from "@/lib/monetization/adsense";
+import { AdSensePageCoordinator } from "@/components/layout/AdSense";
 
 const root = process.cwd();
 const source = (path: string) => readFileSync(`${root}/${path}`, "utf8");
@@ -87,10 +88,12 @@ describe("AdSense monetization architecture", () => {
   });
 
   test("enabled units use modified responsive markup without auto-size attributes", () => {
-    const enabled = renderToStaticMarkup(createElement(AdSlot, {
-      placement: "below-header-banner",
-      template: "home",
-      adsenseEnabled: true
+    const enabled = renderToStaticMarkup(createElement(AdSensePageCoordinator, {
+      children: createElement(AdSlot, {
+        placement: "below-header-banner",
+        template: "home",
+        adsenseEnabled: true
+      })
     }));
     expect(enabled).toContain('class="adsbygoogle"');
     expect(enabled).toContain(`data-ad-client="${ADSENSE_CLIENT}"`);
@@ -129,10 +132,17 @@ describe("AdSense monetization architecture", () => {
     expect(css.slice(css.indexOf("@media print"))).toMatch(/\.ad-slot,[\s\S]*?display:\s*none !important/);
   });
 
-  test("uses one head loader and guards every mounted unit from duplicate pushes", () => {
+  test("uses one coordinated page state, one head loader, and guards duplicate pushes", () => {
     const client = source("components/layout/AdSense.tsx");
     const shell = source("components/layout/AdSlot.tsx");
     expect(shell.match(/<AdSenseLoader/g)).toHaveLength(1);
+    expect(shell.match(/<AdSensePageCoordinator/g)).toHaveLength(1);
+    expect(client).toContain('type AdPageMode = "pending" | "empty" | "filled"');
+    expect(client).toContain("state.hasEverFilled");
+    expect(client).toContain('statuses.every((status) => status === "unfilled")');
+    expect(client).toContain('script.addEventListener("error", handleError)');
+    expect(client).toContain('attributeFilter: ["data-ad-status"]');
+    expect(client).not.toContain("data-adsbygoogle-status");
     expect(client).toContain("document.head.appendChild(script)");
     expect(client).toContain('unit.dataset.ilwsAdRequested === "true"');
     expect(client).toContain('unit.dataset.ilwsAdRequested = "true"');

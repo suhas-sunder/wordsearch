@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { AdSenseLoader, AdSenseUnit } from "@/components/layout/AdSense";
+import { AdSenseLoader, AdSensePageCoordinator, AdSenseUnit } from "@/components/layout/AdSense";
 import { ADSENSE_ENABLED, AD_PLACEMENTS, type AdPlacement } from "@/lib/monetization/adsense";
 
 export { AD_PLACEMENTS } from "@/lib/monetization/adsense";
@@ -95,7 +95,7 @@ export function MonetizedPageShell({ template, children }: { template: AdTemplat
   if (policy.eligibility === "ad-free") return <>{children}</>;
 
   return (
-    <>
+    <AdSensePageCoordinator>
       {ADSENSE_ENABLED ? <AdSenseLoader /> : null}
       <div className="ad-top-region"><AdSlot placement="top-banner" template={template} /></div>
       <div className="ad-page-frame">
@@ -104,6 +104,6 @@ export function MonetizedPageShell({ template, children }: { template: AdTemplat
         <div className="ad-sidebar-region ad-sidebar-region-right"><AdSlot placement="sidebar-right" template={template} /></div>
       </div>
       <div className="ad-above-footer-region"><AdSlot placement="above-footer-banner" template={template} /></div>
-    </>
+    </AdSensePageCoordinator>
   );
 }

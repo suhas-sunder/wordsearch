@@ -156,6 +156,8 @@ Because the loader is inside `MonetizedPageShell`, not the root layout, ad-free 
 
 ## 10. Fill, unfilled, and placeholder behavior
 
+> Correction note (2026-10-08): The per-unit fallback behavior documented in this original review section was found to be release-blocking and has been superseded by the page-wide coordinator documented in section 19. The text below is retained as review history, not as a description of the final implementation.
+
 Disabled mode retains the approved labelled placeholder exactly.
 
 Enabled mode retains the fixed outer dimensions in every status:
@@ -269,4 +271,80 @@ No puzzle-generation, seed, solution, print composition, PDF generation, share s
 
 ## 18. Final verdict
 
-READY FOR CHATGPT REVIEW
+READY FOR FINAL EXTERNAL CMP / PRODUCTION CHECK
+
+## 19. ChatGPT-review correction: page-wide fallback coordination
+
+### Review findings corrected
+
+The implementation at review HEAD `bbabd52150737569cd90ce6f51164cc1aa38e8b9` made fallback visibility independently for each unit. That allowed one unfilled position to show an `Advertisements` fallback while another position on the same page contained a filled creative. Its shared loader also had no `error` lifecycle, so a blocked or failed loader could leave every unit pending indefinitely. Both behaviors were release-blocking and are corrected in this follow-up without changing the accepted slot mapping, responsive geometry, route policy, content placement, or activation gate.
+
+### Final shared state model
+
+`AdSensePageCoordinator` is one small client provider around the already established monetized shell. Page templates remain server components/static output. Eligible live units register and unregister with the coordinator as their media-query eligibility changes, then report `pending`, `filled`, or normalized empty status. Both Google's `unfilled` and `unfill-optimized` values normalize to the coordinator's unfilled state; observation remains restricted to the documented `data-ad-status` attribute and does not use `data-adsbygoogle-status`.
+
+The coordinator derives exactly three page modes:
+
+- `PENDING`: at least one currently requested unit is unresolved, with no prior fill and no definitive loader error. No fallback is visible.
+- `EMPTY`: every currently requested unit is unfilled, or the loader has definitively emitted `error`, and no unit has ever filled. Every currently eligible position shows its fallback.
+- `FILLED`: any requested unit has reported filled. Every fallback is hidden page-wide.
+
+`hasEverFilled` is a sticky latch. Once any unit fills, subsequent unfilled reports, loader errors, unit removal, new unit registration, or viewport changes cannot return the page to `EMPTY`. Unfilled positions intentionally remain blank on a filled page, which prevents creative/fallback overlap anywhere on that page.
+
+### Loader failure behavior
+
+The one shared loader now listens to its actual `load` and `error` events and records the result on the script element for safe reuse. An `error` before any fill reports a page-wide loader failure and exposes all currently eligible fallbacks. An error after a fill leaves the sticky `FILLED` mode unchanged. A synchronous `adsbygoogle.push` failure follows the same safe failure path. No arbitrary timeout was added.
+
+### Responsive registration behavior
+
+Viewport-suppressed units never register and therefore do not participate in the all-unfilled calculation:
+
+- 390px normal page: below-header, SEO square, and above-footer participate (three units).
+- 1280px normal page: top plus those three positions participate (four units).
+- 1600px normal page: all six positions participate.
+- Topics at 1600px: five positions participate because the SEO square remains excluded by policy.
+
+Registration uses a layout effect so a newly mounted responsive unit becomes pending before paint. When the viewport crosses 768px or 1600px, the newly eligible unit joins as pending; when it becomes ineligible it unregisters. Neither operation clears a prior filled latch.
+
+### Deterministic browser scenarios A-J
+
+The enabled browser test now mutates real unit DOM attributes so the production `MutationObserver` path is exercised. All scenarios passed:
+
+| Scenario | Result |
+| --- | --- |
+| A. All requested units pending | PASS: zero visible fallbacks |
+| B. All requested units unfilled / unfill-optimized | PASS: every eligible fallback visible |
+| C. One filled, all others unfilled | PASS: zero fallbacks page-wide |
+| D. Some unfilled, others pending | PASS: zero fallbacks |
+| E. All unfilled, then one late fill | PASS: all fallbacks appear, then all disappear |
+| F. One filled, later changed to unfilled | PASS: zero fallbacks; `FILLED` remains latched |
+| G. Loader error before any fill | PASS: every eligible fallback visible |
+| H. Loader error after fill | PASS: zero fallbacks; `FILLED` remains latched |
+| I. Responsive registration and resize | PASS: top/rails excluded below breakpoints, new units join correctly, filled latch survives growth and shrink |
+| J. Topics | PASS: exactly five participating units, no SEO square, five fallbacks when all are empty |
+
+### Correction validation
+
+| Command | Result |
+| --- | --- |
+| `npm run typecheck` | PASS |
+| `npm run lint` | PASS |
+| `npm test` | PASS: 18 files, 117 tests |
+| `npm run build` (flag unset) | PASS: 336 static pages |
+| `npm run build` with `NEXT_PUBLIC_ADSENSE_ENABLED=on` | PASS: 336 static pages |
+| `npm run audit:static` | PASS: 225 sitemap pages, 35 permanent redirects, 6 browser-decoded utility shells |
+| `npm run test:a11y` | PASS: 17 archetypes at mobile/desktop plus 200% zoom |
+| `npm run test:e2e` | PASS: 61 routes x 9 viewports plus default-disabled monetization checks |
+| `npm run test:preview` | PASS: preview/PDF/keyboard and 8 responsive viewports |
+| `npm run test:ads` (flag unset/default) | PASS: 9 eligible routes x 5 viewports and 14 ad-free routes |
+| Enabled `npm run test:ads` | PASS: same route/viewport matrix plus deterministic page-wide scenarios A-J |
+| `npm run audit:lighthouse` | PASS: 8 mobile routes and 3 desktop spot checks; all CLS 0 and Accessibility/Best Practices/SEO 100 |
+| `git diff --check` | PASS |
+
+The same informational Next.js ESLint-plugin warning and non-failing Windows Lighthouse temporary-profile cleanup warning described earlier were observed. Neither changed repository output or validation results.
+
+### Scope and remaining gate
+
+This correction changes only the shared AdSense client coordinator, its shell wiring, monetization tests, and this retained-history report. The publisher ID, six slot IDs, 768px/1600px request breakpoints, fixed dimensions, route eligibility, print suppression, content width, placement order, one-loader policy, duplicate-push guard, and `NEXT_PUBLIC_ADSENSE_ENABLED=on` activation contract remain unchanged.
+
+`main` remains at `bbfb87da830cc4b980ea924c8c43ba0d36cab790` and was not modified. Production activation remains blocked on Suhas confirming the account-side Google-certified CMP / Privacy & messaging configuration and completing the final production checks. The repository does not claim to prove that external account configuration.
