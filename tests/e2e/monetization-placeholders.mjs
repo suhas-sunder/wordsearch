@@ -1,7 +1,7 @@
 import { chromium } from "playwright";
 
 const baseUrl = process.env.BASE_URL ?? "http://localhost:3000";
-const adsenseEnabled = process.env.EXPECT_ADSENSE_ENABLED === "on";
+const adsenseEnabled = process.env.EXPECT_ADSENSE_ENABLED !== "off";
 const adsenseClient = "ca-pub-4810616735714570";
 const adsenseLoader = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`;
 const placementSlots = {
@@ -56,9 +56,8 @@ function check(condition, message) {
 }
 
 function expectedLivePlacements(width, square) {
-  const placements = ["below-header-banner", "above-footer-banner"];
+  const placements = ["top-banner", "below-header-banner", "above-footer-banner"];
   if (square) placements.push("seo-section-square");
-  if (width >= 768) placements.push("top-banner");
   if (width >= 1600) placements.push("sidebar-left", "sidebar-right");
   return placements.sort();
 }
@@ -156,8 +155,8 @@ for (const viewport of viewports) {
     const topRegion = page.locator(".ad-top-region");
     const left = page.locator("[data-ad-placement='sidebar-left']");
     const right = page.locator("[data-ad-placement='sidebar-right']");
-    check(await top.isVisible() === (viewport.width >= 768), `${viewport.name} ${route}: top-banner visibility mismatch`);
-    check(await topRegion.isVisible() === (viewport.width >= 768), `${viewport.name} ${route}: top region visibility mismatch`);
+    check(await top.isVisible(), `${viewport.name} ${route}: top-banner should be visible at every viewport`);
+    check(await topRegion.isVisible(), `${viewport.name} ${route}: top region should be visible at every viewport`);
     check(await left.isVisible() === (viewport.width >= 1600), `${viewport.name} ${route}: left sidebar visibility mismatch`);
     check(await right.isVisible() === (viewport.width >= 1600), `${viewport.name} ${route}: right sidebar visibility mismatch`);
 
@@ -168,18 +167,18 @@ for (const viewport of viewports) {
     const topBox = await top.boundingBox();
     const topRegionBox = await topRegion.boundingBox();
     const pageFrameBox = await page.locator(".ad-page-frame").boundingBox();
-    if (viewport.width < 768) {
-      check(topRegionBox === null, `${viewport.name} ${route}: hidden top region still consumes layout space`);
-      if (headerBox && pageFrameBox) check(Math.abs(pageFrameBox.y - (headerBox.y + headerBox.height)) <= 1, `${viewport.name} ${route}: blank top-ad gap remains below the header`);
-    } else {
-      check(Boolean(topRegionBox), `${viewport.name} ${route}: top region is missing`);
-      if (topBox) {
-        const expectedTopSize = viewport.width >= 1024 ? { width: 728, height: 90 } : { width: 468, height: 60 };
-        check(Math.abs(topBox.width - expectedTopSize.width) <= 1, `${viewport.name} ${route}: top-banner width mismatch`);
-        check(Math.abs(topBox.height - expectedTopSize.height) <= 1, `${viewport.name} ${route}: top-banner height mismatch`);
-      }
-      if (topRegionBox && pageFrameBox) check(pageFrameBox.y >= topRegionBox.y + topRegionBox.height, `${viewport.name} ${route}: page content overlaps the top region`);
+    check(Boolean(topRegionBox), `${viewport.name} ${route}: top region is missing`);
+    if (topBox) {
+      const expectedTopSize =
+        viewport.width >= 800
+          ? { width: 728, height: 90 }
+          : viewport.width >= 500
+            ? { width: 468, height: 60 }
+            : { width: 320, height: 50 };
+      check(Math.abs(topBox.width - expectedTopSize.width) <= 1, `${viewport.name} ${route}: top-banner width mismatch`);
+      check(Math.abs(topBox.height - expectedTopSize.height) <= 1, `${viewport.name} ${route}: top-banner height mismatch`);
     }
+    if (topRegionBox && pageFrameBox) check(pageFrameBox.y >= topRegionBox.y + topRegionBox.height, `${viewport.name} ${route}: page content overlaps the top region`);
     if (topBox && headerBox) check(topBox.y >= headerBox.y + headerBox.height, `${viewport.name} ${route}: top banner overlaps the header`);
 
     const anchorBox = await page.locator(anchor).first().boundingBox();
@@ -288,15 +287,14 @@ if (adsenseEnabled) {
     await context.close();
   }
 
-  // I. Responsive registration excludes suppressed units, adds newly eligible units as pending, and preserves FILLED through resize.
+  // I. The top banner participates on mobile; only sidebars join/leave responsively, and FILLED stays latched.
   {
     const { context, page } = await openStatePage(390);
     await setAllUnitStatuses(page, "unfilled");
-    await waitForFallbackCount(page, 3);
+    await waitForFallbackCount(page, 4);
+    check(await page.locator("ins[data-ad-slot='6498435012']").count() === 1, "I: mobile top banner was not requested");
     await page.setViewportSize({ width: 1280, height: 1000 });
     await waitForRequestedUnits(page, 4);
-    await waitForFallbackCount(page, 0);
-    await setPlacementStatus(page, "top-banner", "unfilled");
     await waitForFallbackCount(page, 4);
     await setPlacementStatus(page, "below-header-banner", "filled");
     await waitForFallbackCount(page, 0);
@@ -306,8 +304,9 @@ if (adsenseEnabled) {
     await page.waitForTimeout(50);
     check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "I: FILLED latch was lost when sidebars registered or statuses changed");
     await page.setViewportSize({ width: 390, height: 1000 });
-    await waitForRequestedUnits(page, 3);
-    check(await page.locator("ins[data-ad-slot='6498435012'], ins[data-ad-slot='3872271670'], ins[data-ad-slot='5709851549']").count() === 0, "I: viewport-suppressed units remained registered below their breakpoints");
+    await waitForRequestedUnits(page, 4);
+    check(await page.locator("ins[data-ad-slot='6498435012']").count() === 1, "I: mobile top banner disappeared after shrinking");
+    check(await page.locator("ins[data-ad-slot='3872271670'], ins[data-ad-slot='5709851549']").count() === 0, "I: sidebar units remained registered below their breakpoint");
     check(await page.locator(".ad-slot-live-fallback:not([hidden])").count() === 0, "I: FILLED latch was lost after shrinking the viewport");
     await context.close();
   }
