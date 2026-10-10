@@ -122,6 +122,22 @@ summary:focus-visible {
   border-radius: 8px;
 }
 
+.brand-wordmark {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.brand-heart {
+  display: inline-block;
+  margin: 0 2px 0 1px;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 1.06em;
+  line-height: 1;
+}
+
 .desktop-nav {
   display: flex;
   align-items: center;
@@ -2289,6 +2305,10 @@ input[type="checkbox"] {
 
   .brand {
     font-size: 0.94rem;
+  }
+
+  .brand-wordmark {
+    font-size: 1.04rem;
   }
 
   .brand-mark {

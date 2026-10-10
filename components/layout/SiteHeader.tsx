@@ -34,7 +34,9 @@ export function SiteHeader() {
       <div className="site-shell header-inner">
         <Link className="brand" href="/" aria-label="I Love Word Search home">
           <Image className="brand-mark" src="/brand-icon.webp" width={34} height={34} alt="" aria-hidden="true" />
-          <span>I Love Word Search</span>
+          <span className="brand-wordmark" aria-hidden="true">
+            <span>i</span><span className="brand-heart">💚</span><span>WordSearch</span>
+          </span>
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
           {primaryNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}
