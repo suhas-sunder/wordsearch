@@ -114,15 +114,12 @@ summary:focus-visible {
 }
 
 .brand-mark {
+  display: block;
+  flex: none;
   width: 34px;
   height: 34px;
-  display: inline-grid;
-  place-items: center;
+  object-fit: contain;
   border-radius: 8px;
-  background: var(--accent);
-  color: white;
-  font-size: 0.78rem;
-  font-weight: 900;
 }
 
 .desktop-nav {

@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   },
   description: "Find free printable and online word search puzzles, browse curated topics, or create a custom seeded puzzle.",
   applicationName: "I Love Word Search",
+  icons: { icon: "/favicon.ico?v=20261010" },
   alternates: {
     canonical: "/"
   },
