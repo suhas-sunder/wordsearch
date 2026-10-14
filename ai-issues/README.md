@@ -13,4 +13,15 @@
 <img width="1362" height="833" alt="image" src="https://github.com/user-attachments/assets/74b62af6-4007-4e41-a76d-efa403f1a5b9" />
 
 
+6. The All tools and FAQ sections seem to be unique to the home page. I'd rather have these on every page, just before the footer, and like I said, the search goes before the all tools section. The FAQ should be unique to each page and should actually be valuable to the user, not just fluff.
+   <img width="1392" height="850" alt="image" src="https://github.com/user-attachments/assets/952ac596-cdd5-4db4-9e8d-fd82d2c96e2c" />
+
+7. Below the FAQ section, I'd like to link to some of my external sites that are most relevant to the website or given page. Display at least 3. Sites I have that qualify (not all may be suitable for this site) are morsewords.com ilovetimers.com ilovesvg.com ilovecoloringpage.com 
+
+8. While I do like the footer, it is missing the one line that normally has the copyright, tos, etc. I do see that the links are there, but I don't think they belong with all the other links.
+   <img width="1920" height="402" alt="image" src="https://github.com/user-attachments/assets/d2f85c0e-9497-4318-825c-a210002e4bc8" />
+   - For example, iLoveTimers has this as part of it's footer:
+     <img width="1920" height="452" alt="image" src="https://github.com/user-attachments/assets/879dc153-a2d0-41ab-98ec-64239beeaac8" />
+     
+9. I could be wrong but I think we're missing a page about author details to signal better credability. Even in the footer it could say somethingl like :Built and maintained by Suhas Sunder, a software engineer. with a link to the profile page we create. The profile page should be properly formatted and include all relevant information about me in the context of building this site etc. It could even just be part of the about page but designed and presented well. Here is an example of this page on my other sites: https://www.ilovetimers.com/author/suhas-sunder https://www.morsewords.com/about
 
