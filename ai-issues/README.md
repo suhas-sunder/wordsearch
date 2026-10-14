@@ -1,4 +1,4 @@
-For the websites I mention below (the ones I own), there is a git repo for each if you need to go check the code for any reason.
+eFor the websites I mention below (the ones I own), there is a git repo for each if you need to go check the code for any reason.
 
 1. I would like the logo to be displayed consistently across the website, not just in the header banner. Eg. the footer looks different from the header:
 <img width="344" height="217" alt="image" src="https://github.com/user-attachments/assets/9971a02f-09f8-4122-9362-533d514af8d5" />
@@ -33,4 +33,23 @@ For the websites I mention below (the ones I own), there is a git repo for each 
 11. The existing pages are doing pretty well, so I don't really want any changes to the content itself, at least not at this stage. However, we really need to focus on polishing the UI for sections like this where the text/buttons/titles etc. are not properly organized.  <img width="1298" height="478" alt="image" src="https://github.com/user-attachments/assets/94cf7389-709a-413f-b368-b5169709f4b1" />
 
 
-12. 
+12. I would like to have deeper and richer internal linking across all pages, but not in a spammy way. It needs to make sense.
+
+13. I haven't had a chance to thoroughly test the functionality for all the settings within wordsearch. If it's already working well, leave it be. If any of it is not well implemented or buggy in any way, it should be fixed. A bit of polish on the UI would also go a long way. The layout is already pretty good as it is so I wouldn't change much, but how the buttons are organized, readability, and ensuring  all expected features are present would be a good place to focus on, in addition to anything else that might improve the user experience that I haven't thought of.
+<img width="1203" height="742" alt="image" src="https://github.com/user-attachments/assets/aef0c0e7-a172-4e3d-9167-4f47fb8ed68e" />
+
+14. I want to create a waitlist for an sign in mode where users can solve puzzels and have a historical record of it with score keeping etc, but also share puzzels, solve them together in real-time etc. I want offer good free tier offerings, with some paid tier offerings the paid users would actually go for. This might be something we need to discuss while it's being implemented, but this feature won't interfere with the existing offerings we have on the site.
+
+15. The share button currently doesn't allow the user to quickly share the puzzle on social media etc. I don't know what the best UI/UX for this would be, but it should probably be added. There should also be a share feature for completed puzzels that displays nicely and show's the user's stat including time spent etc. if that's something we are/can track (if it makes sense to).
+<img width="709" height="740" alt="image" src="https://github.com/user-attachments/assets/9866631b-f200-4ca4-a7dc-3ec11ce1af63" />
+
+
+17. On ilovesvg.com I have a socials section right above the footer. We could setup something similar with appropriate socials and links. Can find it in the ilovesvg/ilovetimers repo and pull what's important for our needs, including displaying it correctly with the right image/icons etc.
+<img width="1448" height="376" alt="image" src="https://github.com/user-attachments/assets/c5b1b39e-a406-4222-a80a-c8438c779427" />
+
+18. We should consider making some more output types that users would actually look for like HTML output etc. We should also look at other puzzle generator sites to see what they offer for custom puzzels/generations and make sure our wordsearch offers all the right customizations, but do so in a way that the UI still remains nice looking, compact, but very usable and simple. We shouldn't stray too far from the existing design since the visitors seem to like it.
+<img width="771" height="254" alt="image" src="https://github.com/user-attachments/assets/dfb55da5-df34-4387-917a-312fea368162" />
+<img width="765" height="883" alt="image" src="https://github.com/user-attachments/assets/cff87f74-d461-4511-a5b6-662d53ecc236" />
+<img width="935" height="629" alt="image" src="https://github.com/user-attachments/assets/74fd6ea5-b28c-486c-9c16-4551f4b3abb4" />
+
+19. 
