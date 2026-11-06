@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { PuzzleSearch } from "@/components/search/PuzzleSearch";
+import { CategoryIcon } from "@/components/page/CategoryIcon";
 import { searchStaticCatalog } from "@/lib/search/browser-catalog";
 import type { SearchCatalogItem } from "@/lib/search/search";
 
@@ -59,7 +60,7 @@ export function SearchPageClient() {
               {results.map((item) => (
                 <Link key={item.id} href={item.href}>
                   <span className="result-type">{item.type}</span>
-                  <span><strong>{item.title}</strong><small>{[item.category, item.difficulty, item.format, item.audience].filter(Boolean).join(" · ")}</small><span>{item.description}</span></span>
+                  <span><strong className={item.category ? "category-title" : undefined}>{item.category && <CategoryIcon slug={item.type === "Category" ? item.href.split("/").filter(Boolean).at(-1) : undefined} label={item.category} />}{item.title}</strong><small>{[item.category, item.difficulty, item.format, item.audience].filter(Boolean).join(" · ")}</small><span>{item.description}</span></span>
                   <span aria-hidden="true">→</span>
                 </Link>
               ))}
