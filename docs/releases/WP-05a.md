@@ -32,7 +32,19 @@ Captured from the parent branch and this branch using the same encoded puzzle st
 - `BASE_URL=http://localhost:3231 npm run audit:pdf` — passed real PDF, two-page A4 landscape, title/word text, answer page, QR, and filename checks.
 - `git diff --check` — passed.
 
-The broad `BASE_URL=http://localhost:3231 npm run test:e2e` command was started but interrupted after more than five minutes without output while its full browser matrix was still active. It is **not a pass**. This did not affect the focused static-route browser check, accessibility audit, printable-preview audit, PDF audit, or the 113-test unit suite. No advertising code was changed; protected placeholder behavior remains covered by the passing unit suite, but the separate browser placeholder flow was not completed in this package.
+The first broad `BASE_URL=http://localhost:3231 npm run test:e2e` attempt was
+prematurely interrupted while the full matrix was still active; that attempt is
+not a pass. The managing agent reran the unchanged full command against a fresh
+`PORT=3234 npm run start` serving this package's frozen export, using Node 22.23.4.
+The repeat **passed**: 53 routes × nine viewports plus search, navigation,
+utilities, print and pointer/touch/tap/keyboard solver interactions, followed by
+the protected advertising browser checks on nine eligible routes × five widths
+and 14 ad-free routes. No assertion, timeout, advertising code or application
+source was changed for this repeat. The server was stopped after completion.
+
+This record's containing documentation commit is the final branch head; the
+implementation SHA above identifies the unchanged application diff. Both appear
+in the PR and consolidated overnight handoff.
 
 ## Limits and follow-up
 
