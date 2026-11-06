@@ -29,7 +29,8 @@
     "test:transport": "tsx tests/e2e/share-transport-study.ts",
     "test:completion": "tsx tests/e2e/completion-card.ts",
     "test:e2e": "node tests/e2e/request-validation.mjs && node tests/e2e/direction-validation.mjs && node tests/e2e/browser-smoke.mjs && node tests/e2e/monetization-placeholders.mjs",
-    "test:ads": "node tests/e2e/monetization-placeholders.mjs"
+    "test:ads": "node tests/e2e/monetization-placeholders.mjs",
+    "test:solver-progress": "tsx tests/e2e/solver-progress.ts"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
