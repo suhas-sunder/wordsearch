@@ -220,7 +220,7 @@ await interactionPage.getByRole("combobox", { name: "Search puzzles and categori
 const mobileMenu = interactionPage.locator('summary[aria-label="Open navigation menu"]');
 if (!(await mobileMenu.isVisible())) failures.push("mobile navigation control is not visible");
 await mobileMenu.click();
-if (!(await interactionPage.getByRole("navigation", { name: "Mobile primary navigation" }).isVisible())) failures.push("mobile navigation panel did not open");
+if (!(await interactionPage.getByRole("navigation", { name: "All site navigation" }).isVisible())) failures.push("mobile navigation panel did not open");
 await interactionPage.close();
 
 const searchPage = await browser.newPage({ viewport: { width: 1024, height: 900 } });
