@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FileDown, Printer } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { OnlineSolver } from "@/components/puzzle/OnlineSolver";
 import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
@@ -143,10 +144,10 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
               : "Use your browser print command. This page has print-only CSS and no ads."}
         </p>
         <div className="utility-actions">
-          <button type="button" className="secondary-button" onClick={() => window.print()}>Print</button>
+          <button type="button" className="secondary-button" onClick={() => window.print()}><Printer size={17} aria-hidden="true" /> Print</button>
           {kind === "pdf" && (
             <button type="button" className="primary-button" disabled={pdfStatus === "working"} onClick={downloadPdf}>
-              {pdfStatus === "working" ? "Generating…" : pdfStatus === "error" ? "Retry PDF" : "Download this PDF"}
+              <FileDown size={17} aria-hidden="true" /> {pdfStatus === "working" ? "Generating…" : pdfStatus === "error" ? "Retry PDF" : "Download this PDF"}
             </button>
           )}
         </div>
