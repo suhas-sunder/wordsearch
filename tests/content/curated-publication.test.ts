@@ -80,8 +80,13 @@ describe("reviewed curated publication", () => {
     for (const record of puzzleRecords) {
       const first = generate(record);
       const second = generate(record);
+      expect(first.request.difficulty, record.canonicalPath).toBe(record.puzzle.difficulty);
+      expect(first.request.directions, record.canonicalPath).toEqual(record.puzzle.directions);
+      expect(first.request.rows, record.canonicalPath).toBe(record.puzzle.rows);
+      expect(first.request.cols, record.canonicalPath).toBe(record.puzzle.columns);
       expect(first.excluded, record.canonicalPath).toEqual([]);
       expect(first.placed, record.canonicalPath).toHaveLength(record.puzzle.words.length);
+      expect(normalizeWords(first.placed.map((placement) => placement.label)).sort(), record.canonicalPath).toEqual(normalizeWords(record.puzzle.words).sort());
       expect(second.grid).toEqual(first.grid);
       expect(second.placed).toEqual(first.placed);
       expect(first.grid.flat().every((token) => /^[A-Z]$/.test(token))).toBe(true);
