@@ -1,5 +1,14 @@
 # Controlled delivery: two independent tracks
 
+## Active buildout review queue
+
+The November 6 full-buildout authorization continues development immediately,
+without waiting for publication dates. See [combined milestone evidence](BUILDOUT-INTEGRATION-01.md)
+and the [readiness ledger](BUILDOUT-READINESS.md). Original package documents are
+historical evidence; neither completed technical QA nor a source-only draft means
+editorial approval or permission to merge/deploy. ChatGPT controls production
+review and the single main-triggered Netlify deployment. No new content is live.
+
 ## Current review candidates — November 6, 2026
 
 Production/main is `471a118dd459f2181cd641ed0572ba6dd7005540`: ChatGPT

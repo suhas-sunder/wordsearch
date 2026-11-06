@@ -13,6 +13,7 @@
     "test:unit": "vitest run tests/unit",
     "test:seo": "vitest run tests/seo",
     "audit:content": "vitest run tests/content/current-content-audit.test.ts --reporter=verbose",
+    "report:cohorts": "tsx scripts/report-release-cohorts.ts",
     "audit:routes": "node tests/e2e/route-audit.mjs",
     "test:route-ad-contract": "vitest run tests/unit/ad-markup-contract.test.ts",
     "test:a11y": "node tests/e2e/accessibility.mjs",
@@ -27,8 +28,11 @@
     "test:workload": "node tests/e2e/generation-workload.mjs",
     "test:parity": "node tests/e2e/share-route-parity.mjs",
     "test:transport": "tsx tests/e2e/share-transport-study.ts",
+    "test:completion": "tsx tests/e2e/completion-card.ts",
     "test:e2e": "node tests/e2e/request-validation.mjs && node tests/e2e/direction-validation.mjs && node tests/e2e/browser-smoke.mjs && node tests/e2e/monetization-placeholders.mjs",
-    "test:ads": "node tests/e2e/monetization-placeholders.mjs"
+    "test:ads": "node tests/e2e/monetization-placeholders.mjs",
+    "inventory:content": "tsx scripts/content-inventory.ts",
+    "audit:candidates": "tsx scripts/audit-candidates.ts"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
