@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
-import { test } from "node:test";
-import { indexedAdMarkupIssues } from "./ad-markup-contract.mjs";
+import { test } from "vitest";
+import { indexedAdMarkupIssues, type AdMarkupInput } from "../e2e/ad-markup-contract.mjs";
 
 const slot = { "data-ad-placement": "top-banner", "data-ad-mode": "live" };
 const unit = { "data-ad-slot": "6498435012", "data-ad-client": "ca-pub-4810616735714570" };
-const fixture = () => ({ slots: [{ ...slot }], units: [{ ...unit }], placeholders: [{ "data-ad-placeholder": "true", hidden: "" }] });
+const fixture = (): AdMarkupInput => ({ slots: [{ ...slot }], units: [{ ...unit }], placeholders: [{ "data-ad-placeholder": "true", hidden: "" }] });
 test("a live unit is not a disabled placeholder; its fallback starts hidden", () => assert.deepEqual(indexedAdMarkupIssues(fixture()), []));
 test("visible fallbacks still fail", () => {
   const input = fixture(); delete input.placeholders[0].hidden;
