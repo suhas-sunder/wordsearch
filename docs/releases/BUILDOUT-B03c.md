@@ -19,3 +19,13 @@ Node 22.23.4; `npm ci` completed with 16 pre-existing advisories (7 moderate, 7 
 External fixture QA (not imported or committed as runtime content) generated the published medium Christmas puzzle plus frozen draft X01, X02, X04 and X15 from source commit `3a60d11694e8a78cf60a46f08e3ad3d6cdf94b06` using their original title, words, seed, dimensions and directions. Composed five-puzzle Letter/A4 PDFs measured without helper findings: 141,689/152,965 bytes, observed grid fonts 13.95–21.6 pt, word bank 9.5 pt, and bank baselines at least 76.5 pt from the bottom. An earlier independent technical sample included X11 winter; it is not proposed as part of the Christmas pack. The external QA harness was temporary and removed. The frozen candidates remain review-held; these measurements do not approve or publish them.
 
 Roll back by excluding/reverting this isolated package. Integrating B04 and B03c may consolidate their duplicated test-only measurement helper after both are reviewed. Production-equivalent ad behavior, real-device print and the full release gate remain separate work.
+
+## November 6 follow-up
+
+Finished the preserved worktree edits: visible help and validation errors now
+match the implemented 80-character title / 30-line / 1500-character limits.
+The PDF regression also checks real title/name/date separation and complete
+answer headings above the grid, including their page bounds. Node25 lint,
+typecheck and all 20 focused classroom/layout tests pass. The final combined
+browser rerun is recorded in integration 02; prior evidence above remains dated
+to its own checkpoint. No puzzle request or legacy renderer behavior changed.

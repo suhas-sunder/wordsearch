@@ -15,8 +15,10 @@ describe("classroom pack assignment generation", () => {
   test.each([
     [{ ...input, seed: "" }, "seed"],
     [{ ...input, title: "" }, "title"],
-    [{ ...input, title: "W".repeat(81) }, "title"],
-    [{ ...input, wordsText: "" }, "2–12"],
+    [{ ...input, title: "W".repeat(81) }, "1–80"],
+    [{ ...input, wordsText: "" }, "2–30"],
+    [{ ...input, wordsText: "A".repeat(1501) }, "1500"],
+    [{ ...input, wordsText: Array(31).fill("planet").join("\n") }, "2–30"],
     [{ ...input, wordsText: "planet\nPLANET" }, "duplicate"],
     [{ ...input, wordsText: "ice cream\nicecream" }, "duplicate"],
     [{ ...input, wordsText: "planet\n!!!" }, "English"],
