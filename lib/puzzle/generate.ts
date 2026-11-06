@@ -21,6 +21,20 @@ export const directionsByDifficulty: Record<string, DirectionKey[]> = {
   hard: ["E", "W", "S", "N", "SE", "SW", "NE", "NW"]
 };
 
+/** Undefined means use the difficulty preset; an explicit selection must be valid. */
+export function directionSelectionError(directions: unknown): string | null {
+  if (directions === undefined) return null;
+  if (Array.isArray(directions) && directions.length === 0) {
+    return "At least one direction must be selected.";
+  }
+  if (!Array.isArray(directions) || !Array.from(directions).every((direction) =>
+    typeof direction === "string" && Object.hasOwn(directionVectors, direction)
+  )) {
+    return "Directions must be a nonempty array of valid direction keys.";
+  }
+  return null;
+}
+
 export const defaultPuzzleRequest: PuzzleRequest = {
   title: "My Word Search",
   wordsText: "puzzle\nsearch\nletters\nprint\nteacher\nfamily\nwords\nsolve\nbrain\npaper",
@@ -91,19 +105,23 @@ function applyPlacement(grid: (string | null)[][], word: ParsedWord, cells: Plac
 }
 
 export function generatePuzzle(input: Partial<PuzzleRequest>): PuzzleResult {
+  const directions = input.directions === undefined
+    ? directionsByDifficulty[input.difficulty ?? defaultPuzzleRequest.difficulty]
+    : input.directions;
+  const directionError = directionSelectionError(directions);
+  if (directionError || directions === undefined) {
+    throw new Error(directionError ?? "No valid direction preset is available.");
+  }
   const request: PuzzleRequest = {
     ...defaultPuzzleRequest,
     ...input,
-    directions: input.directions?.length ? input.directions : directionsByDifficulty[input.difficulty ?? defaultPuzzleRequest.difficulty]
+    directions
   };
   const pack = getAlphabetPack(request.alphabetPack);
   const { words, warnings } = parseWordInput(request.wordsText, request.alphabetPack);
   const uniqueWords = words.filter((word) => !word.duplicateOf);
   if (!uniqueWords.length) {
     warnings.push("Add at least one supported word to generate a puzzle.");
-  }
-  if (!request.directions.length) {
-    warnings.push("At least one direction must be enabled.");
   }
 
   const { rows, cols } = chooseSize(uniqueWords, request);
