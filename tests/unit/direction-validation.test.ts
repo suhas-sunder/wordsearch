@@ -6,6 +6,14 @@ import type { PuzzleRequest } from "@/lib/puzzle/types";
 import { decodeShareState, encodeShareState, puzzlePlayPath } from "@/lib/share-state/state";
 
 describe("direction validation", () => {
+  test("documents published direction overrides against builder presets", () => {
+    const published = routeInventory.filter((record) => record.contentType === "puzzle" && record.publicationStatus === "published");
+    const overrides = (difficulty: PuzzleRequest["difficulty"]) => published.filter((record) =>
+      record.contentType === "puzzle" && record.puzzle.difficulty === difficulty &&
+      record.puzzle.directions.join(",") !== directionsByDifficulty[difficulty].join(","));
+    expect([overrides("easy").length, overrides("medium").length, overrides("hard").length]).toEqual([48, 86, 0]);
+    expect(overrides("medium").every((record) => record.contentType === "puzzle" && record.puzzle.directions.join(",") === directionsByDifficulty.hard.join(","))).toBe(true);
+  });
   test.each([[], null, "E", {}, [""], ["BAD"], ["E", "BAD"], [null], [1], ["constructor"], ["__proto__"]].map((directions) => ({ directions })))("rejects explicit invalid directions $directions before generation", ({ directions }) => {
     const input = { ...defaultPuzzleRequest, directions } as unknown as PuzzleRequest;
     expect(() => generatePuzzle(input)).toThrow(/direction/i);
