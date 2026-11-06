@@ -34,4 +34,3 @@ describe("printable direction instructions", () => {
     expect(renderToStaticMarkup(createElement(PrintablePuzzle, { puzzle }))).toContain("Find each word left to right.");
   });
 });
-
