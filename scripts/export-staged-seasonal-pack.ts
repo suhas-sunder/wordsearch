@@ -10,7 +10,7 @@ const pack = buildStagedSeasonalPack(id);
 const output = resolve(destination);
 await mkdir(output, { recursive: true });
 for (const paperSize of ["letter", "a4"] as const) {
-  const bytes = await createPuzzlePackPdf(pack, { paperSize, order: "answers-last" });
+  const bytes = await createPuzzlePackPdf(pack, { paperSize, order: "answers-last", layoutProfile: "pack" });
   await writeFile(resolve(output, `${pack.id}-${paperSize}-UNREVIEWED.pdf`), bytes);
 }
 console.log(JSON.stringify({ pack: pack.id, puzzles: pack.puzzles.length, output, editorialApproval: false, publicationAuthorized: false }));

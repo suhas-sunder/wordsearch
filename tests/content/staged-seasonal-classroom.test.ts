@@ -10,7 +10,8 @@ import { validateStaged } from "@/lib/content/staged-validation";
 import { createPuzzlePackPdf } from "@/lib/pdf/create-puzzle-pack-pdf";
 import { buildStagedSeasonalPack } from "@/lib/content/staged-seasonal-pack";
 import { generatePuzzle } from "@/lib/puzzle/generate";
-import { pdfPageSpec } from "@/lib/puzzle/output-options";
+import { defaultPuzzleOutputOptions, pdfPageSpec } from "@/lib/puzzle/output-options";
+import { measurePdfBytes } from "@/lib/pdf/measure-pdf";
 
 const candidates = [...christmasCandidates, ...seasonalClassroomCandidates];
 const redirects = readSourceInventory().redirects.map(({ source }) => source);
@@ -44,7 +45,7 @@ describe("unpublished seasonal classroom inventory", () => {
     expect(new Set(pack.puzzles.map(({ puzzle }) => JSON.stringify(puzzle.grid))).size).toBe(manifest.children.length);
     for (const paperSize of ["letter", "a4"] as const) {
       for (const order of ["answers-last", "interleaved"] as const) {
-        const bytes = await createPuzzlePackPdf(pack, { paperSize, order });
+        const bytes = await createPuzzlePackPdf(pack, { paperSize, order, layoutProfile: "pack" });
         const pdf = await PDFDocument.load(bytes);
         expect(pdf.getPageCount()).toBe(manifest.children.length * 2);
         for (const page of pdf.getPages()) {
@@ -52,6 +53,14 @@ describe("unpublished seasonal classroom inventory", () => {
           expect(page.getHeight()).toBeCloseTo(pdfPageSpec(paperSize, "portrait").height);
         }
         expect(bytes.length).toBeLessThan(2_000_000);
+        for (const [index, entry] of pack.puzzles.entries()) {
+          const pageNumber = order === "answers-last" ? index + 1 : index * 2 + 1;
+          const measurement = await measurePdfBytes(bytes, entry.puzzle, { ...defaultPuzzleOutputOptions, paperSize, qrCode: false, inkSaving: true }, pageNumber);
+          expect(measurement.findings, `${manifest.id}:${entry.id}:${paperSize}:${order}`).toEqual([]);
+          expect(measurement.grid.minFontPt).toBeGreaterThanOrEqual(9);
+          expect(measurement.wordBank).toHaveLength(entry.puzzle.placed.length);
+          expect(Math.min(...measurement.wordBank.map((box) => box.fontPt))).toBeGreaterThanOrEqual(9.5);
+        }
       }
     }
   }, 60_000);

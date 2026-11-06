@@ -66,7 +66,7 @@ does not claim those capabilities or reimplement them.
 
 ## Validation
 
-- `npm run lint`, `npm run typecheck`, `npm test`: passed, 260 tests.
+- `npm run lint`, `npm run typecheck`, `npm test`: passed initially with 260 tests; after adopting integration-02 and measured pack layout, all 297 tests passed.
 - Cross-batch audit checks all five Christmas candidates plus the sixteen new
   candidates against existing published/draft records and redirects: zero issues.
 - `npm run audit:candidates -- C:/Users/Suhas/.codex/tmp/ws-seasonal-classroom-candidates.json --export-dir=../wordsearch-growth-integration/out`:
@@ -77,7 +77,7 @@ does not claim those capabilities or reimplement them.
   new candidate. All intended entries place completely; every answer cell
   matches its word and seeded replay reproduces the grid.
 - All five named packs render both Letter/A4 and answers-last/interleaved:
-  twenty composed PDFs with correct 10/20-page counts, dimensions and size bounds.
+  twenty composed PDFs with correct 10/20-page counts, dimensions and size bounds. Every student sheet is measured with zero geometry findings, at least 9 pt grid type, at least 9.5 pt bank type and every intended word accounted for.
   Existing pack tests separately verify composition against original pages.
 - Local CLI export of Christmas Classroom passed for both paper sizes.
 - `git diff --check`: passed. There is no configured formatter script.
@@ -99,7 +99,8 @@ topical distinctness and rights review; title/word-bank layout and physical
 Letter/A4 review. Technical matching does not certify educational outcomes,
 age/grade suitability, disability accessibility or safety instruction. Standard
 PDF bank text remains 9.5 pt in the inherited profile; no large-print claim is
-made. Long titles must receive the separate measured-layout checkpoint's QA.
+made. The CLI and all pack variants now explicitly opt into the measured pack profile from integration-02; long-title wrapping and word-bank geometry are verified for these actual children.
 
 No advertising lifecycle, placement or placeholder behavior changed. Reverting
 this package removes only source inventory, editorial export tooling and tests.
+
