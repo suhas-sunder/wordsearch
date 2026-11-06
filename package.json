@@ -34,7 +34,8 @@
     "test:ads": "node tests/e2e/monetization-placeholders.mjs",
     "inventory:content": "tsx scripts/content-inventory.ts",
     "audit:candidates": "tsx scripts/audit-candidates.ts",
-    "audit:print-measure": "tsx scripts/measure-print.ts"
+    "audit:print-measure": "tsx scripts/measure-print.ts",
+    "test:solver-progress": "tsx tests/e2e/solver-progress.ts"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
