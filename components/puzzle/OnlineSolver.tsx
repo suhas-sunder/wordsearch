@@ -18,6 +18,7 @@ import {
   type SolverPreferences
 } from "@/components/puzzle/SolverPreferencesDialog";
 import { PuzzleUtilities } from "@/components/puzzle/PuzzleUtilities";
+import { CompletionResult } from "@/components/puzzle/CompletionResult";
 
 const preferencesStorageKey = "ilws:solver-preferences";
 
@@ -62,6 +63,8 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   const pointerFrameRef = useRef<number | null>(null);
   const pointerPositionRef = useRef<{ x: number; y: number } | null>(null);
   const foundPlacementIdsRef = useRef(foundPlacementIds);
+  const startedAt = useRef<number | null>(null);
+  const [completionElapsed, setCompletionElapsed] = useState<number | null>(null);
 
   const activePath = useMemo(
     () => activeSelection ? createCoordinatePath(activeSelection.start, activeSelection.end) : [],
@@ -136,6 +139,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
     }
     const next = new Set(currentFound);
     next.add(placement.wordId);
+    if (next.size === puzzle.placed.length) setCompletionElapsed(startedAt.current === null ? null : Math.max(0, performance.now() - startedAt.current));
     foundPlacementIdsRef.current = next;
     setFoundPlacementIds(next);
     setActiveSelection(null);
@@ -284,6 +288,8 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   }
 
   function beginPuzzle() {
+    startedAt.current = performance.now();
+    setCompletionElapsed(null);
     setGameStarted(true);
     setAnnouncement(`Puzzle started. ${progressText}.`);
     focusGridCell(focusedCell);
@@ -294,6 +300,8 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
     const empty = new Set<string>();
     foundPlacementIdsRef.current = empty;
     setFoundPlacementIds(empty);
+    startedAt.current = null;
+    setCompletionElapsed(null);
     cancelPointerSelection();
     setActiveSelection(null);
     setFocusedCell({ row: 0, col: 0 });
@@ -466,6 +474,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
             <div>
               <h2 id="solver-complete-title">Puzzle complete</h2>
               <p>You found all {puzzle.placed.length} words. Your completed highlights remain on the grid.</p>
+              <CompletionResult stats={{ wordsFound: puzzle.placed.length, rows: puzzle.rows, cols: puzzle.cols, elapsedMs: completionElapsed }} />
             </div>
             <button type="button" className="secondary-button" onClick={resetPuzzle}>Replay this puzzle</button>
           </section>
