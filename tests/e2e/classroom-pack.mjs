@@ -7,7 +7,7 @@ import { strict as assert } from "node:assert";
 
 const base = process.env.BASE_URL ?? "http://127.0.0.1:3225";
 const browser = await chromium.launch({ headless: true });
-const words = "planet\ncomet\nstar\nmoon";
+const words = Array.from({ length: 30 }, (_, i) => Array.from({ length: 10 }, (_, j) => j === i % 10 ? String.fromCharCode(66 + Math.floor(i / 10)) : "A").join("")).join("\n");
 async function downloadBytes(download) {
   const chunks = [];
   for await (const chunk of await download.createReadStream()) chunks.push(chunk);
@@ -20,7 +20,7 @@ async function readPages(bytes) {
   for (let i = 1; i <= pdf.numPages; i++) {
     const content = await (await pdf.getPage(i)).getTextContent();
     const values = content.items.filter((item) => "str" in item).map((item) => item.str);
-    pages.push({ text: values.join(" "), grid: values.filter((value) => /^[A-Z]$/.test(value)).slice(0, 225).join("") });
+    pages.push({ text: values.join(" "), grid: values.filter((value) => /^[A-Z]$/.test(value)).slice(0, 400).join("") });
   }
   await pdf.destroy();
   return pages;
@@ -58,12 +58,18 @@ try {
   assert.equal(await page.getByLabel("Words or phrases").inputValue(), difficult);
   await page.getByLabel("Base seed").fill("teacher-1");
   await page.getByLabel("Puzzles").selectOption("5");
+  await page.getByLabel("Words or phrases").fill("planet\ncomet");
+  await page.getByLabel("Pack title").fill("W".repeat(70));
+  await page.getByRole("button", { name: "Download PDF pack" }).click();
+  assert.match(await page.locator("form").getByRole("alert").innerText(), /title is too long/i);
+  assert.equal(await page.getByLabel("Pack title").inputValue(), "W".repeat(70));
   await page.getByLabel("Words or phrases").fill(words);
+  await page.getByLabel("Pack title").fill("Christmas Classroom Vocabulary Activity");
   await page.route("**/_next/static/chunks/**", async (route) => { await new Promise((resolve) => setTimeout(resolve, 300)); await route.continue(); });
   let requestStart = requests.length;
   const [fiveDownload] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Download PDF pack" }).click(), page.getByRole("button", { name: "Preparing PDF…" }).waitFor()]);
   const fiveBytes = await downloadBytes(fiveDownload);
-  assert.equal(fiveDownload.suggestedFilename(), "classroom-word-search-pack.pdf");
+  assert.equal(fiveDownload.suggestedFilename(), "christmas-classroom-vocabulary-activity-word-search-pack.pdf");
   const fivePdf = await PDFDocument.load(fiveBytes);
   assert.equal(fivePdf.getPageCount(), 10);
   assert.equal(fivePdf.getPage(0).getWidth(), 612);
@@ -72,9 +78,9 @@ try {
   assert.ok(exportRequests.every((request) => request.method === "GET" && new URL(request.url).origin === new URL(base).origin));
   const five = await readPages(fiveBytes);
   for (let i = 0; i < 5; i++) {
-    assert.match(five[i].text, new RegExp(`Classroom - 0${i + 1}`));
+    assert.match(five[i].text, new RegExp(`Christmas Classroom Vocabulary Activity - 0${i + 1}`));
     assert.match(five[i + 5].text, /Answer Key/);
-    assert.equal(five[i].grid.length, 225);
+    assert.equal(five[i].grid.length, 400);
     assert.equal(five[i].grid, five[i + 5].grid);
   }
   await page.getByLabel("Puzzles").selectOption("10");
@@ -91,9 +97,9 @@ try {
   assert.ok(exportRequests.every((request) => request.method === "GET" && new URL(request.url).origin === new URL(base).origin));
   const ten = await readPages(tenBytes);
   for (let i = 0; i < 10; i++) {
-    assert.match(ten[2 * i].text, new RegExp(`Classroom - ${String(i + 1).padStart(2, "0")}`));
+    assert.match(ten[2 * i].text, new RegExp(`Christmas Classroom Vocabulary Activity - ${String(i + 1).padStart(2, "0")}`));
     assert.match(ten[2 * i + 1].text, /Answer Key/);
-    assert.equal(ten[2 * i].grid.length, 225);
+    assert.equal(ten[2 * i].grid.length, 400);
     assert.equal(ten[2 * i].grid, ten[2 * i + 1].grid);
     if (i < 5) assert.equal(ten[2 * i].grid, five[i].grid);
   }

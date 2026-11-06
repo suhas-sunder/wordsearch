@@ -14,13 +14,14 @@ export interface PuzzlePack {
 export interface PuzzlePackOptions {
   paperSize: PaperSize;
   order: "answers-last" | "interleaved";
+  layoutProfile?: "legacy" | "pack";
 }
 
 /** Verify seeded replay, then compose the existing single-puzzle pages. */
 export async function createPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackOptions) {
   const validId = (id: unknown) => typeof id === "string" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) && id.length <= 80;
   if (!pack || !validId(pack.id) || typeof pack.name !== "string" || !pack.name.trim() || pack.name.length > 100) throw new Error("Invalid pack identity.");
-  if (!options || !["letter", "a4"].includes(options.paperSize) || !["answers-last", "interleaved"].includes(options.order)) throw new Error("Invalid pack options.");
+  if (!options || !["letter", "a4"].includes(options.paperSize) || !["answers-last", "interleaved"].includes(options.order) || (options.layoutProfile !== undefined && !["legacy", "pack"].includes(options.layoutProfile))) throw new Error("Invalid pack options.");
   if (!Array.isArray(pack.puzzles) || ![5, 10].includes(pack.puzzles.length)) throw new Error("A pack must contain exactly 5 or 10 puzzles.");
   const ids = new Set<string>();
   const grids = new Set<string>();
@@ -51,7 +52,8 @@ export async function createPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackO
     const bytes = await createPuzzlePdf({
       puzzle: entry.puzzle,
       options: { ...defaultPuzzleOutputOptions, paperSize: options.paperSize, orientation: "portrait", includeAnswerKey: true, qrCode: false, inkSaving: true },
-      shareUrl: puzzlePlayUrl(entry.puzzle.request)
+      shareUrl: puzzlePlayUrl(entry.puzzle.request),
+      layoutProfile: options.layoutProfile
     });
     const source = await PDFDocument.load(bytes);
     if (source.getPageCount() !== 2) throw new Error("Single-puzzle PDF must contain exactly one puzzle and one answer page.");
