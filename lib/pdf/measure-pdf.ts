@@ -35,7 +35,7 @@ export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, o
     const cellHeightPt = Math.abs(cy(glyphs[puzzle.cols]) - cy(glyphs[0]));
     const centersX = glyphs.map(cx), centersY = glyphs.map(cy);
     const bounds = { x: Math.min(...centersX) - cellWidthPt / 2, y: Math.min(...centersY) - cellHeightPt / 2, width: cellWidthPt * puzzle.cols, height: cellHeightPt * puzzle.rows };
-    const titleLines = text.filter((item) => item.fontPt >= 12 && item.text.length >= 3 && puzzle.request.title.includes(item.text) && item.y > bounds.y + bounds.height);
+    const titleLines = text.filter((item) => item.fontPt >= 12 && item.text.length >= 1 && puzzle.request.title.includes(item.text) && item.y > bounds.y + bounds.height);
     const title = titleLines.length ? { text: titleLines.map((line) => line.text).join(" "), x: Math.min(...titleLines.map((line) => line.x)), y: Math.min(...titleLines.map((line) => line.y)), width: Math.max(...titleLines.map((line) => line.x + line.width)) - Math.min(...titleLines.map((line) => line.x)), height: Math.max(...titleLines.map((line) => line.y + line.height)) - Math.min(...titleLines.map((line) => line.y)), fontPt: Math.min(...titleLines.map((line) => line.fontPt)) } : null;
     const labels = puzzle.placed.map((placement) => placement.label);
     const candidates = text.slice(text.indexOf(glyphs[glyphs.length - 1]) + 1).filter((item) => !["Exact seeded word search", "Scan to open the same unsolved puzzle."].includes(item.text));

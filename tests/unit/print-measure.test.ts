@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+import { PDFDocument, StandardFonts } from "pdf-lib";
 import { measurePdfBytes, measurePuzzlePdf } from "@/lib/pdf/measure-pdf";
 import { createPuzzlePdf } from "@/lib/pdf/create-puzzle-pdf";
 import { generatePuzzle } from "@/lib/puzzle/generate";
@@ -43,6 +44,18 @@ describe("rendered PDF measurements", () => {
     const many = generatePuzzle({ ...puzzle.request, title: "Crowded Bank", wordsText: Array.from({ length: 40 }, (_, index) => `VOCABULARY${String(index).padStart(2, "0")}`).join("\n"), rows: 40, cols: 40 });
     const result = await measurePuzzlePdf(many, options);
     expect(result.findings.some((finding) => ["outside-page", "word-bank-footer-overlap", "words-not-measured"].includes(finding.code))).toBe(true);
+  });
+  test("includes a short final line of a wrapped title", async () => {
+    const titled = generatePuzzle({ ...puzzle.request, title: "Wrapped Title 01" });
+    const document = await PDFDocument.create();
+    const font = await document.embedFont(StandardFonts.HelveticaBold);
+    const page = document.addPage([612, 792]);
+    page.drawText("Wrapped Title", { x: 36, y: 730, size: 18, font });
+    page.drawText("01", { x: 36, y: 708, size: 18, font });
+    titled.grid.forEach((row, r) => row.forEach((token, c) => page.drawText(token, { x: 40 + c * 25, y: 650 - r * 25, size: 12, font })));
+    const result = await measurePdfBytes(await document.save(), titled, options);
+    expect(result.titleLines.map((line) => line.text)).toEqual(["Wrapped Title", "01"]);
+    expect(result.findings.map((finding) => finding.code)).not.toContain("title-text-clipped");
   });
   test("detects a long title colliding with name and date", async () => {
     const long = generatePuzzle({ ...puzzle.request, title: "A Very Long Descriptive Word Search Worksheet Title For Classroom Use" });
