@@ -6,7 +6,7 @@ const state = Buffer.from(JSON.stringify({
   wordsText: "APPLE\nBANANA\nCHERRY",
   seed: "ui-icon-review",
   difficulty: "easy",
-  alphabetPack: "english",
+  alphabetPack: "latin",
   rows: 8,
   cols: 8,
   autoSize: false,
