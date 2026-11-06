@@ -15,3 +15,12 @@ export const secondaryNavigation = [
   { href: "/word-search-worksheets", label: "Worksheets" },
   { href: "/word-search-pdf", label: "PDF puzzles" }
 ] as const;
+
+export const helpNavigation = [
+  { href: "/about", label: "About" },
+  { href: "/how-word-searches-are-made", label: "How puzzles are made" },
+  { href: "/contact", label: "Contact" },
+  { href: "/editorial-policy", label: "Editorial policy" },
+  { href: "/accessibility", label: "Accessibility" },
+  { href: "/search", label: "Open the full search page" }
+] as const;
