@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { indexedAdMarkupIssues } from "./ad-markup-contract.mjs";
 
 const manifest = JSON.parse(await readFile(new URL("./route-audit-manifest.json", import.meta.url), "utf8"));
 const baseUrl = (process.env.BASE_URL ?? "http://localhost:3000").replace(/\/$/, "");
@@ -219,7 +220,10 @@ await mapLimited(sitemapUrls, 12, async (sitemapUrl) => {
   if (/\b(coming soon|under construction|lorem ipsum)\b/i.test(visibleText) || /\{\{[^}]+\}\}/.test(visibleText)) fail(path, "contains unresolved or under-construction copy");
   if (/\b(page not found|404 not found|content not found)\b/i.test(visibleText)) fail(path, "appears to be a soft 404");
   if (/localhost(?::\d+)?/i.test(html)) fail(path, "contains localhost production metadata");
-  if (/data-ad-placement=/i.test(html)) fail(path, "renders an ad placeholder when placeholders are disabled");
+  const slots = tags(html, "aside").map(({ attrs }) => attrs).filter((attrs) => Object.hasOwn(attrs, "data-ad-placement"));
+  const units = tags(html, "ins").map(({ attrs }) => attrs).filter((attrs) => attrs["data-ilws-ad-unit"] === "true");
+  const placeholders = [...tags(html, "aside"), ...tags(html, "span")].map(({ attrs }) => attrs).filter((attrs) => attrs["data-ad-placeholder"] === "true");
+  for (const issue of indexedAdMarkupIssues({ slots, units, placeholders, enabled: process.env.EXPECT_ADSENSE_ENABLED !== "off" })) fail(path, issue);
 
   const ogUrl = metaContent(html, "property", "og:url");
   const ogTitle = metaContent(html, "property", "og:title");
