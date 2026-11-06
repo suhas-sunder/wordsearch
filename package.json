@@ -14,6 +14,7 @@
     "test:seo": "vitest run tests/seo",
     "audit:content": "vitest run tests/content/current-content-audit.test.ts --reporter=verbose",
     "audit:routes": "node tests/e2e/route-audit.mjs",
+    "test:route-ad-contract": "node --test tests/e2e/ad-markup-contract.test.mjs",
     "test:a11y": "node tests/e2e/accessibility.mjs",
     "audit:lighthouse": "node tests/e2e/lighthouse-audit.mjs",
     "audit:pdf": "node tests/e2e/pdf-visual-audit.mjs",
