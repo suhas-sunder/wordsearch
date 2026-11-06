@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
 import { Download, Play, RefreshCw, Shuffle, Upload } from "lucide-react";
-import { generatePuzzle, directionsByDifficulty } from "@/lib/puzzle/generate";
+import { generatePuzzle, directionsByDifficulty, directionSelectionError } from "@/lib/puzzle/generate";
 import type { AlphabetPackId, Difficulty, DirectionKey, PuzzleRequest } from "@/lib/puzzle/types";
 import { nextSeed } from "@/lib/puzzle/prng";
 import { decodeShareState, stateId } from "@/lib/share-state/state";
@@ -53,12 +53,16 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     wordsText: initialRequest.wordsText ?? ""
   });
   const [debouncedRequest, setDebouncedRequest] = useState(request);
+  const [stateLoaded, setStateLoaded] = useState(!persistState);
   const [isPending, startTransition] = useTransition();
   const fileInput = useRef<HTMLInputElement | null>(null);
   const urlStateActive = useRef(false);
+  const directionHelpId = useId();
 
   useEffect(() => {
     if (!persistState) return;
+    // Restore before exposing any default puzzle/output controls for a shared URL.
+    setStateLoaded(true);
     const sharedState = decodeShareState(new URLSearchParams(window.location.search).get("state"));
     if (sharedState) {
       urlStateActive.current = true;
@@ -89,8 +93,10 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     return () => window.clearTimeout(handle);
   }, [persistState, request]);
 
-  const puzzle = useMemo(() => generatePuzzle(debouncedRequest), [debouncedRequest]);
-  const encoded = useMemo(() => stateId(puzzle.request), [puzzle.request]);
+  const directionError = directionSelectionError(request.directions);
+  const puzzle = useMemo(() => !stateLoaded || directionError || directionSelectionError(debouncedRequest.directions)
+    ? null : generatePuzzle(debouncedRequest), [debouncedRequest, directionError, stateLoaded]);
+  const encoded = useMemo(() => puzzle ? stateId(puzzle.request) : "", [puzzle]);
 
   function patch(next: Partial<PuzzleRequest>) {
     setRequest((current) => ({ ...current, ...next }));
@@ -101,15 +107,16 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   }
 
   function toggleDirection(direction: DirectionKey) {
-    const directions = request.directions ?? directionsByDifficulty[request.difficulty ?? "medium"];
-    patch({
-      directions: directions.includes(direction)
-        ? directions.filter((item) => item !== direction)
-        : [...directions, direction]
+    setRequest((current) => {
+      const directions = current.directions ?? directionsByDifficulty[current.difficulty ?? "medium"];
+      const remaining = directions.filter((item) => item !== direction);
+      if (directions.includes(direction) && !remaining.length) return current;
+      return { ...current, directions: directions.includes(direction) ? remaining : [...directions, direction] };
     });
   }
 
   function downloadSvg() {
+    if (!puzzle) return;
     const svg = document.querySelector(".builder-preview .puzzle-svg");
     if (!svg) return;
     const blob = new Blob([new XMLSerializer().serializeToString(svg)], { type: "image/svg+xml" });
@@ -124,6 +131,22 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   function handleFile(file: File | undefined) {
     if (!file) return;
     file.text().then((text) => patch({ wordsText: text }));
+  }
+
+  if (!stateLoaded) {
+    return <section className="builder-loading-shell" aria-busy="true"><p>Checking saved puzzle settings…</p></section>;
+  }
+
+  if (directionError || !puzzle) {
+    return (
+      <section className="builder-surface content-section" aria-label="Word search builder">
+        <h2>Check puzzle directions</h2>
+        <p role="alert">{directionError ?? "Updating puzzle directions…"} No puzzle can be played, shared, printed, or exported until directions are valid.</p>
+        <button type="button" className="primary-button" onClick={() => setDifficulty("medium")}>
+          Use medium preset directions
+        </button>
+      </section>
+    );
   }
 
   const placedLabels = new Set(puzzle.placed.map((placement) => placement.wordId));
@@ -224,11 +247,15 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
                   className={directions.includes(direction) ? "active" : ""}
                   onClick={() => toggleDirection(direction)}
                   aria-label={`Toggle ${direction} direction`}
+                  aria-pressed={directions.includes(direction)}
+                  aria-disabled={directions.includes(direction) && directions.every((item) => item === direction)}
+                  aria-describedby={directionHelpId}
                 >
                   {label}
                 </button>
               ))}
             </div>
+            <p id={directionHelpId} className="control-help">Keep at least one direction selected. To remove the last direction, select another direction first.</p>
           </fieldset>
           <div className="checkbox-list">
             <label><input type="checkbox" checked={request.allowOverlap ?? true} onChange={(event) => patch({ allowOverlap: event.target.checked })} /> Allow overlap</label>
