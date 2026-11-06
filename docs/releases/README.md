@@ -1,5 +1,34 @@
 # Controlled delivery: two independent tracks
 
+## Current review candidates — November 6, 2026
+
+Production/main is `471a118dd459f2181cd641ed0572ba6dd7005540`: ChatGPT
+reviewed and squash-merged PR #1 and reports its successful Netlify deployment.
+PR #1's old parent commit must not be merged again. Remaining UI deltas from
+PRs #7/#10 are reconstructed independently on current main in
+[draft PR #15](https://github.com/suhas-sunder/wordsearch/pull/15),
+`fasttrack/2026-11-06-ui-integration`, head
+`fea066dcf03bb755b166fca23aee991ee541d311`; original branches/PRs remain preserved.
+
+The owner authorized a combined **review candidate**, based on current main, for
+PRs #2/#3/#5/#6/#9/#11/#12 plus #4/#13 evidence and #8's classified test repair:
+`release/2026-W46-integrated-candidate`. This supersedes earlier scheduling/status
+notes for those implemented packages; it does not approve production. The first
+weekly target remains Thursday November 12 review / Friday November 13 release,
+subject to unresolved gates. See [combined evidence](INTEGRATION-2026-11-06.md),
+[workload measurements](WORKLOAD-2026-11-06.md) and
+[ad eligibility classification](AD-ELIGIBILITY-2026-11-06.md).
+Original package and overnight records are historical evidence, not current
+production status. No original `ai-issues` document is rewritten.
+
+Main currently has **no GitHub branch protection**, confirmed through its branch
+API. Follow the written PR/release gates regardless. See the
+[required-PR protection proposal](BRANCH-PROTECTION-PROPOSAL.md); no administration
+settings were changed. Codex must not push/merge main, enable auto-merge or trigger
+production under this candidate-preparation authorization. ChatGPT releases and
+monitors approved work. After any main change, refresh/revalidate the candidate
+before release and record the exact resulting production SHA/deployment ID.
+
 Latest implementation authorization and package status:
 [November 5 overnight handoff](OVERNIGHT-2026-11-05.md). It advances the eight
 assigned implementation/investigation packages on isolated review branches,
@@ -74,9 +103,11 @@ records are independent of the weekly ledger and do not mark weekly fixes releas
 The first requested batch is logo/icon/footer consistency (owner 1, 2, 8),
 on `fasttrack/2026-11-05-brand-footer`; its implementer selects only demonstrably
 visual changes and maintains a separate record. Initial batch is implemented and
-pushed at `3f1b2b3db8ad3ed90e65228855b54c3910251a3e`, awaiting independent review in
-[draft PR #1](https://github.com/suhas-sunder/wordsearch/pull/1); no production
-deployment occurred. [Track A evidence](https://github.com/suhas-sunder/wordsearch/blob/3f1b2b3db8ad3ed90e65228855b54c3910251a3e/docs/releases/fast-track-2026-11-05-brand-footer.md).
+pushed at `3f1b2b3db8ad3ed90e65228855b54c3910251a3e`, independently reviewed and
+released through [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1) as
+production/main `471a118dd459f2181cd641ed0572ba6dd7005540` on November 6.
+ChatGPT reports successful Netlify deployment; its deployment ID remains to be
+recorded by the release operator. [Original Track A evidence](https://github.com/suhas-sunder/wordsearch/blob/3f1b2b3db8ad3ed90e65228855b54c3910251a3e/docs/releases/fast-track-2026-11-05-brand-footer.md).
 The earlier O01 weekly candidate may be satisfied by that batch only after
 its evidence is linked; do not duplicate completed work.
 
@@ -105,7 +136,7 @@ split into bounded checkpoints before implementation.
 | Nov 26 / Nov 27 | WS-W48-01: WS-A02 difficulty semantics diagnosis | Inventory and safe control fix implemented; semantic decision remains open | Published overrides retained; reselecting active difficulty is a no-op; owner approval needed before changing preset meaning/grids | [PR #3](https://github.com/suhas-sunder/wordsearch/pull/3), `7211ff2` | Holiday staffing; changing presets could change established puzzles |
 | Dec 3 / Dec 4 | WS-W49-01: WS-A04 incomplete worksheet integrity | Proposed | Owner decides blocking vs informed override; duplicates/exclusions count and warning parity across builder/utilities; print/PDF/solver tests | Not created | Silent missing answers; avoid adding unplaced words to word bank |
 | Dec 10 / Dec 11 | WS-W50-01: WS-A06 direction instruction correctness | Output-only correction implemented/tested; draft review pending | Keep serialized requests/grids; derive legacy default output instructions from permitted directions; preserve other authored text | [PR #5](https://github.com/suhas-sunder/wordsearch/pull/5), `8709048` | Identical legacy/authored default text cannot be distinguished; no mass editorial rewrite |
-| Dec 17 / Dec 18 | WS-W51-01: Owner 1 consistent logo | Track A batch awaiting review; replace this slot if accepted | Owner README; screenshot inventory; mobile/desktop/focus/print checks; retain existing URLs and page copy | [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1), `3f1b2b3` | Shared header/footer layout; no ad wrapper/lifecycle edits |
+| Dec 17 / Dec 18 | WS-W51-01: Owner 1 consistent logo | Released November 6 through Track A; replace this future slot | ChatGPT reviewed, merged and reports successful Netlify deployment | [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1), production `471a118` | Record provider deployment ID; no repeated implementation |
 
 These are the first six Track B technical/UI release candidates; clearly qualifying
 visual subsets may instead ship through Track A as soon as validated. Record
@@ -146,9 +177,9 @@ packages. None is approved for implementation by this schedule alone.
 
 | Package family / owner issue | First bounded checkpoint | Status / dependency | Required evidence / main risk | Commit / PR |
 | --- | --- | --- | --- | --- |
-| WS-O02 / 2 | Inventory and standardize existing action/category Lucide icons in one surface | Footer/static-action/category subsets implemented, review pending; other surfaces remain queued | Existing Lucide library, accessible decorative icons, desktop/mobile evidence | [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1), [PR #7](https://github.com/suhas-sunder/wordsearch/pull/7), [PR #10](https://github.com/suhas-sunder/wordsearch/pull/10) |
+| WS-O02 / 2 | Inventory and standardize existing action/category Lucide icons in one surface | Footer released; action/category subsets reconstructed and combined-tested, draft review pending | Existing Lucide library, accessible decorative icons, desktop/mobile evidence | Footer [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1); current icon candidate [PR #15](https://github.com/suhas-sunder/wordsearch/pull/15); originals #7/#10 preserved |
 | WS-O05 / 5 | Header right alignment and organized More menu | Queued; O02 conventions | Keyboard/escape/focus/mobile navigation and crawlable links; search behavior separately reviewed | Not created |
-| WS-O08 / 8 | Separate footer copyright/legal row | Implemented in Track A, review pending | Link inventory and responsive screenshots; preserve legal destinations | [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1), `3f1b2b3` |
+| WS-O08 / 8 | Separate footer copyright/legal row | Released November 6 through Track A | ChatGPT independent review and reported successful production deployment | [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1), production `471a118` |
 | WS-O09 / 9 | Author attribution in existing About surface | Queued; owner verifies bio | Human fact-check, metadata and link tests; no invented credentials | Not created |
 | WS-O11 / 11 | One existing section's hierarchy/buttons | Queued; screenshot acceptance | Mobile/desktop contrast and focus; retain successful content | Not created |
 | WS-O13 / 13 | One reproduced remaining builder-settings defect | Queued; correctness releases reviewed | Failing test first; seed/print/share parity; no broad redesign | Not created |

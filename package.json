@@ -24,6 +24,9 @@
     "test:directions": "node tests/e2e/direction-validation.mjs",
     "test:instructions": "node tests/e2e/printable-instructions.mjs",
     "test:inputs": "node tests/e2e/request-validation.mjs",
+    "test:workload": "node tests/e2e/generation-workload.mjs",
+    "test:parity": "node tests/e2e/share-route-parity.mjs",
+    "test:transport": "tsx tests/e2e/share-transport-study.ts",
     "test:e2e": "node tests/e2e/request-validation.mjs && node tests/e2e/direction-validation.mjs && node tests/e2e/browser-smoke.mjs && node tests/e2e/monetization-placeholders.mjs",
     "test:ads": "node tests/e2e/monetization-placeholders.mjs"
   },

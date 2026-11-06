@@ -1,4 +1,7 @@
 import { alphabetPacks } from "@/lib/alphabet-packs";
+import { parseWordInput } from "@/lib/puzzle/parse";
+import { choosePuzzleSize, maxPlacementTokenChecks, placementTokenCheckBound } from "@/lib/puzzle/generation-limits";
+import type { AlphabetPackId, PuzzleRequest } from "@/lib/puzzle/types";
 
 export const puzzleInputLimits = {
   minDimension: 6, maxDimension: 40, maxWords: 200, maxTokensPerWord: 128,
@@ -70,6 +73,15 @@ export function puzzleRequestError(input: unknown): string | null {
     if (new TextEncoder().encode(JSON.stringify(request)).length > puzzleInputLimits.maxRequestBytes) return "Puzzle configuration exceeds the 24000-byte share-state limit.";
   } catch {
     return "Puzzle configuration must be serializable JSON.";
+  }
+  if (typeof request.wordsText === "string") {
+    const words = parseWordInput(request.wordsText, (request.alphabetPack ?? "latin") as AlphabetPackId).words.filter((word) => !word.duplicateOf);
+    const effective = { autoSize: true, allowOverlap: true, ...request } as Partial<PuzzleRequest>;
+    const { rows, cols } = choosePuzzleSize(words, effective);
+    const count = Array.isArray(request.directions) ? request.directions.length : request.difficulty === "easy" ? 2 : request.difficulty === "hard" ? 8 : 4;
+    if (placementTokenCheckBound(words, rows, cols, count) > maxPlacementTokenChecks) {
+      return "Puzzle workload exceeds the safe placement limit. Use fewer or shorter words, a smaller grid, or fewer repeated direction entries.";
+    }
   }
   return null;
 }

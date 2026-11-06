@@ -7,7 +7,8 @@ const fixture = { title: "Input bounds", wordsText: "cat\ndog\nbird", seed: "inp
 const invalid = [
   { rows: 0 }, { cols: -1 }, { rows: 12.5 }, { rows: 1e9 }, { rows: "12" },
   { alphabetPack: "missing" }, { autoSize: "false" }, { directions: [] },
-  { title: "x".repeat(257) }, { wordsText: Array(201).fill("cat").join("\n") }
+  { title: "x".repeat(257) }, { wordsText: Array(201).fill("cat").join("\n") },
+  { autoSize: undefined, rows: 6, cols: 6, directions: Array(128).fill("E"), wordsText: Array.from({ length: 20 }, (_, i) => "A".repeat(20) + String.fromCharCode(66 + i)).join("\n") }
 ];
 const browser = await chromium.launch({ headless: true });
 try {
@@ -78,6 +79,19 @@ try {
     await rowInput.fill(previousRows);
     await page.locator(".builder-preview .puzzle-svg").waitFor();
     assert.equal(await page.getByLabel("Rows", { exact: true }).inputValue(), previousRows);
+
+    // Integration of PR #3 and #9: a difficulty change is an edit; clicking the
+    // active difficulty remains a no-op even while a dimension draft is invalid.
+    await rowInput.fill("");
+    await page.getByRole("button", { name: "medium", exact: true }).click();
+    assert.equal(await rowInput.inputValue(), "");
+    assert.equal(await page.locator(".builder-controls").count(), 1);
+    await page.getByRole("button", { name: "hard", exact: true }).click();
+    assert.equal(await rowInput.inputValue(), "");
+    assert.equal(await page.locator(".builder-controls").count(), 1);
+    await rowInput.fill(previousRows);
+    await page.locator(".builder-preview .puzzle-svg").waitFor();
+    assert.equal(await page.locator('.direction-grid [aria-pressed="true"]').count(), 8);
     await page.locator('input[type="file"]').setInputFiles({ name: "oversized.txt", mimeType: "text/plain", buffer: Buffer.alloc(64_001, 65) });
     await page.locator(".builder-surface").getByRole("alert").filter({ hasText: /file is too large/i }).waitFor();
     await page.locator('input[type="file"]').setInputFiles({ name: "valid.txt", mimeType: "text/plain", buffer: Buffer.from("cat\ndog") });

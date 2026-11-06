@@ -301,7 +301,9 @@ for (const { path, canonical } of noindexRoutes) {
   const canonicalValues = tags(html, "link").filter(({ attrs }) => attrs.rel?.toLowerCase().split(/\s+/).includes("canonical")).map(({ attrs }) => attrs.href);
   if (canonicalValues.length !== 1 || absoluteCanonicalPath(canonicalValues[0]) !== canonical) fail(path, `unexpected canonical ${canonicalValues.join(", ")}`);
   if (sitemapPaths.has(new URL(path, canonicalHost).pathname)) fail(path, "noindex route appears in sitemap");
-  if (/data-ad-placement=/i.test(html)) fail(path, "ineligible noindex route renders an ad slot");
+  // Repository rule: docs/audits/adsense-live-integration-review.md §9 lists
+  // draft/noindex content as ad-free. This assertion is not an ad-network ruling.
+  if (/data-ad-placement=/i.test(html)) fail(path, "repository eligibility mismatch: draft/noindex route renders an ad slot (not an AdSense policy determination)");
 }
 
 const invalidRoutes = [
