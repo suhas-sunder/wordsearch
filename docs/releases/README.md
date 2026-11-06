@@ -1,5 +1,12 @@
 # Controlled delivery: two independent tracks
 
+Latest implementation authorization and package status:
+[November 5 overnight handoff](OVERNIGHT-2026-11-05.md). It advances the eight
+assigned implementation/investigation packages on isolated review branches,
+including a WS-A03 child of PR #2, while preserving every production gate below.
+Earlier milestone stop instructions remain historical, not a reason to end this
+explicitly authorized multi-package run after one PR.
+
 Source of truth for requested product work: [owner README](../../ai-issues/README.md).
 The [independent audit](../../ai-issues/2026-10-14-independent-audit-and-release-backlog.md)
 is evidence and a candidate backlog, not blanket implementation authorization.
@@ -94,10 +101,10 @@ split into bounded checkpoints before implementation.
 | Review / Friday target | Package / issue | Status | Dependencies / acceptance evidence | Commit / PR | Known risk |
 | --- | --- | --- | --- | --- | --- |
 | Nov 12 / Nov 13, 2026 | WS-W46-01: release setup + WS-A01 directions | Implemented/tested; independent review and baseline release findings pending (see evidence record) | Runtime reproduction; unit/browser regression; baseline seeded compatibility; launch checks with failures recorded | Branch `release/2026-W46-direction-validation`; [review lookup](https://github.com/suhas-sunder/wordsearch/pulls?q=is%3Apr+head%3Arelease%2F2026-W46-direction-validation); exact references in package record | Empty legacy links fail explicitly; baseline route/Lighthouse/security findings block production |
-| Nov 19 / Nov 20 | WS-W47-01: WS-A03 external-input bounds | Proposed, NOT started | W46 independent review first; schema design and old-link compatibility inventory; finite/bounded dimensions and malformed-input tests | Not created | Parser compatibility/performance; explicit approval needed for migration design |
-| Nov 26 / Nov 27 | WS-W48-01: WS-A02 difficulty semantics diagnosis | Proposed, investigation only | Preserve published grids; inventory medium overrides, labels, reselecting Medium, play/share/print/PDF; owner chooses policy before any correction | Not created | Holiday staffing; changing presets could change established puzzles |
+| Nov 19 / Nov 20 | WS-W47-01: WS-A03 external-input bounds | Implemented/tested overnight; draft review pending | Owner authorized stacked implementation from PR #2; input limits, old-link envelope and 150 fingerprints documented | [PR #9](https://github.com/suhas-sunder/wordsearch/pull/9), `620c5b5` | Pathological old definitions outside the explicit envelope now reject; no published grid migration |
+| Nov 26 / Nov 27 | WS-W48-01: WS-A02 difficulty semantics diagnosis | Inventory and safe control fix implemented; semantic decision remains open | Published overrides retained; reselecting active difficulty is a no-op; owner approval needed before changing preset meaning/grids | [PR #3](https://github.com/suhas-sunder/wordsearch/pull/3), `7211ff2` | Holiday staffing; changing presets could change established puzzles |
 | Dec 3 / Dec 4 | WS-W49-01: WS-A04 incomplete worksheet integrity | Proposed | Owner decides blocking vs informed override; duplicates/exclusions count and warning parity across builder/utilities; print/PDF/solver tests | Not created | Silent missing answers; avoid adding unplaced words to word bank |
-| Dec 10 / Dec 11 | WS-W50-01: WS-A06 direction instruction correctness | Proposed | A02 policy diagnosis; preserve vetted custom text; actual-direction vs student/PDF/answer-key assertions | Not created | Factual copy only; no mass editorial rewrite |
+| Dec 10 / Dec 11 | WS-W50-01: WS-A06 direction instruction correctness | Output-only correction implemented/tested; draft review pending | Keep serialized requests/grids; derive legacy default output instructions from permitted directions; preserve other authored text | [PR #5](https://github.com/suhas-sunder/wordsearch/pull/5), `8709048` | Identical legacy/authored default text cannot be distinguished; no mass editorial rewrite |
 | Dec 17 / Dec 18 | WS-W51-01: Owner 1 consistent logo | Track A batch awaiting review; replace this slot if accepted | Owner README; screenshot inventory; mobile/desktop/focus/print checks; retain existing URLs and page copy | [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1), `3f1b2b3` | Shared header/footer layout; no ad wrapper/lifecycle edits |
 
 These are the first six Track B technical/UI release candidates; clearly qualifying
@@ -139,7 +146,7 @@ packages. None is approved for implementation by this schedule alone.
 
 | Package family / owner issue | First bounded checkpoint | Status / dependency | Required evidence / main risk | Commit / PR |
 | --- | --- | --- | --- | --- |
-| WS-O02 / 2 | Inventory and standardize existing action/category Lucide icons in one surface | Footer subset implemented, review pending; broader site consistency queued | Icon semantics, accessible names, screenshots; avoid new library | Footer: [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1) |
+| WS-O02 / 2 | Inventory and standardize existing action/category Lucide icons in one surface | Footer/static-action/category subsets implemented, review pending; other surfaces remain queued | Existing Lucide library, accessible decorative icons, desktop/mobile evidence | [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1), [PR #7](https://github.com/suhas-sunder/wordsearch/pull/7), [PR #10](https://github.com/suhas-sunder/wordsearch/pull/10) |
 | WS-O05 / 5 | Header right alignment and organized More menu | Queued; O02 conventions | Keyboard/escape/focus/mobile navigation and crawlable links; search behavior separately reviewed | Not created |
 | WS-O08 / 8 | Separate footer copyright/legal row | Implemented in Track A, review pending | Link inventory and responsive screenshots; preserve legal destinations | [PR #1](https://github.com/suhas-sunder/wordsearch/pull/1), `3f1b2b3` |
 | WS-O09 / 9 | Author attribution in existing About surface | Queued; owner verifies bio | Human fact-check, metadata and link tests; no invented credentials | Not created |
