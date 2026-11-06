@@ -15,4 +15,3 @@ rewrite or semantic certification of all page text. No ads, puzzle settings,
 content records, generation or print/PDF output changed. No new dependency.
 Node 25.9.0 validation: focused ESLint, TypeScript --noEmit, all 39 SEO and published fingerprint tests passed; git diff --check passed. No formatter script exists. Production build and representative browser verification are reserved for the next combined integration checkpoint and remain a draft review gate. No snapshot changes are included. Independent review required; no production
 deployment. Rollback is a reviewed revert of the containing isolated checkpoint.
-
