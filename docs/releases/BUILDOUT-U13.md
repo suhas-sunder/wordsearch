@@ -16,3 +16,5 @@ Validation (November 6, 2026, Node 25.9.0):
 Physical devices, browser termination reliability, cross-tab conflict coordination and a named saved-puzzle library remain outside this milestone. Existing route-ad/Lighthouse/dependency release findings are not waived. Protected advertising implementation is unchanged. Rollback by excluding/reverting this package; stale local records remain inert if feature is removed. No main push, merge, auto-merge or production deployment.
 
 - `BASE_URL=http://127.0.0.1:3288 npm run test:ads`: PASS, nine eligible routes at five viewports and 14 ad-free routes. Mocked local advertising regression does not certify real provider compliance.
+
+Integrated browser follow-up: an initial blocked-storage keyboard test raced the solver's scheduled Begin focus. The fixture now waits for actual grid focus before setting synthetic keyboard endpoints; no application assertion or timeout weakened. Three consecutive full progress runs PASS against the combined integration export at3290.
