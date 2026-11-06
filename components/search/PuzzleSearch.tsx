@@ -4,6 +4,7 @@ import { FormEvent, KeyboardEvent, useEffect, useId, useRef, useState } from "re
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
+import { CategoryIcon } from "@/components/page/CategoryIcon";
 import { searchStaticCatalog } from "@/lib/search/browser-catalog";
 import type { SearchCatalogItem } from "@/lib/search/search";
 
@@ -89,6 +90,13 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
     }
   }
 
+  function categoryIcon(item: SearchCatalogItem) {
+    if (item.type === "Category") {
+      return <CategoryIcon slug={item.href.split("/").filter(Boolean).at(-1)} />;
+    }
+    return <CategoryIcon label={item.category} />;
+  }
+
   return (
     <div
       className={`puzzle-search ${compact ? "compact" : ""}`}
@@ -144,7 +152,10 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
                 onMouseEnter={() => setActiveIndex(index)}
                 onClick={() => setOpen(false)}
               >
-                <span><strong>{item.title}</strong><small>{resultMeta(item)}</small></span>
+                <span className="search-suggestion-content">
+                  {categoryIcon(item)}
+                  <span className="search-suggestion-copy"><strong>{item.title}</strong><small>{resultMeta(item)}</small></span>
+                </span>
                 <span aria-hidden="true">→</span>
               </Link>
             ))
