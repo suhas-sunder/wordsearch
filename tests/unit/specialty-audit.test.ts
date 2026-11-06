@@ -48,12 +48,13 @@ describe("specialty route baseline integrity", () => {
   });
 });
 
-describe("specialty selector baseline", () => {
-  test.each(["spanish", "french", "emoji"] as const)("%s is not an available selector option", (alphabetPack) => {
+describe("specialty selector state", () => {
+  test.each(["spanish", "french", "emoji"] as const)("%s accurately represents an existing loaded request", (alphabetPack) => {
     const markup = renderToStaticMarkup(createElement(WordSearchBuilder, { initialRequest: { title: "Selector", wordsText: "planet\ncomet", seed: "selector", alphabetPack, difficulty: "medium" } }));
     const options = markup.match(/<select aria-label="Alphabet pack"[\s\S]*?<\/select>/)?.[0];
     expect(options).toBeDefined();
-    expect(options).not.toContain(`value="${alphabetPack}"`);
+    expect(options).toContain(`value="${alphabetPack}" selected=""`);
+    expect(options).toContain(alphabetPack === "emoji" ? "Geometric symbols (legacy mapping)" : "accent-normalized Latin");
   });
 });
 
