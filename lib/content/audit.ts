@@ -26,6 +26,15 @@ export interface ContentAuditResult {
   warnings: ContentAuditIssue[];
 }
 
+const validPuzzleDirections = new Set(["E", "W", "N", "S", "SE", "SW", "NE", "NW"]);
+const reviewDatedContentTypes = new Set<ContentType>(["puzzle", "collection", "guide"]);
+
+function isValidReviewDate(value: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const parsed = new Date(`${value}T00:00:00.000Z`);
+  return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().slice(0, 10) === value;
+}
+
 function addDuplicateIssues<T extends ContentRecord>(records: T[], issues: ContentAuditIssue[], code: string, label: string, value: (record: T) => string | undefined) {
   const groups = new Map<string, T[]>();
   for (const record of records) {
@@ -47,6 +56,10 @@ export function auditContent(records: ContentRecord[]): ContentAuditResult {
   const warnings: ContentAuditIssue[] = [];
   const indexable = records.filter(isFinishedIndexable);
   const puzzles = indexable.filter((record): record is PuzzleContentRecord => record.contentType === "puzzle");
+  const inputFingerprintablePuzzles = puzzles.filter((record) => Array.isArray(record.puzzle.directions));
+  const fingerprintablePuzzles = puzzles.filter((record) => Array.isArray(record.puzzle.directions)
+    && record.puzzle.directions.length > 0
+    && Array.from(record.puzzle.directions).every((direction) => validPuzzleDirections.has(direction)));
 
   addDuplicateIssues(records, errors, "duplicate-id", "content ID", (record) => record.id);
   addDuplicateIssues(records, errors, "duplicate-path", "canonical path", (record) => record.canonicalPath);
@@ -60,13 +73,14 @@ export function auditContent(records: ContentRecord[]): ContentAuditResult {
   addDuplicateIssues(puzzles, errors, "duplicate-ordered-words", "ordered word list", (record) => normalizeWords(record.puzzle.words).join("\u001f"));
   addDuplicateIssues(puzzles, errors, "duplicate-word-set", "sorted word set", (record) => [...normalizeWords(record.puzzle.words)].sort().join("\u001f"));
   addDuplicateIssues(puzzles, errors, "duplicate-seed-settings", "seed and puzzle settings", (record) => JSON.stringify({ seed: record.puzzle.seed, rows: record.puzzle.rows, columns: record.puzzle.columns, directions: record.puzzle.directions, overlap: record.puzzle.allowOverlap, pack: record.puzzle.alphabetPack }));
-  addDuplicateIssues(puzzles, errors, "duplicate-input-fingerprint", "puzzle input fingerprint", puzzleInputFingerprint);
-  addDuplicateIssues(puzzles, errors, "duplicate-grid", "generated grid", (record) => generatedPuzzleFingerprints(record).grid);
-  addDuplicateIssues(puzzles, errors, "duplicate-placements", "placement fingerprint", (record) => generatedPuzzleFingerprints(record).placements);
-  addDuplicateIssues(puzzles, errors, "duplicate-puzzle", "complete puzzle fingerprint", (record) => generatedPuzzleFingerprints(record).complete);
+  addDuplicateIssues(inputFingerprintablePuzzles, errors, "duplicate-input-fingerprint", "puzzle input fingerprint", puzzleInputFingerprint);
+  addDuplicateIssues(fingerprintablePuzzles, errors, "duplicate-grid", "generated grid", (record) => generatedPuzzleFingerprints(record).grid);
+  addDuplicateIssues(fingerprintablePuzzles, errors, "duplicate-placements", "placement fingerprint", (record) => generatedPuzzleFingerprints(record).placements);
+  addDuplicateIssues(fingerprintablePuzzles, errors, "duplicate-puzzle", "complete puzzle fingerprint", (record) => generatedPuzzleFingerprints(record).complete);
 
   const ids = new Set(records.map((record) => record.id));
   const recordsById = new Map(records.map((record) => [record.id, record]));
+  const today = new Date().toISOString().slice(0, 10);
   for (const record of records) {
     if (record.canonicalPath !== record.metadata.canonical) {
       errors.push({ level: "error", code: "canonical-mismatch", message: `${record.canonicalPath} does not match its metadata canonical ${record.metadata.canonical}.`, ids: [record.id] });
@@ -76,6 +90,14 @@ export function auditContent(records: ContentRecord[]): ContentAuditResult {
     }
     if ((record.contentType === "utility" || record.canonicalPath.startsWith("/search")) && record.indexable) {
       errors.push({ level: "error", code: "utility-indexed", message: `${record.canonicalPath} is a utility route but is indexable.`, ids: [record.id] });
+    }
+    if (isFinishedIndexable(record) && reviewDatedContentTypes.has(record.contentType) && !record.lastReviewed) {
+      errors.push({ level: "error", code: "missing-review-date", message: `${record.canonicalPath} is indexable without a recorded editorial review date.`, ids: [record.id] });
+    }
+    if (record.lastReviewed && !isValidReviewDate(record.lastReviewed)) {
+      errors.push({ level: "error", code: "invalid-review-date", message: `${record.canonicalPath} has a review date that is not a real YYYY-MM-DD calendar date.`, ids: [record.id] });
+    } else if (record.lastReviewed && record.lastReviewed > today) {
+      errors.push({ level: "error", code: "future-review-date", message: `${record.canonicalPath} has a review date later than today.`, ids: [record.id] });
     }
     for (const relatedId of record.relatedContentIds ?? []) {
       if (!ids.has(relatedId)) errors.push({ level: "error", code: "broken-related-id", message: `${record.canonicalPath} references missing content ID ${relatedId}.`, ids: [record.id] });
@@ -97,6 +119,13 @@ export function auditContent(records: ContentRecord[]): ContentAuditResult {
     if (record.contentType === "puzzle") {
       if (!record.puzzle.seed.trim()) errors.push({ level: "error", code: "missing-seed", message: `${record.canonicalPath} is missing a stable seed.`, ids: [record.id] });
       if (!record.puzzle.words.length) errors.push({ level: "error", code: "empty-word-list", message: `${record.canonicalPath} has an empty word list.`, ids: [record.id] });
+      const directions: unknown = record.puzzle.directions;
+      if (!Array.isArray(directions) || !directions.length) errors.push({ level: "error", code: "missing-directions", message: `${record.canonicalPath} has no configured word-search directions.`, ids: [record.id] });
+      else {
+        const directionValues: unknown[] = Array.from(directions);
+        if (directionValues.some((direction) => typeof direction !== "string" || !validPuzzleDirections.has(direction))) errors.push({ level: "error", code: "invalid-direction", message: `${record.canonicalPath} contains an unsupported direction key.`, ids: [record.id] });
+        if (new Set(directionValues).size !== directionValues.length) errors.push({ level: "error", code: "duplicate-direction", message: `${record.canonicalPath} repeats a configured direction.`, ids: [record.id] });
+      }
       if (!record.taxonomy.primaryCategory.trim()) errors.push({ level: "error", code: "missing-category", message: `${record.canonicalPath} has no primary category.`, ids: [record.id] });
       if (!(record.relatedContentIds?.length)) errors.push({ level: "error", code: "missing-related-links", message: `${record.canonicalPath} has no related content.`, ids: [record.id] });
       const usefulModules = [record.editorial.puzzleNote, record.editorial.difficultyExplanation, record.editorial.wordListContext, record.editorial.suggestedUses?.join(" ")].filter(Boolean);
