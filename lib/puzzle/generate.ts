@@ -3,6 +3,8 @@ import { parseWordInput } from "@/lib/puzzle/parse";
 import { createPrng, shuffleSeeded } from "@/lib/puzzle/prng";
 import type { DirectionKey, ParsedWord, Placement, PuzzleRequest, PuzzleResult } from "@/lib/puzzle/types";
 import { encodeShareState } from "@/lib/share-state/state";
+import { assertPuzzleRequest, directionSelectionError } from "@/lib/puzzle/request-validation";
+export { directionSelectionError } from "@/lib/puzzle/request-validation";
 
 export const directionVectors: Record<DirectionKey, { dr: number; dc: number; label: string }> = {
   E: { dr: 0, dc: 1, label: "left to right" },
@@ -20,20 +22,6 @@ export const directionsByDifficulty: Record<string, DirectionKey[]> = {
   medium: ["E", "S", "SE", "NE"],
   hard: ["E", "W", "S", "N", "SE", "SW", "NE", "NW"]
 };
-
-/** Undefined means use the difficulty preset; an explicit selection must be valid. */
-export function directionSelectionError(directions: unknown): string | null {
-  if (directions === undefined) return null;
-  if (Array.isArray(directions) && directions.length === 0) {
-    return "At least one direction must be selected.";
-  }
-  if (!Array.isArray(directions) || !Array.from(directions).every((direction) =>
-    typeof direction === "string" && Object.hasOwn(directionVectors, direction)
-  )) {
-    return "Directions must be a nonempty array of valid direction keys.";
-  }
-  return null;
-}
 
 export const defaultPuzzleRequest: PuzzleRequest = {
   title: "My Word Search",
@@ -105,6 +93,7 @@ function applyPlacement(grid: (string | null)[][], word: ParsedWord, cells: Plac
 }
 
 export function generatePuzzle(input: Partial<PuzzleRequest>): PuzzleResult {
+  assertPuzzleRequest(input);
   const directions = input.directions === undefined
     ? directionsByDifficulty[input.difficulty ?? defaultPuzzleRequest.difficulty]
     : input.directions;
@@ -117,6 +106,10 @@ export function generatePuzzle(input: Partial<PuzzleRequest>): PuzzleResult {
     ...input,
     directions
   };
+  assertPuzzleRequest(request);
+  for (const key of ["title", "wordsText", "seed"] as const) {
+    if (typeof request[key] !== "string") throw new Error(`${key} must be text.`);
+  }
   const pack = getAlphabetPack(request.alphabetPack);
   const { words, warnings } = parseWordInput(request.wordsText, request.alphabetPack);
   const uniqueWords = words.filter((word) => !word.duplicateOf);
