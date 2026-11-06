@@ -304,7 +304,7 @@ export function RouteHub({ page }: { page: SitePage }) {
           </div>
         </div>
         <aside className="intent-panel" aria-label={`${page.h1} features`}>
-          <strong>Start here when you want</strong>
+          <strong>Puzzle features</strong>
           <ul>{config.points.map((point) => <li key={point}>{point}</li>)}</ul>
         </aside>
         </section>
