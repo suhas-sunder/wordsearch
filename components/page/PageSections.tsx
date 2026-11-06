@@ -5,6 +5,7 @@ import { guides } from "@/content/guides";
 import { specialtyRoutes } from "@/content/specialty";
 import { topics } from "@/content/topics";
 import { SeoSectionAd, type AdTemplate } from "@/components/layout/AdSlot";
+import { CategoryIcon } from "@/components/page/CategoryIcon";
 
 export function QuickLinks() {
   const links = [
@@ -33,7 +34,7 @@ export function CategoryGrid() {
       <div className="link-grid">
         {categories.filter((category) => category.publicationStatus === "published").map((category) => (
           <Link key={category.slug} href={`/categories/${category.slug}`}>
-            <strong>{category.title}</strong>
+            <strong className="category-title"><CategoryIcon slug={category.slug} />{category.title}</strong>
             <span>{category.description}</span>
           </Link>
         ))}
