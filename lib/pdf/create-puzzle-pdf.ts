@@ -1,5 +1,6 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 import { orderWordBank } from "@/lib/puzzle/parse";
+import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import { directionVectors } from "@/lib/puzzle/generate";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import {
@@ -176,7 +177,7 @@ async function drawPuzzlePage(
 
   if (options.instructions) {
     const instructions = pdfSafeText(
-      answerKey ? "Answer key. Keep this page separate from puzzle copies." : puzzle.request.instructions,
+      answerKey ? "Answer key. Keep this page separate from puzzle copies." : printableInstructions(puzzle.request),
       fonts.regular
     );
     const lines = wrapText(instructions, fonts.regular, 9.2, usableWidth * (options.nameDateLine && !answerKey ? 0.68 : 1));
