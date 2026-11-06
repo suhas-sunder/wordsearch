@@ -28,7 +28,9 @@
     "test:parity": "node tests/e2e/share-route-parity.mjs",
     "test:transport": "tsx tests/e2e/share-transport-study.ts",
     "test:e2e": "node tests/e2e/request-validation.mjs && node tests/e2e/direction-validation.mjs && node tests/e2e/browser-smoke.mjs && node tests/e2e/monetization-placeholders.mjs",
-    "test:ads": "node tests/e2e/monetization-placeholders.mjs"
+    "test:ads": "node tests/e2e/monetization-placeholders.mjs",
+    "inventory:content": "tsx scripts/content-inventory.ts",
+    "audit:candidates": "tsx scripts/audit-candidates.ts"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
