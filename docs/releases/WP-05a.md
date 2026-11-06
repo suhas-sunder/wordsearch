@@ -1,6 +1,8 @@
 # WP05a — Static puzzle action icons
 
 **Branch:** `fasttrack/2026-11-05-puzzle-action-icons`  
+**Commit:** `3313b2087118d352ce126617bd12b8c69efc9ac3`  
+**Draft PR:** https://github.com/suhas-sunder/wordsearch/pull/7  
 **Base:** `fasttrack/2026-11-05-brand-footer` (`3f1b2b3db8ad3ed90e65228855b54c3910251a3e`)
 
 ## Change
