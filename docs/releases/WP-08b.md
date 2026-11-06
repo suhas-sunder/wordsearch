@@ -1,6 +1,10 @@
 # WP-08b — Compatible dependency patch candidate
 
-Status: compatibility plan before implementation. Based on PR #2 `c6539992f95ea584498329bc319ac38edbbe160e`; independent review required, no production deployment or merge.
+Status: implemented and validated; independent review and release-gate findings
+remain pending. Branch `release/2026-W46-dependency-patches`, draft PR #12, based
+on PR #2 `c6539992f95ea584498329bc319ac38edbbe160e`. No production deployment or merge.
+The compatibility plan below was prepared before the patch implementation; final
+results follow it. The containing commit is the final documentation/evidence head.
 
 Candidate: Next and matching eslint-config-next 15.5.29, sharp override 0.35.5, and lockfile resolution of nanoid 3.3.20 and source-map-js 1.2.2. npm registry reports Next requires Node >=20 among supported versions, sharp >=20.9, and these versions support the project's Node 22. Keep the existing postcss override. Zod 3 remains an unresolved high advisory: its fixed 4.x version is a major migration needing separate review. No force audit fix or dependency removal.
 
