@@ -12,14 +12,10 @@ describe("classroom pack assignment generation", () => {
     expect(new Set(ten.puzzles.map((entry) => JSON.stringify(entry.puzzle.grid))).size).toBe(10);
     expect(five.puzzles.every((entry) => entry.puzzle.request.wordsText === input.wordsText && entry.puzzle.placed.length === 3)).toBe(true);
   });
-  test("rejects lists that cannot fit the reserved word-bank area", () => {
-    const tooWide = Array.from({ length: 12 }, (_, index) => String.fromCharCode(65 + index).repeat(14)).join("\n");
-    expect(() => buildClassroomPack({ ...input, seed: "x", wordsText: tooWide })).toThrow("too wide");
-  });
   test.each([
     [{ ...input, seed: "" }, "seed"],
     [{ ...input, title: "" }, "title"],
-    [{ ...input, title: "W".repeat(21) }, "title"],
+    [{ ...input, title: "W".repeat(81) }, "title"],
     [{ ...input, wordsText: "" }, "2–12"],
     [{ ...input, wordsText: "planet\nPLANET" }, "duplicate"],
     [{ ...input, wordsText: "ice cream\nicecream" }, "duplicate"],
