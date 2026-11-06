@@ -103,7 +103,9 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   }
 
   function setDifficulty(difficulty: Difficulty) {
-    patch({ difficulty, directions: directionsByDifficulty[difficulty] });
+    setRequest((current) => current.difficulty === difficulty
+      ? current
+      : { ...current, difficulty, directions: directionsByDifficulty[difficulty] });
   }
 
   function toggleDirection(direction: DirectionKey) {
@@ -142,7 +144,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
       <section className="builder-surface content-section" aria-label="Word search builder">
         <h2>Check puzzle directions</h2>
         <p role="alert">{directionError ?? "Updating puzzle directions…"} No puzzle can be played, shared, printed, or exported until directions are valid.</p>
-        <button type="button" className="primary-button" onClick={() => setDifficulty("medium")}>
+        <button type="button" className="primary-button" onClick={() => patch({ difficulty: "medium", directions: directionsByDifficulty.medium })}>
           Use medium preset directions
         </button>
       </section>
@@ -216,6 +218,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
                 </button>
               ))}
             </div>
+            <p className="control-help">Choosing a different difficulty applies its direction preset. Selecting the current difficulty keeps your directions.</p>
           </fieldset>
           <fieldset>
             <legend>Alphabet pack</legend>

@@ -15,6 +15,9 @@ try {
     await east.waitFor();
     const grid = () => page.locator(".builder-preview .puzzle-token").allTextContents();
     const original = await grid();
+    await page.getByRole("button", { name: "medium", exact: true }).click();
+    assert.equal(await page.locator('.direction-grid [aria-pressed="true"]').count(), 1, "reselecting current difficulty preserves custom directions");
+    assert.deepEqual(await grid(), original);
     // This fails on main: the final selection is removed while the preview uses presets.
     await east.click({ force: true });
     assert.match(await east.getAttribute("class"), /active/, "last direction must remain selected");
@@ -65,6 +68,14 @@ try {
     await page.goto(`${baseUrl}/play/${encode(fixture)}`, { waitUntil: "networkidle" });
     await page.locator('[data-utility-state="ready"]').waitFor();
     assert.deepEqual(await page.locator("[data-solver-cell] > span").allTextContents(), original);
+
+    await page.goto(`${baseUrl}/word-searches/animals/ocean-animals-word-search`, { waitUntil: "networkidle" });
+    await page.getByRole("button", { name: "medium", exact: true }).scrollIntoViewIfNeeded();
+    assert.equal(await page.locator('.direction-grid [aria-pressed="true"]').count(), 8);
+    const curatedGrid = await grid();
+    await page.getByRole("button", { name: "medium", exact: true }).click();
+    assert.equal(await page.locator('.direction-grid [aria-pressed="true"]').count(), 8);
+    assert.deepEqual(await grid(), curatedGrid);
 
     const omitted = { ...fixture };
     delete omitted.directions;
