@@ -32,6 +32,8 @@ try {
   page.on("request", (request) => requests.push({ url: request.url(), method: request.method() }));
   const response = await page.goto(`${base}/pack-builder`, { waitUntil: "networkidle" });
   assert.equal(response.status(), 200);
+  assert.match(await page.locator("#title-help").innerText(), /80 letters/);
+  assert.match(await page.locator("#words-help").innerText(), /2–30 different/);
   assert.match((await response.allHeaders())["x-robots-tag"], /noindex/);
   assert.match(await page.locator('meta[name="robots"]').getAttribute("content"), /noindex/);
   assert.equal(await page.locator('.ad-slot, ins.adsbygoogle, [data-ad-slot], [data-ad-placeholder]').count(), 0);

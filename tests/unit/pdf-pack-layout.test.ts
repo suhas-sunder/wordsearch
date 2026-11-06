@@ -36,6 +36,13 @@ describe("measured pack PDF layout", () => {
       const measurement = await measurePdfBytes(bytes, pack.puzzles[i].puzzle, options, page);
       expect(measurement.findings).toEqual([]);
       expect(measurement.titleLines.length).toBeGreaterThan(1);
+      const studentPage = await rendered.getPage(page);
+      const studentText = await studentPage.getTextContent();
+      const labels = studentText.items.filter((item) => "str" in item && (item.str === "Name" || item.str === "Date"));
+      expect(labels).toHaveLength(2);
+      for (const line of measurement.titleLines) for (const label of labels) {
+        if ("transform" in label) expect(line.x + line.width).toBeLessThan(label.transform[4] - 10);
+      }
       expect(measurement.grid.minFontPt).toBeGreaterThanOrEqual(9);
       expect(measurement.wordBank.length).toBe(wordCount);
       expect(Math.min(...measurement.wordBank.map((box) => box.fontPt))).toBeGreaterThanOrEqual(9.5);
@@ -47,6 +54,18 @@ describe("measured pack PDF layout", () => {
       const expectedAnswer = await single.getPage(2);
       const actualText = await actualAnswer.getTextContent();
       const expectedText = await expectedAnswer.getTextContent();
+      const titleLines = actualText.items.filter((item) => "str" in item && "transform" in item && item.str.trim() && item.transform[3] === 18);
+      const titleText = titleLines.map((item) => "str" in item ? item.str.trim() : "").join(" ");
+      expect(titleText).toBe(`${pack.puzzles[i].puzzle.request.title} - Answer Key`);
+      for (const item of titleLines) if ("transform" in item) {
+        expect(item.transform[4]).toBeGreaterThanOrEqual(36);
+        expect(item.transform[4] + item.width).toBeLessThanOrEqual(doc.getPage(answerPage - 1).getWidth() - 36);
+      }
+      expect(actualText.items.some((item) => "str" in item && (item.str === "Name" || item.str === "Date"))).toBe(false);
+      const answerGrid = actualText.items.filter((item) => "str" in item && "transform" in item && /^[A-Z]$/.test(item.str));
+      expect(answerGrid).toHaveLength(pack.puzzles[i].puzzle.rows * pack.puzzles[i].puzzle.cols);
+      const gridTop = Math.max(...answerGrid.map((item) => "transform" in item ? item.transform[5] + item.height : 0));
+      expect(Math.min(...titleLines.map((item) => "transform" in item ? item.transform[5] : Infinity))).toBeGreaterThan(gridTop);
       const textGeometry = (items: typeof actualText.items) => items.map((item) => "str" in item ? { str: item.str, transform: item.transform, width: item.width, height: item.height } : item);
       expect(textGeometry(actualText.items)).toEqual(textGeometry(expectedText.items));
       const actualOps = await actualAnswer.getOperatorList();
