@@ -12,9 +12,10 @@ export function ClassroomPackBuilder() {
   const [title, setTitle] = useState("Classroom");
   const [wordsText, setWordsText] = useState("");
   const [seed, setSeed] = useState("");
-  const [count, setCount] = useState<5 | 10>(5);
+  const [count, setCount] = useState<5 | 10 | 20>(5);
   const [paperSize, setPaperSize] = useState<PaperSize>("letter");
   const [order, setOrder] = useState<"answers-last" | "interleaved">("answers-last");
+  const [pages, setPages] = useState<"both" | "students" | "answers">("both");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [status, setStatus] = useState("");
@@ -34,7 +35,7 @@ export function ClassroomPackBuilder() {
       const pack = buildClassroomPack({ title, wordsText, seed, count });
       downloading = true;
       const { downloadBrowserPuzzlePackPdf } = await import("@/lib/pdf/browser-pack-download");
-      await downloadBrowserPuzzlePackPdf(pack, { paperSize, order, layoutProfile: "pack" });
+      await downloadBrowserPuzzlePackPdf(pack, { paperSize, order, pages, layoutProfile: "pack" });
       setStatus(`Your ${count}-puzzle PDF download has started.`);
     } catch (cause) {
       setStatus("");
@@ -50,7 +51,7 @@ export function ClassroomPackBuilder() {
       <div className={styles.heading}>
         <span className="eyebrow">Printable classroom worksheets</span>
         <h1>Word Search Pack Builder</h1>
-        <p>Create 5 or 10 different grids from the same word list. Each worksheet has a matching answer page.</p>
+        <p>Create 5, 10 or 20 different grids from the same word list. Download student worksheets, teacher answers or both.</p>
         <p>English letters only · One puzzle per page · Ink-saving output</p>
       </div>
       <form onSubmit={onSubmit} noValidate className={styles.form} aria-busy={busy}>
@@ -58,9 +59,10 @@ export function ClassroomPackBuilder() {
         <div><label className={label} htmlFor="pack-words">Words or phrases</label><textarea className={control} id="pack-words" rows={8} value={wordsText} onChange={(event) => setWordsText(event.target.value)} aria-describedby="words-help" /><p id="words-help" className={styles.help}>Enter 2–30 different words or phrases, one per line. Use English letters and single spaces; 2–14 letters per entry. No blank lines or punctuation. A 9-point minimum grid type size applies; lists that cannot fit will be rejected.</p></div>
         <div><label className={label} htmlFor="pack-seed">Base seed</label><input className={control} id="pack-seed" value={seed} onChange={(event) => setSeed(event.target.value)} aria-describedby="seed-help" /><p id="seed-help" className={styles.help}>Use 1–64 letters, numbers, underscores or hyphens. Save this seed and the exact title and word list to recreate the assignments. Assignment numbers 01–{String(count).padStart(2, "0")} use fixed derived seeds.</p></div>
         <div className={styles.options}>
-          <div><label className={label} htmlFor="pack-count">Puzzles</label><select className={control} id="pack-count" value={count} onChange={(event) => setCount(Number(event.target.value) as 5 | 10)}><option value={5}>5 puzzles</option><option value={10}>10 puzzles</option></select></div>
+          <div><label className={label} htmlFor="pack-count">Puzzles</label><select className={control} id="pack-count" value={count} onChange={(event) => setCount(Number(event.target.value) as 5 | 10 | 20)}><option value={5}>5 puzzles</option><option value={10}>10 puzzles</option><option value={20}>20 puzzles</option></select></div>
           <div><label className={label} htmlFor="pack-paper">Paper size</label><select className={control} id="pack-paper" value={paperSize} onChange={(event) => setPaperSize(event.target.value as PaperSize)}><option value="letter">US Letter</option><option value="a4">A4</option></select></div>
-          <div><label className={label} htmlFor="pack-order">Answer pages</label><select className={control} id="pack-order" value={order} onChange={(event) => setOrder(event.target.value as "answers-last" | "interleaved")}><option value="answers-last">All at the end</option><option value="interleaved">After each puzzle</option></select></div>
+          <div><label className={label} htmlFor="pack-pages">Download pages</label><select className={control} id="pack-pages" value={pages} onChange={(event) => setPages(event.target.value as typeof pages)}><option value="both">Worksheets and answers</option><option value="students">Student worksheets only</option><option value="answers">Teacher answers only</option></select></div>
+          <div><label className={label} htmlFor="pack-order">Answer pages</label><select className={control} id="pack-order" value={order} disabled={pages !== "both"} onChange={(event) => setOrder(event.target.value as "answers-last" | "interleaved")}><option value="answers-last">All at the end</option><option value="interleaved">After each puzzle</option></select></div>
         </div>
         <p className={styles.help}>The PDF is created in your browser. It uses the existing ink-saving style, which includes some tinted gray elements.</p>
         {error && <p role="alert" className={styles.error}>{error}</p>}
