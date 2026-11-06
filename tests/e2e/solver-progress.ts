@@ -10,7 +10,7 @@ async function select(page: Page, index: number, touch: boolean) {
   const placement = puzzle.placed[index], start = placement.cells[0], end = placement.cells[placement.cells.length - 1];
   const first = page.locator(`[data-solver-cell][data-row="${start.row}"][data-col="${start.col}"]`);
   if (touch) { await first.tap(); await page.locator(`[data-solver-cell][data-row="${end.row}"][data-col="${end.col}"]`).tap(); }
-  else { await first.focus(); await page.keyboard.press("Enter"); for (let i = 1; i < placement.cells.length; i++) await page.keyboard.press("ArrowRight"); await page.keyboard.press("Enter"); }
+  else { await page.waitForFunction(() => document.activeElement?.hasAttribute("data-solver-cell")); await first.focus(); await page.keyboard.press("Enter"); for (let i = 1; i < placement.cells.length; i++) await page.keyboard.press("ArrowRight"); await page.keyboard.press("Enter"); }
 }
 const browser = await chromium.launch({ headless: true });
 try {
