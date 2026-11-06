@@ -66,4 +66,3 @@ try {
   if (failures.length) throw new Error(failures.join("\n"));
   console.log("Static encoded-route parity passed: six rewrites, grid tokens, PDF rows, answer paths, QR images, invalid states and indexability.");
 } finally { await browser.close(); }
-
