@@ -4,7 +4,8 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 import { createBrowserPuzzlePdf } from "@/lib/pdf/browser-download";
 import { createPuzzlePdf, validatePuzzleForPdf } from "@/lib/pdf/create-puzzle-pdf";
-import { generatePuzzle } from "@/lib/puzzle/generate";
+import { defaultPuzzleRequest, generatePuzzle } from "@/lib/puzzle/generate";
+import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import { defaultPuzzleOutputOptions, pdfPageSpec, sanitizePuzzleFilename } from "@/lib/puzzle/output-options";
 import { puzzlePlayUrl } from "@/lib/share-state/state";
 
@@ -43,6 +44,19 @@ async function extractedText(bytes: Uint8Array) {
 }
 
 describe("real PDF generation", () => {
+  test.each([
+    [["E", "S"], "left to right, top to bottom"],
+    [["E", "S", "SE", "NE"], "down and right, up and right"],
+    [["E", "W", "S", "N", "SE", "SW", "NE", "NW"], "up and left"],
+    [["NW"], "up and left"]
+  ] as const)("renders default directions %j on the student PDF and an answer page", async (directions, expected) => {
+    const result = generatePuzzle({ ...puzzle.request, instructions: defaultPuzzleRequest.instructions, directions: [...directions] });
+    const bytes = await createPuzzlePdf({ puzzle: result, options: { ...defaultPuzzleOutputOptions, includeAnswerKey: true, qrCode: false }, shareUrl: puzzlePlayUrl(result.request) });
+    const [student = "", answer = ""] = await extractedText(bytes);
+    expect(student.replace(/\s+/g, " ")).toContain(expected);
+    expect(student.replace(/\s+/g, " ")).toContain(printableInstructions(result.request));
+    expect(answer).toContain("Answer key.");
+  });
   test.each([
     ["letter", "portrait"],
     ["letter", "landscape"],
