@@ -31,12 +31,9 @@
     "test:completion": "tsx tests/e2e/completion-card.ts",
     "test:e2e": "node tests/e2e/request-validation.mjs && node tests/e2e/direction-validation.mjs && node tests/e2e/browser-smoke.mjs && node tests/e2e/monetization-placeholders.mjs",
     "test:ads": "node tests/e2e/monetization-placeholders.mjs",
-<<<<<<< HEAD
     "inventory:content": "tsx scripts/content-inventory.ts",
-    "audit:candidates": "tsx scripts/audit-candidates.ts"
-=======
+    "audit:candidates": "tsx scripts/audit-candidates.ts",
     "audit:print-measure": "tsx scripts/measure-print.ts"
->>>>>>> release/2026-W46-print-measurement
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
