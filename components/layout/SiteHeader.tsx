@@ -8,6 +8,7 @@ import { helpNavigation, primaryNavigation, secondaryNavigation } from "@/conten
 import { BrandIdentity } from "@/components/layout/BrandIdentity";
 import { PuzzleSearch } from "@/components/search/PuzzleSearch";
 import styles from "./SiteHeader.module.css";
+import { ThemeToggle } from "./ThemeToggle";
 
 function isCurrent(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -76,6 +77,7 @@ export function SiteHeader() {
         <Link className={`header-search ${styles.search}`} href="/search" aria-label="Search word searches" onClick={openSearch}>
           <Search size={18} aria-hidden="true" />
         </Link>
+        <ThemeToggle />
         <span className={styles.reserve} aria-hidden="true" />
       </div>
         <details className={styles.menu} ref={menu}>
