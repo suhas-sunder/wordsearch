@@ -1,0 +1,29 @@
+/* This disclosure stays in document flow: it never floats over page content. */
+.header:global(.site-header) { position: relative; }
+.content { position: relative; }
+.row:global(.header-inner) { gap: 20px; }
+.row .primary { justify-content: flex-end; margin-left: auto; }
+.search { flex: none; min-width: 42px; min-height: 42px; }
+.reserve { width: 100px; flex: none; }
+.trigger { position: absolute; top: 11px; right: 0; min-height: 42px; padding: 9px 10px; display: flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; list-style: none; font-weight: 700; }
+.trigger::-webkit-details-marker { display: none; }
+.menu[open] .trigger { color: var(--accent-dark); border-color: var(--accent); }
+.panel { border-top: 1px solid var(--line); padding: 20px 0 24px; }
+.panel :global(.puzzle-search) { max-width: none; }
+.panel :global(.search-suggestions) { position: static; margin-top: 8px; max-height: none; }
+.groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+.groups > div { display: flex; flex-direction: column; align-items: stretch; }
+.groups strong { padding: 8px; color: var(--muted); font-size: .84rem; }
+.groups a { display: flex; align-items: center; min-height: 44px; padding: 8px; border-radius: 6px; }
+.groups a:hover, .groups a[aria-current="page"] { background: #eef8f2; color: var(--accent-dark); }
+@media (max-width: 1100px) {
+  .row .primary { display: none; }
+  .row .search { margin-left: auto; }
+}
+@media (max-width: 560px) {
+  .row:global(.header-inner) { gap: 10px; }
+  .reserve { width: 42px; }
+  .trigger { top: 8px; width: 42px; padding: 10px; }
+  .trigger span, .trigger svg:last-child { display: none; }
+  .groups { grid-template-columns: 1fr; gap: 12px; }
+}
