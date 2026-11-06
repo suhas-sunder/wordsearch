@@ -1,6 +1,6 @@
 # WP05b — Semantic category icons
 
-**Branch:** `fasttrack/2026-11-05-category-semantic-icons`  
+**Branch:** `fasttrack/2026-11-05-category-semantic-icons`
 **Base:** `fasttrack/2026-11-05-brand-footer` (`3f1b2b3db8ad3ed90e65228855b54c3910251a3e`)
 
 ## Change
