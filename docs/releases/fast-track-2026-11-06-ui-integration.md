@@ -78,7 +78,7 @@ VISUAL_OUTPUT=<outside-repo-directory> node tests/e2e/ui-integration-visual.mjs`
 categories, food search and encoded PDF utility) × 390/1440px × before/after.
 Asserted identical visible main text, links, canonical/robots/description/JSON-LD
 and top-ad bounding box, no document overflow, and no added CLS beyond 0.01.
-All eight comparisons passed; measured CLS was exactly equal on each pair:
+The original record claimed all eight comparisons passed, with equal CLS within each viewport pair. Those historical run logs were not persisted, so that pass claim is unverified and is superseded by the repeated results below. The original table used viewport columns (390px and 1440px), rather than before/after columns; 0.342883 and 0.377275 described different viewports. This does not explain away fresh failures:
 
 | Surface | 390px before = after | 1440px before = after |
 | --- | --- | --- |
@@ -91,7 +91,7 @@ The first new harness version incorrectly imposed absolute CLS ≤0.1 on the
 baseline and stopped at mobile search. It was changed to the intended
 before/after regression comparison; no existing test was weakened. High existing
 search/utility hydration shifts remain a separate weekly investigation, not a
-claim of good field CWV. No new shift was observed from these icons.
+claim of good field CWV. The historical observation is not sufficient evidence of a stable passing CLS guard.
 
 Sixteen screenshots are outside the repository at
 `C:\Users\Suhas\.codex\visualizations\2026\11\06\01a1aec8-a64d-7790-8f8e-f0c913f746e9\integration`
@@ -109,3 +109,36 @@ rollback source is `471a118dd459f2181cd641ed0572ba6dd7005540`; ChatGPT must reco
 its actual Netlify deployment ID before release. After a main change, revalidate
 the exact combined merge candidate. Record the resulting production SHA, deploy
 ID, URL and smoke checks; no deployment is claimed by this review record.
+
+## November 6 continuation: repeatable visual evidence
+
+Frozen baseline: PR 1 tree `3f1b2b3db8ad3ed90e65228855b54c3910251a3e`,
+byte-identical tracked tree to main `471a118`; candidate application tree unchanged
+from `fea066d`. Existing static exports served on 3252/3250. Node 25.9.0,
+Chromium via unchanged Playwright dependency; no application rebuild or change.
+Only the harness now writes the run ID and every before/after pair to an
+outside-repository `measurements.json` **before** enforcing the unchanged
+`after <= before + 0.01` assertion. Screenshots and JSON are retained under
+`C:\Users\Suhas\.codex\visualizations\2026\11\06\01a1b33a-7733-7163-8af2-24bcc8caa97a\pr15-1|2|3`.
+
+Each run used `BASELINE_URL=http://127.0.0.1:3252`,
+`BASE_URL=http://127.0.0.1:3250`, a distinct `VISUAL_OUTPUT` folder and
+`VISUAL_RUN_ID=pr15-reconcile-20261106-N`, then
+`node tests/e2e/ui-integration-visual.mjs`.
+
+| Run ID suffix | Mobile search before | Mobile search after | Desktop search before | Desktop search after | Outcome |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 0.3428832562 | 0.3428832562 | 0.3772752821 | 0.4401888624 | FAIL: +0.0629135802 > +0.01 |
+| 2 | 0.4575563079 | 0.4575563079 | 0.4401888624 | 0.3772752821 | PASS: all eight pairs |
+| 3 | 0.3428832562 | 0.3428832562 | 0.3772752821 | 0.4401888624 | FAIL: +0.0629135802 > +0.01 |
+
+Home/categories had CLS zero in all pairs. Mobile utility was 0.6412491319
+in both members of every pair; desktop utility was 0.2966089410 in run 2.
+Runs 1/3 correctly stopped at the failed desktop-search assertion, before the
+last utility pair. All text, links, SEO and ad geometry comparisons executed
+before each stop passed. The opposite desktop-search delta in run 2 establishes
+variance; it does not prove the icon change is harmless or justify choosing only
+the passing trial. There is **no stable final passing run**. The PR remains a
+draft with an unresolved search-hydration/layout-shift release gate. Diagnose
+that behavior separately; do not weaken this threshold or alter ad protections.
+Focused ESLint and final whitespace check pass for the harness/evidence change.
