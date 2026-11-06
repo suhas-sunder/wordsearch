@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, Search } from "lucide-react";
 import { primaryNavigation, secondaryNavigation } from "@/content/navigation";
+import { BrandIdentity } from "@/components/layout/BrandIdentity";
 
 function isCurrent(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -33,10 +33,7 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="site-shell header-inner">
         <Link className="brand" href="/" aria-label="I Love Word Search home">
-          <Image className="brand-mark" src="/brand-icon.webp" width={34} height={34} alt="" aria-hidden="true" />
-          <span className="brand-wordmark" aria-hidden="true">
-            <span>i</span><span className="brand-heart">💚</span><span>WordSearch</span>
-          </span>
+          <BrandIdentity />
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
           {primaryNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}

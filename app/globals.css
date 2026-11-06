@@ -1947,6 +1947,11 @@ input[type="checkbox"] {
   font-size: 1.15rem;
 }
 
+.footer-brand.brand {
+  margin-top: 0;
+  margin-right: 0;
+}
+
 .site-footer h2 {
   margin: 0 0 10px;
   color: white;
@@ -1958,6 +1963,25 @@ input[type="checkbox"] {
   color: #d8dee8;
   margin: 8px 0;
   font-size: 0.9rem;
+}
+
+.site-footer .footer-tool-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-tool-link svg {
+  flex: none;
+}
+
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid #485267;
 }
 
 .utility-page {
