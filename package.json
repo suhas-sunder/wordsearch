@@ -13,6 +13,7 @@
     "test:unit": "vitest run tests/unit",
     "test:seo": "vitest run tests/seo",
     "audit:content": "vitest run tests/content/current-content-audit.test.ts --reporter=verbose",
+    "report:cohorts": "tsx scripts/report-release-cohorts.ts",
     "audit:routes": "node tests/e2e/route-audit.mjs",
     "test:route-ad-contract": "vitest run tests/unit/ad-markup-contract.test.ts",
     "test:a11y": "node tests/e2e/accessibility.mjs",
