@@ -270,6 +270,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
           <fieldset>
             <legend>Alphabet pack</legend>
             <select aria-label="Alphabet pack" value={request.alphabetPack ?? "latin"} onChange={(event) => patch({ alphabetPack: event.target.value as AlphabetPackId })}>
+              {request.alphabetPack && !packOptions.some(([id]) => id === request.alphabetPack) && <option value={request.alphabetPack}>{request.alphabetPack === "emoji" ? "Geometric symbols (legacy mapping)" : `${request.alphabetPack === "spanish" ? "Spanish" : "French"} (accent-normalized Latin)`}</option>}
               {packOptions.map(([id, label]) => <option key={id} value={id}>{label}</option>)}
             </select>
           </fieldset>
