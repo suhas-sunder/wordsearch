@@ -1,12 +1,14 @@
 import Link from "next/link";
+import { BookOpen, FileDown, Grid3X3, Printer, ZoomIn } from "lucide-react";
 import { categories } from "@/content/categories";
+import { BrandIdentity } from "@/components/layout/BrandIdentity";
 
 export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-shell footer-grid">
         <div>
-          <p className="footer-brand">I Love Word Search</p>
+          <p className="footer-brand brand"><BrandIdentity /><span className="sr-only">I Love Word Search</span></p>
           <p>Find, print, play, and create clean word search puzzles for home, classrooms, and casual solving.</p>
         </div>
         <div>
@@ -19,11 +21,11 @@ export function SiteFooter() {
         </div>
         <div>
           <h2>Tools</h2>
-          <Link href="/word-search-generator">Generator</Link>
-          <Link href="/word-search-pdf">PDF puzzles</Link>
-          <Link href="/large-print-word-searches">Large print</Link>
-          <Link href="/word-search-worksheets">Worksheets</Link>
-          <Link href="/guides">Guides</Link>
+          <Link className="footer-tool-link" href="/word-search-generator"><Grid3X3 size={16} aria-hidden="true" /> Generator</Link>
+          <Link className="footer-tool-link" href="/word-search-pdf"><FileDown size={16} aria-hidden="true" /> PDF puzzles</Link>
+          <Link className="footer-tool-link" href="/large-print-word-searches"><ZoomIn size={16} aria-hidden="true" /> Large print</Link>
+          <Link className="footer-tool-link" href="/word-search-worksheets"><Printer size={16} aria-hidden="true" /> Worksheets</Link>
+          <Link className="footer-tool-link" href="/guides"><BookOpen size={16} aria-hidden="true" /> Guides</Link>
         </div>
         <div>
           <h2>Browse</h2>
@@ -41,11 +43,13 @@ export function SiteFooter() {
           <Link href="/contact">Contact</Link>
           <Link href="/faq">FAQ</Link>
           <Link href="/accessibility">Accessibility</Link>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
-          <Link href="/copyright">Copyright</Link>
         </div>
       </div>
+      <nav className="site-shell footer-legal" aria-label="Legal information">
+        <Link href="/privacy">Privacy</Link>
+        <Link href="/terms">Terms</Link>
+        <Link href="/copyright">Copyright</Link>
+      </nav>
     </footer>
   );
 }
