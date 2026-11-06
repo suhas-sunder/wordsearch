@@ -18,15 +18,40 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
         title: "Merriam-Webster Dictionary: poinsettia",
         url: "https://www.merriam-webster.com/dictionary/poinsettia",
         note: "Spelling reference for a seasonal plant term; no botanical or historical claims are made."
+      },
+      {
+        title: "Collins English Dictionary: snow globe",
+        url: "https://www.collinsdictionary.com/us/dictionary/english/snow-globe",
+        note: "Confirms the conventional open-compound spelling used in the printable word bank."
+      },
+      {
+        title: "Cambridge Dictionary: gift wrap",
+        url: "https://dictionary.cambridge.org/us/dictionary/english/gift-wrap",
+        note: "Confirms the conventional open-compound noun spelling used in the printable word bank."
+      },
+      {
+        title: "Government of Canada TERMIUM Plus: sleigh bell",
+        url: "https://www.btb.termiumplus.gc.ca/tpv2alpha/alpha-eng.html?i=&index=ent&lang=eng&srchtxt=SLEIGH-BELL",
+        note: "Terminology entry lists sleigh bell as the English term; no instrument-history claims are made."
+      },
+      {
+        title: "Collins English Dictionary: paper chain",
+        url: "https://www.collinsdictionary.com/dictionary/english/paper-chain",
+        note: "Confirms the conventional two-word spelling."
+      },
+      {
+        title: "Merriam-Webster Dictionary browse list: pine cone",
+        url: "https://scrabble.m-w.com/browse/dictionary/p/43",
+        note: "Dictionary browse list uses the open-compound spelling."
       }
     ],
     puzzle: {
       puzzleTitle: "Hard Christmas Word Search",
       words: [
-        "EVERGREEN", "MISTLETOE", "POINSETTIA", "NUTCRACKER", "SNOWGLOBE",
-        "TINSEL", "GARLAND", "GIFTWRAP", "PEPPERMINT", "CRANBERRY",
-        "SLEIGHBELL", "YULETIDE", "MIDWINTER", "CANDLELIGHT", "FIREPLACE",
-        "CHIMNEY", "HOLLYBERRY", "PINECONE", "PAPERCHAIN", "FESTOON"
+        "EVERGREEN", "MISTLETOE", "POINSETTIA", "NUTCRACKER", "SNOW GLOBE",
+        "TINSEL", "GARLAND", "GIFT WRAP", "PEPPERMINT", "CRANBERRY",
+        "SLEIGH BELL", "YULETIDE", "MIDWINTER", "CANDLELIGHT", "FIREPLACE",
+        "CHIMNEY", "TREE SKIRT", "PINE CONE", "PAPER CHAIN", "FESTOON"
       ],
       seed: "staged-x01-christmas-hard-v1",
       rows: 18,
@@ -114,18 +139,28 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
         title: "King Arthur Baking: Gingerbread Cookies Recipe",
         url: "https://www.kingarthurbaking.com/recipes/gingerbread-cookies-recipe",
         note: "Checked common ingredient and process terms (for example, cinnamon, ginger, flour, dough, whisk, and baking sheets); no recipe instructions or quantities are used."
+      },
+      {
+        title: "Cambridge Dictionary: rolling pin",
+        url: "https://dictionary.cambridge.org/us/dictionary/english/rolling-pin",
+        note: "Confirms the conventional two-word kitchen-tool label."
+      },
+      {
+        title: "Cambridge Dictionary: baking sheet",
+        url: "https://dictionary.cambridge.org/dictionary/english/baking-sheet?topic=pots-and-pans",
+        note: "Confirms the conventional two-word label used instead of a concatenated form."
       }
     ],
     puzzle: {
       puzzleTitle: "Christmas Baking Word Search",
       words: [
         "CINNAMON", "FLOUR", "DOUGH", "OVEN", "ICING", "COOKIE", "WHISK", "MIXER",
-        "APRON", "ROLLINGPIN", "SUGAR", "NUTMEG", "SPATULA", "BAKINGPAN", "SPRINKLE", "GINGER"
+        "APRON", "ROLLING PIN", "SUGAR", "NUTMEG", "SPATULA", "BAKING SHEET", "SPRINKLE", "GINGER"
       ],
       seed: "staged-x04-christmas-baking-v1",
       rows: 15,
       columns: 15,
-      directions: ["E", "W", "S", "N", "SE", "SW", "NE", "NW"],
+      directions: ["E", "S", "SE", "NE"],
       allowOverlap: true,
       alphabetPack: "latin",
       difficulty: "medium",
@@ -137,7 +172,7 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
     },
     editorial: {
       puzzleNote: "The words focus on baking ingredients, kitchen tools, dough, and cookies rather than seasonal decorations.",
-      difficultyExplanation: "Medium describes a 15×15 grid, sixteen entries, and mixed forward, reverse, vertical, and diagonal paths.",
+      difficultyExplanation: "Medium describes a 15×15 grid, sixteen entries, and forward horizontal, vertical, and diagonal paths, including up and down diagonals.",
       wordListContext: "This draft uses ordinary baking vocabulary. The cited baking references support the topic and spelling checks only; this puzzle does not offer baking instructions or food-safety advice.",
       printNote: "Candidate output is intended for standard Letter and A4 print validation at actual size; no print measurement has been approved yet."
     },
@@ -152,7 +187,7 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
   {
     id: "X11",
     proposedPath: "/word-searches/holidays/winter-cozy-activities-word-search",
-    intent: "A winter indoor hobbies and comfort vocabulary puzzle. It avoids the published winter puzzle's cold-weather clothing, snow activities, fireplace, cocoa, and blanket list.",
+    intent: "A winter vocabulary puzzle about indoor hobbies, textiles, and household objects. It uses words distinct from the published winter puzzle, though some categories overlap.",
     title: "Winter Cozy Activities Word Search",
     status: "drafted",
     sourceReferences: [
@@ -171,7 +206,7 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
       seed: "staged-x11-winter-cozy-v1",
       rows: 15,
       columns: 15,
-      directions: ["E", "W", "S", "N", "SE", "SW", "NE", "NW"],
+      directions: ["E", "S", "SE", "NE"],
       allowOverlap: true,
       alphabetPack: "latin",
       difficulty: "medium",
@@ -182,9 +217,9 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
       largePrintSuitable: false
     },
     editorial: {
-      puzzleNote: "A winter-themed set of indoor reading, craft, and tea-making vocabulary. It is not a health or cognitive-benefit activity claim.",
-      difficultyExplanation: "Medium describes a 15×15 grid, sixteen entries, and mixed directions.",
-      wordListContext: "The vocabulary centers on hobbies and household objects and avoids the existing published winter list's snow, clothing, and fireplace terms.",
+      puzzleNote: "A winter-themed set of indoor reading, craft, textile, and tea vocabulary.",
+      difficultyExplanation: "Medium describes a 15×15 grid, sixteen entries, and forward horizontal, vertical, and diagonal paths, including up and down diagonals.",
+      wordListContext: "The list uses distinct answer words from the published winter puzzle while keeping an indoor winter theme.",
       printNote: "Candidate output is intended for standard Letter and A4 print validation at actual size; no print measurement has been approved yet."
     },
     taxonomy: {
@@ -210,11 +245,11 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
     ],
     puzzle: {
       puzzleTitle: "Christmas Gift-Wrapping Word Search",
-      words: ["SCISSORS", "TAPE", "TAG", "BOX", "TWINE", "FOLD", "CREASE", "LABEL", "STAMP", "ENVELOPE", "POSTMARK", "MAILBOX", "TISSUE", "GIFTBAG", "POSTAGE", "MAILER"],
+      words: ["SCISSORS", "TAPE", "TAG", "BOX", "TWINE", "FOLD", "CREASE", "LABEL", "STAMP", "ENVELOPE", "POSTMARK", "MAILBOX", "TISSUE", "GIFT BAG", "POSTAGE", "MAILER"],
       seed: "staged-x15-christmas-gift-wrap-v1",
       rows: 15,
       columns: 15,
-      directions: ["E", "W", "S", "N", "SE", "SW", "NE", "NW"],
+      directions: ["E", "S", "SE", "NE"],
       allowOverlap: true,
       alphabetPack: "latin",
       difficulty: "medium",
@@ -226,7 +261,7 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
     },
     editorial: {
       puzzleNote: "A focused set about preparing, tagging, and mailing wrapped gifts, separate from the generic Christmas decorations and baking themes.",
-      difficultyExplanation: "Medium describes a 15×15 grid, sixteen entries, and mixed forward, reverse, vertical, and diagonal paths.",
+      difficultyExplanation: "Medium describes a 15×15 grid, sixteen entries, and forward horizontal, vertical, and diagonal paths, including up and down diagonals.",
       wordListContext: "The draft uses common wrapping and mailing vocabulary. It does not provide packaging or shipping advice.",
       printNote: "Candidate output is intended for standard Letter and A4 print validation at actual size; no print measurement has been approved yet."
     },

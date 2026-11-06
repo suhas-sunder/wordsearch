@@ -5,7 +5,7 @@ import type { PuzzleContentRecord } from "@/content/model";
 import { christmasCandidates, christmasDraftProposals, christmasSourceOnlyStatus, newYearDraftProposal } from "@/content/staged/christmas";
 import { curatedTopics } from "@/content/curated-topics";
 import { curatedTopicsPrompt6 } from "@/content/curated-topics-prompt6";
-import { generatedPuzzleFingerprints, normalizeWords, wordListJaccard } from "@/lib/content/fingerprint";
+import { generatedPuzzleFingerprints, normalizeText } from "@/lib/content/fingerprint";
 import { auditCandidates } from "@/lib/content/candidates";
 import { readSourceInventory } from "@/lib/content/inventory";
 import { createPuzzlePdf, validatePuzzleForPdf } from "@/lib/pdf/create-puzzle-pdf";
@@ -16,6 +16,18 @@ import { puzzlePlayUrl } from "@/lib/share-state/state";
 const publishedPuzzles = routeInventory.filter(
   (record): record is PuzzleContentRecord => record.contentType === "puzzle" && record.publicationStatus === "published" && record.indexable
 );
+
+function answerTokens(words: string[]) {
+  return words.map((word) => normalizeText(word).replace(/[^a-z0-9]/g, "")).filter(Boolean);
+}
+
+function answerTokenJaccard(left: string[], right: string[]) {
+  const a = new Set(answerTokens(left));
+  const b = new Set(answerTokens(right));
+  const intersection = [...a].filter((token) => b.has(token)).length;
+  const union = new Set([...a, ...b]).size;
+  return union ? intersection / union : 1;
+}
 
 function generate(candidate: (typeof christmasCandidates)[number]) {
   const { puzzle } = candidate;
@@ -39,14 +51,20 @@ describe("staged Christmas source assets", () => {
     expect(christmasCandidates.map(({ id }) => id)).toEqual(["X01", "X02", "X04", "X11", "X15"]);
     expect(new Set(christmasCandidates.map(({ puzzle }) => puzzle.seed)).size).toBe(christmasCandidates.length);
     expect(new Set(christmasCandidates.map(({ proposedPath }) => proposedPath)).size).toBe(christmasCandidates.length);
+    const candidatesById = new Map(christmasCandidates.map((candidate) => [candidate.id, candidate]));
+    expect(candidatesById.get("X01")?.puzzle.directions).toEqual(["E", "W", "S", "N", "SE", "SW", "NE", "NW"]);
+    expect(candidatesById.get("X02")?.puzzle.directions).toEqual(["E", "S"]);
+    for (const id of ["X04", "X11", "X15"] as const) {
+      expect(candidatesById.get(id)?.puzzle.directions, id).toEqual(["E", "S", "SE", "NE"]);
+    }
 
     for (const candidate of christmasCandidates) {
-      const normalizedWords = normalizeWords(candidate.puzzle.words);
+      const normalizedWords = answerTokens(candidate.puzzle.words);
       expect(candidate.status).toBe("drafted");
       expect(candidate.id).toMatch(/^X(?:01|02|04|11|15)$/);
       expect(candidate.puzzle.seed).toMatch(/^staged-x(?:01|02|04|11|15)-[a-z0-9-]+-v1$/);
       expect(new Set(normalizedWords).size, candidate.id).toBe(normalizedWords.length);
-      expect(candidate.puzzle.words.every((word) => /^[A-Z]+$/.test(word)), candidate.id).toBe(true);
+      expect(candidate.puzzle.words.every((word) => /^[A-Z]+(?: [A-Z]+)*$/.test(word)), candidate.id).toBe(true);
       expect(candidate.sourceReferences.length, candidate.id).toBeGreaterThan(0);
       expect(candidate.sourceReferences.every(({ url }) => url.startsWith("https://")), candidate.id).toBe(true);
       expect(Object.hasOwn(candidate, "approval"), candidate.id).toBe(false);
@@ -66,21 +84,21 @@ describe("staged Christmas source assets", () => {
 
     const existingPaths = new Set(routeInventory.map(({ canonicalPath }) => canonicalPath));
     const existingSeeds = new Set(publishedPuzzles.map(({ puzzle }) => puzzle.seed));
-    const existingWordLists = new Set(publishedPuzzles.map(({ puzzle }) => [...normalizeWords(puzzle.words)].sort().join("\u001f")));
+    const existingWordLists = new Set(publishedPuzzles.map(({ puzzle }) => [...answerTokens(puzzle.words)].sort().join("\u001f")));
     const existingFingerprints = new Set(publishedPuzzles.map((record) => generatedPuzzleFingerprints(record).complete));
 
     for (const candidate of christmasCandidates) {
       expect(existingPaths.has(candidate.proposedPath), candidate.id).toBe(false);
       expect(existingSeeds.has(candidate.puzzle.seed), candidate.id).toBe(false);
-      expect(existingWordLists.has([...normalizeWords(candidate.puzzle.words)].sort().join("\u001f")), candidate.id).toBe(false);
+      expect(existingWordLists.has([...answerTokens(candidate.puzzle.words)].sort().join("\u001f")), candidate.id).toBe(false);
       for (const existing of publishedPuzzles) {
-        expect(wordListJaccard(candidate.puzzle.words, existing.puzzle.words), `${candidate.id} vs ${existing.canonicalPath}`).toBeLessThan(0.8);
+        expect(answerTokenJaccard(candidate.puzzle.words, existing.puzzle.words), `${candidate.id} vs ${existing.canonicalPath}`).toBeLessThan(0.8);
       }
     }
 
     for (let left = 0; left < christmasCandidates.length; left += 1) {
       for (let right = left + 1; right < christmasCandidates.length; right += 1) {
-        expect(wordListJaccard(christmasCandidates[left].puzzle.words, christmasCandidates[right].puzzle.words), `${christmasCandidates[left].id} vs ${christmasCandidates[right].id}`).toBeLessThan(0.8);
+        expect(answerTokenJaccard(christmasCandidates[left].puzzle.words, christmasCandidates[right].puzzle.words), `${christmasCandidates[left].id} vs ${christmasCandidates[right].id}`).toBeLessThan(0.8);
       }
     }
     expect(auditCandidates(christmasCandidates, routeInventory, readSourceInventory().redirects.map(({ source }) => source))).toEqual([]);
@@ -99,11 +117,11 @@ describe("staged Christmas source assets", () => {
     for (const candidate of christmasCandidates) {
       const first = generate(candidate);
       const second = generate(candidate);
-      const expectedWords = normalizeWords(candidate.puzzle.words).sort();
+      const expectedWords = answerTokens(candidate.puzzle.words).sort();
       expect(first.request.seed, candidate.id).toBe(candidate.puzzle.seed);
       expect(first.request.directions, candidate.id).toEqual(candidate.puzzle.directions);
       expect(first.excluded, candidate.id).toEqual([]);
-      expect(normalizeWords(first.placed.map(({ label }) => label)).sort(), candidate.id).toEqual(expectedWords);
+      expect(answerTokens(first.placed.map(({ label }) => label)).sort(), candidate.id).toEqual(expectedWords);
       expect(first.grid, candidate.id).toEqual(second.grid);
       expect(first.placed, candidate.id).toEqual(second.placed);
       expect(validatePuzzleForPdf(first), candidate.id).toBe(true);
