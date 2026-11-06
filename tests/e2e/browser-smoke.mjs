@@ -505,4 +505,6 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Browser smoke passed ${routes.length} routes x ${widths.length} viewports plus search, navigation, utility, print, and pointer/touch/tap/keyboard solver checks.`);
+console.log(process.env.SOLVER_ONLY
+  ? "Solver-only smoke passed pointer/touch/tap/keyboard interactions; route/search/utility matrix was not run."
+  : `Browser smoke passed ${routes.length} routes x ${widths.length} viewports plus search, navigation, utility, print, and pointer/touch/tap/keyboard solver checks.`);
