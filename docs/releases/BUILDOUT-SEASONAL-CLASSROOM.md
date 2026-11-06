@@ -103,4 +103,3 @@ made. The CLI and all pack variants now explicitly opt into the measured pack pr
 
 No advertising lifecycle, placement or placeholder behavior changed. Reverting
 this package removes only source inventory, editorial export tooling and tests.
-
