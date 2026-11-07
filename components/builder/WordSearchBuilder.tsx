@@ -73,6 +73,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   const urlStateActive = useRef(false);
   const directionHelpId = useId();
   const alphabetHelpId = useId();
+  const customFillerSupported = getAlphabetPack(request.alphabetPack ?? "latin").supportsCustomFiller;
 
   useEffect(() => {
     if (!persistState) return;
@@ -369,13 +370,13 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
               <select aria-label="Filler mode" value={request.fillerMode ?? "alphabet"} onChange={(event) => patch(event.target.value === "alphabet" ? { fillerMode: "alphabet", customFiller: "" } : { fillerMode: event.target.value as FillerMode })}>
                 <option value="alphabet">Alphabet pack defaults</option>
                 <option value="used">Letters or tokens in placed words</option>
-                <option value="custom">Custom characters</option>
+                <option value="custom" disabled={!customFillerSupported}>Custom characters</option>
                 <option value="rare" disabled={(request.alphabetPack ?? "latin") !== "latin"}>Rare-letter mix (Latin only)</option>
               </select>
             </label>
             {request.fillerMode === "rare" && (request.alphabetPack ?? "latin") !== "latin" && <p className="control-help">Rare-letter filler is defined for Latin only. This saved definition uses the selected pack&apos;s existing filler behavior; choose another mode to change it.</p>}
-            {request.fillerMode === "custom" && !request.customFiller?.trim() && <p className="control-help">Custom filler is empty, so the pack&apos;s existing defaults are used. Enter characters below or select alphabet defaults.</p>}
-            {(!request.fillerMode || request.fillerMode === "alphabet") && request.customFiller?.trim() && <div className="control-help">This saved definition has a custom filler override. Its original behavior is preserved. <button type="button" className="secondary-button" onClick={() => patch({ fillerMode: "alphabet", customFiller: "" })}>Use alphabet defaults</button></div>}
+            {customFillerSupported && request.fillerMode === "custom" && !request.customFiller?.trim() && <p className="control-help">Custom filler is empty, so the pack&apos;s existing defaults are used. Enter characters below or select alphabet defaults.</p>}
+            {customFillerSupported && (!request.fillerMode || request.fillerMode === "alphabet") && request.customFiller?.trim() && <div className="control-help">This saved definition has a custom filler override. Its original behavior is preserved. <button type="button" className="secondary-button" onClick={() => patch({ fillerMode: "alphabet", customFiller: "" })}>Use alphabet defaults</button></div>}
             <label>
               Instructions
               <textarea value={request.instructions ?? ""} rows={3} onChange={(event) => patch({ instructions: event.target.value })} />
@@ -387,9 +388,9 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             <p className="control-help">After crossing out placed words, read unused cells from left to right, top to bottom. The message starts there; later cells contain filler. A message that exceeds the remaining space is shortened with a warning.</p>
             <label>
               Custom filler alphabet
-              <input value={request.customFiller ?? ""} onChange={(event) => patch({ customFiller: event.target.value, fillerMode: "custom" })} />
+              <input value={request.customFiller ?? ""} disabled={!customFillerSupported} onChange={(event) => patch({ customFiller: event.target.value, fillerMode: "custom" })} />
             </label>
-            <p className="control-help">Entering characters selects Custom filler. Choosing alphabet defaults clears custom filler.</p>
+            <p className="control-help">{customFillerSupported ? "Entering characters selects Custom filler. Choosing alphabet defaults clears custom filler." : "Custom filler is unavailable for this format. Choose alphabet defaults or placed-word tokens. Saved custom settings retain the original fallback."}</p>
           </details>
         </div>
         <div ref={previewRef} className="builder-preview" aria-busy={isPending || !puzzle} style={puzzle ? undefined : { minHeight: previewHeight }}>

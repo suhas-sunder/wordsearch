@@ -27,6 +27,7 @@ function basicPack(id: AlphabetPackId, label: string, description: string): Alph
     label,
     description,
     supportsPlainText: true,
+    supportsCustomFiller: true,
     normalizeInput: cleanLatin,
     tokenize: latinTokens,
     encodeWord(input) {
@@ -87,6 +88,7 @@ function mappedPack(id: AlphabetPackId, label: string, description: string, map:
     label,
     description,
     supportsPlainText: true,
+    supportsCustomFiller: true,
     normalizeInput: cleanLatin,
     tokenize(input) {
       return latinTokens(input).map((token) => map[token] ?? token);
@@ -122,6 +124,7 @@ export const alphabetPacks: Record<AlphabetPackId, AlphabetPack> = {
     label: "Morse tokens",
     description: "Latin letters and digits become dot/dash cells. Raw groups are accepted without checking that they are valid Morse characters; very long groups may not fit.",
     supportsPlainText: true,
+    supportsCustomFiller: false,
     normalizeInput(input) {
       return input
         .replace(/[–—−]/g, "-")
@@ -158,6 +161,7 @@ export const alphabetPacks: Record<AlphabetPackId, AlphabetPack> = {
   braille: mappedPack("braille", "Braille glyphs (visual only)", "Visual letter-pattern mapping, not tactile or complete Braille transcription. Digits stay Latin; the standard PDF font rejects Braille glyphs.", brailleMap),
   binary: {
     ...basicPack("binary", "Binary tokens (experimental)", "Uppercase Latin letters and digits become eight-bit character codes in each cell. Dense cells can be unreadable; PDF rejects characters that do not fit."),
+    supportsCustomFiller: false,
     tokenize(input) {
       return latinTokens(input).map((token) => token.charCodeAt(0).toString(2).padStart(8, "0"));
     },
@@ -175,6 +179,7 @@ export const alphabetPacks: Record<AlphabetPackId, AlphabetPack> = {
   },
   hex: {
     ...basicPack("hex", "Hex character codes", "Uppercase Latin letters and digits become two-digit hexadecimal character codes in each cell."),
+    supportsCustomFiller: false,
     tokenize(input) {
       return latinTokens(input).map((token) => token.charCodeAt(0).toString(16).toUpperCase());
     },

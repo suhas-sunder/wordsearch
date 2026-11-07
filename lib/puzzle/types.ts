@@ -82,6 +82,7 @@ export interface AlphabetPack {
   label: string;
   description: string;
   supportsPlainText: boolean;
+  supportsCustomFiller: boolean;
   normalizeInput(input: string): string;
   tokenize(input: string): string[];
   encodeWord(input: string): { label: string; normalized: string; tokens: string[]; warning?: string };

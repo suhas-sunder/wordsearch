@@ -142,8 +142,12 @@ export function generatePuzzle(input: Partial<PuzzleRequest>): PuzzleResult {
   if (!placed.length) throw new Error(noPlacementsError);
   const usedTokens = placed.flatMap((item) => item.tokens);
   const fillerTokens = fillerByMode(request.fillerMode, usedTokens, pack, request.customFiller);
+  const customFillerActive = request.fillerMode === "custom" || (request.fillerMode === "alphabet" && Boolean(request.customFiller?.trim()));
+  if (customFillerActive && !pack.supportsCustomFiller) warnings.push("Custom filler is not implemented for this alphabet pack; its original alphabet defaults are used.");
+  else if (customFillerActive && request.customFiller?.trim() && !pack.tokenize(request.customFiller).length) warnings.push("Custom filler has no supported tokens for this alphabet pack; alphabet defaults are used.");
   let hiddenMessageApplied = "";
   const hiddenTokens = request.hiddenMessage ? pack.tokenize(request.hiddenMessage) : [];
+  if (request.hiddenMessage?.trim() && !hiddenTokens.length) warnings.push("The hidden message has no supported tokens for this alphabet pack; no message was applied.");
   const emptyCells = grid.flatMap((row, rowIndex) =>
     row.map((value, colIndex) => ({ value, row: rowIndex, col: colIndex })).filter((cell) => cell.value === null)
   );
