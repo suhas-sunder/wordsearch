@@ -22,7 +22,30 @@ hero links, six required widths, visible keyboard focus, actual navigation,
 noindex/sitemap exclusion, no ad slots, axe and no-JavaScript navigation.
 It verifies the real tool rather than adding a nonfunctional button.
 
-Lint, TypeScript and the existing full suite run on the source package.
-Production build/browser validation is serialized with the contextual-link
-package to reuse one exact combined preview; the final checkpoint must record
-the tested combined SHA and actual results. No main merge or deploy is allowed.
+Source checks passed lint, TypeScript and all 390 tests. Final combined
+validation used `codex/context-tools-validation` application commit
+`6be2dfd91f7e1f58fd3279398e783bf48d544672`, including contextual activity
+links/profiles and hub FAQs: lint, TypeScript, 394 tests, production build
+(335 pages) and static-host audit (217 sitemap entries, 35 redirects and six
+shell routes) all passed. Subsequent test-runner and evidence changes do not
+change the built application tree.
+
+On the fresh static export at port 3446, the discovery browser test passed all
+six widths, four SSR routes, keyboard Enter at 390/1280, pointer navigation at
+other widths, visible focus, actual builder heading, noindex, sitemap exclusion,
+ad-free destination, serious/critical axe and JavaScript-disabled navigation.
+The contextual-links browser suite also passed. Protected advertising tests
+passed nine eligible routes at five viewports plus 14 ad-free routes.
+
+The initial runner guessed a builder heading and used a Playwright convenience
+page incompatible with axe's context requirements. It now asserts the real
+`Word Search Pack Builder` heading and creates explicit contexts; application
+copy and accessibility thresholds were not changed to satisfy the harness.
+An occupied-port preview attempt was discarded; only the fresh 3446 export
+counts. A separately introduced footer contrast failure was repaired in the
+contextual-links package, rebuilt and passed before final combined acceptance.
+
+Creating actual packs still requires JavaScript, as before; native links work
+without it. Physical-device, screen-reader and genuine filled-network-ad checks
+remain manual acceptance gates. No main merge, production deploy or indexable
+content activation was performed.
