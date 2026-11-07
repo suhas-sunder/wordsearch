@@ -19,11 +19,14 @@ const issues = [...crossIssues, ...validations.flatMap(({ validation }) => valid
 console.log(JSON.stringify({
   candidateCount: allStagedCandidates.length,
   utilityOnlyLargePrintSelections: largePrintDraftSelections.length,
-  preservedOwnerEnhancements: preservedGrowthEnhancements.map(({ id, targetCanonicalPath, sourceFileSha256, newIndexableUrlAllowance }) => ({ id, targetCanonicalPath, sourceFileSha256, newIndexableUrlAllowance, validationReference: "PR53: existing-draft preservation and real Letter/A4 PDF tests" })),
+  preservedOwnerProposalCount: preservedGrowthEnhancements.length,
+  preservedOwnerExistingDraftCount: preservedGrowthEnhancements.filter(({ targetKind }) => targetKind === "existing-draft").length,
+  preservedOwnerNewPathProposalCount: preservedGrowthEnhancements.filter(({ targetKind }) => targetKind === "proposed-new-path").length,
+  preservedOwnerEnhancements: preservedGrowthEnhancements.map(({ id, targetCanonicalPath, targetKind, sourceFileSha256, newIndexableUrlAllowance }) => ({ id, targetCanonicalPath, targetKind, sourceFileSha256, newIndexableUrlAllowance, validationReference: "tests/content/calendar-gap-candidates.test.ts: source preservation and real Letter/A4 PDF tests" })),
   editorialApproval: false, publicationAuthorized: false,
   groups: validations.map(({ id, validation }) => ({ id, count: validation.freezes.length, fingerprints: validation.freezes.map(({ id, requestSha256, gridSha256, answerSha256 }) => ({ id, requestSha256, gridSha256, answerSha256 })) })),
   pdfChecked: process.argv.includes("--pdf"), pdfCandidateCount: pdfChecks.length,
-  pdfScope: "Staged new-path candidates only. Larger-type utilities and preserved existing-draft enhancements have separate measured tests; counts are not a claim this command reran them.",
+  pdfScope: "Main staged-candidate catalog only. Larger-type utilities and preserved owner proposals have separate measured tests; counts are not a claim this command reran them.",
   exportChecked, issues
 }, null, 2));
 if (issues.length) process.exitCode = 1;

@@ -11,6 +11,9 @@ describe("optional source-only 2027 editorial review calendar", () => {
     expect(allEditorialPuzzleCandidates).toHaveLength(60);
     expect(editorialAssetReferences.filter(({ kind }) => kind === "utility-selection")).toHaveLength(16);
     expect(editorialAssetReferences.filter(({ kind }) => kind === "existing-draft-enhancement")).toHaveLength(2);
+    for (const id of ["OWNER-COUNTRIES", "OWNER-STATE-CAPITALS", "OWNER-AMERICAN-REVOLUTION", "OWNER-CIVIL-RIGHTS", "OWNER-PERIODIC-TABLE", "OWNER-GENETICS"]) {
+      expect(editorialAssetReferences.some((reference) => reference.id === id)).toBe(false);
+    }
     for (const candidate of allEditorialPuzzleCandidates) {
       expect(editorialAssetReferences.some(({ id, proposedPath }) => id === candidate.id && proposedPath === candidate.proposedPath)).toBe(true);
       expect(routeInventory.some(({ canonicalPath }) => canonicalPath === candidate.proposedPath)).toBe(false);
