@@ -17,7 +17,8 @@ function makePack(count: number): PuzzlePack {
 }
 async function pages(bytes: Uint8Array) {
   const standardFontDataUrl = `${fileURLToPath(new URL("../../node_modules/pdfjs-dist/standard_fonts/", import.meta.url))}/`;
-  const doc = await getDocument({ data: bytes.slice(), standardFontDataUrl }).promise;
+  const loadingTask = getDocument({ data: bytes.slice(), standardFontDataUrl });
+  const doc = await loadingTask.promise;
   const result = [];
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i);
@@ -25,7 +26,7 @@ async function pages(bytes: Uint8Array) {
     const ops = await page.getOperatorList();
     result.push({ text: text.items.map((item) => "str" in item ? item.str : "").join(" "), fnArray: ops.fnArray, paths: ops.argsArray.filter((_, index) => ops.fnArray[index] === OPS.constructPath) });
   }
-  await doc.destroy();
+  await loadingTask.destroy();
   return result;
 }
 describe("puzzle pack PDF", () => {

@@ -33,13 +33,14 @@ async function makePdf(paperSize: "letter" | "a4", orientation: "portrait" | "la
 
 async function extractedText(bytes: Uint8Array) {
   const standardFontDataUrl = `${fileURLToPath(new URL("../../node_modules/pdfjs-dist/standard_fonts/", import.meta.url))}/`;
-  const document = await getDocument({ data: bytes.slice(), standardFontDataUrl }).promise;
+  const loadingTask = getDocument({ data: bytes.slice(), standardFontDataUrl });
+  const document = await loadingTask.promise;
   const pages: string[] = [];
   for (let index = 1; index <= document.numPages; index += 1) {
     const content = await (await document.getPage(index)).getTextContent();
     pages.push(content.items.map((item) => "str" in item ? item.str : "").join(" "));
   }
-  await document.destroy();
+  await loadingTask.destroy();
   return pages;
 }
 
