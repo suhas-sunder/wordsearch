@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import AxeBuilder from "@axe-core/playwright";
 
-const base = process.env.BASE_URL ?? "http://localhost:3296";
+const base = process.env.BASE_URL ?? "http://localhost:3446";
 for (const path of ["/word-searches-for-teachers", "/word-search-worksheets", "/collections/classroom-word-search-worksheets", "/word-searches/animals/dog-word-search"]) {
   const html = await (await fetch(`${base}${path}`)).text();
   assert.ok(html.includes('href="/pack-builder"'), `${path} has an SSR worksheet-pack link`);
@@ -30,7 +30,7 @@ try {
       await page.waitForURL("**/pack-builder");
       assert.match(await page.locator('meta[name="robots"]').getAttribute("content"), /noindex/);
       assert.equal(await page.locator("[data-ad-placement]").count(), 0);
-      assert.equal(await page.getByRole("heading", { name: /Classroom Word Search Pack/i }).count(), 1);
+      assert.equal(await page.getByRole("heading", { name: "Word Search Pack Builder", exact: true }).count(), 1);
       if (width === 390) {
         const result = await new AxeBuilder({ page }).analyze();
         assert.deepEqual(result.violations.filter(({ impact }) => ["serious", "critical"].includes(impact)), []);
