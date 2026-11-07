@@ -1,4 +1,5 @@
 import type { PuzzleResult } from "@/lib/puzzle/types";
+import { printedLatinText, type PrintedLetterCase } from "@/lib/puzzle/display-case";
 
 export function gridExportFilename(title: string, extension: "svg" | "png" | "txt") {
   const stem = title.normalize("NFKD").replace(/\p{Diacritic}/gu, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80).replace(/-$/, "");
@@ -6,8 +7,8 @@ export function gridExportFilename(title: string, extension: "svg" | "png" | "tx
 }
 
 /** Tabs retain cell boundaries for Morse, Braille and other multi-character tokens. */
-export function puzzleGridText(puzzle: Pick<PuzzleResult, "grid">) {
-  return puzzle.grid.map((row) => row.join("\t")).join("\n") + "\n";
+export function puzzleGridText(puzzle: Pick<PuzzleResult, "grid">, display?: { alphabetPack?: PuzzleResult["request"]["alphabetPack"]; letterCase?: PrintedLetterCase }) {
+  return puzzle.grid.map((row) => row.map((token) => printedLatinText(token, display?.alphabetPack, display?.letterCase)).join("\t")).join("\n") + "\n";
 }
 
 /** Standalone SVG must not depend on the surrounding website's CSS or web fonts. */

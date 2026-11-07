@@ -1,5 +1,6 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 import { puzzleBankLabels } from "@/lib/puzzle/word-bank";
+import { printedLatinText, type PrintedLetterCase } from "@/lib/puzzle/display-case";
 import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import { directionVectors } from "@/lib/puzzle/generate";
 import type { PuzzleResult } from "@/lib/puzzle/types";
@@ -100,8 +101,8 @@ function pngBytes(dataUrl: string) {
   return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
 
-function orderedLabels(puzzle: PuzzleResult, answerKey = false) {
-  return puzzleBankLabels(puzzle, answerKey);
+function orderedLabels(puzzle: PuzzleResult, answerKey = false, letterCase?: PrintedLetterCase) {
+  return puzzleBankLabels(puzzle, answerKey, letterCase);
 }
 
 function drawWordBankBelow(
@@ -246,7 +247,7 @@ async function drawPuzzlePage(
 
   const clueMode = puzzle.request.wordBankMode === "clues";
   const showBank = !answerKey || clueMode;
-  const labels = orderedLabels(puzzle, answerKey);
+  const labels = orderedLabels(puzzle, answerKey, options.letterCase);
   const clueSize = measuredLarge ? 18 : large ? 11.5 : 9.5;
   const clueLines = clueMode ? labels.map((label) => wrapText(pdfSafeText(label, fonts.bold), fonts.bold, clueSize, usableWidth)) : [];
   const clueBankHeight = clueMode ? 26 + clueLines.reduce((height, lines) => height + lines.length * (clueSize + 3) + 4, 0) : 0;
@@ -298,7 +299,7 @@ async function drawPuzzlePage(
       const x = gridLeft + gutter + col * cell;
       const y = gridBottom + (puzzle.rows - row - 1) * cell;
       page.drawRectangle({ x, y, width: cell, height: cell, borderWidth: options.inkSaving ? 0.45 : 0.7, borderColor: ink });
-      const token = pdfSafeText(puzzle.grid[row]?.[col] ?? "", fonts.bold);
+      const token = pdfSafeText(printedLatinText(puzzle.grid[row]?.[col] ?? "", puzzle.request.alphabetPack, options.letterCase), fonts.bold);
       const tokenSize = token.length > 3
         ? cell * (large ? 0.29 : 0.24)
         : token.length > 1

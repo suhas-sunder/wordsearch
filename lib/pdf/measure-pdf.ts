@@ -4,6 +4,8 @@ import { createPuzzlePdf, normalizePdfText } from "@/lib/pdf/create-puzzle-pdf";
 import type { PuzzleOutputOptions } from "@/lib/puzzle/output-options";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import { splitCoalescedWordBank } from "@/lib/pdf/coalesced-word-bank";
+import { printedLatinText } from "@/lib/puzzle/display-case";
+import { puzzleBankLabels } from "@/lib/puzzle/word-bank";
 
 export interface MeasuredBox { text: string; x: number; y: number; width: number; height: number; fontPt: number }
 export interface PrintMeasurement {
@@ -19,15 +21,15 @@ export async function measurePuzzlePdf(puzzle: PuzzleResult, options: PuzzleOutp
 }
 
 /** Measure a selected puzzle page from an already composed PDF. */
-export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, options: PuzzleOutputOptions, pageNumber = 1): Promise<PrintMeasurement> {
+export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, options: PuzzleOutputOptions, pageNumber = 1, answerKey = false): Promise<PrintMeasurement> {
   const standardFontDataUrl = `${fileURLToPath(new URL("../../node_modules/pdfjs-dist/standard_fonts/", import.meta.url))}/`;
   const loadingTask = getDocument({ data: bytes.slice(), standardFontDataUrl });
   const document = await loadingTask.promise;
   try {
     const page = await document.getPage(pageNumber), viewport = page.getViewport({ scale: 1 }), contents = await page.getTextContent();
     const text: MeasuredBox[] = contents.items.flatMap((item) => "str" in item && "transform" in item && item.str.trim() ? [{ text: item.str.trim(), x: item.transform[4], y: item.transform[5], width: item.width, height: item.height, fontPt: Math.abs(item.transform[3]) }] : []);
-    const singles = text.filter((item) => /^[A-Z0-9]$/.test(item.text));
-    const expected = puzzle.grid.flat().join("");
+    const singles = text.filter((item) => /^[A-Za-z0-9]$/.test(item.text));
+    const expected = puzzle.grid.flat().map((token) => printedLatinText(token, puzzle.request.alphabetPack, options.letterCase)).join("");
     const start = singles.map((item) => item.text).join("").indexOf(expected);
     if (start < 0 || puzzle.cols < 2 || puzzle.rows < 2) throw new Error("Could not identify the complete single-token Latin grid in the rendered PDF.");
     const glyphs = singles.slice(start, start + expected.length);
@@ -37,10 +39,10 @@ export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, o
     const cellHeightPt = Math.abs(cy(glyphs[puzzle.cols]) - cy(glyphs[0]));
     const centersX = glyphs.map(cx), centersY = glyphs.map(cy);
     const bounds = { x: Math.min(...centersX) - cellWidthPt / 2, y: Math.min(...centersY) - cellHeightPt / 2, width: cellWidthPt * puzzle.cols, height: cellHeightPt * puzzle.rows };
-    const expectedTitle = normalizePdfText(puzzle.request.title);
+    const expectedTitle = normalizePdfText(`${puzzle.request.title}${answerKey ? " - Answer Key" : ""}`);
     const titleLines = text.filter((item) => item.fontPt >= 12 && item.text.length >= 1 && expectedTitle.includes(item.text) && item.y > bounds.y + bounds.height);
     const title = titleLines.length ? { text: titleLines.map((line) => line.text).join(" "), x: Math.min(...titleLines.map((line) => line.x)), y: Math.min(...titleLines.map((line) => line.y)), width: Math.max(...titleLines.map((line) => line.x + line.width)) - Math.min(...titleLines.map((line) => line.x)), height: Math.max(...titleLines.map((line) => line.y + line.height)) - Math.min(...titleLines.map((line) => line.y)), fontPt: Math.min(...titleLines.map((line) => line.fontPt)) } : null;
-    const labels = puzzle.placed.map((placement) => placement.label);
+    const labels = puzzle.request.wordBankMode === "clues" ? puzzleBankLabels(puzzle, answerKey, options.letterCase) : answerKey ? [] : puzzle.placed.map((placement) => printedLatinText(placement.label, puzzle.request.alphabetPack, options.letterCase));
     const extracted = text.slice(text.indexOf(glyphs[glyphs.length - 1]) + 1).filter((item) => !["Exact seeded word search", "Scan to open the same unsolved puzzle."].includes(item.text));
     const candidates: MeasuredBox[] = [];
     for (const item of extracted) candidates.push(...(await splitCoalescedWordBank(item, labels) ?? [item]));

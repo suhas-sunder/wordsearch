@@ -28,6 +28,10 @@ describe("rendered PDF measurements", () => {
     expect(answer.grid.rows).toBe(puzzle.rows);
     expect(answer.grid.columns).toBe(puzzle.cols);
     expect(answer.unmeasuredWords).toHaveLength(puzzle.placed.length);
+    const teacher = await measurePdfBytes(bytes, puzzle, options, 2, true);
+    expect(teacher.findings).toEqual([]);
+    expect(teacher.title?.text).toBe("Print Test - Answer Key");
+    expect(teacher.wordBank).toEqual([]);
   });
   test("reconstructs wrapped word-bank labels on an actual PDF", async () => {
     const beside = generatePuzzle({ ...puzzle.request, title: "Wrapped Bank", wordsText: "EXTRAORDINARY CLASSROOM\nWINTER ACTIVITIES\nSNOW", rows: 30, cols: 30 });
