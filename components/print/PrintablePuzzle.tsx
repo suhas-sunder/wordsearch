@@ -26,7 +26,7 @@ export function PrintablePuzzle({
   shareTarget
 }: PrintablePuzzleProps) {
   const words = puzzleWordBank(puzzle);
-  const labels = puzzleBankLabels(puzzle, answerKey);
+  const labels = puzzleBankLabels(puzzle, answerKey, options.letterCase);
   const clueMode = puzzle.request.wordBankMode === "clues";
   const target = shareTarget ?? shareUrl(puzzle.sharePath);
   const Heading = headingLevel === 1 ? "h1" : "h2";
@@ -68,6 +68,7 @@ export function PrintablePuzzle({
             largePrint={options.printScale === "large"}
             showCoordinates={options.coordinates}
             inkSaving={options.inkSaving}
+            letterCase={options.letterCase}
           />
         </div>
         {(!answerKey || clueMode) && (

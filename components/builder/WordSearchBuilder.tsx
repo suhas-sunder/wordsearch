@@ -10,6 +10,7 @@ import { decodeShareState, stateId } from "@/lib/share-state/state";
 import { PuzzleUtilities } from "@/components/puzzle/PuzzleUtilities";
 import { LocalPuzzleLibrary } from "@/components/builder/LocalPuzzleLibrary";
 import { getAlphabetPack } from "@/lib/alphabet-packs";
+import type { PrintedLetterCase } from "@/lib/puzzle/display-case";
 import { downloadGridBlob, gridExportFilename, pngGridBlob, puzzleGridText, standaloneGridSvg } from "@/lib/print/grid-export";
 
 export interface BuilderProps {
@@ -164,7 +165,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     });
   }
 
-  async function downloadGrid(format: "svg" | "png" | "txt") {
+  async function downloadGrid(format: "svg" | "png" | "txt", letterCase?: PrintedLetterCase) {
     if (!puzzle) return;
     const definition = request;
     setGridExportMessage("");
@@ -172,11 +173,12 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     try {
       const svg = previewRef.current?.querySelector<SVGSVGElement>(".puzzle-svg");
       if (!svg) throw new Error("The grid is not ready. Wait for a valid preview.");
+      const displayedGrid = svg.outerHTML;
       const hasAnswers = svg.querySelector("line") !== null;
       const blob = format === "png" ? await pngGridBlob(svg)
-        : format === "txt" ? new Blob([puzzleGridText(puzzle)], { type: "text/plain;charset=utf-8" })
+        : format === "txt" ? new Blob([puzzleGridText(puzzle, { alphabetPack: puzzle.request.alphabetPack, letterCase })], { type: "text/plain;charset=utf-8" })
           : new Blob([standaloneGridSvg(svg).markup], { type: "image/svg+xml" });
-      if (!exportMounted.current || currentExportRequest.current !== definition) return;
+      if (!exportMounted.current || currentExportRequest.current !== definition || svg.outerHTML !== displayedGrid) return;
       downloadGridBlob(blob, gridExportFilename(puzzle.request.title, format));
       setGridExportMessage(`${format.toUpperCase()} grid downloaded.${format !== "txt" && hasAnswers ? " Includes the visible answer highlights." : ""}`);
     } catch (error) {
@@ -389,7 +391,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             </button>
             <a className="utility-link" href={`/play/${encoded}`}><Play size={16} aria-hidden="true" /> Play</a>
           </>}>
-          {({ previewToolbar, printablePreview, downloadHtmlWorksheet, htmlExportMessage }) => puzzle ? <>
+          {({ previewToolbar, printablePreview, downloadHtmlWorksheet, htmlExportMessage, options }) => puzzle ? <>
           {previewToolbar}
           {printablePreview}
           <div className="validation-panel" aria-live="polite">
@@ -410,7 +412,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
           <div className="export-row">
             <button type="button" onClick={() => downloadGrid("svg")}><Download size={16} aria-hidden="true" /> SVG grid</button>
             <button type="button" disabled={pngWorking} onClick={() => downloadGrid("png")}><Download size={16} aria-hidden="true" /> {pngWorking ? "Creating PNG…" : "PNG grid"}</button>
-            <button type="button" onClick={() => downloadGrid("txt")}><FileCode2 size={16} aria-hidden="true" /> Grid text</button>
+            <button type="button" onClick={() => downloadGrid("txt", options.letterCase)}><FileCode2 size={16} aria-hidden="true" /> Grid text</button>
             <button type="button" onClick={downloadHtmlWorksheet}><FileCode2 size={16} aria-hidden="true" /> HTML worksheet</button>
             <span>Print, PDF, answer key, play, share, and QR all use this exact seeded state.</span>
             {!persistState && <a href={puzzle.sharePath}>Open in maker to save</a>}

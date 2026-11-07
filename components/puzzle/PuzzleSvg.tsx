@@ -1,5 +1,6 @@
 import { findPlacement } from "@/lib/puzzle/generate";
 import type { PuzzleResult } from "@/lib/puzzle/types";
+import { printedLatinText, type PrintedLetterCase } from "@/lib/puzzle/display-case";
 
 interface PuzzleSvgProps {
   puzzle: PuzzleResult;
@@ -8,6 +9,7 @@ interface PuzzleSvgProps {
   largePrint?: boolean;
   showCoordinates?: boolean;
   inkSaving?: boolean;
+  letterCase?: PrintedLetterCase;
 }
 
 export function PuzzleSvg({
@@ -16,7 +18,8 @@ export function PuzzleSvg({
   compact = false,
   largePrint = puzzle.request.largePrint,
   showCoordinates = puzzle.request.showCoordinates,
-  inkSaving = false
+  inkSaving = false,
+  letterCase
 }: PuzzleSvgProps) {
   const cell = compact ? 30 : largePrint ? 42 : 34;
   const labelGutter = showCoordinates ? cell : 0;
@@ -73,7 +76,7 @@ export function PuzzleSvg({
                     ? cell * (largePrint ? 0.39 : 0.32)
                     : cell * (largePrint ? 0.58 : 0.48)}
               >
-                {token}
+                {printedLatinText(token, puzzle.request.alphabetPack, letterCase)}
               </text>
             </g>
           );
