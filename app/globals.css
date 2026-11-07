@@ -2762,6 +2762,7 @@ input[type="checkbox"] {
   --focus: #257b54;
 }
 .theme-toggle { flex: none; width: 42px; height: 42px; padding: 8px; }
+.theme-toggle:disabled { cursor: default; opacity: .65; }
 input, textarea, select { color: inherit; }
 .solver-grid-stage {
   color-scheme: light;

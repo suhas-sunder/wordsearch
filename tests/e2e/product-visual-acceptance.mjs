@@ -26,6 +26,7 @@ const allRoutes = [
 const caseNames = process.env.F1_CASE_NAMES?.split(",").filter(Boolean);
 if (caseNames) for (const name of caseNames) assert.ok(allRoutes.some(([candidate]) => candidate === name), `Unknown F1 case ${name}`);
 const routes = caseNames ? allRoutes.filter(([name]) => caseNames.includes(name)) : allRoutes;
+assert.ok(routes.length, "F1 case selection must not be empty");
 const viewports = [
   ...[320, 390, 768, 1024, 1280, 1600].map((width) => ({ name: `${width}`, width, height: 1000, deviceScaleFactor: 1 })),
   { name: "landscape-844x390", width: 844, height: 390, deviceScaleFactor: 1 },
