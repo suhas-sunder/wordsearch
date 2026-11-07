@@ -92,10 +92,10 @@ describe("observed language and token boundaries (not semantic approval)", () =>
     expect(getAlphabetPack("morse").encodeWord("..........").tokens).toEqual([".........."]);
     expect(getAlphabetPack("braille").encodeWord("A1").tokens).toEqual(["⠁", "1"]);
   });
-  test("the generator accepts a one-cell word that the solver does not match", () => {
+  test("a generated one-cell word can be matched at its exact placement", () => {
     const result = generatePuzzle({ title: "One letter", wordsText: "A", seed: "one-cell", difficulty: "easy", alphabetPack: "latin", autoSize: false, rows: 6, cols: 6, directions: ["E"], allowOverlap: true, fillerMode: "alphabet" });
     expect(result.placed).toHaveLength(1);
-    expect(findMatchingPlacement(result.placed, placementCoordinates(result.placed[0]), new Set())).toBeUndefined();
+    expect(findMatchingPlacement(result.placed, placementCoordinates(result.placed[0]), new Set())).toBe(result.placed[0]);
   });
   test("hidden-message overflow warns and applies only available cells", () => {
     const result = generatePuzzle({ title: "Overflow", wordsText: "planet", seed: "overflow", difficulty: "easy", alphabetPack: "latin", autoSize: false, rows: 6, cols: 6, directions: ["E"], allowOverlap: true, fillerMode: "alphabet", hiddenMessage: "A".repeat(100) });

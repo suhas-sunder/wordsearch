@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, KeyRound, RefreshCw, Settings } from "lucide-react";
+import { Check, KeyRound, Pencil, RefreshCw, Settings } from "lucide-react";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import {
   coordinateKey,
@@ -200,14 +200,14 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   }
 
   function submitSelection(path: Coordinate[]) {
-    if (path.length < 2) {
+    if (path.length === 0) {
       clearPendingSelection();
       return;
     }
     const currentFound = foundPlacementIdsRef.current;
     const placement = findMatchingPlacement(puzzle.placed, path, currentFound);
     if (!placement) {
-      clearPendingSelection("That path is not an unfound word. Try another line.");
+      clearPendingSelection(path.length === 1 ? undefined : "That path is not an unfound word. Try another line.");
       return;
     }
     const next = new Set(currentFound);
@@ -321,6 +321,10 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
       return;
     }
     if (sameCoordinate(activeSelection.start, coordinate)) {
+      if (findMatchingPlacement(puzzle.placed, [coordinate], foundPlacementIdsRef.current)) {
+        submitSelection([coordinate]);
+        return;
+      }
       clearPendingSelection("Endpoint selection canceled.");
       return;
     }
@@ -480,6 +484,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
           <button type="button" className="secondary-button" onClick={openSettings}><Settings size={17} aria-hidden="true" /> Settings</button>
           <button type="button" className="secondary-button" onClick={resetPuzzle}><RefreshCw size={17} aria-hidden="true" /> Reset puzzle</button>
           {compactToolbar}
+          <a className="secondary-button" href={puzzle.sharePath}><Pencil size={17} aria-hidden="true" /> Edit or save in maker</a>
         </div>
       </div>
 

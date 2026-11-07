@@ -159,7 +159,7 @@ export function findMatchingPlacement(
   selectedPath: readonly Coordinate[],
   foundPlacementIds: ReadonlySet<string>
 ) {
-  if (selectedPath.length < 2) return undefined;
+  if (selectedPath.length === 0) return undefined;
   return placements.find((placement) => {
     if (foundPlacementIds.has(placement.wordId)) return false;
     const path = placementCoordinates(placement);

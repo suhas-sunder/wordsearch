@@ -7,6 +7,7 @@ import type { PuzzleResult } from "@/lib/puzzle/types";
 import {
   normalizePuzzleOutputOptions,
   outputOptionsForRequest,
+  syncRequestOutputOptions,
   type PageOrientation,
   type PaperSize,
   type PuzzleOutputOptions
@@ -14,6 +15,7 @@ import {
 import { downloadBrowserPuzzlePdf } from "@/lib/pdf/browser-download";
 import { puzzlePlayUrl } from "@/lib/share-state/state";
 import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
+import { downloadOfflineWorksheet } from "@/lib/print/offline-html";
 
 const outputStorageKey = "ilws:puzzle-output-options";
 
@@ -27,6 +29,8 @@ export interface PuzzleUtilitiesContext {
   compactToolbar: ReactNode;
   previewToolbar: ReactNode;
   printablePreview: ReactNode;
+  downloadHtmlWorksheet: () => void;
+  htmlExportMessage: string;
 }
 
 interface PuzzleUtilitiesProps {
@@ -63,11 +67,14 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   const [qrStatus, setQrStatus] = useState<"idle" | "generating" | "ready" | "error">("idle");
   const [pdfStatus, setPdfStatus] = useState<"idle" | "working" | "error">("idle");
   const [pdfError, setPdfError] = useState("");
+  const [htmlExportMessage, setHtmlExportMessage] = useState("");
   const [utilityAnnouncement, setUtilityAnnouncement] = useState("");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const initialFocusRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const qrTargetRef = useRef("");
+  const printPortalRef = useRef<HTMLDivElement>(null);
+  const previousPrintRequest = useRef(puzzle.request);
   const playUrl = useMemo(() => puzzlePlayUrl(puzzle.request), [puzzle.request]);
 
   useEffect(() => {
@@ -85,6 +92,12 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
     }
     return () => document.body.classList.remove("utility-print-enabled");
   }, []);
+
+  useEffect(() => {
+    const previous = previousPrintRequest.current;
+    previousPrintRequest.current = puzzle.request;
+    setOptions((current) => syncRequestOutputOptions(current, previous, puzzle.request));
+  }, [puzzle.request]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -131,6 +144,19 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   function announce(message: string) {
     setUtilityAnnouncement(message);
     onAnnouncement?.(message);
+  }
+
+  function downloadHtmlWorksheet() {
+    if (outputsBlocked || !printPortalRef.current) {
+      setHtmlExportMessage("The worksheet is not ready. Wait for valid preview settings before downloading.");
+      return;
+    }
+    try {
+      downloadOfflineWorksheet(printPortalRef.current, puzzle.request.title, options);
+      setHtmlExportMessage("HTML worksheet downloaded. This private file contains the word list and any included answers.");
+    } catch (error) {
+      setHtmlExportMessage(error instanceof Error ? error.message : "The HTML worksheet could not be downloaded.");
+    }
   }
 
   function updateOptions(patch: Partial<PuzzleOutputOptions>) {
@@ -282,7 +308,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   );
 
   const printPortal = mounted && !outputsBlocked ? createPortal(
-    <div className="utility-print-portal" aria-hidden="true">
+    <div ref={printPortalRef} className="utility-print-portal" aria-hidden="true">
       <PrintablePuzzle puzzle={puzzle} qrDataUrl={qrDataUrl} options={options} shareTarget={playUrl} headingLevel={2} />
       {options.includeAnswerKey && <PrintablePuzzle puzzle={puzzle} answerKey qrDataUrl={qrDataUrl} options={options} shareTarget={playUrl} headingLevel={2} />}
     </div>,
@@ -291,7 +317,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
 
   return (
     <>
-      {children({ answersVisible, previewMode, options, compactToolbar, previewToolbar, printablePreview })}
+      {children({ answersVisible, previewMode, options, compactToolbar, previewToolbar, printablePreview, downloadHtmlWorksheet, htmlExportMessage })}
       {printPortal}
       <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{utilityAnnouncement}</p>
       {!outputsBlocked && <dialog
