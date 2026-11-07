@@ -401,6 +401,10 @@ summary:focus-visible {
   grid-template-columns: minmax(320px, 410px) minmax(0, 1fr);
 }
 
+.builder-shortcuts {
+  display: none;
+}
+
 .builder-loading-shell {
   min-height: 760px;
   display: grid;
@@ -2397,6 +2401,19 @@ input[type="checkbox"] {
     order: -1;
   }
 
+  .builder-shortcuts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .builder-controls,
+  .builder-preview {
+    scroll-margin-top: 80px;
+  }
+
   .preview-toolbar {
     position: sticky;
     bottom: 0;
@@ -2638,6 +2655,7 @@ input[type="checkbox"] {
   .hero,
   .builder-controls,
   .builder-head,
+  .builder-shortcuts,
   .local-puzzle-library,
   .preview-toolbar,
   .validation-panel,

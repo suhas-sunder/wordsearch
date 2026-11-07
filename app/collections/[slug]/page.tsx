@@ -56,6 +56,7 @@ export default async function CollectionPage({ params }: Props) {
   const breadcrumbs = [{ label: "Categories", href: "/categories" }, { label: collection.title }];
   const findingEnabled = collectionFinderSlugs.some((candidate) => candidate === slug);
   const cardsId = `collection-${slug}-cards`;
+  const headingId = `collection-${slug}-puzzles`;
 
   return (
     <>
@@ -74,7 +75,10 @@ export default async function CollectionPage({ params }: Props) {
           <aside className="intent-panel">
             <strong>Choose and use</strong>
             <p>Open one puzzle page to play online, print, download a PDF, reveal answers, share, or make a QR link.</p>
-            <Link className="primary-button" href="/word-search-generator">Create a custom puzzle</Link>
+            {findingEnabled ? <div className="control-row">
+              <a className="primary-button" href={`#${headingId}`}>Browse {puzzles.length} puzzles</a>
+              <Link className="secondary-button" href="/word-search-generator">Create a custom puzzle</Link>
+            </div> : <Link className="primary-button" href="/word-search-generator">Create a custom puzzle</Link>}
           </aside>
         </section>
 
@@ -82,7 +86,7 @@ export default async function CollectionPage({ params }: Props) {
 
         <section className="content-section site-shell">
           <div className="section-heading">
-            <h2>Included word searches</h2>
+            <h2 id={findingEnabled ? headingId : undefined} tabIndex={findingEnabled ? -1 : undefined} className={findingEnabled ? finderStyles.jumpTarget : undefined}>Included word searches</h2>
             <p>The count is derived from reviewed, published records in this collection.</p>
           </div>
           {findingEnabled && <CollectionFinder cardsId={cardsId} items={puzzles.map((puzzle) => ({ id: puzzle.id, title: puzzle.title, subject: categories.find(({ slug }) => slug === puzzle.taxonomy.primaryCategory)?.title ?? puzzle.taxonomy.primaryCategory, difficulty: puzzle.puzzle.difficulty }))} />}

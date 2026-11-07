@@ -492,7 +492,7 @@
     {
       "id": "F0.integration",
       "title": "Combine independent branches without losing work",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [],
       "prs": [
         37,
@@ -517,15 +517,16 @@
         "docs/releases/BUILDOUT-X06-ACTION-COMPANION.md",
         "docs/releases/FINAL-STATIC-PDF-PRESERVATION.md",
         "docs/releases/BUILDOUT-PR-RECONCILIATION.md",
-        "docs/releases/FINAL-SCOPE-CROSSWALK.md"
+        "docs/releases/FINAL-SCOPE-CROSSWALK.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "DirectNode22.23.4 frozenB550tests/79files, lint/type/build335/static217/35/6 pass; all84CLS0 plus2pending/noJS and448/448visual pass. Ten selected current functional suites and7actualhosted suites pass with source/served/provider/fixture provenance. All100PRs and original source histories reconciled. Separate failed performance/ad-eligibility gates and independent owner approval are not waived.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: DirectNode22.23.4 frozenB550tests/79files, lint/type/build335/static217/35/6 pass; all84CLS0 plus2pending/noJS and448/448visual pass. Ten selected current functional suites and7actualhosted suites pass with source/served/provider/fixture provenance. All100PRs and original source histories reconciled. Separate failed performance/ad-eligibility gates and independent owner approval are not waived.",
       "manualApproval": false
     },
     {
       "id": "F0.integrity",
       "title": "Preserve150 published grids, canonicals and redirects",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         11
       ],
@@ -539,15 +540,16 @@
       ],
       "evidence": [
         "tests/unit/direction-validation.test.ts",
-        "tests/seo/routes.test.ts"
+        "tests/seo/routes.test.ts",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "At frozen a3988, all150 independently generated production definitions/results,217 sitemap metadata/JSON-LD and35 redirects match;1200 actual published PDFs are byte-identical. Replacement CSS/help-only candidate requires explicit source carry-forward and final browser verification.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: At frozen a3988, all150 independently generated production definitions/results,217 sitemap metadata/JSON-LD and35 redirects match;1200 actual published PDFs are byte-identical. Replacement CSS/help-only candidate requires explicit source carry-forward and final browser verification.",
       "manualApproval": false
     },
     {
       "id": "F0.cls",
       "title": "Reconcile UI15 evidence and fix search hydration layout shifts",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         11
       ],
@@ -564,9 +566,10 @@
         "docs/releases/fast-track-2026-11-06-ui-integration.md",
         "docs/releases/BUILDOUT-UTILITY-LAYOUT.md",
         "docs/releases/BUILDOUT-UTILITY-CLS-ATTRIBUTION.md",
-        "docs/releases/BUILDOUT-UTILITY-QR-STABILITY.md"
+        "docs/releases/BUILDOUT-UTILITY-QR-STABILITY.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "Original search regression repaired without tolerance changes. A29QRrows reached0.043969; actual56px paragraph-removal shift confirmed and fixed. FreshB all84utility rowsCLS0 plus2pending/noJSchecks pass, with exact176source/747disk/747HTTP guards before/after.36controlled/6normal trace and native10PDF/20pages plus24layoutPDFs also pass. Physical device/printer acceptance remains separate.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Original search regression repaired without tolerance changes. A29QRrows reached0.043969; actual56px paragraph-removal shift confirmed and fixed. FreshB all84utility rowsCLS0 plus2pending/noJSchecks pass, with exact176source/747disk/747HTTP guards before/after.36controlled/6normal trace and native10PDF/20pages plus24layoutPDFs also pass. Physical device/printer acceptance remains separate.",
       "manualApproval": false
     },
     {
@@ -635,7 +638,7 @@
     {
       "id": "F1.collection-browse",
       "title": "Find and order existing hard and answer-key collection puzzles",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         6,
         13
@@ -651,9 +654,10 @@
       "evidence": [
         "docs/releases/BUILDOUT-H10-COLLECTION-FINDING.md",
         "tests/e2e/collection-finder.mjs",
-        "docs/releases/BUILDOUT-BOUNDED-SEARCH-QUERIES.md"
+        "docs/releases/BUILDOUT-BOUNDED-SEARCH-QUERIES.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "H10 package14 browser cases pass; query-bound package repeats all14 plus6 search cases. Full SSR/no-JS cards, keyboard/filter/order/reset and zero initial/hydration CLS retained. Final combined448 visual/export/performance acceptance remains pending.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: H10 package14 browser cases pass; query-bound package repeats all14 plus6 search cases. Full SSR/no-JS cards, keyboard/filter/order/reset and zero initial/hydration CLS retained. Final combined448 visual/export/performance acceptance remains pending.",
       "manualApproval": false
     },
     {
@@ -792,7 +796,7 @@
     {
       "id": "F1.visual",
       "title": "Every archetype across required widths, zoom and landscape",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         11,
         13
@@ -817,9 +821,10 @@
         "docs/releases/BUILDOUT-FINAL-VISUAL-QA.md",
         "docs/releases/BUILDOUT-VISUAL-ACCEPTANCE-REPAIRS.md",
         "docs/releases/BUILDOUT-UTILITY-QR-STABILITY.md",
-        "docs/releases/FINAL-B-VISUAL-UTILITY-EVIDENCE.md"
+        "docs/releases/FINAL-B-VISUAL-UTILITY-EVIDENCE.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "FrozenB448/448 full visual matrix passes,0failures/0notices,28archetypes x8profiles x2themes. Full176source/747disk/747HTTP guards pass unchanged. Sixteen unique images individually reviewed; no claim all448 manually inspected. Native zoom/physical devices/owner visual approval remain separate.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FrozenB448/448 full visual matrix passes,0failures/0notices,28archetypes x8profiles x2themes. Full176source/747disk/747HTTP guards pass unchanged. Sixteen unique images individually reviewed; no claim all448 manually inspected. Native zoom/physical devices/owner visual approval remain separate.",
       "manualApproval": false
     },
     {
@@ -866,7 +871,7 @@
     {
       "id": "F2.settings",
       "title": "All supported generator settings and editable recovery",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13
       ],
@@ -890,15 +895,16 @@
         "docs/releases/BUILDOUT-F2-PRINT-SETTINGS.md",
         "docs/releases/BUILDOUT-ADVANCED-SETTINGS.md",
         "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md",
-        "docs/releases/BUILDOUT-F2-SETTINGS-MATRIX.md"
+        "docs/releases/BUILDOUT-F2-SETTINGS-MATRIX.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "Actual overlap, auto/manual size, difficulty/directions, files, seed, instructions, eight packs, filler/hidden-message fallbacks, clues, case and recovery workflows pass; unsupported controls are explained/disabled, accepted legacy behavior retained. Final combined43-feature validation and physical/device acceptance remain separate.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Actual overlap, auto/manual size, difficulty/directions, files, seed, instructions, eight packs, filler/hidden-message fallbacks, clues, case and recovery workflows pass; unsupported controls are explained/disabled, accepted legacy behavior retained. Final combined43-feature validation and physical/device acceptance remain separate.",
       "manualApproval": false
     },
     {
       "id": "F2.input-safety",
       "title": "Bound external/state input without stale outputs or browser freezes",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13
       ],
@@ -914,9 +920,10 @@
       "evidence": [
         "docs/releases/WORKLOAD-2026-11-06.md",
         "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md",
-        "docs/releases/BUILDOUT-BOUNDED-SEARCH-QUERIES.md"
+        "docs/releases/BUILDOUT-BOUNDED-SEARCH-QUERIES.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "Empty/unsupported/all-too-long and actual seed-dependent zero-placement states now fail closed with editable recovery; malformed states stay generic. Central post-placement guard and500tests/browser/cache regressions pass; valid150/1200 fingerprints unchanged. Final combined rerun remains.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Empty/unsupported/all-too-long and actual seed-dependent zero-placement states now fail closed with editable recovery; malformed states stay generic. Central post-placement guard and500tests/browser/cache regressions pass; valid150/1200 fingerprints unchanged. Final combined rerun remains.",
       "manualApproval": false
     },
     {
@@ -1036,7 +1043,7 @@
     {
       "id": "F3.single-pdf",
       "title": "Deterministic single-puzzle print/PDF/answer output",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13
       ],
@@ -1060,15 +1067,16 @@
         "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
         "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md",
         "docs/releases/BUILDOUT-SINGLE-LARGE-PRINT.md",
-        "docs/releases/BUILDOUT-OUTPUT-CANCELLATION.md"
+        "docs/releases/BUILDOUT-OUTPUT-CANCELLATION.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "Confirmed stale HTML/static PDF downloads and stale PNG errors are repaired with current-job/request/style/unmount guards. Six HTML, two static PDF and PNG rejection/retry cases plus normal export regressions pass. Final combined and physical/device acceptance remain separate.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Confirmed stale HTML/static PDF downloads and stale PNG errors are repaired with current-job/request/style/unmount guards. Six HTML, two static PDF and PNG rejection/retry cases plus normal export regressions pass. Final combined and physical/device acceptance remain separate.",
       "manualApproval": false
     },
     {
       "id": "F3.layout-fit",
       "title": "Robust measured titles/banks and actionable fit failures",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13
       ],
@@ -1088,9 +1096,10 @@
         "tests/unit/pdf-pack-layout.test.ts",
         "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
         "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md",
-        "docs/releases/BUILDOUT-BROWSER-PRINT-PREFLIGHT.md"
+        "docs/releases/BUILDOUT-BROWSER-PRINT-PREFLIGHT.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "Actual paper/font/QR preflight rejects dense banks, oversized content and within-cell glyph collisions; normal/long-grid and recovery PDFs pass. Final84-pair CLS/combined regression and physical printers remain.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Actual paper/font/QR preflight rejects dense banks, oversized content and within-cell glyph collisions; normal/long-grid and recovery PDFs pass. Final84-pair CLS/combined regression and physical printers remain.",
       "manualApproval": false
     },
     {
@@ -1142,7 +1151,7 @@
     {
       "id": "F3.packets",
       "title": "5/10/20 stable worksheets, student/teacher PDFs and ordering",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13
       ],
@@ -1157,9 +1166,10 @@
       "evidence": [
         "docs/releases/BUILDOUT-CLASSROOM-EXPORTS.md",
         "docs/releases/BUILDOUT-T12-SUBSTITUTE-REVIEW.md",
-        "docs/releases/BUILDOUT-H08-THIRTY-TARGET-PACKET.md"
+        "docs/releases/BUILDOUT-H08-THIRTY-TARGET-PACKET.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "Combined final visual/physical print checks pending.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Combined final visual/physical print checks pending.",
       "manualApproval": false
     },
     {
@@ -1377,7 +1387,7 @@
         "docs/releases/FINAL-PERFORMANCE-GATES.md",
         "docs/releases/BUILDOUT-GRACEFUL-AUDIT-CLEANUP.md"
       ],
-      "remaining": "OrdinaryB Lighthouse actualexit1: all11route/profile groups x3runs BestPractices77, failed third-party-cookies/inspector-issues. Allother existing limits pass: SEO/a11y100,CLS0,LCP523-2481ms; hard noneditorial performance87/TBT439ms retained. Fivefresh diagnostic samples attribute Google doubleclick WarnThirdPartyPhaseout; blocked-loader/adfree100 controls are NOT release passes. Explicit owner/provider/consent risk disposition remains required; no ad changes or threshold weakening.",
+      "remaining": "November7 fresh ordinary-provider CDP4xCPU profiles identify repeated identical worksheet print-fit setup as meaningful main-thread cost. A bounded concurrent-check coalescing package is under validation; no measurement/threshold/ad changes. Historical B ordinary Lighthouse failsBP77/11groups; hard performance87/TBT439ms. Fresh final combined ordinary Lighthouse and owner/provider disposition remain required.",
       "manualApproval": false
     },
     {
@@ -1436,13 +1446,13 @@
       "evidence": [
         "docs/releases/AD-ELIGIBILITY-2026-11-06.md"
       ],
-      "remaining": "Owner placement decision required; no authorized lifecycle or ad-placement change.",
+      "remaining": "Three existing strict audit assertions remain failed; the new independent complete draft-output scan identifies12 actual noindex outputs with ad markup (2categories/8collections/2guides). No advertising code changed. Owner must choose narrow placement enforcement or explicitly revised policy; see EXCELLENCE-AD-ELIGIBILITY-DECISION.md in PR102, pending integration.",
       "manualApproval": false
     },
     {
       "id": "F5.seo-static",
       "title": "Crawlable HTML, sitemap, metadata, redirects and static hosting",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         11
       ],
@@ -1457,9 +1467,10 @@
       ],
       "evidence": [
         "tests/seo/seo-architecture.test.ts",
-        "docs/releases/FINAL-STATIC-PDF-PRESERVATION.md"
+        "docs/releases/FINAL-STATIC-PDF-PRESERVATION.md",
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "FreshB150published defaults/fingerprints,217metadata/JSON-LD and35redirects match;61+8drafts and5H08seeds remain isolated across722text files. Hosted217sitemap/61draftpaths404 and encodedroute noindex/parity pass. Separate strict route-audit actualexit1 reproduces exactly3knownad-eligibility findings; no new SEO failures or waiver.",
+      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FreshB150published defaults/fingerprints,217metadata/JSON-LD and35redirects match;61+8drafts and5H08seeds remain isolated across722text files. Hosted217sitemap/61draftpaths404 and encodedroute noindex/parity pass. Separate strict route-audit actualexit1 reproduces exactly3knownad-eligibility findings; no new SEO failures or waiver.",
       "manualApproval": false
     },
     {
