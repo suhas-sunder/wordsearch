@@ -5,8 +5,8 @@ export function semanticDocument({ html, origin, canonicalOrigin, path = "/" }) 
   const text = (value) => (value ?? "").replace(/\s+/gu, " ").trim();
   const partition = (node) => {
     const element = node.nodeType === 1 ? node : node.parentElement;
-    if (element.closest("header")) return "header";
-    if (element.closest("footer")) return "footer";
+    if (element.closest(".site-header")) return "header";
+    if (element.closest(".site-footer")) return "footer";
     if (element.closest("nav")) return "navigation";
     if (element.closest(".tools-section")) return "shared-tools";
     if (element.closest(".standards-link")) return "shared-standards";

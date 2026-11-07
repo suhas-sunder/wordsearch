@@ -3,7 +3,7 @@ import { chromium } from "playwright";
 import { semanticDocument } from "./seo-semantic-dom.mjs";
 import { semanticHash } from "./seo-semantic-compare.mjs";
 
-const html = `<html><head><title>Original &amp; useful</title><meta name="description" content="Original description"><script type="application/ld+json">{"@type":"WebPage","name":"Original"}</script></head><body><header><a href="/tool">Tools</a></header><main><h1>Original puzzle</h1><p>Substantive unchanged paragraph.</p><a href="#answers">Answers</a><section class="tools-section"><h2>All tools</h2><p>Shared wording is still protected.</p></section><section><fieldset data-collection-controls><legend>Find</legend></fieldset><p hidden>No results</p><p>Editorial guidance stays here.</p></section><textarea>CAT\nDOG</textarea><svg aria-hidden="true"><text>DECORATIVE</text></svg><noscript>No-script recovery</noscript></main><footer>Truthful author</footer><a href="/cdn-cgi/content?id=opaque-generated-value" rel="nofollow noopener"></a></body></html>`;
+const html = `<html><head><title>Original &amp; useful</title><meta name="description" content="Original description"><script type="application/ld+json">{"@type":"WebPage","name":"Original"}</script></head><body><header class="site-header"><a href="/tool">Tools</a></header><main><h1>Original puzzle</h1><header><h2>Nested article heading</h2><p>Article header guidance.</p></header><footer><p>Article closing guidance.</p></footer><p>Substantive unchanged paragraph.</p><a href="#answers">Answers</a><section class="tools-section"><h2>All tools</h2><p>Shared wording is still protected.</p></section><section><fieldset data-collection-controls><legend>Find</legend></fieldset><p hidden>No results</p><p>Editorial guidance stays here.</p></section><section class="above-fold-builder"><header>Printable brand</header><footer>Printable QR help</footer></section><textarea>CAT\nDOG</textarea><svg aria-hidden="true"><text>DECORATIVE</text></svg><noscript>No-script recovery</noscript></main><footer class="site-footer">Truthful author</footer><a href="/cdn-cgi/content?id=opaque-generated-value" rel="nofollow noopener"></a></body></html>`;
 const browser = await chromium.launch({ headless: true });
 try {
   const page = await browser.newPage();
@@ -12,7 +12,11 @@ try {
   assert.equal(original.title, "Original & useful");
   assert.match(original.body.editorial, /Substantive unchanged paragraph/u);
   assert.match(original.body.editorial, /Editorial guidance stays here/u);
-  assert.equal(original.body["interactive-ui"], "Find No results");
+  assert.match(original.body.editorial, /Article header guidance/u);
+  assert.match(original.body.editorial, /Article closing guidance/u);
+  assert.equal(original.headings.find((heading) => heading.text === "Nested article heading").partition, "editorial");
+  assert.equal(original.body["interactive-ui"], "Find No results Printable brand Printable QR help");
+  assert.equal(original.body.header, "Tools");
   assert.equal(original.body["shared-tools"], "All tools Shared wording is still protected.");
   assert.equal(original.body.footer, "Truthful author");
   assert.equal(original.links.editorial[0].href, "/published-puzzle#answers");
