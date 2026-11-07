@@ -137,6 +137,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   }, [debouncedRequest, request, configurationError, stateLoaded]);
   const puzzle = generated.puzzle;
   const requestError = configurationError ?? generated.error;
+  const previewPending = !requestError && (isPending || !puzzle);
   useEffect(() => {
     if (puzzle) lastValidRequest.current = request;
   }, [request, puzzle]);
@@ -425,7 +426,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             <p className="control-help">{customFillerSupported ? "Entering characters selects Custom filler. Choosing alphabet defaults clears custom filler." : "Custom filler is unavailable for this format. Choose alphabet defaults or placed-word tokens. Saved custom settings retain the original fallback."}</p>
           </details>
         </div>
-        <div ref={previewRef} className="builder-preview" tabIndex={-1} role="group" aria-label="Puzzle preview and downloads" aria-busy={isPending || !puzzle} style={puzzle ? undefined : { minHeight: previewHeight }}>
+        <div ref={previewRef} className="builder-preview" tabIndex={-1} role="group" aria-label="Puzzle preview and downloads" aria-busy={previewPending} style={previewPending ? { minHeight: previewHeight } : requestError ? { alignSelf: "start" } : undefined}>
           {outputPuzzle ? <PuzzleUtilities puzzle={outputPuzzle} outputsBlocked={!puzzle} leadingActions={<>
             <button type="button" className="primary-button" onClick={() => patch({ seed: nextSeed(String(request.seed ?? "seed")) })}>
               <Shuffle size={16} aria-hidden="true" /> Shuffle

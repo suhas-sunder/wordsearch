@@ -1,0 +1,11 @@
+# Builder settled-error recovery
+
+Base: C2 `d9947d7434d17e5f08dadbdbe907b95bdde3fd46` (draft PR108). This package changes only preview presentation in `WordSearchBuilder.tsx` and adds a focused browser regression. No generation, PDF, stylesheet, advertising, metadata or public puzzle content changes.
+
+A valid clue worksheet changed to `CAT |` produced an actionable validation alert but retained the previous worksheet minimum height and `aria-busy=true`. Actual immutable C2 reproduction measured 1733.53px at390 and2101.97px at1280. The browser therefore continued announcing settled failure as work in progress and left a large empty preview region.
+
+The preview now distinguishes pending work from a settled request/generation error. Pending work retains its existing height reservation and busy state. A settled error clears the reservation and stops desktop grid stretching with `alignSelf: start`; the same existing alert remains, with no grid or output actions. Valid recovery uses the unchanged generation path.
+
+Validation: Node22.23.4,677 tests/84 files, lint, TypeScript, production335 pages and static217 sitemap/35 redirects/6 utility shells passed. The new actual Chromium regression at390 and1280 verifies pending reservation/busy, keyboard entry/focus, natural settled alert height (148px/116px), serious/critical axe violations0, no invalid grid/output, and valid recovery. Recovered100-cell grid SHA256 equals the independently observed pre-fix C2 hash `f2ca0daa4b38e5ac6cf6edc6908c8e647e1442afd9b4af4ccee2d100eba2d3f5`; numbered clue text also matches exactly.
+
+External evidence: `product-excellence/builder-error-recovery/` beneath the task visualization directory contains immutable C2 reproduction, before/after screenshots, result JSON and build logs. Initial regression attempts failed because tsx serialized an injected `__name` helper into the timer-control init function. The retained pending-failure JSON records the actual client exception. Passing fixture uses an explicit raw init script to hold only the existing220ms debounce and honor canceled timeout cleanup; application source was unchanged after its build. This is correctness evidence using standard empty ad-loader mocks, not a performance, physical printing or manual assistive-technology approval.
