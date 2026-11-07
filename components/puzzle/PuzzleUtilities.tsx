@@ -12,7 +12,7 @@ import {
   type PaperSize,
   type PuzzleOutputOptions
 } from "@/lib/puzzle/output-options";
-import { downloadBrowserPuzzlePdf } from "@/lib/pdf/browser-download";
+import { downloadBrowserPuzzlePdf, type BrowserPdfLayout } from "@/lib/pdf/browser-download";
 import { puzzlePlayUrl } from "@/lib/share-state/state";
 import { puzzleShareDestinations } from "@/lib/share-state/destinations";
 import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
@@ -68,6 +68,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   const [qrStatus, setQrStatus] = useState<"idle" | "generating" | "ready" | "error">("idle");
   const [pdfStatus, setPdfStatus] = useState<"idle" | "working" | "error">("idle");
   const [pdfError, setPdfError] = useState("");
+  const [pdfAttempt, setPdfAttempt] = useState<BrowserPdfLayout>("legacy");
   const [htmlExportMessage, setHtmlExportMessage] = useState("");
   const [utilityAnnouncement, setUtilityAnnouncement] = useState("");
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -76,6 +77,13 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   const qrTargetRef = useRef("");
   const printPortalRef = useRef<HTMLDivElement>(null);
   const previousPrintRequest = useRef(puzzle.request);
+  const pdfJob = useRef(0);
+  const pdfDefinition = useRef(puzzle.request);
+  const pdfOptions = useRef(options);
+  const pdfOutputsBlocked = useRef(outputsBlocked);
+  pdfDefinition.current = puzzle.request;
+  pdfOptions.current = options;
+  pdfOutputsBlocked.current = outputsBlocked;
   const playUrl = useMemo(() => puzzlePlayUrl(puzzle.request), [puzzle.request]);
   const shareDestinations = useMemo(() => puzzleShareDestinations(playUrl), [playUrl]);
 
@@ -166,6 +174,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   }
 
   function openDialog(next: Exclude<UtilityDialog, null>, event: React.MouseEvent<HTMLElement>) {
+    pdfJob.current++;
     returnFocusRef.current = event.currentTarget;
     setPdfStatus("idle");
     setPdfError("");
@@ -174,6 +183,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   }
 
   function closeDialog() {
+    pdfJob.current++;
     setDialog(null);
     window.requestAnimationFrame(() => returnFocusRef.current?.focus());
   }
@@ -214,18 +224,25 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
     window.requestAnimationFrame(() => window.requestAnimationFrame(() => window.print()));
   }
 
-  async function downloadPdf() {
+  async function downloadPdf(layout: BrowserPdfLayout = "legacy") {
+    const job = ++pdfJob.current;
+    const definition = puzzle.request;
+    const selectedOptions = options;
+    const isCurrent = () => pdfJob.current === job && !pdfOutputsBlocked.current && pdfDefinition.current === definition && pdfOptions.current === selectedOptions && dialogRef.current?.open === true;
     setPdfStatus("working");
+    setPdfAttempt(layout);
     setPdfError("");
     try {
-      await downloadBrowserPuzzlePdf(puzzle, options, playUrl);
+      const downloaded = await downloadBrowserPuzzlePdf(puzzle, options, playUrl, layout, isCurrent);
+      if (!downloaded) return;
       setPdfStatus("idle");
       closeDialog();
-      announce("PDF download started.");
+      announce(layout === "large-print" ? "Measured large-print PDF download started." : "PDF download started.");
     } catch (error) {
+      if (!isCurrent()) return;
       setPdfStatus("error");
       setPdfError(error instanceof Error ? error.message : "The PDF could not be generated.");
-    }
+    } finally { if (pdfJob.current === job && dialogRef.current) setPdfStatus((current) => current === "working" ? "idle" : current); }
   }
 
   async function copyShareLink() {
@@ -284,7 +301,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
     <div className="preview-toolbar output-preview-toolbar" aria-label="Preview and output controls">
       <label>Paper<select value={options.paperSize} onChange={(event) => updateOptions({ paperSize: event.target.value as PaperSize })}><option value="letter">Letter</option><option value="a4">A4</option></select></label>
       <label>Layout<select value={options.orientation} onChange={(event) => updateOptions({ orientation: event.target.value as PageOrientation })}><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
-      {optionCheckbox("Large print", options.printScale === "large", (checked) => updateOptions({ printScale: checked ? "large" : "standard" }))}
+      {optionCheckbox("Larger grid type", options.printScale === "large", (checked) => updateOptions({ printScale: checked ? "large" : "standard" }))}
       {optionCheckbox("Name/date", options.nameDateLine, (checked) => updateOptions({ nameDateLine: checked }))}
       <div className="preview-toolbar-actions" role="group" aria-label="Preview actions">
         <button type="button" className="secondary-button" onClick={(event) => openDialog("share", event)}><Share2 size={17} aria-hidden="true" /> Share</button>
@@ -367,14 +384,14 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
           ) : (
             <div className="output-dialog-body">
               <p id="output-dialog-description">These settings apply to the on-page print layout and the downloaded PDF.</p>
-              <p className="output-summary"><strong>Preview:</strong> {options.paperSize === "a4" ? "A4" : "US Letter"}, {options.orientation}, {options.printScale} type, {options.includeAnswerKey ? "two pages with answer key" : "one puzzle page"}.</p>
+              <p className="output-summary"><strong>Preview:</strong> {options.paperSize === "a4" ? "A4" : "US Letter"}, {options.orientation}, {options.printScale === "large" ? "larger grid type" : "standard type"}, {options.includeAnswerKey ? "two pages with answer key" : "one puzzle page"}.</p>
               <div className="output-settings-grid">
                 <label>Paper size<select value={options.paperSize} onChange={(event) => updateOptions({ paperSize: event.target.value as PaperSize })}><option value="letter">US Letter</option><option value="a4">A4</option></select></label>
                 <label>Orientation<select value={options.orientation} onChange={(event) => updateOptions({ orientation: event.target.value as PageOrientation })}><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
                 <label>Word bank<select value={options.wordBankPlacement} onChange={(event) => updateOptions({ wordBankPlacement: event.target.value as PuzzleOutputOptions["wordBankPlacement"] })}><option value="below">Below the grid</option><option value="beside">Beside the grid</option></select></label>
               </div>
               <div className="output-toggle-grid">
-                {optionCheckbox("Large print", options.printScale === "large", (checked) => updateOptions({ printScale: checked ? "large" : "standard" }))}
+                {optionCheckbox("Larger grid type", options.printScale === "large", (checked) => updateOptions({ printScale: checked ? "large" : "standard" }))}
                 {optionCheckbox("Answer key page", options.includeAnswerKey, (checked) => updateOptions({ includeAnswerKey: checked }))}
                 {optionCheckbox("Name/date line", options.nameDateLine, (checked) => updateOptions({ nameDateLine: checked }))}
                 {optionCheckbox("Instructions", options.instructions, (checked) => updateOptions({ instructions: checked }))}
@@ -382,11 +399,16 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
                 {optionCheckbox("Coordinates", options.coordinates, (checked) => updateOptions({ coordinates: checked }))}
                 {optionCheckbox("Ink-saving key", options.inkSaving, (checked) => updateOptions({ inkSaving: checked }))}
               </div>
-              {pdfStatus === "error" && <div className="output-error" role="alert"><strong>PDF failed.</strong> {pdfError}</div>}
+              <p className="control-help">Larger grid type keeps the ordinary layout; it does not enlarge the word bank. Open Download PDF for the separate measured large-print choice.</p>
+              {dialog === "pdf" && <div className="measured-pdf-choice">
+                <p id="measured-pdf-description">Measured large-print PDF uses at least 16-point grid letters and an 18-point word bank when the puzzle fits. It keeps this exact grid, your paper size, answer-page, name/date and instructions choices. Its portrait layout places words below the grid and omits QR codes and coordinates. Crowded or unsupported grids show a fit error instead of shrinking the type.</p>
+                <button type="button" className="secondary-button" disabled={pdfStatus === "working"} aria-describedby="measured-pdf-description" onClick={() => downloadPdf("large-print")}><FileDown size={17} aria-hidden="true" />Download measured large-print PDF</button>
+              </div>}
+              {pdfStatus === "error" && <div className="output-error" role="alert"><strong>{pdfAttempt === "large-print" ? "Measured large-print PDF failed." : "PDF failed."}</strong> {pdfError}</div>}
               <footer>
                 <button ref={initialFocusRef} type="button" className="secondary-button" onClick={closeDialog}>Cancel</button>
                 {dialog === "pdf" ? (
-                  <button type="button" className="primary-button" disabled={pdfStatus === "working"} onClick={downloadPdf}><FileDown size={17} aria-hidden="true" />{pdfStatus === "working" ? "Generating…" : pdfStatus === "error" ? "Retry PDF" : "Download PDF"}</button>
+                  <button type="button" className="primary-button" disabled={pdfStatus === "working"} onClick={() => downloadPdf()}><FileDown size={17} aria-hidden="true" />{pdfStatus === "working" ? "Generating…" : pdfStatus === "error" && pdfAttempt === "legacy" ? "Retry PDF" : "Download PDF"}</button>
                 ) : (
                   <button type="button" className="primary-button" onClick={startPrint}><Printer size={17} aria-hidden="true" />Open print dialog</button>
                 )}

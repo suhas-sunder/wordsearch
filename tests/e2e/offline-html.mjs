@@ -32,7 +32,7 @@ try {
     await dialog.getByRole("combobox", { name: "Paper size", exact: true }).selectOption(paper);
     await dialog.getByRole("combobox", { name: "Orientation", exact: true }).selectOption(orientation);
     await dialog.getByLabel("Answer key page", { exact: true }).setChecked(answers);
-    await dialog.getByLabel("Large print", { exact: true }).setChecked(large);
+    await dialog.getByLabel("Larger grid type", { exact: true }).setChecked(large);
     await dialog.getByLabel("Coordinates", { exact: true }).setChecked(large);
     await dialog.getByLabel("Ink-saving key", { exact: true }).setChecked(large);
     await dialog.getByRole("button", { name: "Cancel", exact: true }).click();

@@ -316,11 +316,11 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
           </fieldset>
           <div className="checkbox-list">
             <label><input type="checkbox" checked={request.allowOverlap ?? true} onChange={(event) => patch({ allowOverlap: event.target.checked })} /> Allow overlap</label>
-            <label><input type="checkbox" checked={request.largePrint ?? false} onChange={(event) => patch({ largePrint: event.target.checked })} /> Large print</label>
+            <label><input type="checkbox" checked={request.largePrint ?? false} onChange={(event) => patch({ largePrint: event.target.checked })} /> Larger grid type</label>
             <label><input type="checkbox" checked={request.showCoordinates ?? false} onChange={(event) => patch({ showCoordinates: event.target.checked })} /> Coordinates</label>
             <label><input type="checkbox" checked={request.nameDateLine ?? true} onChange={(event) => patch({ nameDateLine: event.target.checked })} /> Name/date line</label>
           </div>
-          <p className="control-help">Share-link defaults update this preview. Large print can change auto-sized dimensions; other output choices stay selected.</p>
+          <p className="control-help">Share-link defaults update this preview. Larger grid type can change auto-sized dimensions; it does not enlarge the word bank. For both, choose the measured large-print option in Download PDF.</p>
           <details className="advanced-controls">
             <summary>Advanced print and fill controls</summary>
             <label>
