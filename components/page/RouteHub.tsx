@@ -303,6 +303,7 @@ export function RouteHub({ page }: { page: SitePage }) {
           <div className="hero-actions">
             <Link className="primary-button" href={config.primary.href}>{config.primary.label}</Link>
             <Link className="secondary-button" href={config.secondary.href}>{config.secondary.label}</Link>
+            {["word-searches-for-teachers", "word-search-worksheets"].includes(page.slug) && <Link className="secondary-button" href="/pack-builder">Create a worksheet pack</Link>}
           </div>
         </div>
         <aside className="intent-panel" aria-label={`${page.h1} features`}>
