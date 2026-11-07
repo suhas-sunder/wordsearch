@@ -20,6 +20,7 @@ import {
 import { PuzzleUtilities } from "@/components/puzzle/PuzzleUtilities";
 import { CompletionResult } from "@/components/puzzle/CompletionResult";
 import { clearProgress, fingerprintPuzzle, readProgress, writeProgress, type ProgressRead } from "@/lib/puzzle/progress";
+import { createWordFoundSound, type WordFoundSound } from "@/lib/puzzle/word-found-sound";
 
 const preferencesStorageKey = "ilws:solver-preferences";
 
@@ -59,6 +60,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   const startButtonRef = useRef<HTMLButtonElement>(null);
   const cellRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const settingsReturnFocusRef = useRef<HTMLElement | null>(null);
+  const wordSound = useRef<WordFoundSound | null>(null);
   const activePointerIdRef = useRef<number | null>(null);
   const pointerStartRef = useRef<Coordinate | null>(null);
   const pointerFrameRef = useRef<number | null>(null);
@@ -113,6 +115,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
 
   useEffect(() => {
     let active = true;
+    wordSound.current?.stop();
     const empty = new Set<string>();
     foundPlacementIdsRef.current = empty;
     setFoundPlacementIds(empty);
@@ -183,6 +186,19 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
     if (pointerFrameRef.current !== null) window.cancelAnimationFrame(pointerFrameRef.current);
   }, []);
 
+  useEffect(() => {
+    const stop = () => wordSound.current?.stop();
+    const hidden = () => { if (document.hidden) stop(); };
+    window.addEventListener("pagehide", stop);
+    document.addEventListener("visibilitychange", hidden);
+    return () => {
+      window.removeEventListener("pagehide", stop);
+      document.removeEventListener("visibilitychange", hidden);
+      wordSound.current?.dispose();
+      wordSound.current = null;
+    };
+  }, []);
+
   function focusGridCell(coordinate: Coordinate) {
     setFocusedCell(coordinate);
     const cell = cellRefs.current[coordinate.row * puzzle.cols + coordinate.col];
@@ -219,6 +235,10 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
     }
     foundPlacementIdsRef.current = next;
     setFoundPlacementIds(next);
+    if (preferences.soundOnFound) {
+      wordSound.current ??= createWordFoundSound();
+      void wordSound.current.play();
+    }
     saveSnapshot(next);
     setActiveSelection(null);
     const nextProgress = `${next.size} of ${puzzle.placed.length} words found`;
@@ -425,6 +445,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
 
   function resetPuzzle() {
     if (foundPlacementIdsRef.current.size > 0 && !window.confirm("Reset your found-word progress and return to the start screen?")) return;
+    wordSound.current?.stop();
     if (rememberRef.current && fingerprintRef.current) {
       try { if (!clearProgress(window.localStorage, fingerprintRef.current)) setStorageMessage("Saved progress could not be cleared from device storage."); }
       catch { setStorageMessage("Saved progress could not be cleared from device storage."); }
@@ -456,6 +477,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   }
 
   function updatePreferences(next: SolverPreferences) {
+    if (!next.soundOnFound) wordSound.current?.stop();
     if (next.selectionMethod !== preferences.selectionMethod) {
       cancelPointerSelection();
       clearPendingSelection("Selection method changed. Any pending selection was canceled.");
