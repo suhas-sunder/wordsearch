@@ -14,7 +14,7 @@ export interface CreatePuzzlePdfInput {
   options: PuzzleOutputOptions;
   shareUrl: string;
   qrDataUrl?: string;
-  layoutProfile?: "legacy" | "pack";
+  layoutProfile?: "legacy" | "pack" | "large-print";
 }
 
 export class PdfPackLayoutError extends Error {
@@ -107,9 +107,10 @@ function drawWordBankBelow(
   y: number,
   left: number,
   width: number,
-  large: boolean
+  large: boolean,
+  measuredLarge = false
 ) {
-  const size = large ? 11.5 : 9.5;
+  const size = measuredLarge ? 18 : large ? 11.5 : 9.5;
   const gap = 12;
   let x = left;
   let currentY = y;
@@ -155,7 +156,7 @@ async function drawPuzzlePage(
   fonts: { regular: PDFFont; bold: PDFFont },
   shareTarget: string,
   qrDataUrl?: string,
-  layoutProfile: "legacy" | "pack" = "legacy"
+  layoutProfile: "legacy" | "pack" | "large-print" = "legacy"
 ) {
   const spec = pdfPageSpec(options.paperSize, options.orientation);
   const page = document.addPage([spec.width, spec.height]);
@@ -163,6 +164,9 @@ async function drawPuzzlePage(
   const margin = options.orientation === "landscape" ? 30 : 36;
   const usableWidth = width - margin * 2;
   const large = options.printScale === "large";
+  const measured = layoutProfile !== "legacy";
+  const measuredLarge = layoutProfile === "large-print";
+  const bankSize = measuredLarge ? 18 : 9.5;
   const ink = options.inkSaving ? rgb(0.08, 0.08, 0.08) : rgb(0.07, 0.1, 0.16);
 
   page.drawText("www.iLoveWordSearch.com", {
@@ -176,8 +180,8 @@ async function drawPuzzlePage(
   const title = pdfSafeText(`${puzzle.request.title}${answerKey ? " - Answer Key" : ""}`, fonts.bold);
   const titleSize = large ? 20 : 18;
   const titleWidth = usableWidth - (options.nameDateLine && !answerKey ? Math.min(140, usableWidth * 0.25) + 16 : 0);
-  const titleLines = layoutProfile === "pack" ? wrapText(title, fonts.bold, titleSize, titleWidth) : [title];
-  if (layoutProfile === "pack" && (titleLines.length > 4 || titleLines.some((line) => textWidth(fonts.bold, line, titleSize) > titleWidth))) {
+  const titleLines = measured ? wrapText(title, fonts.bold, titleSize, titleWidth) : [title];
+  if (measured && (titleLines.length > 4 || titleLines.some((line) => textWidth(fonts.bold, line, titleSize) > titleWidth))) {
     throw new PdfPackLayoutError("The title is too long to fit the printable page. Use a shorter title or shorter words in the title.");
   }
   titleLines.forEach((line, index) => page.drawText(line, { x: margin, y: height - margin - 24 - index * 22, size: titleSize, font: fonts.bold, color: ink }));
@@ -185,8 +189,8 @@ async function drawPuzzlePage(
 
   if (!answerKey && puzzle.request.subtitle) {
     const subtitle = pdfSafeText(puzzle.request.subtitle, fonts.regular);
-    const subtitleLines = layoutProfile === "pack" ? wrapText(subtitle, fonts.regular, 9.5, titleWidth) : [subtitle];
-    if (layoutProfile === "pack" && (subtitleLines.length > 3 || subtitleLines.some((line) => textWidth(fonts.regular, line, 9.5) > titleWidth))) throw new PdfPackLayoutError("The subtitle is too long to fit the printable page.");
+    const subtitleLines = measured ? wrapText(subtitle, fonts.regular, 9.5, titleWidth) : [subtitle];
+    if (measured && (subtitleLines.length > 3 || subtitleLines.some((line) => textWidth(fonts.regular, line, 9.5) > titleWidth))) throw new PdfPackLayoutError("The subtitle is too long to fit the printable page.");
     for (const line of subtitleLines) {
       page.drawText(line, { x: margin, y: headerBottom, size: 9.5, font: fonts.regular, color: rgb(0.3, 0.34, 0.4) });
       headerBottom -= 15;
@@ -199,8 +203,8 @@ async function drawPuzzlePage(
       fonts.regular
     );
     const lines = wrapText(instructions, fonts.regular, 9.2, usableWidth * (options.nameDateLine && !answerKey ? 0.68 : 1));
-    if (layoutProfile === "pack" && (lines.length > 3 || lines.some((line) => textWidth(fonts.regular, line, 9.2) > usableWidth * (options.nameDateLine && !answerKey ? 0.68 : 1)))) throw new PdfPackLayoutError("Instructions are too long to fit the printable page.");
-    for (const line of layoutProfile === "pack" ? lines : lines.slice(0, 2)) {
+    if (measured && (lines.length > 3 || lines.some((line) => textWidth(fonts.regular, line, 9.2) > usableWidth * (options.nameDateLine && !answerKey ? 0.68 : 1)))) throw new PdfPackLayoutError("Instructions are too long to fit the printable page.");
+    for (const line of measured ? lines : lines.slice(0, 2)) {
       page.drawText(line, { x: margin, y: headerBottom, size: 9.2, font: fonts.regular, color: rgb(0.3, 0.34, 0.4) });
       headerBottom -= 12;
     }
@@ -223,21 +227,21 @@ async function drawPuzzlePage(
   const labels = orderedLabels(puzzle);
   const footerHeight = options.qrCode ? 94 : 30;
   let measuredBankHeight = 0;
-  if (layoutProfile === "pack" && !answerKey) {
+  if (measured && !answerKey) {
     let usedWidth = 0;
     let rows = 1;
     for (const rawLabel of labels) {
-      const labelWidth = textWidth(fonts.bold, pdfSafeText(rawLabel, fonts.bold), 9.5) + 12;
+      const labelWidth = textWidth(fonts.bold, pdfSafeText(rawLabel, fonts.bold), bankSize) + 12;
       if (labelWidth > usableWidth) throw new PdfPackLayoutError("A word is too wide for the printable word bank.");
       if (usedWidth && usedWidth + labelWidth > usableWidth) { rows += 1; usedWidth = 0; }
       usedWidth += labelWidth;
     }
     // Match drawWordBankBelow's starting baseline and line spacing, plus
     // clearance above the footer rule for the last line's descenders.
-    measuredBankHeight = Math.max(42, 26 + (rows - 1) * 15.5);
+    measuredBankHeight = Math.max(42, (measuredLarge ? 34 : 26) + (rows - 1) * (bankSize + 6));
   }
   const belowBankHeight = !answerKey && options.wordBankPlacement === "below"
-    ? layoutProfile === "pack" ? measuredBankHeight : Math.min(92, Math.max(42, Math.ceil(labels.length / (large ? 4 : 6)) * (large ? 18 : 15)))
+    ? measured ? measuredBankHeight : Math.min(92, Math.max(42, Math.ceil(labels.length / (large ? 4 : 6)) * (large ? 18 : 15)))
     : 0;
   const besideWidth = !answerKey && options.wordBankPlacement === "beside" ? Math.min(150, usableWidth * 0.27) : 0;
   const coordinateUnits = options.coordinates ? 1 : 0;
@@ -247,7 +251,7 @@ async function drawPuzzlePage(
     gridAreaWidth / (puzzle.cols + coordinateUnits),
     gridAreaHeight / (puzzle.rows + coordinateUnits)
   );
-  if (layoutProfile === "pack" && (!Number.isFinite(cell) || cell * 0.48 < 9 || puzzle.grid.some((row) => row.some((token) => token.length !== 1)))) throw new PdfPackLayoutError("This puzzle cannot fit at the minimum 9-point grid type. Use fewer or shorter words, or a shorter title.");
+  if (measured && (!Number.isFinite(cell) || cell * (measuredLarge ? 0.58 : 0.48) < (measuredLarge ? 16 : 9) || puzzle.grid.some((row) => row.some((token) => token.length !== 1)))) throw new PdfPackLayoutError(`This puzzle cannot fit at the minimum ${measuredLarge ? 16 : 9}-point grid type. Use fewer or shorter words, or a shorter title.`);
   const gutter = coordinateUnits * cell;
   const gridWidth = puzzle.cols * cell + gutter;
   const gridHeight = puzzle.rows * cell + gutter;
@@ -298,7 +302,7 @@ async function drawPuzzlePage(
   } else if (options.wordBankPlacement === "beside") {
     drawWordBankBeside(page, labels, fonts.bold, headerBottom - 4, margin + gridAreaWidth + 18, besideWidth, large);
   } else {
-    drawWordBankBelow(page, labels, fonts.bold, gridBottom - 18, margin, usableWidth, large);
+    drawWordBankBelow(page, labels, fonts.bold, gridBottom - (measuredLarge ? 26 : 18), margin, usableWidth, large, measuredLarge);
   }
 
   const footerY = margin + 4;
@@ -362,8 +366,8 @@ export function validatePuzzleForPdf(value: unknown): value is PuzzleResult {
 }
 
 export async function createPuzzlePdf({ puzzle, options, shareUrl, qrDataUrl, layoutProfile = "legacy" }: CreatePuzzlePdfInput) {
-  if (layoutProfile !== "legacy" && layoutProfile !== "pack") throw new Error("Invalid PDF layout profile.");
-  if (layoutProfile === "pack" && (options.orientation !== "portrait" || options.printScale !== "standard" || options.wordBankPlacement !== "below" || options.qrCode || options.coordinates)) throw new Error("Pack layout supports portrait standard-scale pages with a below-grid word bank and no QR code or coordinates.");
+  if (!["legacy", "pack", "large-print"].includes(layoutProfile)) throw new Error("Invalid PDF layout profile.");
+  if (layoutProfile !== "legacy" && (options.orientation !== "portrait" || options.printScale !== (layoutProfile === "large-print" ? "large" : "standard") || options.wordBankPlacement !== "below" || options.qrCode || options.coordinates)) throw new Error("Measured layout requires portrait pages, the matching print scale, a below-grid word bank and no QR code or coordinates.");
   if (!validatePuzzleForPdf(puzzle)) throw new Error("Puzzle data is invalid for PDF generation.");
   if (options.qrCode && !qrDataUrl) throw new Error("QR image data is required when QR output is enabled.");
   const parsedShareUrl = new URL(shareUrl);

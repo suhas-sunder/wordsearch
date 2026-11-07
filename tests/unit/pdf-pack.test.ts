@@ -29,6 +29,27 @@ async function pages(bytes: Uint8Array) {
   return result;
 }
 describe("puzzle pack PDF", () => {
+  test.each(["letter", "a4"] as const)("exports 20 matched student/teacher assignments on %s", async (paperSize) => {
+    const pack = makePack(20);
+    const students = await createPuzzlePackPdf(pack, { paperSize, order: "answers-last", pages: "students", layoutProfile: "pack" });
+    const answers = await createPuzzlePackPdf(pack, { paperSize, order: "interleaved", pages: "answers", layoutProfile: "pack" });
+    expect((await PDFDocument.load(students)).getPageCount()).toBe(20);
+    expect((await PDFDocument.load(answers)).getPageCount()).toBe(20);
+    const studentPages = await pages(students), answerPages = await pages(answers);
+    for (let i = 0; i < 20; i++) {
+      expect(studentPages[i].text).not.toContain("Answer Key");
+      expect(answerPages[i].text).toContain(`${pack.puzzles[i].puzzle.request.title} - Answer Key`);
+      const expected = pack.puzzles[i].puzzle.grid.flat().join("");
+      const grid = (text: string) => text.split(/\s+/).filter((token) => /^[A-Z]$/.test(token)).join("");
+      expect(grid(studentPages[i].text)).toBe(expected);
+      expect(grid(answerPages[i].text)).toBe(expected);
+    }
+    const browser = await createBrowserPuzzlePackPdf(pack, { paperSize, order: "answers-last", pages: "answers" });
+    expect(browser.filename).toBe("sample-pack-teacher-answers.pdf");
+    await expect(createPuzzlePackPdf(pack, { paperSize, order: "answers-last", pages: "bad" as never })).rejects.toThrow("page selection");
+    expect(students.length).toBeLessThan(2_000_000);
+    expect(answers.length).toBeLessThan(2_000_000);
+  }, 60000);
   test.each([[5, "letter", "answers-last"], [10, "a4", "interleaved"], [5, "a4", "interleaved"], [10, "letter", "answers-last"]] as const)("composes %i original puzzle and answer pairs on %s (%s)", async (count, paperSize, order) => {
     const pack = makePack(count);
     const bytes = await createPuzzlePackPdf(pack, { paperSize, order });

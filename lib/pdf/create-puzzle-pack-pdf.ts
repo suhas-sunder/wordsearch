@@ -14,15 +14,17 @@ export interface PuzzlePack {
 export interface PuzzlePackOptions {
   paperSize: PaperSize;
   order: "answers-last" | "interleaved";
-  layoutProfile?: "legacy" | "pack";
+  layoutProfile?: "legacy" | "pack" | "large-print";
+  pages?: "both" | "students" | "answers";
 }
 
 /** Verify seeded replay, then compose the existing single-puzzle pages. */
 export async function createPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackOptions) {
   const validId = (id: unknown) => typeof id === "string" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id) && id.length <= 80;
   if (!pack || !validId(pack.id) || typeof pack.name !== "string" || !pack.name.trim() || pack.name.length > 100) throw new Error("Invalid pack identity.");
-  if (!options || !["letter", "a4"].includes(options.paperSize) || !["answers-last", "interleaved"].includes(options.order) || (options.layoutProfile !== undefined && !["legacy", "pack"].includes(options.layoutProfile))) throw new Error("Invalid pack options.");
-  if (!Array.isArray(pack.puzzles) || ![5, 10].includes(pack.puzzles.length)) throw new Error("A pack must contain exactly 5 or 10 puzzles.");
+  if (!options || !["letter", "a4"].includes(options.paperSize) || !["answers-last", "interleaved"].includes(options.order) || (options.layoutProfile !== undefined && !["legacy", "pack", "large-print"].includes(options.layoutProfile))) throw new Error("Invalid pack options.");
+  if (options.pages !== undefined && !["both", "students", "answers"].includes(options.pages)) throw new Error("Invalid page selection.");
+  if (!Array.isArray(pack.puzzles) || ![5, 10, 20].includes(pack.puzzles.length)) throw new Error("A pack must contain exactly 5, 10 or 20 puzzles.");
   const ids = new Set<string>();
   const grids = new Set<string>();
   for (const entry of pack.puzzles) {
@@ -51,7 +53,7 @@ export async function createPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackO
   for (const entry of pack.puzzles) {
     const bytes = await createPuzzlePdf({
       puzzle: entry.puzzle,
-      options: { ...defaultPuzzleOutputOptions, paperSize: options.paperSize, orientation: "portrait", includeAnswerKey: true, qrCode: false, inkSaving: true },
+      options: { ...defaultPuzzleOutputOptions, paperSize: options.paperSize, orientation: "portrait", printScale: options.layoutProfile === "large-print" ? "large" : "standard", includeAnswerKey: true, qrCode: false, inkSaving: true },
       shareUrl: puzzlePlayUrl(entry.puzzle.request),
       layoutProfile: options.layoutProfile
     });
@@ -62,9 +64,9 @@ export async function createPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackO
     answerPages.push(answerPage);
   }
   for (let i = 0; i < puzzlePages.length; i += 1) {
-    output.addPage(puzzlePages[i]);
-    if (options.order === "interleaved") output.addPage(answerPages[i]);
+    if (options.pages !== "answers") output.addPage(puzzlePages[i]);
+    if (options.pages !== "students" && options.order === "interleaved") output.addPage(answerPages[i]);
   }
-  if (options.order === "answers-last") for (const page of answerPages) output.addPage(page);
+  if (options.pages !== "students" && options.order === "answers-last") for (const page of answerPages) output.addPage(page);
   return output.save({ useObjectStreams: false });
 }
