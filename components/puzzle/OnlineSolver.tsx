@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, KeyRound, Pencil, RefreshCw, Settings } from "lucide-react";
 import type { PuzzleResult } from "@/lib/puzzle/types";
+import { puzzleWordBank, puzzleBankLabels } from "@/lib/puzzle/word-bank";
 import {
   coordinateKey,
   createCoordinatePath,
@@ -47,6 +48,13 @@ function displayToken(token: string, letterCase: SolverPreferences["letterCase"]
 }
 
 export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
+  const clueMode = puzzle.request.wordBankMode === "clues";
+  const { clueLabels, bankPlacements } = useMemo(() => {
+    if (!clueMode) return { clueLabels: new Map<string, string>(), bankPlacements: puzzle.placed };
+    const bank = puzzleWordBank(puzzle), labels = puzzleBankLabels(puzzle);
+    const placementsById = new Map(puzzle.placed.map((placement) => [placement.wordId, placement]));
+    return { clueLabels: new Map(bank.map((word, index) => [word.id, labels[index]])), bankPlacements: bank.map((word) => placementsById.get(word.id)!) };
+  }, [puzzle, clueMode]);
   const [gameStarted, setGameStarted] = useState(false);
   const [foundPlacementIds, setFoundPlacementIds] = useState<Set<string>>(() => new Set());
   const [activeSelection, setActiveSelection] = useState<ActiveSelection | null>(null);
@@ -601,14 +609,15 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
           <span>Keyboard: arrow keys move; Enter or Space sets and submits a path; Escape cancels.</span>
         </div>
 
-        <div className="solver-bank" aria-label="Words to find">
-          {puzzle.placed.map((placement) => {
+        <div className="solver-bank" aria-label={clueMode ? "Clues to solve" : "Words to find"}>
+          {bankPlacements.map((placement) => {
             const isFound = foundPlacementIds.has(placement.wordId);
             const isRevealed = answersVisible && !isFound;
+            const label = clueLabels?.get(placement.wordId) ?? placement.label;
             return (
-              <span key={placement.wordId} className={isFound ? "found" : isRevealed ? "revealed" : ""} aria-label={`${placement.label}, ${isFound ? "found" : isRevealed ? "answer revealed" : "not found"}`}>
+              <span key={placement.wordId} className={isFound ? "found" : isRevealed ? "revealed" : ""} aria-label={`${label}${clueMode && (isFound || isRevealed) ? ` - ${placement.label}` : ""}, ${isFound ? "found" : isRevealed ? "answer revealed" : "not found"}`}>
                 {isFound ? <Check size={16} strokeWidth={3} aria-hidden="true" /> : isRevealed ? <KeyRound size={15} aria-hidden="true" /> : null}
-                <span>{placement.label}</span>
+                <span>{label}{clueMode && (isFound || isRevealed) ? ` - ${placement.label}` : ""}</span>
                 <span className="sr-only">{isFound ? "Found" : isRevealed ? "Answer revealed" : "Not found"}</span>
               </span>
             );

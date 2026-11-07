@@ -707,6 +707,9 @@ input[type="checkbox"] {
   font-size: 0.95rem;
 }
 
+.print-clue-bank { display: grid; grid-template-columns: 1fr; }
+.print-clue-bank span { font-family: Arial, Helvetica, sans-serif; overflow-wrap: anywhere; }
+
 .print-footer {
   margin-top: 18px;
   padding-top: 14px;
@@ -2739,13 +2742,14 @@ input[type="checkbox"] {
     gap: 10px;
   }
 
-  .print-sheet.print-bank-beside:not(.print-answer-sheet) .print-puzzle-body {
+  .print-sheet.print-bank-beside:not(.print-answer-sheet) .print-puzzle-body,
+  .print-sheet.print-bank-beside.print-clue-sheet .print-puzzle-body {
     grid-template-columns: minmax(0, 1fr) minmax(150px, .32fr);
     grid-template-rows: minmax(0, 1fr);
     align-items: stretch;
   }
 
-  .print-sheet.print-answer-sheet .print-puzzle-body { grid-template-columns: minmax(0, 1fr); }
+  .print-sheet.print-answer-sheet:not(.print-clue-sheet) .print-puzzle-body { grid-template-columns: minmax(0, 1fr); }
 
   .print-sheet .print-grid-wrap {
     min-width: 0;

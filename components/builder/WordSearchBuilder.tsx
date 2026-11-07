@@ -318,6 +318,14 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
           <details className="advanced-controls">
             <summary>Advanced print and fill controls</summary>
             <label>
+              Student bank
+              <select aria-label="Student bank" value={request.wordBankMode ?? "words"} onChange={(event) => patch({ wordBankMode: event.target.value as "words" | "clues" })}>
+                <option value="words">Words to find</option>
+                <option value="clues">Numbered clues</option>
+              </select>
+            </label>
+            <p className="control-help">Clue mode uses one ANSWER | clue per line. Commas and later | characters stay in the clue. Every answer needs a clue. Student pages show clues; included answer pages map each number to its answer. The answer grid and shared definition still contain the answers.</p>
+            <label>
               Puzzle seed
               <input value={request.seed ?? ""} maxLength={256} onChange={(event) => patch({ seed: event.target.value })} />
             </label>

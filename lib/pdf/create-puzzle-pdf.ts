@@ -1,5 +1,5 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
-import { puzzleWordBank } from "@/lib/puzzle/word-bank";
+import { puzzleBankLabels } from "@/lib/puzzle/word-bank";
 import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import { directionVectors } from "@/lib/puzzle/generate";
 import type { PuzzleResult } from "@/lib/puzzle/types";
@@ -100,8 +100,8 @@ function pngBytes(dataUrl: string) {
   return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
 
-function orderedLabels(puzzle: PuzzleResult) {
-  return puzzleWordBank(puzzle).map((word) => word.label);
+function orderedLabels(puzzle: PuzzleResult, answerKey = false) {
+  return puzzleBankLabels(puzzle, answerKey);
 }
 
 function drawWordBankBelow(
@@ -244,10 +244,15 @@ async function drawPuzzlePage(
   page.drawLine({ start: { x: margin, y: headerBottom }, end: { x: width - margin, y: headerBottom }, thickness: 0.7, color: rgb(0.65, 0.68, 0.72) });
   headerBottom -= 14;
 
-  const labels = orderedLabels(puzzle);
+  const clueMode = puzzle.request.wordBankMode === "clues";
+  const showBank = !answerKey || clueMode;
+  const labels = orderedLabels(puzzle, answerKey);
+  const clueSize = measuredLarge ? 18 : large ? 11.5 : 9.5;
+  const clueLines = clueMode ? labels.map((label) => wrapText(pdfSafeText(label, fonts.bold), fonts.bold, clueSize, usableWidth)) : [];
+  const clueBankHeight = clueMode ? 26 + clueLines.reduce((height, lines) => height + lines.length * (clueSize + 3) + 4, 0) : 0;
   const footerHeight = options.qrCode ? 94 : 30;
   let measuredBankHeight = 0;
-  if (measured && !answerKey) {
+  if (measured && showBank && !clueMode) {
     let usedWidth = 0;
     let rows = 1;
     for (const rawLabel of labels) {
@@ -260,10 +265,10 @@ async function drawPuzzlePage(
     // clearance above the footer rule for the last line's descenders.
     measuredBankHeight = Math.max(42, (measuredLarge ? 34 : 26) + (rows - 1) * (bankSize + 6));
   }
-  const belowBankHeight = !answerKey && options.wordBankPlacement === "below"
-    ? measured ? measuredBankHeight : Math.min(92, Math.max(42, Math.ceil(labels.length / (large ? 4 : 6)) * (large ? 18 : 15)))
+  const belowBankHeight = showBank && options.wordBankPlacement === "below"
+    ? clueMode ? clueBankHeight : measured ? measuredBankHeight : Math.min(92, Math.max(42, Math.ceil(labels.length / (large ? 4 : 6)) * (large ? 18 : 15)))
     : 0;
-  const besideWidth = !answerKey && options.wordBankPlacement === "beside" ? Math.min(150, usableWidth * 0.27) : 0;
+  const besideWidth = showBank && options.wordBankPlacement === "beside" ? Math.min(150, usableWidth * 0.27) : 0;
   const coordinateUnits = options.coordinates ? 1 : 0;
   const gridAreaWidth = usableWidth - besideWidth - (besideWidth ? 18 : 0);
   const gridAreaHeight = headerBottom - margin - footerHeight - belowBankHeight;
@@ -321,9 +326,21 @@ async function drawPuzzlePage(
         opacity: options.inkSaving ? 0.52 : 0.48
       });
     }
-  } else if (options.wordBankPlacement === "beside") {
+  }
+  if (showBank && options.wordBankPlacement === "beside") {
     drawWordBankBeside(page, labels, fonts.bold, headerBottom - 4, margin + gridAreaWidth + 18, besideWidth, large, margin + (options.qrCode ? 82 : 26), LayoutError);
-  } else {
+  } else if (showBank && clueMode) {
+    let y = gridBottom - 18;
+    const minimumY = margin + (options.qrCode ? 82 : 26);
+    for (const lines of clueLines) {
+      for (const line of lines) {
+        if (textWidth(fonts.bold, line, clueSize) > usableWidth || y - fonts.bold.heightAtSize(clueSize) < minimumY) throw new LayoutError("The clues cannot fit on this page. Shorten the clues or reduce the list.");
+        page.drawText(line, { x: margin, y, size: clueSize, font: fonts.bold, color: ink });
+        y -= clueSize + 3;
+      }
+      y -= 4;
+    }
+  } else if (showBank) {
     drawWordBankBelow(page, labels, fonts.bold, gridBottom - (measuredLarge ? 26 : 18), margin, usableWidth, large, measuredLarge, margin + (options.qrCode ? 82 : 26), LayoutError);
   }
 

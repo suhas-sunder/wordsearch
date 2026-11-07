@@ -99,7 +99,7 @@ export function generatePuzzle(input: Partial<PuzzleRequest>): PuzzleResult {
     if (typeof request[key] !== "string") throw new Error(`${key} must be text.`);
   }
   const pack = getAlphabetPack(request.alphabetPack);
-  const { words, warnings } = parseWordInput(request.wordsText, request.alphabetPack);
+  const { words, warnings } = parseWordInput(request.wordsText, request.alphabetPack, request.wordBankMode === "clues");
   const uniqueWords = words.filter((word) => !word.duplicateOf);
   if (!uniqueWords.length) {
     warnings.push("Add at least one supported word to generate a puzzle.");
