@@ -313,6 +313,7 @@ summary:focus-visible {
 
 .mini-sheet {
   width: 290px;
+  max-width: 100%;
   aspect-ratio: 0.78;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -320,6 +321,7 @@ summary:focus-visible {
   box-shadow: var(--shadow);
   padding: 26px;
   transform: rotate(2deg);
+  overflow: clip;
 }
 
 .mini-sheet span {
@@ -332,11 +334,13 @@ summary:focus-visible {
 
 .mini-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   border: 1px solid var(--ink);
 }
 
 .mini-grid i {
+  min-width: 0;
+  line-height: 1;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
@@ -401,8 +405,14 @@ summary:focus-visible {
   grid-template-columns: minmax(320px, 410px) minmax(0, 1fr);
 }
 
-.builder-shortcuts {
+.builder-shortcuts,
+.builder-preview-shortcut {
   display: none;
+}
+
+.builder-shortcuts > button,
+.builder-preview-shortcut {
+  min-height: 44px;
 }
 
 .builder-loading-shell {
@@ -2409,6 +2419,11 @@ input[type="checkbox"] {
     border-bottom: 1px solid var(--line);
   }
 
+  .builder-preview-shortcut {
+    display: inline-flex;
+    justify-self: start;
+  }
+
   .builder-controls,
   .builder-preview {
     scroll-margin-top: 80px;
@@ -2656,6 +2671,7 @@ input[type="checkbox"] {
   .builder-controls,
   .builder-head,
   .builder-shortcuts,
+  .builder-preview-shortcut,
   .local-puzzle-library,
   .preview-toolbar,
   .validation-panel,

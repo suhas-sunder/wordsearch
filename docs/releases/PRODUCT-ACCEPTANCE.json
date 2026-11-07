@@ -486,6 +486,36 @@
       "sha": "0fd07e68d76de122cadf132644f82c7ea778336f",
       "branch": "codex/christmas-kids-review-companion",
       "draft": true
+    },
+    "102": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/102",
+      "sha": "48edce2faaf70666923067cddc1a9aed9a8211c6",
+      "branch": "codex/excellence-copy-audit",
+      "draft": true
+    },
+    "103": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/103",
+      "sha": "3558bc5abeaf74dc275673bb30808d85b3133ea2",
+      "branch": "codex/product-excellence",
+      "draft": true
+    },
+    "104": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/104",
+      "sha": "a13d82e0e34053d8bfc634beb75341d39895b0d0",
+      "branch": "codex/excellence-seo-preservation",
+      "draft": true
+    },
+    "105": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/105",
+      "sha": "2285bb7933c9e41eed0bb07780f4078525d6478e",
+      "branch": "codex/excellence-print-fit-coalescing",
+      "draft": true
+    },
+    "106": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/106",
+      "sha": "11fa9627640cd9c904963d9f59f2b204f4490f35",
+      "branch": "codex/excellence-print-refinement",
+      "draft": true
     }
   },
   "features": [
@@ -1055,7 +1085,8 @@
         76,
         77,
         82,
-        85
+        85,
+        106
       ],
       "checks": [
         "npm run audit:pdf",
@@ -1068,7 +1099,8 @@
         "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md",
         "docs/releases/BUILDOUT-SINGLE-LARGE-PRINT.md",
         "docs/releases/BUILDOUT-OUTPUT-CANCELLATION.md",
-        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md",
+        "docs/releases/BUILDOUT-EXCELLENCE-PRINT-REFINEMENT.md"
       ],
       "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Confirmed stale HTML/static PDF downloads and stale PNG errors are repaired with current-job/request/style/unmount guards. Six HTML, two static PDF and PNG rejection/retry cases plus normal export regressions pass. Final combined and physical/device acceptance remain separate.",
       "manualApproval": false
@@ -1086,7 +1118,8 @@
         68,
         72,
         77,
-        78
+        78,
+        106
       ],
       "checks": [
         "PDF geometry, old byte hashes and measured-layout tests"
@@ -1097,7 +1130,8 @@
         "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
         "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md",
         "docs/releases/BUILDOUT-BROWSER-PRINT-PREFLIGHT.md",
-        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md",
+        "docs/releases/BUILDOUT-EXCELLENCE-PRINT-REFINEMENT.md"
       ],
       "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Actual paper/font/QR preflight rejects dense banks, oversized content and within-cell glyph collisions; normal/long-grid and recovery PDFs pass. Final84-pair CLS/combined regression and physical printers remain.",
       "manualApproval": false
@@ -1158,7 +1192,8 @@
       "prs": [
         38,
         93,
-        94
+        94,
+        106
       ],
       "checks": [
         "node tests/e2e/classroom-pack.mjs"
@@ -1167,7 +1202,8 @@
         "docs/releases/BUILDOUT-CLASSROOM-EXPORTS.md",
         "docs/releases/BUILDOUT-T12-SUBSTITUTE-REVIEW.md",
         "docs/releases/BUILDOUT-H08-THIRTY-TARGET-PACKET.md",
-        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
+        "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md",
+        "docs/releases/BUILDOUT-EXCELLENCE-PRINT-REFINEMENT.md"
       ],
       "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Combined final visual/physical print checks pending.",
       "manualApproval": false
@@ -1375,7 +1411,8 @@
         52,
         67,
         71,
-        99
+        99,
+        105
       ],
       "checks": [
         "Repeated CLS and Lighthouse measurements"
@@ -1385,7 +1422,8 @@
         "docs/releases/BUILDOUT-LIGHTHOUSE-PROVIDER-DIAGNOSIS.md",
         "docs/releases/BUILDOUT-UTILITY-QR-STABILITY.md",
         "docs/releases/FINAL-PERFORMANCE-GATES.md",
-        "docs/releases/BUILDOUT-GRACEFUL-AUDIT-CLEANUP.md"
+        "docs/releases/BUILDOUT-GRACEFUL-AUDIT-CLEANUP.md",
+        "docs/releases/EXCELLENCE-PRINT-FIT-COALESCING.md"
       ],
       "remaining": "November7 fresh ordinary-provider CDP4xCPU profiles identify repeated identical worksheet print-fit setup as meaningful main-thread cost. A bounded concurrent-check coalescing package is under validation; no measurement/threshold/ad changes. Historical B ordinary Lighthouse failsBP77/11groups; hard performance87/TBT439ms. Fresh final combined ordinary Lighthouse and owner/provider disposition remain required.",
       "manualApproval": false
@@ -1533,6 +1571,33 @@
         "docs/releases/BUILDOUT-B13.md"
       ],
       "remaining": "Explicit provider/privacy/cost/security/moderation go/no-go before implementation.",
+      "manualApproval": false
+    },
+    {
+      "id": "F5.indexed-copy",
+      "title": "Review exact indexed-content differences against production and preserved R",
+      "status": "BLOCKED",
+      "ownerIssues": [
+        3,
+        6,
+        11
+      ],
+      "prs": [
+        103,
+        104
+      ],
+      "checks": [
+        "Full217-route HTTP/semantic capture and35redirects per endpoint",
+        "Exact field/hash allowlist and independent CategoryB review",
+        "15 comparator mutation tests and real DOM partition contract"
+      ],
+      "evidence": [
+        "docs/releases/EXCELLENCE-SEO-PRESERVATION.md",
+        "docs/releases/EXCELLENCE-SEO-SITE-CHROME-REFINEMENT.md",
+        "docs/releases/EXCELLENCE-FOOTER-B-REVIEW.md",
+        "docs/releases/EXCELLENCE-PUBLIC-COPY-AUDIT.md"
+      ],
+      "remaining": "Initial main-to-R capture protects all150 puzzle editorial bodies and217 title/meta/H1/canonical/robots/schema fields. Original230-hold reports remain immutable. After independent review of the exact owner-requested CategoryB footer, current report has13 material CategoryC fields pending owner approval on five FAQ destinations, privacy and policy. New combined candidate requires fresh dual-baseline capture; no owner/manual/production approval inferred.",
       "manualApproval": false
     }
   ]

@@ -25,6 +25,7 @@ try {
     const file = page.locator(".builder-surface input[type=file]");
     await words.fill("CAT\nDOG");
     await page.locator(".builder-preview .puzzle-svg").waitFor();
+    assert.equal(await page.locator('select[aria-label="Alphabet pack"] option[value="asl"]').textContent(), "ASL labels (not handshapes)");
     if (width < 981) {
       await page.getByRole("button", { name: "Edit words and settings", exact: true }).click();
       assert.equal(await page.locator(".builder-controls").evaluate((element) => element === document.activeElement), true);
@@ -32,8 +33,12 @@ try {
       assert.ok(top >= 0 && top < 400, `Words reachable directly at ${width}px`);
       await page.keyboard.press("Tab");
       assert.equal(await page.getByRole("textbox", { name: "Puzzle title", exact: true }).evaluate((element) => element === document.activeElement), true);
+      const returnButton = page.locator(".builder-controls").getByRole("button", { name: "Preview and print", exact: true });
+      const returnBox = await returnButton.boundingBox();
+      assert.ok(returnBox.height >= 44, "mobile preview action has a practical touch target");
+      assert.ok(returnBox.y >= 0 && returnBox.y + returnBox.height <= 900, "preview action is visible beside the word-editing controls without scrolling back to the builder header");
       if (output) await page.screenshot({ path: `${output}/maker-edit-${width}-${theme}.png` });
-      await page.getByRole("button", { name: "Preview and print", exact: true }).click();
+      await returnButton.click();
       assert.equal(await page.locator(".builder-preview").evaluate((element) => element === document.activeElement), true);
       assert.ok(await page.getByRole("button", { name: "Download PDF", exact: true }).first().isVisible());
     } else assert.equal(await page.locator(".builder-shortcuts").isVisible(), false);
