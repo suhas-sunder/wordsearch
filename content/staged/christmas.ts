@@ -126,7 +126,7 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
   {
     id: "X04",
     proposedPath: "/word-searches/holidays/christmas-baking-word-search",
-    intent: "A Christmas baking and kitchen vocabulary puzzle with ingredients, tools, and baked items, separate from generic decorations and gift vocabulary.",
+    intent: "A Christmas packet baking companion. Its general kitchen vocabulary overlaps the published Baking puzzle; a merge-or-differentiate editorial decision is required before considering a separate URL. Seasonal placement alone is insufficient.",
     title: "Christmas Baking Word Search",
     status: "drafted",
     sourceReferences: [
@@ -171,9 +171,9 @@ export const christmasCandidates: StagedPuzzleCandidate[] = [
       largePrintSuitable: false
     },
     editorial: {
-      puzzleNote: "The words focus on baking ingredients, kitchen tools, dough, and cookies rather than seasonal decorations.",
+      puzzleNote: "An optional packet companion using baking ingredients and tools. Review reuse of the existing Baking canonical before treating this general kitchen bank as a separate Christmas page.",
       difficultyExplanation: "Medium describes a 15×15 grid, sixteen entries, and forward horizontal, vertical, and diagonal paths, including up and down diagonals.",
-      wordListContext: "This draft uses ordinary baking vocabulary. The cited baking references support the topic and spelling checks only; this puzzle does not offer baking instructions or food-safety advice.",
+      wordListContext: "Eight of the sixteen answer words also occur in the published Baking puzzle at /word-searches/food-and-drink/baking-word-search. A Christmas label does not establish a different search intent. Keep this unapproved; prefer packet reuse or independently justify differentiated content. References support ordinary vocabulary only, not baking or food-safety instructions.",
       printNote: "Candidate output is intended for standard Letter and A4 print validation at actual size; no print measurement has been approved yet."
     },
     taxonomy: {
