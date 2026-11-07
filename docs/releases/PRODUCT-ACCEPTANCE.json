@@ -324,6 +324,12 @@
       "sha": "737bcdd0d2adddad7cb2bcf763913cc41015bf78",
       "branch": "codex/accessible-share-destinations",
       "draft": true
+    },
+    "74": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/74",
+      "sha": "e2154fa00f1093dc794952fef8cb77bfd5de52f8",
+      "branch": "codex/advanced-puzzle-settings",
+      "draft": true
     }
   },
   "features": [
@@ -616,6 +622,24 @@
       "manualApproval": false
     },
     {
+      "id": "F2.clues",
+      "title": "Actual opt-in clue banks and teacher answer alignment",
+      "status": "IN PROGRESS",
+      "ownerIssues": [
+        13,
+        18
+      ],
+      "prs": [],
+      "checks": [
+        "Exact parsed-ID alignment, punctuation-safe input, excluded/duplicate entries, preview/PDF/HTML and old-request parity"
+      ],
+      "evidence": [
+        "ai-issues/2026-11-06-buildout-catalog-and-release-queue.md"
+      ],
+      "remaining": "T02 implementation active; existing answer|clue parsing alone is not delivered clue output.",
+      "manualApproval": false
+    },
+    {
       "id": "F2.settings",
       "title": "All supported generator settings and editable recovery",
       "status": "IN PROGRESS",
@@ -626,7 +650,8 @@
         16,
         51,
         65,
-        66
+        66,
+        74
       ],
       "checks": [
         "Settings matrix, input/direction/preview regression"
@@ -634,9 +659,10 @@
       "evidence": [
         "tests/e2e/request-validation.mjs",
         "tests/e2e/direction-validation.mjs",
-        "docs/releases/BUILDOUT-F2-PRINT-SETTINGS.md"
+        "docs/releases/BUILDOUT-F2-PRINT-SETTINGS.md",
+        "docs/releases/BUILDOUT-ADVANCED-SETTINGS.md"
       ],
-      "remaining": "Edited print flags now affect actual output; advanced filler/order/seed and truthful specialty controls underway. Clue behavior and full supported-setting matrix remain.",
+      "remaining": "Seed/filler/input-bank controls, hidden-message cells and13 upfront specialty limitation pages pass; all1200 historical PDF hashes preserved. Actual opt-in clue/answer alignment and printable case choices remain active, followed by final combined settings validation.",
       "manualApproval": false
     },
     {
@@ -750,6 +776,23 @@
       "manualApproval": false
     },
     {
+      "id": "F3.grid-exports",
+      "title": "Standalone PNG/SVG and exact plain-text grid downloads",
+      "status": "IN PROGRESS",
+      "ownerIssues": [
+        18
+      ],
+      "prs": [],
+      "checks": [
+        "Real image/text downloads, font-fit, coordinates, failed/canceled async export, responsive and standalone rendering"
+      ],
+      "evidence": [
+        "ai-issues/README.md"
+      ],
+      "remaining": "Root isolated implementation passes18 Latin browser cases and unit/build checks. Independent review found Binary symbol overlap; an actionable image fit guard and final compatibility rebuild are pending.",
+      "manualApproval": false
+    },
+    {
       "id": "F3.single-pdf",
       "title": "Deterministic single-puzzle print/PDF/answer output",
       "status": "IN PROGRESS",
@@ -803,7 +846,7 @@
     {
       "id": "F3.large-print",
       "title": "Measured readable grid and word bank on Letter/A4",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13
       ],
@@ -818,7 +861,7 @@
       "evidence": [
         "docs/releases/BUILDOUT-MEASURED-LARGE-PRINT.md"
       ],
-      "remaining": "Physical printing and broader audience review pending; no accessibility certification.",
+      "remaining": "Measured classroom packs already satisfy16pt grid/18pt bank. Existing generic larger-grid setting does not enlarge its bank; truthful labels and an explicit measured single-puzzle PDF action are under implementation. Physical printing remains manual.",
       "manualApproval": false
     },
     {

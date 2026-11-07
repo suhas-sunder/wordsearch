@@ -5,7 +5,7 @@
 Use [PRODUCT-ACCEPTANCE.md](PRODUCT-ACCEPTANCE.md) and its validated JSON for the
 definitive feature-by-feature status; older recovery tables below are historical.
 Draft PR70 combines the later packages on tested03, with no main merge or
-production deployment. The ledger currently records28 TESTED,7 IN PROGRESS,
+production deployment. The ledger currently records27 TESTED,10 IN PROGRESS,
 2 MANUAL ACCEPTANCE PENDING,1 BLOCKED and1 OWNER-DEFERRED; zero DONE approvals.
 TESTED refers to recorded package evidence, not automatic combined acceptance.
 
@@ -19,8 +19,9 @@ The initial release limit is **at most one** genuinely distinct indexable URL pe
 independently approved weekly release; zero remains valid. This supersedes older
 0–3 wording below.
 
-Active implementation: supported advanced settings/clue behavior and browser-print
-answer parity/extreme-grid pagination. Final combined04 build/browser/visual/PDF
+Advanced settings74 and browser-print72/sharing73 are now merged. Clue output,
+single-puzzle measured large print, new grid exports and the newly reproduced
+dense beside-bank print failure remain active. Final combined04 build/browser/visual/PDF
 and exact provider-preview validation follow these repairs. Real03 provider
 verification is recorded in PROVIDER-VERIFICATION-2026-11-06.md.
 
