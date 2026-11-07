@@ -12,7 +12,8 @@ assert.equal(sitemap.includes("/pack-builder"), false, "a utility link does not 
 const browser = await chromium.launch({ headless: true });
 try {
   for (const width of [320, 390, 768, 1024, 1280, 1600]) {
-    const page = await browser.newPage({ viewport: { width, height: 1000 } });
+    const context = await browser.newContext({ viewport: { width, height: 1000 } });
+    const page = await context.newPage();
     await page.route("https://pagead2.googlesyndication.com/**", (route) => route.fulfill({ contentType: "application/javascript", body: "" }));
     for (const path of ["/word-searches-for-teachers", "/word-search-worksheets"]) {
       await page.goto(`${base}${path}`, { waitUntil: "networkidle" });
@@ -26,7 +27,8 @@ try {
         return [...document.querySelectorAll("[data-ad-placement]")].every((ad) => { const b = ad.getBoundingClientRect(); return !b.width || !b.height || a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom; });
       });
       assert.equal(boxes, true, "worksheet CTA cannot overlap ad geometry");
-      await action.click();
+      if ([390, 1280].includes(width)) await page.keyboard.press("Enter");
+      else await action.click();
       await page.waitForURL("**/pack-builder");
       assert.match(await page.locator('meta[name="robots"]').getAttribute("content"), /noindex/);
       assert.equal(await page.locator("[data-ad-placement]").count(), 0);
@@ -36,7 +38,7 @@ try {
         assert.deepEqual(result.violations.filter(({ impact }) => ["serious", "critical"].includes(impact)), []);
       }
     }
-    await page.close();
+    await context.close();
   }
   const noScript = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 900 } });
   await noScript.goto(`${base}/word-searches-for-teachers`);
