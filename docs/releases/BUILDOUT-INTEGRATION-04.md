@@ -50,6 +50,17 @@ source-only60-candidate audit and both dependency audit scopes pass. Combined
 04 production build/browser/PDF/visual/static-host checks remain pending the
 active repairs. No skipped/interrupted command counts as a pass.
 
+Expanded preflight at source `6c9d59377b26f9216d48a67036f2ec5bce248abb`:
+all448 tests across60 files pass, including the150 published fingerprints and
+content audit344 records/217 indexable/zero duplicate warnings. Actual staged
+PDF audit checks all60 candidates on Letter and A4 with zero geometry findings;
+its export-isolation comparison explicitly uses frozen03 `out`, because04 has
+not been built yet. Outside-repository report:
+`C:/Users/Suhas/AppData/Local/Temp/ilws-candidate04-staged-pdf-preflight.json`.
+Both `npm audit` and `npm audit --omit=dev` report zero vulnerabilities.
+Vitest touched seven snapshot working-file line endings; normalized diffs are
+empty and no snapshot value was accepted or changed.
+
 Real03 hosted preview and artifacts are documented in
 PROVIDER-VERIFICATION-2026-11-06.md. Its exact review SHA08ffcd2 and frozen
 application1839428 are separate from04; do not reuse those results as04 proof.
