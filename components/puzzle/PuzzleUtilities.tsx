@@ -148,13 +148,13 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
     onAnnouncement?.(message);
   }
 
-  function downloadHtmlWorksheet() {
+  async function downloadHtmlWorksheet() {
     if (outputsBlocked || !printPortalRef.current) {
       setHtmlExportMessage("The worksheet is not ready. Wait for valid preview settings before downloading.");
       return;
     }
     try {
-      downloadOfflineWorksheet(printPortalRef.current, puzzle.request.title, options);
+      await downloadOfflineWorksheet(printPortalRef.current, puzzle.request.title, options);
       setHtmlExportMessage("HTML worksheet downloaded. This private file contains the word list and any included answers.");
     } catch (error) {
       setHtmlExportMessage(error instanceof Error ? error.message : "The HTML worksheet could not be downloaded.");
@@ -210,6 +210,10 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   }
 
   function startPrint() {
+    if (printPortalRef.current?.querySelector('.print-fit-status:not([data-fit-state="ready"])')) {
+      announce("The worksheet is still being checked or does not fit. Review the preview message and adjust print settings before printing.");
+      return;
+    }
     closeDialog();
     window.requestAnimationFrame(() => window.requestAnimationFrame(() => window.print()));
   }

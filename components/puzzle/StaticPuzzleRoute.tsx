@@ -70,6 +70,7 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
   const [qrFailed, setQrFailed] = useState(false);
   const [pdfStatus, setPdfStatus] = useState<"idle" | "working" | "error">("idle");
   const [pdfError, setPdfError] = useState("");
+  const [printMessage, setPrintMessage] = useState("");
 
   useLayoutEffect(() => {
     if (status === "loading") {
@@ -142,6 +143,16 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
     }
   }
 
+  function printBrowser() {
+    const unavailable = document.querySelector<HTMLElement>('main[data-utility-state="ready"] .print-fit-status:not([data-fit-state="ready"])');
+    if (unavailable) {
+      setPrintMessage(unavailable.textContent ?? "Wait for the worksheet print check before printing.");
+      return;
+    }
+    setPrintMessage("");
+    window.print();
+  }
+
   if (status === "loading") {
     return (
       <main className={`utility-page site-shell ${styles.checking}`} data-utility-state="loading">
@@ -200,7 +211,7 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
         </p>
         {(puzzle.rows > 25 || puzzle.cols > 25) && <p className="control-help">This long grid fits one sheet using small letters. Choose fewer rows or columns for larger type.</p>}
         <div className="utility-actions">
-          <button type="button" className="secondary-button" disabled={options.qrCode && !qrDataUrl} onClick={() => window.print()}><Printer size={17} aria-hidden="true" /> Print</button>
+          <button type="button" className="secondary-button" disabled={options.qrCode && !qrDataUrl} onClick={printBrowser}><Printer size={17} aria-hidden="true" /> Print</button>
           {kind === "pdf" && (
             <button type="button" className="primary-button" disabled={pdfStatus === "working"} onClick={downloadPdf}>
               <FileDown size={17} aria-hidden="true" /> {pdfStatus === "working" ? "Generating…" : pdfStatus === "error" ? "Retry PDF" : "Download this PDF"}
@@ -209,6 +220,7 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
         </div>
         {options.qrCode && !qrDataUrl && <p role="status">{qrFailed ? "The QR code could not be prepared." : "Preparing the QR code before printing."} <a href={`?${serializePuzzleOutputOptions({ ...options, qrCode: false })}`}>Print without a QR code</a>.</p>}
         {pdfStatus === "error" && <div className="output-error" role="alert"><strong>PDF failed.</strong> {pdfError}</div>}
+        {printMessage && <p role="status">{printMessage}</p>}
       </div>
       <PrintablePuzzle
         puzzle={puzzle}
