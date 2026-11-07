@@ -1,4 +1,4 @@
-import { SearchTools } from "@/components/page/PageSections";
+import { FaqBlock, SearchTools } from "@/components/page/PageSections";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -23,6 +23,7 @@ import {
 } from "@/content/discovery";
 import type { SitePage } from "@/content/routes";
 import { topics } from "@/content/topics";
+import { RelatedActivityTools } from "@/components/page/RelatedActivityTools";
 
 const reviewedPuzzleCount = topics.filter((topic) => topic.publicationStatus === "published").length;
 
@@ -302,6 +303,7 @@ export function RouteHub({ page }: { page: SitePage }) {
           <div className="hero-actions">
             <Link className="primary-button" href={config.primary.href}>{config.primary.label}</Link>
             <Link className="secondary-button" href={config.secondary.href}>{config.secondary.label}</Link>
+            {["word-searches-for-teachers", "word-search-worksheets"].includes(page.slug) && <Link className="secondary-button" href="/pack-builder">Create a worksheet pack</Link>}
           </div>
         </div>
         <aside className="intent-panel" aria-label={`${page.h1} features`}>
@@ -350,6 +352,8 @@ export function RouteHub({ page }: { page: SitePage }) {
         </div>
       </section>
       <SearchTools />
+      <FaqBlock items={page.faq} />
+      <RelatedActivityTools path={`/${page.slug}`} />
 </main>
     </MonetizedPageShell>
   );
