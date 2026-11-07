@@ -21,7 +21,8 @@ export async function measurePuzzlePdf(puzzle: PuzzleResult, options: PuzzleOutp
 /** Measure a selected puzzle page from an already composed PDF. */
 export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, options: PuzzleOutputOptions, pageNumber = 1): Promise<PrintMeasurement> {
   const standardFontDataUrl = `${fileURLToPath(new URL("../../node_modules/pdfjs-dist/standard_fonts/", import.meta.url))}/`;
-  const document = await getDocument({ data: bytes.slice(), standardFontDataUrl }).promise;
+  const loadingTask = getDocument({ data: bytes.slice(), standardFontDataUrl });
+  const document = await loadingTask.promise;
   try {
     const page = await document.getPage(pageNumber), viewport = page.getViewport({ scale: 1 }), contents = await page.getTextContent();
     const text: MeasuredBox[] = contents.items.flatMap((item) => "str" in item && "transform" in item && item.str.trim() ? [{ text: item.str.trim(), x: item.transform[4], y: item.transform[5], width: item.width, height: item.height, fontPt: Math.abs(item.transform[3]) }] : []);
@@ -72,5 +73,5 @@ export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, o
     if (!title) findings.push({ code: "title-not-measured", detail: puzzle.request.title });
     if (unmeasuredWords.length) findings.push({ code: "words-not-measured", detail: unmeasuredWords.join(", ") });
     return { paperSize: options.paperSize, printScale: options.printScale, page: { widthPt: viewport.width, heightPt: viewport.height }, grid: { rows: puzzle.rows, columns: puzzle.cols, cellWidthPt, cellHeightPt, minFontPt: Math.min(...glyphs.map((item) => item.fontPt)), bounds }, title, titleLines, wordBank, unmeasuredWords, findings };
-  } finally { await document.destroy(); }
+  } finally { await loadingTask.destroy(); }
 }
