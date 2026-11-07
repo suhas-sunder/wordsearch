@@ -1,6 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
-import { createPuzzlePdf } from "@/lib/pdf/create-puzzle-pdf";
+import { createPuzzlePdf, normalizePdfText } from "@/lib/pdf/create-puzzle-pdf";
 import type { PuzzleOutputOptions } from "@/lib/puzzle/output-options";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import { splitCoalescedWordBank } from "@/lib/pdf/coalesced-word-bank";
@@ -37,14 +37,15 @@ export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, o
     const cellHeightPt = Math.abs(cy(glyphs[puzzle.cols]) - cy(glyphs[0]));
     const centersX = glyphs.map(cx), centersY = glyphs.map(cy);
     const bounds = { x: Math.min(...centersX) - cellWidthPt / 2, y: Math.min(...centersY) - cellHeightPt / 2, width: cellWidthPt * puzzle.cols, height: cellHeightPt * puzzle.rows };
-    const titleLines = text.filter((item) => item.fontPt >= 12 && item.text.length >= 1 && puzzle.request.title.includes(item.text) && item.y > bounds.y + bounds.height);
+    const expectedTitle = normalizePdfText(puzzle.request.title);
+    const titleLines = text.filter((item) => item.fontPt >= 12 && item.text.length >= 1 && expectedTitle.includes(item.text) && item.y > bounds.y + bounds.height);
     const title = titleLines.length ? { text: titleLines.map((line) => line.text).join(" "), x: Math.min(...titleLines.map((line) => line.x)), y: Math.min(...titleLines.map((line) => line.y)), width: Math.max(...titleLines.map((line) => line.x + line.width)) - Math.min(...titleLines.map((line) => line.x)), height: Math.max(...titleLines.map((line) => line.y + line.height)) - Math.min(...titleLines.map((line) => line.y)), fontPt: Math.min(...titleLines.map((line) => line.fontPt)) } : null;
     const labels = puzzle.placed.map((placement) => placement.label);
     const extracted = text.slice(text.indexOf(glyphs[glyphs.length - 1]) + 1).filter((item) => !["Exact seeded word search", "Scan to open the same unsolved puzzle."].includes(item.text));
     const candidates: MeasuredBox[] = [];
     for (const item of extracted) candidates.push(...(await splitCoalescedWordBank(item, labels) ?? [item]));
     const wordBank: MeasuredBox[] = [], unmeasuredWords: string[] = [];
-    const normalized = (value: string) => value.replace(/\s+/g, "").toLowerCase();
+    const normalized = (value: string) => normalizePdfText(value).replace(/\s+/g, "").toLowerCase();
     for (const label of labels) {
       const target = normalized(label);
       const exact = candidates.find((item) => !wordBank.includes(item) && normalized(item.text) === target);
@@ -69,7 +70,7 @@ export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, o
       if (text.filter((item) => item.text === "Exact seeded word search" || item.text === "Scan to open the same unsolved puzzle.").some((footer) => overlaps(box, footer))) findings.push({ code: "word-bank-footer-overlap", detail: box.text });
     }
     for (let i = 0; i < wordBank.length; i++) for (let j = i + 1; j < wordBank.length; j++) if (overlaps(wordBank[i], wordBank[j])) findings.push({ code: "word-bank-text-overlap", detail: `${wordBank[i].text} / ${wordBank[j].text}` });
-    if (title && title.text !== puzzle.request.title) findings.push({ code: "title-text-clipped", detail: puzzle.request.title });
+    if (title && title.text !== expectedTitle) findings.push({ code: "title-text-clipped", detail: puzzle.request.title });
     if (!title) findings.push({ code: "title-not-measured", detail: puzzle.request.title });
     if (unmeasuredWords.length) findings.push({ code: "words-not-measured", detail: unmeasuredWords.join(", ") });
     return { paperSize: options.paperSize, printScale: options.printScale, page: { widthPt: viewport.width, heightPt: viewport.height }, grid: { rows: puzzle.rows, columns: puzzle.cols, cellWidthPt, cellHeightPt, minFontPt: Math.min(...glyphs.map((item) => item.fontPt)), bounds }, title, titleLines, wordBank, unmeasuredWords, findings };

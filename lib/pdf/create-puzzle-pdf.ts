@@ -32,14 +32,19 @@ export class UnsupportedPdfTextError extends Error {
   }
 }
 
-function pdfSafeText(value: string | undefined, font: PDFFont) {
+/** The existing PDF text substitutions, shared with output measurement. */
+export function normalizePdfText(value: string | undefined) {
   if (!value) return "";
-  const normalized = value
+  return value
     .replace(/[\u2010-\u2015]/g, "-")
     .replace(/[\u2018\u2019]/g, "'")
     .replace(/[\u201c\u201d]/g, '"')
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function pdfSafeText(value: string | undefined, font: PDFFont) {
+  const normalized = normalizePdfText(value);
   return Array.from(normalized, (character) => {
     try {
       font.encodeText(character);
