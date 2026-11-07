@@ -306,6 +306,24 @@
       "sha": "203d2d83b9ef5ee9b9c4779b31effc888a934bc9",
       "branch": "codex/product-candidate-04",
       "draft": true
+    },
+    "71": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/71",
+      "sha": "fc6c471acb5d26149c7ed6a04db2a3567d576707",
+      "branch": "codex/lighthouse-provider-diagnosis",
+      "draft": true
+    },
+    "72": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/72",
+      "sha": "160d8b46925799a75f75a5ef4afca26967f9e0a3",
+      "branch": "codex/browser-print-layout",
+      "draft": true
+    },
+    "73": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/73",
+      "sha": "737bcdd0d2adddad7cb2bcf763913cc41015bf78",
+      "branch": "codex/accessible-share-destinations",
+      "draft": true
     }
   },
   "features": [
@@ -673,16 +691,19 @@
       ],
       "prs": [
         21,
-        37
+        37,
+        73
       ],
       "checks": [
         "npm run test:completion",
-        "npm run test:parity"
+        "npm run test:parity",
+        "node tests/e2e/share-destinations.mjs"
       ],
       "evidence": [
-        "docs/releases/BUILDOUT-B09-COMPLETION.md"
+        "docs/releases/BUILDOUT-B09-COMPLETION.md",
+        "docs/releases/BUILDOUT-SHARE-DESTINATIONS.md"
       ],
-      "remaining": "Real provider/physical QR and unsupported native-share devices remain manual.",
+      "remaining": "Explicit WhatsApp/email links, pre-action word-list privacy disclosure, copy recovery and native cancellation pass16 responsive light/dark cases. Real provider delivery/native devices/QR scanning and final combined acceptance remain manual.",
       "manualApproval": false
     },
     {
@@ -738,7 +759,8 @@
       "prs": [
         25,
         37,
-        68
+        68,
+        72
       ],
       "checks": [
         "npm run audit:pdf",
@@ -747,9 +769,10 @@
       ],
       "evidence": [
         "tests/unit/pdf.test.ts",
-        "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md"
+        "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
+        "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md"
       ],
-      "remaining": "All1200 historical QR-enabled PDF hashes preserved. Download fit errors repaired; utility browser-print answer parity and extreme-grid pagination defects under active repair.",
+      "remaining": "Browser answer parity and24 square/wide/tall PDF cases pass, including offline HTML; actual small-type limits disclosed. Further200-word beside-bank overflow reproduced after72; actual print-layout preflight/error recovery is actively being implemented. Final combined and physical printer checks remain.",
       "manualApproval": false
     },
     {
@@ -762,7 +785,8 @@
       "prs": [
         27,
         43,
-        68
+        68,
+        72
       ],
       "checks": [
         "PDF geometry, old byte hashes and measured-layout tests"
@@ -770,9 +794,10 @@
       "evidence": [
         "tests/unit/print-measure.test.ts",
         "tests/unit/pdf-pack-layout.test.ts",
-        "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md"
+        "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
+        "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md"
       ],
-      "remaining": "Single PDF now rejects oversized titles/instructions/banks and colliding tokens. Measured geometry and1200 historical outputs pass. Browser-print extreme-grid fit remains active; physical printers remain manual.",
+      "remaining": "Browser answer parity and24 square/wide/tall PDF cases pass, including offline HTML; actual small-type limits disclosed. Further200-word beside-bank overflow reproduced after72; actual print-layout preflight/error recovery is actively being implemented. Final combined and physical printer checks remain.",
       "manualApproval": false
     },
     {
@@ -988,7 +1013,8 @@
         15,
         45,
         52,
-        67
+        67,
+        71
       ],
       "checks": [
         "Repeated CLS and Lighthouse measurements"
