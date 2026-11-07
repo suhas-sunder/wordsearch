@@ -423,7 +423,7 @@ summary:focus-visible {
 }
 
 .builder-shortcuts > button,
-.builder-preview-shortcut {
+.builder-controls .builder-preview-shortcut {
   min-height: 44px;
 }
 

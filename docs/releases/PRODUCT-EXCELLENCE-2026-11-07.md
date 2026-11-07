@@ -70,3 +70,24 @@ passes above are historical source-scoped records, not a final composite pass.
 The 13 owner-held indexed-copy fields across seven routes remain blocked. Manual
 physical devices, native zoom, printer/assistive-tech, genuine ad/consent and
 independent owner/editorial approval remain separate gates.
+
+
+### First frozen candidate correction — mobile target cascade
+
+Initial frozen C1 `a0c0a1cfe4aedca1e8512217df1c2f81e2d511cc` passed its
+clean install, 677/84 tests, build/static and both zero-vulnerability audits.
+Its first maker browser test correctly failed: the contextual return action's
+44px minimum was overridden by the later same-specificity `.secondary-button`
+38px rule. Actual320/390px DOM inspection found42px boxes and computed38px
+minimum. The first failure and measurements remain in `final-a0c0a1c/`.
+A precise `.builder-controls .builder-preview-shortcut` selector restores44px;
+no shared button rule or assertion changed. Supported Node22 rebuild and the
+full maker upload/navigation suite then pass390light/320dark/1280light.
+These correction results are under `touch-target-fix/`, with the root source at
+C1 plus this one CSS-selector change. A new exact final candidate receives fresh
+clean-install and combined browser validation; C1 is not final acceptance.
+
+Netlify did not build the nested PR103 because its base is the preserved review
+branch, rather than an enabled deploy base. A separate draft release-candidate
+PR against main will produce the review preview. This does not merge main,
+change the frozen PR97 baseline, or authorize production deployment.
