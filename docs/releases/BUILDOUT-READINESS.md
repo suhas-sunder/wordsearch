@@ -9,6 +9,13 @@ production deployment. The44-feature ledger currently records36 TESTED,4 IN PROG
 2 MANUAL ACCEPTANCE PENDING,1 BLOCKED and1 OWNER-DEFERRED; zero DONE approvals.
 TESTED refers to recorded package evidence, not automatic combined acceptance.
 
+PR96 resolves the reproduced oversized-query slowdown consistently across popup,
+full-page and collection search: normal results preserved, Unicode-safe160-unit
+bound,544 tests/build335/static checks and20 focused browser cases pass. All
+identified BUILD NOW gaps are implemented; final97 combined acceptance continues.
+PR70/F remains a preserved earlier checkpoint. This update does not waive final
+performance/provider/manual gates or authorize publication/production.
+
 The independent final review branch now integrates90–95: authored Christmas
 collection review, precise functional fixtures, one Christian Nativity draft,
 substitute-folder curation, five real30-target utility sheets and actual hard/

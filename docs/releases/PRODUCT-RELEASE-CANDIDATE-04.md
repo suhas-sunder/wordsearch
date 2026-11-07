@@ -5,6 +5,20 @@ Verified runtime baseline: `26fa36d1113ecbef7721ed158aa9441cd16c57d2` in
 **Final acceptance is in progress.** This record must be completed from actual
 results; it does not authorize production or any editorial publication.
 
+The new combined candidate is [draft PR97](https://github.com/suhas-sunder/wordsearch/pull/97),
+branch `codex/final-product-acceptance`, superseding PR70 for current review.
+All independently audited BUILD NOW gaps are implemented. PR96 fixes the
+reproduced pasted-query slowdown with the shared Unicode-safe160-unit limit:
+544 tests/build335/static checks, six query cases and14 repeated H10 cases pass.
+The combined44-feature preflight and new exact-SHA export/448/84CLS/Lighthouse/
+hosted checks remain pending; no individual package substitutes for those checks.
+
+New combined preflight (including the44-feature schema, every new source asset
+and bounded queries) passes lint, TypeScript and **544 tests in78 files** on
+Node22.23.4. The containing application commit is being frozen for its own
+production export and quiet/visual/hosted acceptance. Final evidence will pin
+that exact SHA; historicalF results remain separately labeled.
+
 The definitive 44-feature matrix is [PRODUCT-ACCEPTANCE.md](PRODUCT-ACCEPTANCE.md),
 generated from validated JSON. TESTED records technical evidence; DONE requires
 named independent approval. No production or new-content approval is recorded.

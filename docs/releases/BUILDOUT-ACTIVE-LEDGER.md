@@ -2,6 +2,16 @@
 
 ## Current reconciliation (supersedes older active-state entries)
 
+Code integration now includes96, the confirmed pasted-query performance fix;
+the shared Unicode-safe160-unit bound preserves normal ranking and passes544
+tests/build335/static checks plus6 query and14 repeated H10 browser cases.
+No independently audited BUILD NOW code/source gap remains. Final combined
+validation remains mandatory and active; a new defect reopens implementation.
+Draft97 is the final guest-product review candidate against main, superseding70
+for current review; main/production are unchanged. The lossless13-file recovery
+checkpoint and explicit shutdown runbook are pushed at749b5ab. No shutdown has
+been requested while useful validation remains.
+
 Final review integration now includes90 authored X05/X06 collection artifacts,
 91 precise current functional fixtures,92 Christian Nativity source draft,
 93 exact-bank substitute folder,94 real30-target challenge sheets and95 hard/

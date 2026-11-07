@@ -4,6 +4,13 @@ Draft [PR70](https://github.com/suhas-sunder/wordsearch/pull/70), branch
 `codex/product-candidate-04`, based on frozen03. This is an active development
 record, not a final release candidate or product acceptance claim.
 
+Current final review has moved to draft
+[PR97](https://github.com/suhas-sunder/wordsearch/pull/97), branch
+`codex/final-product-acceptance`. All remaining BUILD NOW gaps and the reproduced
+search-input defect are implemented. The new combined export and final448/84CLS/
+Lighthouse/hosted validation are in progress. Historical PR70/F evidence below
+remains accurate for its own frozen source and is not relabeled as the new SHA.
+
 ## Final-review continuation after frozenF
 
 `26fa36d1113ecbef7721ed158aa9441cd16c57d2` passed48 current functional suites:

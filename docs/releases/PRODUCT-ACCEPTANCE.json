@@ -456,6 +456,18 @@
       "sha": "09bc53d9c71aa178cb5ca33d1748c3e26d90d192",
       "branch": "codex/collection-finding",
       "draft": true
+    },
+    "96": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/96",
+      "sha": "e4a0637fb936ffd935a91a2d1bd157604aebe3b7",
+      "branch": "codex/bounded-search-queries",
+      "draft": true
+    },
+    "97": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/97",
+      "sha": "749b5ab47d37cf2943801ee9934b0e0217f6f5a0",
+      "branch": "codex/final-product-acceptance",
+      "draft": true
     }
   },
   "features": [
@@ -467,7 +479,8 @@
       "prs": [
         37,
         51,
-        70
+        70,
+        97
       ],
       "checks": [
         "npm run lint",
@@ -480,7 +493,7 @@
         "docs/releases/BUILDOUT-INTEGRATION-02.md",
         "docs/releases/BUILDOUT-INTEGRATION-03.md"
       ],
-      "remaining": "Frozen appF26fa36d passed48 current functional suites (47 original plus mapped current-footer replacement); all failure attempts retained. Independent review integrates90–95 and448-case visual expansion; final search-input bound defect is being fixed. New combined build/visual/84CLS/Lighthouse/provider acceptance remains pending.",
+      "remaining": "All independently audited BUILD NOW gaps are implemented through96, including actual source assets and H10 browsing. FrozenF48 suites pass with retained fixture history; new query guard passes544 tests/build335 and20 focused browser cases. The final44-feature combined preflight/export/448visual/84CLS/Lighthouse/hosted checks remain pending.",
       "manualApproval": false
     },
     {
@@ -577,13 +590,15 @@
         6
       ],
       "prs": [
-        48
+        48,
+        96
       ],
       "checks": [
         "node tests/e2e/contextual-discovery.mjs"
       ],
       "evidence": [
-        "docs/releases/BUILDOUT-U05-SEARCH.md"
+        "docs/releases/BUILDOUT-U05-SEARCH.md",
+        "docs/releases/BUILDOUT-BOUNDED-SEARCH-QUERIES.md"
       ],
       "remaining": "Final template/print/ad geometry review pending.",
       "manualApproval": false
@@ -597,7 +612,8 @@
         13
       ],
       "prs": [
-        95
+        95,
+        96
       ],
       "checks": [
         "Collection finder SSR/helper unit tests; full531 suite",
@@ -605,9 +621,10 @@
       ],
       "evidence": [
         "docs/releases/BUILDOUT-H10-COLLECTION-FINDING.md",
-        "tests/e2e/collection-finder.mjs"
+        "tests/e2e/collection-finder.mjs",
+        "docs/releases/BUILDOUT-BOUNDED-SEARCH-QUERIES.md"
       ],
-      "remaining": "Package14 browser cases pass: both palettes, mobile/desktop,2no-JS, keyboard/filter/order/reset, exact SSR public cards and zero measured initial/hydration CLS. Final combined448 visual/export/performance acceptance remains pending.",
+      "remaining": "H10 package14 browser cases pass; query-bound package repeats all14 plus6 search cases. Full SSR/no-JS cards, keyboard/filter/order/reset and zero initial/hydration CLS retained. Final combined448 visual/export/performance acceptance remains pending.",
       "manualApproval": false
     },
     {
@@ -855,7 +872,8 @@
       ],
       "prs": [
         16,
-        83
+        83,
+        96
       ],
       "checks": [
         "npm run test:inputs",
@@ -863,7 +881,8 @@
       ],
       "evidence": [
         "docs/releases/WORKLOAD-2026-11-06.md",
-        "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md"
+        "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md",
+        "docs/releases/BUILDOUT-BOUNDED-SEARCH-QUERIES.md"
       ],
       "remaining": "Empty/unsupported/all-too-long and actual seed-dependent zero-placement states now fail closed with editable recovery; malformed states stay generic. Central post-placement guard and500tests/browser/cache regressions pass; valid150/1200 fingerprints unchanged. Final combined rerun remains.",
       "manualApproval": false
