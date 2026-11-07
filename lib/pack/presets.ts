@@ -6,12 +6,13 @@ export interface ClassroomPreset {
   paperSize: "letter" | "a4";
   order: "answers-last" | "interleaved";
   pages: "both" | "students" | "answers";
+  largePrint?: boolean;
 }
 
 function validatePreset(value: unknown): asserts value is ClassroomPreset {
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("Invalid saved preset.");
   const preset = value as ClassroomPreset;
-  if (Object.keys(value).sort().join(",") !== "input,order,pages,paperSize" || !["letter", "a4"].includes(preset.paperSize) || !["answers-last", "interleaved"].includes(preset.order) || !["both", "students", "answers"].includes(preset.pages)) throw new Error("Invalid saved preset.");
+  if (Object.keys(value).filter((key) => key !== "largePrint").sort().join(",") !== "input,order,pages,paperSize" || (preset.largePrint !== undefined && typeof preset.largePrint !== "boolean") || !["letter", "a4"].includes(preset.paperSize) || !["answers-last", "interleaved"].includes(preset.order) || !["both", "students", "answers"].includes(preset.pages)) throw new Error("Invalid saved preset.");
   if (!preset.input || typeof preset.input !== "object" || Array.isArray(preset.input) || Object.keys(preset.input).sort().join(",") !== "count,seed,title,wordsText") throw new Error("Invalid saved preset.");
   validateClassroomPackInput(preset.input);
 }

@@ -30,7 +30,8 @@ describe("measured pack PDF layout", () => {
     expect(doc.getPageCount()).toBe(count * 2);
     const options = { ...defaultPuzzleOutputOptions, paperSize, orientation: "portrait" as const, qrCode: false, inkSaving: true, includeAnswerKey: true };
     const standardFontDataUrl = `${fileURLToPath(new URL("../../node_modules/pdfjs-dist/standard_fonts/", import.meta.url))}/`;
-    const rendered = await getDocument({ data: bytes.slice(), standardFontDataUrl }).promise;
+    const renderedTask = getDocument({ data: bytes.slice(), standardFontDataUrl });
+    const rendered = await renderedTask.promise;
     for (let i = 0; i < count; i++) {
       const page = order === "interleaved" ? i * 2 + 1 : i + 1;
       const measurement = await measurePdfBytes(bytes, pack.puzzles[i].puzzle, options, page);
@@ -49,7 +50,8 @@ describe("measured pack PDF layout", () => {
       expect(Math.min(...measurement.wordBank.map((box) => box.y))).toBeGreaterThan(65);
       const answerPage = order === "interleaved" ? i * 2 + 2 : count + i + 1;
       const singleBytes = await createPuzzlePdf({ puzzle: pack.puzzles[i].puzzle, options, shareUrl: puzzlePlayUrl(pack.puzzles[i].puzzle.request), layoutProfile: "pack" });
-      const single = await getDocument({ data: singleBytes.slice(), standardFontDataUrl }).promise;
+      const singleTask = getDocument({ data: singleBytes.slice(), standardFontDataUrl });
+      const single = await singleTask.promise;
       const actualAnswer = await rendered.getPage(answerPage);
       const expectedAnswer = await single.getPage(2);
       const actualText = await actualAnswer.getTextContent();
@@ -71,9 +73,9 @@ describe("measured pack PDF layout", () => {
       const actualOps = await actualAnswer.getOperatorList();
       const expectedOps = await expectedAnswer.getOperatorList();
       expect(actualOps.argsArray.filter((_, index) => actualOps.fnArray[index] === OPS.constructPath)).toEqual(expectedOps.argsArray.filter((_, index) => expectedOps.fnArray[index] === OPS.constructPath));
-      await single.destroy();
+      await singleTask.destroy();
     }
-    await rendered.destroy();
+    await renderedTask.destroy();
   }, 60000);
   test("fails closed when an unbreakable title cannot fit", async () => {
     const pack = buildClassroomPack({ title: "W".repeat(70), wordsText: "planet\ncomet", seed: "s0", count: 5 });
