@@ -52,8 +52,8 @@ export function SiteFooter() {
       {maintainer && <nav className={`site-shell ${styles.profiles}`} aria-label="Creator profiles">
         <span><strong>Connect with the creator</strong><span>{maintainer.name}&apos;s portfolio and professional profile</span></span>
         <div>
-          {maintainer.sameAs.includes("https://www.suhassunder.com/") && <a href="https://www.suhassunder.com/" rel="external">Portfolio<ExternalLink size={15} aria-hidden="true" /></a>}
-          {maintainer.sameAs.includes("https://www.linkedin.com/in/s-sunder/") && <a href="https://www.linkedin.com/in/s-sunder/" rel="external">LinkedIn<ExternalLink size={15} aria-hidden="true" /></a>}
+          {maintainer.sameAs.includes("https://www.suhassunder.com/") && <a href="https://www.suhassunder.com/" rel="external noreferrer">Portfolio<ExternalLink size={15} aria-hidden="true" /></a>}
+          {maintainer.sameAs.includes("https://www.linkedin.com/in/s-sunder/") && <a href="https://www.linkedin.com/in/s-sunder/" rel="external noreferrer">LinkedIn<ExternalLink size={15} aria-hidden="true" /></a>}
         </div>
       </nav>}
       <nav className="site-shell footer-legal" aria-label="Legal information">
