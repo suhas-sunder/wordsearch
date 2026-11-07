@@ -15,7 +15,7 @@
 .groups > div { display: flex; flex-direction: column; align-items: stretch; }
 .groups strong { padding: 8px; color: var(--muted); font-size: .84rem; }
 .groups a { display: flex; align-items: center; min-height: 44px; padding: 8px; border-radius: 6px; }
-.groups a:hover, .groups a[aria-current="page"] { background: #eef8f2; color: var(--accent-dark); }
+.groups a:hover, .groups a[aria-current="page"] { background: var(--selected); color: var(--accent-dark); }
 @media (max-width: 1100px) {
   .row .primary { display: none; }
   .row .search { margin-left: auto; }
