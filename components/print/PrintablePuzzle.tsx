@@ -1,9 +1,10 @@
 import { puzzleWordBank } from "@/lib/puzzle/word-bank";
 import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import type { PuzzleResult } from "@/lib/puzzle/types";
-import { shareUrl } from "@/lib/share-state/state";
+import { encodeShareState, shareUrl } from "@/lib/share-state/state";
 import { PuzzleSvg } from "@/components/puzzle/PuzzleSvg";
 import { outputOptionsForRequest, pdfPageSpec, type PuzzleOutputOptions } from "@/lib/puzzle/output-options";
+import { PrintFitGuard } from "@/components/print/PrintFitGuard";
 
 interface PrintablePuzzleProps {
   puzzle: PuzzleResult;
@@ -39,6 +40,7 @@ export function PrintablePuzzle({
 
   return (
     <article className={sheetClassName} aria-label={answerKey ? "Answer key" : "Printable word search"}>
+      <PrintFitGuard signature={`${puzzle.sharePath}:${answerKey}:${JSON.stringify(options)}:${qrDataUrl ?? ""}`} options={options} editHref={`/word-search-generator?state=${encodeShareState(puzzle.request)}`} />
       <header className="print-header">
         <div>
           <p className="print-brand">www.iLoveWordSearch.com</p>
