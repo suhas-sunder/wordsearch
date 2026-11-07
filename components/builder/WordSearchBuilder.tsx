@@ -8,6 +8,7 @@ import type { AlphabetPackId, Difficulty, DirectionKey, PuzzleRequest, PuzzleRes
 import { nextSeed } from "@/lib/puzzle/prng";
 import { decodeShareState, stateId } from "@/lib/share-state/state";
 import { PuzzleUtilities } from "@/components/puzzle/PuzzleUtilities";
+import { LocalPuzzleLibrary } from "@/components/builder/LocalPuzzleLibrary";
 
 export interface BuilderProps {
   initialRequest: Partial<PuzzleRequest>;
@@ -225,6 +226,11 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
           </> : <span>Check puzzle settings</span>}
         </div>
       </div>
+      {persistState && <LocalPuzzleLibrary request={puzzle?.request ?? null} onOpen={(saved) => {
+        setHasUserEdits(true);
+        setLoadError(null);
+        setRequest({ ...saved });
+      }} />}
       <div className="builder-grid">
         <div className="builder-controls">
           <label>
