@@ -216,7 +216,7 @@ try {
             }
           }
           if (name === "home") {
-            await page.locator('summary[aria-label="Open navigation menu"]').focus();
+            await page.locator('summary[aria-label="More: open navigation menu"]').focus();
             await page.keyboard.press("Enter");
             await page.getByRole("navigation", { name: "All site navigation" }).waitFor();
             const menuAxe = await new AxeBuilder({ page }).include("header").analyze();
