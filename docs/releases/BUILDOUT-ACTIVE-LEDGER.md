@@ -2,6 +2,22 @@
 
 ## Current reconciliation (supersedes older active-state entries)
 
+Final review integration now includes90 authored X05/X06 collection artifacts,
+91 precise current functional fixtures,92 Christian Nativity source draft,
+93 exact-bank substitute folder,94 real30-target challenge sheets and95 hard/
+answer collection finding/sorting. Main source catalog61; runtime150/217 unchanged.
+FrozenF26fa36d passed48 current functional suites; original failures and the
+historical-footer replacement mapping are retained. H10's14 focused cases pass
+with zero measured initial/hydration CLS. A confirmed large pasted-search-query
+slowdown is receiving the existing160-character bound consistently before final
+freeze. Final448/84CLS/Lighthouse/provider checks remain pending. The definitive
+ledger now has44 features. No production/editorial approval or shutdown has occurred.
+
+The user separately authorized shutdown only after all useful work, saved/pushed
+handoff and desktop/session checks. The prior missing shutdown was an explicit
+unsaved-state safety decision, not a rejected OS command. A durable runbook and
+verbatim13-file original-owner recovery archive are being checkpointed.
+
 Latest extension:76 single measured large-print PDF;77 actual DOM print fit and
 dense-bank recovery;78 real clues/teacher mappings;79 all8 original owner
 proposals preserved;80 authored-topic alignment and exact pinned-file checks;

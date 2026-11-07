@@ -303,7 +303,7 @@
     },
     "70": {
       "url": "https://github.com/suhas-sunder/wordsearch/pull/70",
-      "sha": "203d2d83b9ef5ee9b9c4779b31effc888a934bc9",
+      "sha": "26fa36d1113ecbef7721ed158aa9441cd16c57d2",
       "branch": "codex/product-candidate-04",
       "draft": true
     },
@@ -405,7 +405,7 @@
     },
     "87": {
       "url": "https://github.com/suhas-sunder/wordsearch/pull/87",
-      "sha": "dbd26874841e256ae7615134c2d7ac7ff6ebc6d1",
+      "sha": "127200213317fa07ae810c4529180a86fc37da1a",
       "branch": "codex/final-visual-qa",
       "draft": true
     },
@@ -419,6 +419,42 @@
       "url": "https://github.com/suhas-sunder/wordsearch/pull/89",
       "sha": "50ccc6d7f45b78cad52d2706a9f7064ceec488d8",
       "branch": "codex/christmas-measured-format",
+      "draft": true
+    },
+    "90": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/90",
+      "sha": "f32571499af7092f417566d6bde8bd4218d62e7a",
+      "branch": "codex/christmas-collection-review",
+      "draft": true
+    },
+    "91": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/91",
+      "sha": "2f200eae87dd5fd387a8a72bf5dcd5894e38f916",
+      "branch": "codex/final-functional-fixtures",
+      "draft": true
+    },
+    "92": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/92",
+      "sha": "a203d9badb6d68d742588d715d085c44561b0774",
+      "branch": "codex/christian-nativity-source-draft",
+      "draft": true
+    },
+    "93": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/93",
+      "sha": "5b9dce7765f318e00ae638efe193b4fa194e31b0",
+      "branch": "codex/substitute-teacher-review",
+      "draft": true
+    },
+    "94": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/94",
+      "sha": "ccb78d53586a3671f6edf9bcddcefefcd582f9ca",
+      "branch": "codex/thirty-target-challenge-packet",
+      "draft": true
+    },
+    "95": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/95",
+      "sha": "09bc53d9c71aa178cb5ca33d1748c3e26d90d192",
+      "branch": "codex/collection-finding",
       "draft": true
     }
   },
@@ -444,7 +480,7 @@
         "docs/releases/BUILDOUT-INTEGRATION-02.md",
         "docs/releases/BUILDOUT-INTEGRATION-03.md"
       ],
-      "remaining": "All implementation through89 is integrated locally, including expanded visual acceptance, verified CSS/help repairs and strict source-only X03 measured Christmas format. Frozen a3988 independent1200PDF hashes and static150 definitions/217URLs/35 redirects pass. Replacement combined exact-SHA functional/visual/CLS/provider checks remain pending.",
+      "remaining": "Frozen appF26fa36d passed48 current functional suites (47 original plus mapped current-footer replacement); all failure attempts retained. Independent review integrates90–95 and448-case visual expansion; final search-input bound defect is being fixed. New combined build/visual/84CLS/Lighthouse/provider acceptance remains pending.",
       "manualApproval": false
     },
     {
@@ -550,6 +586,28 @@
         "docs/releases/BUILDOUT-U05-SEARCH.md"
       ],
       "remaining": "Final template/print/ad geometry review pending.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.collection-browse",
+      "title": "Find and order existing hard and answer-key collection puzzles",
+      "status": "TESTED",
+      "ownerIssues": [
+        6,
+        13
+      ],
+      "prs": [
+        95
+      ],
+      "checks": [
+        "Collection finder SSR/helper unit tests; full531 suite",
+        "BASE_URL=H10-frozen-export node tests/e2e/collection-finder.mjs"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-H10-COLLECTION-FINDING.md",
+        "tests/e2e/collection-finder.mjs"
+      ],
+      "remaining": "Package14 browser cases pass: both palettes, mobile/desktop,2no-JS, keyboard/filter/order/reset, exact SSR public cards and zero measured initial/hydration CLS. Final combined448 visual/export/performance acceptance remains pending.",
       "manualApproval": false
     },
     {
@@ -712,7 +770,7 @@
         "docs/releases/BUILDOUT-FINAL-VISUAL-QA.md",
         "docs/releases/BUILDOUT-VISUAL-ACCEPTANCE-REPAIRS.md"
       ],
-      "remaining": "Original frozen432 matrix completed with eight dark solver-start contrast failures and manual export-text overlap. Both defects repaired; focused28 cases pass with rendered text-bounds/axe and reviewed screenshots. Final committed432-case matrix remains pending; original failures are retained.",
+      "remaining": "Original432 completed with8 dark start-card failures and manual helper overlap, now repaired28focusedpasses. H10 adds14passing focused cases and mixed answer-hub coverage, so final matrix is448cases; full combined run remains pending.",
       "manualApproval": false
     },
     {
@@ -1038,13 +1096,17 @@
         13
       ],
       "prs": [
-        38
+        38,
+        93,
+        94
       ],
       "checks": [
         "node tests/e2e/classroom-pack.mjs"
       ],
       "evidence": [
-        "docs/releases/BUILDOUT-CLASSROOM-EXPORTS.md"
+        "docs/releases/BUILDOUT-CLASSROOM-EXPORTS.md",
+        "docs/releases/BUILDOUT-T12-SUBSTITUTE-REVIEW.md",
+        "docs/releases/BUILDOUT-H08-THIRTY-TARGET-PACKET.md"
       ],
       "remaining": "Combined final visual/physical print checks pending.",
       "manualApproval": false
@@ -1130,7 +1192,11 @@
         58,
         79,
         80,
-        89
+        89,
+        90,
+        92,
+        93,
+        94
       ],
       "checks": [
         "npm run audit:staged-inventory -- --pdf --export"
@@ -1139,9 +1205,13 @@
         "scripts/audit-staged-inventory.ts",
         "docs/releases/BUILDOUT-CALENDAR-CATALOG-AUDIT.md",
         "docs/releases/BUILDOUT-PRESERVED-OWNER-INVENTORY.md",
-        "docs/releases/BUILDOUT-X03-MEASURED-FORMAT.md"
+        "docs/releases/BUILDOUT-X03-MEASURED-FORMAT.md",
+        "docs/releases/BUILDOUT-CHRISTMAS-COLLECTION-REVIEW.md",
+        "docs/releases/BUILDOUT-X09-NATIVITY-DRAFT.md",
+        "docs/releases/BUILDOUT-T12-SUBSTITUTE-REVIEW.md",
+        "docs/releases/BUILDOUT-H08-THIRTY-TARGET-PACKET.md"
       ],
-      "remaining": "60 main candidates,16 utility selections and8 preserved owner proposals (6 existing drafts/2 proposed paths) remain source-only. Two unpublished titles/request fingerprints migrated explicitly after semantic review; all150 published unchanged. Original raw owner source unchanged. Human facts/rights/audience/editorial approval absent.",
+      "remaining": "Main catalog61 includes one explicitly Christian source-only X09; all original60 source/fingerprint aggregates unchanged. X03 measured format, authoredX05/X06 collection review, T12 exact-bank substitute folder and H08 real30-target utility packet are implemented, with no new runtime/indexable activation. All human editorial/rights/audience/physical-print reviews remain independent.",
       "manualApproval": false
     },
     {
@@ -1286,7 +1356,7 @@
         "ai-issues/AD-PLACEHOLDER-SAFETY.md",
         "docs/releases/BUILDOUT-ADVERTISING-COPY.md"
       ],
-      "remaining": "Advertising code/lifecycle/placement unchanged. A factual one-paragraph policy correction is prepared as an independent draft requiring owner editorial acceptance. Genuine ad fill/consent and final combined regression remain manual/unexecuted.",
+      "remaining": "FrozenF monetization suite passes with protected source unchanged. H10 filters retain ad wrappers and pass zero-overlap checks; genuine fill/consent is still manual. Draft policy-copy84 requires owner editorial acceptance;3existing eligibility findings remain unwaived.",
       "manualApproval": false
     },
     {
@@ -1343,7 +1413,7 @@
       "evidence": [
         "docs/releases/README.md"
       ],
-      "remaining": "Real hosted03 at08ffcd2 passed canonical/noindex/217sitemap/60draft404, six-route parity and real5-page PDF tests. Candidate04 exact-SHA hosted validation and independent approval remain.",
+      "remaining": "Ready deploy-preview6aee9d8754f1183fd8251956 matches appF26fa36d; HTTPnoindex/canonical/217sitemap preflight passes. Final combined review exact-SHA hosted browser/PDF checks and independent approval remain pending.",
       "manualApproval": false
     },
     {
@@ -1360,7 +1430,9 @@
         "Release record and remote main SHA verification"
       ],
       "evidence": [
-        "docs/releases/BUILDOUT-INTEGRATION-02.md"
+        "docs/releases/BUILDOUT-INTEGRATION-02.md",
+        "docs/releases/OVERNIGHT-SESSION-CONTROL-2026-11-06.md",
+        "docs/releases/recovery/owner-growth-2026-11-06/README.md"
       ],
       "remaining": "Ready production deploy6aedd79021e0a4d96f61990a matches recorded main471a118. Revert/fix-forward through reviewed Git delivery documented; independent candidate approval and authorized production operation remain.",
       "manualApproval": false

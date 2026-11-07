@@ -1,0 +1,285 @@
+diff --git a/content/collections.ts b/content/collections.ts
+index 9dc927c..ff71450 100644
+--- a/content/collections.ts
++++ b/content/collections.ts
+@@ -69,7 +69,7 @@ const publishedCollections = [
+     metaDescription: "Print challenging word searches with larger grids, twenty-word lists, reverse and diagonal placements, and answer keys.",
+     selectionGuidance: "Hard puzzles use an 18 × 18 grid, twenty terms, overlap, and every straight direction. The inventory is deliberately smaller because no unfinished hard draft is included.",
+     relatedCollections: ["medium-word-searches", "word-searches-with-answer-keys"],
+-    categorySlugs: ["science-word-searches", "geography-word-searches"],
++    categorySlugs: ["science-word-searches", "geography-word-searches", "history-word-searches"],
+     reviewedOn
+   },
+   {
+@@ -122,14 +122,14 @@ const publishedCollections = [
+   {
+     slug: "science-word-search-worksheets",
+     title: "Science Word Search Worksheets",
+-    description: "Science vocabulary worksheets covering space, the solar system, biology, chemistry, physics, geology, and weather.",
++    description: "Science vocabulary worksheets covering space, the solar system, biology, genetics, chemistry, the periodic table, physics, geology, and weather.",
+     words: [],
+     angle: "Use the introductory or advanced topic that best matches the vocabulary being reviewed.",
+-    relatedTopics: routesFor("space-word-search", "solar-system-word-search", "biology-word-search", "chemistry-word-search", "physics-word-search", "geology-word-search", "weather-word-search"),
++    relatedTopics: routesFor("space-word-search", "solar-system-word-search", "biology-word-search", "chemistry-word-search", "physics-word-search", "geology-word-search", "weather-word-search", "periodic-table-word-search", "genetics-word-search"),
+     publicationStatus: "published",
+     metaTitle: "Science Word Search Worksheets | Printable with Answers",
+-    metaDescription: "Print science word search worksheets covering space, the solar system, biology, chemistry, physics, geology, and weather.",
+-    selectionGuidance: "Space, the Solar System, Geology, and Weather use Medium grids. Biology, Chemistry, and Physics use larger Hard grids with twenty terms.",
++    metaDescription: "Print science word search worksheets covering space, biology, genetics, chemistry, the periodic table, physics, geology, and weather.",
++    selectionGuidance: "Space, the Solar System, Geology, and Weather use Medium grids. Biology, Genetics, Chemistry, the Periodic Table, and Physics use larger Hard grids with twenty terms.",
+     relatedCollections: ["classroom-word-search-worksheets", "hard-printable-word-searches"],
+     categorySlugs: ["science-word-searches", "nature-and-weather-word-searches"],
+     reviewedOn
+@@ -152,14 +152,14 @@ const publishedCollections = [
+   {
+     slug: "geography-word-search-worksheets",
+     title: "Geography Word Search Worksheets",
+-    description: "Printable geography puzzles covering maps, regions, waterways, landforms, countries, and capitals.",
++    description: "Printable geography puzzles covering maps, regions, waterways, landforms, countries, capitals, landmarks, and U.S. national parks.",
+     words: [],
+     angle: "Choose a reviewed geography worksheet by region or physical-geography topic.",
+-    relatedTopics: routesFor("continents-word-search", "oceans-word-search", "world-capitals-word-search", "us-states-word-search", "canada-word-search", "map-vocabulary-word-search", "landforms-word-search", "europe-word-search", "asia-word-search", "africa-word-search", "north-america-word-search", "south-america-word-search", "mountains-word-search", "rivers-word-search"),
++    relatedTopics: routesFor("continents-word-search", "oceans-word-search", "world-capitals-word-search", "us-states-word-search", "canada-word-search", "map-vocabulary-word-search", "landforms-word-search", "europe-word-search", "asia-word-search", "africa-word-search", "north-america-word-search", "south-america-word-search", "mountains-word-search", "rivers-word-search", "countries-word-search", "state-capitals-word-search", "landmarks-word-search", "national-parks-word-search"),
+     publicationStatus: "published",
+     metaTitle: "Geography Word Search Worksheets | Free Printables",
+-    metaDescription: "Print geography word searches covering continents, countries, capitals, maps, landforms, oceans, and regional vocabulary.",
+-    selectionGuidance: "Use regional puzzles for place vocabulary and landform, mountain, river, ocean, or map puzzles for physical and map-reading terms. Difficulty labels describe the grid, not a grade level.",
++    metaDescription: "Print geography word searches covering continents, countries, capitals, maps, landforms, landmarks, oceans, and national parks.",
++    selectionGuidance: "Use regional, country, capital, landmark, and national park puzzles for place vocabulary, or choose landform, mountain, river, ocean, and map topics for physical and map-reading terms. Difficulty labels describe the grid, not a grade level.",
+     relatedCollections: ["classroom-word-search-worksheets", "travel-word-search-printables"],
+     categorySlugs: ["geography-word-searches", "nature-and-weather-word-searches"],
+     reviewedOn
+@@ -197,14 +197,14 @@ const publishedCollections = [
+   {
+     slug: "history-word-search-worksheets",
+     title: "History Word Search Worksheets",
+-    description: "Printable history puzzles about six broad periods from ancient civilizations through industrialization.",
++    description: "Printable history puzzles spanning ancient civilizations, later historical periods, the American Revolution, and the U.S. Civil Rights Movement.",
+     words: [],
+     angle: "Use these general-history vocabulary lists as a compact review alongside fuller historical sources.",
+     relatedTopics: bySegment("history"),
+     publicationStatus: "published",
+     metaTitle: "History Word Search Worksheets | Free Printable Puzzles",
+-    metaDescription: "Browse printable history word searches about ancient Egypt, Greece, Rome, medieval times, the Renaissance, and industrialization.",
+-    selectionGuidance: "The six pages cover Ancient Egypt, Ancient Greece, Ancient Rome, Medieval Times, the Renaissance, and the Industrial Revolution without relying on fictional franchises.",
++    metaDescription: "Browse printable history word searches from ancient Egypt, Greece, and Rome through the American Revolution and Civil Rights Movement.",
++    selectionGuidance: "Choose from Ancient Egypt, Ancient Greece, Ancient Rome, Medieval Times, the Renaissance, the Industrial Revolution, the American Revolution, and the Civil Rights Movement. Use each focused word list alongside fuller historical sources.",
+     relatedCollections: ["classroom-word-search-worksheets", "geography-word-search-worksheets"],
+     categorySlugs: ["history-word-searches"],
+     reviewedOn
+diff --git a/content/discovery.ts b/content/discovery.ts
+index 9805840..78f4189 100644
+--- a/content/discovery.ts
++++ b/content/discovery.ts
+@@ -140,10 +140,10 @@ export const easyPicks = [
+ 
+ export const hardPicks = [
+   "science/biology-word-search",
+-  "science/scientific-method-word-search",
++  "science/genetics-word-search",
+   "geography/us-states-word-search",
+-  "geography/asia-word-search",
+-  "math/algebra-word-search",
++  "geography/national-parks-word-search",
++  "history/civil-rights-word-search",
+   "history/industrial-revolution-word-search"
+ ].map(topicLink);
+ 
+diff --git a/content/topics.ts b/content/topics.ts
+index 446875c..b694424 100644
+--- a/content/topics.ts
++++ b/content/topics.ts
+@@ -1,4 +1,5 @@
+ import { categories } from "@/content/categories";
++import { curatedTopicsGrowth } from "@/content/curated-topics-growth";
+ import { curatedTopicsPrompt6 } from "@/content/curated-topics-prompt6";
+ import { curatedTopics } from "@/content/curated-topics";
+ import type { Difficulty } from "@/lib/puzzle/types";
+@@ -114,7 +115,7 @@ const replacedDraftAliases = new Set([
+   "gardening-word-search"
+ ]);
+ 
+-const publishedTopicSources = [...curatedTopics, ...curatedTopicsPrompt6];
++const publishedTopicSources = [...curatedTopics, ...curatedTopicsPrompt6, ...curatedTopicsGrowth];
+ const curatedTopicNames = new Set(publishedTopicSources.map((topic) => topic.topicSlug));
+ 
+ function relatedRoutesFor(routeSlug: string, categorySegment: string, difficulty?: Difficulty) {
+diff --git a/tests/content/curated-publication.test.ts b/tests/content/curated-publication.test.ts
+index ba79d28..0cda23f 100644
+--- a/tests/content/curated-publication.test.ts
++++ b/tests/content/curated-publication.test.ts
+@@ -64,16 +64,17 @@ describe("reviewed curated publication", () => {
+     }
+   });
+ 
+-  test("keeps all 150 published puzzles globally unique and reviewed", () => {
+-    expect(puzzleRecords).toHaveLength(150);
+-    expect(new Set(puzzleRecords.map((record) => record.canonicalPath)).size).toBe(150);
+-    expect(new Set(puzzleRecords.map((record) => record.puzzle.seed)).size).toBe(150);
+-    expect(new Set(puzzleRecords.map((record) => normalizeWords(record.puzzle.words).join("\u001f"))).size).toBe(150);
+-    expect(new Set(puzzleRecords.map((record) => [...normalizeWords(record.puzzle.words)].sort().join("\u001f"))).size).toBe(150);
+-    expect(new Set(puzzleRecords.map((record) => generatedPuzzleFingerprints(record).complete)).size).toBe(150);
+-    expect(new Set(puzzleRecords.map((record) => record.metadata.title)).size).toBe(150);
+-    expect(new Set(puzzleRecords.map((record) => record.metadata.description)).size).toBe(150);
+-    expect(puzzleRecords.every((record) => record.lastReviewed === "2026-07-25")).toBe(true);
++  test("keeps all 158 published puzzles globally unique and reviewed", () => {
++    expect(puzzleRecords).toHaveLength(158);
++    expect(new Set(puzzleRecords.map((record) => record.canonicalPath)).size).toBe(158);
++    expect(new Set(puzzleRecords.map((record) => record.puzzle.seed)).size).toBe(158);
++    expect(new Set(puzzleRecords.map((record) => normalizeWords(record.puzzle.words).join("\u001f"))).size).toBe(158);
++    expect(new Set(puzzleRecords.map((record) => [...normalizeWords(record.puzzle.words)].sort().join("\u001f"))).size).toBe(158);
++    expect(new Set(puzzleRecords.map((record) => generatedPuzzleFingerprints(record).complete)).size).toBe(158);
++    expect(new Set(puzzleRecords.map((record) => record.metadata.title)).size).toBe(158);
++    expect(new Set(puzzleRecords.map((record) => record.metadata.description)).size).toBe(158);
++    expect(puzzleRecords.filter((record) => record.lastReviewed === "2026-07-25")).toHaveLength(150);
++    expect(puzzleRecords.filter((record) => record.lastReviewed === "2026-09-14")).toHaveLength(8);
+   });
+ 
+   test("places every supplied word deterministically with exact A-Z answer paths", () => {
+@@ -145,13 +146,14 @@ describe("reviewed curated publication", () => {
+       expect(collection.relatedTopics.every((slug) => topics.some((topic) => topic.slug === slug && topic.publicationStatus === "published"))).toBe(true);
+       expect(collection.reviewedOn).toBe("2026-07-25");
+     }
+-    expect(published.find((collection) => collection.slug === "word-searches-with-answer-keys")?.relatedTopics).toHaveLength(150);
++    expect(published.find((collection) => collection.slug === "word-searches-with-answer-keys")?.relatedTopics).toHaveLength(158);
+     expect(published.find((collection) => collection.slug === "animal-word-search-printables")?.relatedTopics).toHaveLength(14);
+-    expect(published.find((collection) => collection.slug === "hard-printable-word-searches")?.relatedTopics).toHaveLength(16);
+-    expect(published.find((collection) => collection.slug === "geography-word-search-worksheets")?.relatedTopics).toHaveLength(14);
++    expect(published.find((collection) => collection.slug === "hard-printable-word-searches")?.relatedTopics).toHaveLength(24);
++    expect(published.find((collection) => collection.slug === "science-word-search-worksheets")?.relatedTopics).toHaveLength(9);
++    expect(published.find((collection) => collection.slug === "geography-word-search-worksheets")?.relatedTopics).toHaveLength(18);
+     expect(published.find((collection) => collection.slug === "language-arts-word-search-worksheets")?.relatedTopics).toHaveLength(14);
+     expect(published.find((collection) => collection.slug === "math-word-search-worksheets")?.relatedTopics).toHaveLength(12);
+-    expect(published.find((collection) => collection.slug === "history-word-search-worksheets")?.relatedTopics).toHaveLength(6);
++    expect(published.find((collection) => collection.slug === "history-word-search-worksheets")?.relatedTopics).toHaveLength(8);
+     expect(published.find((collection) => collection.slug === "travel-word-search-printables")?.relatedTopics).toHaveLength(10);
+   });
+ 
+@@ -183,8 +185,8 @@ describe("reviewed curated publication", () => {
+ 
+   test("keeps the exact justified indexation and sitemap inventory", () => {
+     const sitemap = getSitemapRecords();
+-    expect(sitemap).toHaveLength(217);
+-    expect(sitemap.filter((record) => record.contentType === "puzzle")).toHaveLength(150);
++    expect(sitemap).toHaveLength(225);
++    expect(sitemap.filter((record) => record.contentType === "puzzle")).toHaveLength(158);
+     expect(sitemap.filter((record) => record.contentType === "collection")).toHaveLength(13);
+     expect(sitemap.filter((record) => record.contentType === "guide")).toHaveLength(12);
+     expect(sitemap.filter((record) => record.id.startsWith("category-"))).toHaveLength(15);
+@@ -220,7 +222,7 @@ describe("reviewed curated publication", () => {
+   });
+ 
+   test("searches all published puzzles, collections, and guides without draft leakage", () => {
+-    expect(searchCatalog.filter((item) => item.type === "Puzzle")).toHaveLength(150);
++    expect(searchCatalog.filter((item) => item.type === "Puzzle")).toHaveLength(158);
+     expect(searchCatalog.filter((item) => item.type === "Collection")).toHaveLength(13);
+     expect(searchCatalog.filter((item) => item.type === "Guide")).toHaveLength(12);
+     expect(searchCatalog.some((item) => item.title === "Dog Word Search" && item.terms.includes("PUPPY"))).toBe(true);
+diff --git a/tests/e2e/accessibility.mjs b/tests/e2e/accessibility.mjs
+index 8a3a45e..fae0b35 100644
+--- a/tests/e2e/accessibility.mjs
++++ b/tests/e2e/accessibility.mjs
+@@ -7,6 +7,9 @@ const routes = [
+   "/word-search-generator",
+   "/word-searches/animals/dog-word-search",
+   "/word-searches/history/ancient-egypt-word-search",
++  "/word-searches/geography/landmarks-word-search",
++  "/word-searches/history/civil-rights-word-search",
++  "/word-searches/science/genetics-word-search",
+   "/categories/animals-word-searches",
+   "/collections/easy-printable-word-searches",
+   "/guides/how-to-print-a-word-search",
+diff --git a/tests/e2e/browser-smoke.mjs b/tests/e2e/browser-smoke.mjs
+index bae59e6..e8ffb0c 100644
+--- a/tests/e2e/browser-smoke.mjs
++++ b/tests/e2e/browser-smoke.mjs
+@@ -35,6 +35,10 @@ const routes = [
+   "/word-searches/animals/ocean-animals-word-search",
+   "/word-searches/science/biology-word-search",
+   "/word-searches/geography/world-capitals-word-search",
++  "/word-searches/geography/countries-word-search",
++  "/word-searches/geography/state-capitals-word-search",
++  "/word-searches/geography/landmarks-word-search",
++  "/word-searches/geography/national-parks-word-search",
+   "/word-searches/language-arts/nouns-word-search",
+   "/word-searches/math/fractions-word-search",
+   "/word-searches/sports/soccer-word-search",
+@@ -42,10 +46,14 @@ const routes = [
+   "/word-searches/holidays/spring-word-search",
+   "/word-searches/holidays/halloween-word-search",
+   "/word-searches/history/ancient-egypt-word-search",
++  "/word-searches/history/american-revolution-word-search",
++  "/word-searches/history/civil-rights-word-search",
+   "/word-searches/travel/road-trip-word-search",
+   "/word-searches/music/musical-instruments-word-search",
+   "/word-searches/books-and-reading/reading-word-search",
+   "/word-searches/art/painting-word-search",
++  "/word-searches/science/periodic-table-word-search",
++  "/word-searches/science/genetics-word-search",
+   "/collections/easy-printable-word-searches",
+   "/collections/medium-word-searches",
+   "/collections/hard-printable-word-searches",
+diff --git a/tests/e2e/route-audit-manifest.json b/tests/e2e/route-audit-manifest.json
+index 2307579..4a01ed2 100644
+--- a/tests/e2e/route-audit-manifest.json
++++ b/tests/e2e/route-audit-manifest.json
+@@ -1,6 +1,6 @@
+ {
+   "canonicalHost": "https://www.ilovewordsearch.com",
+-  "sitemapCount": 217,
++  "sitemapCount": 225,
+   "redirects": [
+     { "source": "/word-searches/animals/dogs-word-search", "target": "/word-searches/animals/dog-word-search" },
+     { "source": "/word-searches/animals/cats-word-search", "target": "/word-searches/animals/cat-word-search" },
+diff --git a/tests/e2e/static-export-audit.mjs b/tests/e2e/static-export-audit.mjs
+index 0dd2005..ec58414 100644
+--- a/tests/e2e/static-export-audit.mjs
++++ b/tests/e2e/static-export-audit.mjs
+@@ -89,7 +89,7 @@ for (const pathname of sitemapPaths) {
+ 
+ const searchIndex = JSON.parse(await readFile(resolve(out, "search-index.json"), "utf8"));
+ if (!Array.isArray(searchIndex) || searchIndex.length < 200) fail("static search index is missing expected records");
+-if (searchIndex.filter((item) => item.type === "Puzzle").length !== 150) fail("static search index does not contain all 150 curated puzzles");
++if (searchIndex.filter((item) => item.type === "Puzzle").length !== 158) fail("static search index does not contain all 158 curated puzzles");
+ 
+ const sourceFiles = [];
+ async function collect(directory) {
+diff --git a/tests/seo/routes.test.ts b/tests/seo/routes.test.ts
+index 9c80e0b..1f89f1f 100644
+--- a/tests/seo/routes.test.ts
++++ b/tests/seo/routes.test.ts
+@@ -14,7 +14,7 @@ describe("route and content architecture", () => {
+     expect(collections.filter((collection) => collection.publicationStatus === "published")).toHaveLength(13);
+     expect(guides.filter((guide) => guide.publicationStatus === "published")).toHaveLength(12);
+     expect(specialtyRoutes).toHaveLength(13);
+-    expect(topics.filter((topic) => topic.publicationStatus === "published")).toHaveLength(150);
++    expect(topics.filter((topic) => topic.publicationStatus === "published")).toHaveLength(158);
+   });
+ 
+   test("validates structured content", () => {
+diff --git a/tests/seo/seo-architecture.test.ts b/tests/seo/seo-architecture.test.ts
+index 6ace23a..0004f42 100644
+--- a/tests/seo/seo-architecture.test.ts
++++ b/tests/seo/seo-architecture.test.ts
+@@ -13,7 +13,7 @@ describe("central SEO architecture", () => {
+     expect(urls.every((url) => url.startsWith(SITE_URL))).toBe(true);
+     expect(urls).toEqual(expect.arrayContaining([`${SITE_URL}/about`, `${SITE_URL}/how-word-searches-are-made`, `${SITE_URL}/editorial-policy`, `${SITE_URL}/contact`, `${SITE_URL}/accessibility`, `${SITE_URL}/privacy`, `${SITE_URL}/terms`, `${SITE_URL}/copyright`, `${SITE_URL}/topics`]));
+     for (const pattern of utilityRoutePatterns) expect(urls.some((url) => url.includes(pattern.replace("[id]", "")))).toBe(false);
+-    expect(urls.filter((url) => url.includes("/word-searches/"))).toHaveLength(150);
++    expect(urls.filter((url) => url.includes("/word-searches/"))).toHaveLength(158);
+   });
+ 
+   test("registry has unique metadata and canonical URLs for indexable routes", () => {
+diff --git a/tests/unit/launch-readiness.test.ts b/tests/unit/launch-readiness.test.ts
+index 2553a93..8349400 100644
+--- a/tests/unit/launch-readiness.test.ts
++++ b/tests/unit/launch-readiness.test.ts
+@@ -15,7 +15,7 @@ describe("launch readiness safeguards", () => {
+       .sort((a, b) => a.source.localeCompare(b.source));
+     expect(manifest.redirects.slice().sort((a, b) => a.source.localeCompare(b.source))).toEqual(registryRedirects);
+     expect(registryRedirects).toHaveLength(22);
+-    expect(manifest.sitemapCount).toBe(217);
++    expect(manifest.sitemapCount).toBe(225);
+   });
+ 
+   test("ad placeholders use the six-role contract and ad-free templates reject them", () => {

@@ -5,9 +5,21 @@
 Use [PRODUCT-ACCEPTANCE.md](PRODUCT-ACCEPTANCE.md) and its validated JSON for the
 definitive feature-by-feature status; older recovery tables below are historical.
 Draft PR70 combines the later packages on tested03, with no main merge or
-production deployment. The43-feature ledger currently records35 TESTED,4 IN PROGRESS,
+production deployment. The44-feature ledger currently records36 TESTED,4 IN PROGRESS,
 2 MANUAL ACCEPTANCE PENDING,1 BLOCKED and1 OWNER-DEFERRED; zero DONE approvals.
 TESTED refers to recorded package evidence, not automatic combined acceptance.
+
+The independent final review branch now integrates90–95: authored Christmas
+collection review, precise functional fixtures, one Christian Nativity draft,
+substitute-folder curation, five real30-target utility sheets and actual hard/
+answer collection finding/sorting. Main staged catalog is61 (original60 preserved),
+all unpublished. FrozenF passed48 current functional suites with retained fixture
+history and a mapped current-footer replacement; the historical cosmetic-only
+comparator is not claimed passed. H10 passes14 focused cases, initial/hydration
+CLS0. A reproduced large-query slowdown is being bounded consistently before
+the new combined freeze. Final448 visual, quiet84CLS, ordinary Lighthouse and
+exact hosted acceptance remain open. The authorized shutdown follows only after
+all useful work and the pushed handoff; see OVERNIGHT-SESSION-CONTROL-2026-11-06.md.
 
 Frozen a3988 independent audits pass:150 production definitions/results,
 217 sitemap metadata/JSON-LD and35 redirects unchanged;1200 published PDF hashes

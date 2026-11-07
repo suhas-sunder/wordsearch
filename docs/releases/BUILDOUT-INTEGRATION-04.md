@@ -4,6 +4,28 @@ Draft [PR70](https://github.com/suhas-sunder/wordsearch/pull/70), branch
 `codex/product-candidate-04`, based on frozen03. This is an active development
 record, not a final release candidate or product acceptance claim.
 
+## Final-review continuation after frozenF
+
+`26fa36d1113ecbef7721ed158aa9441cd16c57d2` passed48 current functional suites:
+47 original suites plus an explicitly mapped current-footer acceptance check.
+The old cosmetic-only comparator remains unchanged/not applicable; it is not
+falsely counted as passed. All failed fixture/runner attempts are preserved.
+
+Independent `codex/final-product-acceptance` integrates90–95, including authored
+Christmas/substitute collection review, one narrowly sourced Christian Nativity
+draft and real30-target challenge packets. Main staged count61 preserves the
+original60 source/fingerprint aggregates. Runtime H10 collection controls pass
+14 focused cases, zero initial/hydration CLS,531 tests and build335/static checks.
+A confirmed oversized pasted-query slowdown is being fixed in a separate package.
+The next combined export requires full448 visual, quiet84 utility CLS, unchanged
+Lighthouse gates, fresh source/PDF/export checks and actual hosted acceptance.
+
+[The final candidate record](PRODUCT-RELEASE-CANDIDATE-04.md) is still in progress.
+[Overnight session control](OVERNIGHT-SESSION-CONTROL-2026-11-06.md) records the
+new explicit shutdown authorization, previous-session findings and required gates.
+The original dirty preparation remains untouched and has a verbatim recovery
+archive under `recovery/owner-growth-2026-11-06`; its publishing flags are not approval.
+
 ## Acceptance repairs after the first freeze
 
 Application `a3988b546eedf44c772691dbe65a139b1a74a523` was independently audited:
