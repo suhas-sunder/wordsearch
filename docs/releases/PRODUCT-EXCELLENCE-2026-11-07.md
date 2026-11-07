@@ -91,3 +91,58 @@ Netlify did not build the nested PR103 because its base is the preserved review
 branch, rather than an enabled deploy base. A separate draft release-candidate
 PR against main will produce the review preview. This does not merge main,
 change the frozen PR97 baseline, or authorize production deployment.
+
+
+## Independent C2 review corrections — final integration in progress
+
+C2 `d9947d7` was verified READY in draft PR108 at immutable deploy
+`6aef4c73954d65ee7c648251`. It passed a fresh clean Node22 install, lint/type,
+677/84 tests,335-page build/static217/35/6, zero full/production dependency audits,
+all11 hosted suites (23 actual PDF files/79 pages), all448 automated visual cases,
+and a new actual1200-PDF baseline comparison. The whole corpus JSON is byte-exact
+with the original: SHA256 `80c5c79cec367c7a50e9eea5229c6c7c12d281b860d784c1ddb03cc2cd2444d2`.
+The separate source/static audit renders0PDFs and verifies150 definitions,
+217metadata/JSONLD,35redirects and staged isolation. These are C2-scoped results;
+C2 is **not final acceptance**.
+
+Independent image/task review found real defects beyond geometry passes:
+
+- **PR109 `6d170c5`:** a settled invalid clue retained1733px mobile/2102px desktop
+  space and aria-busy=true. Actual pending reservation remains; settled errors
+  are naturally148px/116px and not busy, no fallback output, with exact grid and
+  keyboard recovery. Full677/build/static plus new lifecycle and existing
+  clue/PDF/input regressions pass on that package.
+- **PR110 `321c309`:** five footer columns split ordinary words at200% text.
+  Intrinsic wrapping preserves the default wider-brand/five-column layout and
+  existing text/links. All32 actual readability/keyboard/axe/print/preservation
+  cases pass, with per-word ranges and matched natural platform-font/glyph proof.
+  Early harness failures (font readiness and hidden-ad rectangle accounting) are
+  retained; no runtime font policy, tolerance or protected ad code changed.
+- **PR111 `abc78e0`:** no-JavaScript search reloaded its hub and dropped the query.
+  The form now uses native GET /search with name=q; hydrated router/suggestions
+  remain. A dedicated noindex search notice truthfully explains the static browse
+  fallback. Nine true-noJS cases, two hydrated cases, six bounded-query cases,
+  full677/build/static/lint/type pass. The pre-existing14-hub native search and
+  generator panel was actually reviewed on two hubs/8contexts and **kept**:
+  readable, useful keyboard/no-JS navigation, no confirmed obstruction.
+
+Root batches the independently reviewed sole /search task-help shortening,
+contextual PDF-dialog guidance, and clearer print/PDF/answer/play/custom utility
+help. Existing privacy, validation, generation, metadata and output guarantees
+remain. The advanced-settings fixture was stale after approved scaffold→preview
+copy: its two assertions now check the complete display-adjusted limitation and
+exact readiness label; all13 noJS limitations/noindex assertions remain. The
+corrected fixture passes against unchanged C2. The original failures are retained.
+
+Both root WIP snapshots are losslessly preserved locally and remotely:
+`bdfe33a6` at `codex/recovery-product-excellence-wip` (original48-case fixture in
+its third parent), and `7e65ff09` at `codex/recovery-product-excellence-copy-wip`
+(the seven-file copy/shutdown/handbook draft before final integration). All
+worker packages are pushed; no useful running test was discarded. Original
+owner13files and raw recovery749b5ab remain separate and untouched.
+
+Fresh combined validation of these corrections remains mandatory. Source B/R,
+C1 and C2 evidence is historical, not relabeled as a pass for the new application.
+See the public-copy audit for additional existing CategoryC proposals, including
+the teacher collection mismatch; these are separate from13 observed changed-field
+holds across7routes. No indexed editorial correction or publication is implied.

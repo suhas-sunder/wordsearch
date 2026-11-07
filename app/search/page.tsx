@@ -16,7 +16,7 @@ export default function SearchPage() {
         <div className="section-heading">
           <span className="eyebrow">Curated catalog</span>
           <h1>Search Word Searches</h1>
-          <p>Search existing puzzles, categories, collections, guides, and primary tools. Arbitrary queries do not create public puzzle pages.</p>
+          <p>Search puzzles, categories, collections, guides and tools.</p>
         </div>
         <noscript><p className="control-help">Search results need JavaScript. Without it, your query stays in the address bar but isn&apos;t shown in the search box. Browse topics, categories or guides below.</p></noscript>
         <SearchPageClient />

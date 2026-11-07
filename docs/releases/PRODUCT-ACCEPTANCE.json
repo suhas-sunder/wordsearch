@@ -522,6 +522,30 @@
       "sha": "656719630b0ec726e5a1d073b8e061239207cd33",
       "branch": "codex/excellence-enlarged-text",
       "draft": true
+    },
+    "108": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/108",
+      "sha": "d9947d7434d17e5f08dadbdbe907b95bdde3fd46",
+      "branch": "codex/product-excellence-release-candidate",
+      "draft": true
+    },
+    "109": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/109",
+      "sha": "6d170c542e0adce8c7ec8a72ace363a81ad04402",
+      "branch": "codex/excellence-builder-error-recovery",
+      "draft": true
+    },
+    "110": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/110",
+      "sha": "321c309a02daf5f84bc205ed3b714b2e03abecbb",
+      "branch": "codex/excellence-footer-text-reflow",
+      "draft": true
+    },
+    "111": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/111",
+      "sha": "abc78e06b5777cc26cff12dd203bd7447a9ac9d5",
+      "branch": "codex/excellence-native-search-fallback",
+      "draft": true
     }
   },
   "features": [
@@ -640,7 +664,8 @@
       ],
       "prs": [
         33,
-        107
+        107,
+        111
       ],
       "checks": [
         "npm run test:navigation"
@@ -648,19 +673,20 @@
       "evidence": [
         "tests/e2e/header-navigation.mjs"
       ],
-      "remaining": "PR107 enlarged-text/header/footer source is locally integrated. Fresh combined exact-source browser/visual/keyboard/ad/SEO validation remains; historical evidence below is retained.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. PR107 enlarged-text/header/footer source is locally integrated. Fresh combined exact-source browser/visual/keyboard/ad/SEO validation remains; historical evidence below is retained.",
       "manualApproval": false
     },
     {
       "id": "F1.discovery",
       "title": "Shared search and All Tools on useful templates",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         6
       ],
       "prs": [
         48,
-        96
+        96,
+        111
       ],
       "checks": [
         "node tests/e2e/contextual-discovery.mjs"
@@ -669,7 +695,7 @@
         "docs/releases/BUILDOUT-U05-SEARCH.md",
         "docs/releases/BUILDOUT-BOUNDED-SEARCH-QUERIES.md"
       ],
-      "remaining": "Final template/print/ad geometry review pending.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. Final template/print/ad geometry review pending.",
       "manualApproval": false
     },
     {
@@ -776,7 +802,8 @@
         57,
         60,
         62,
-        107
+        107,
+        110
       ],
       "checks": [
         "Trust metadata, browser and accessibility tests"
@@ -785,7 +812,7 @@
         "docs/releases/BUILDOUT-U08.md",
         "docs/releases/BUILDOUT-F1-VISUAL.md"
       ],
-      "remaining": "PR107 enlarged-text/header/footer source is locally integrated. Fresh combined exact-source browser/visual/keyboard/ad/SEO validation remains; historical evidence below is retained.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. PR107 enlarged-text/header/footer source is locally integrated. Fresh combined exact-source browser/visual/keyboard/ad/SEO validation remains; historical evidence below is retained.",
       "manualApproval": false
     },
     {
@@ -819,7 +846,8 @@
       "prs": [
         42,
         69,
-        107
+        107,
+        110
       ],
       "checks": [
         "node tests/e2e/theme.mjs"
@@ -829,7 +857,7 @@
         "tests/unit/theme.test.ts",
         "docs/releases/BUILDOUT-THEME-CONTROL.md"
       ],
-      "remaining": "PR107 enlarged-text/header/footer source is locally integrated. Fresh combined exact-source browser/visual/keyboard/ad/SEO validation remains; historical evidence below is retained.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. PR107 enlarged-text/header/footer source is locally integrated. Fresh combined exact-source browser/visual/keyboard/ad/SEO validation remains; historical evidence below is retained.",
       "manualApproval": false
     },
     {
@@ -848,7 +876,10 @@
         69,
         87,
         88,
-        99
+        99,
+        109,
+        110,
+        111
       ],
       "checks": [
         "320/390/768/1024/1280/1600 light/dark screenshot and axe matrix"
@@ -863,19 +894,20 @@
         "docs/releases/FINAL-B-VISUAL-UTILITY-EVIDENCE.md",
         "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FrozenB448/448 full visual matrix passes,0failures/0notices,28archetypes x8profiles x2themes. Full176source/747disk/747HTTP guards pass unchanged. Sixteen unique images individually reviewed; no claim all448 manually inspected. Native zoom/physical devices/owner visual approval remain separate.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FrozenB448/448 full visual matrix passes,0failures/0notices,28archetypes x8profiles x2themes. Full176source/747disk/747HTTP guards pass unchanged. Sixteen unique images individually reviewed; no claim all448 manually inspected. Native zoom/physical devices/owner visual approval remain separate.",
       "manualApproval": false
     },
     {
       "id": "F2.clues",
       "title": "Actual opt-in clue banks and teacher answer alignment",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13,
         18
       ],
       "prs": [
-        78
+        78,
+        109
       ],
       "checks": [
         "Exact parsed-ID alignment, punctuation-safe input, excluded/duplicate entries, preview/PDF/HTML and old-request parity"
@@ -884,18 +916,19 @@
         "ai-issues/2026-11-06-buildout-catalog-and-release-queue.md",
         "docs/releases/BUILDOUT-T02-CLUE-WORKSHEETS.md"
       ],
-      "remaining": "Actual numbered student clues/teacher mappings, punctuation-safe input, solver and real PDF/HTML checks pass.1200 historical PDF hashes unchanged. Final combined and user-written clue review remain separate.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. Actual numbered student clues/teacher mappings, punctuation-safe input, solver and real PDF/HTML checks pass.1200 historical PDF hashes unchanged. Final combined and user-written clue review remain separate.",
       "manualApproval": false
     },
     {
       "id": "F2.feedback",
       "title": "Optional default-off local word-found sound and reduced-motion feedback",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13
       ],
       "prs": [
-        81
+        81,
+        109
       ],
       "checks": [
         "Node22 lint/typecheck/475tests/build335/static",
@@ -904,7 +937,7 @@
       "evidence": [
         "docs/releases/BUILDOUT-SOLVER-SOUND.md"
       ],
-      "remaining": "Actual browser lifecycle tests pass; no external assets/network or default sound. Physical sound/device quality remains manual; final combined regression pending.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. Actual browser lifecycle tests pass; no external assets/network or default sound. Physical sound/device quality remains manual; final combined regression pending.",
       "manualApproval": false
     },
     {
@@ -923,7 +956,8 @@
         78,
         82,
         83,
-        86
+        86,
+        109
       ],
       "checks": [
         "Settings matrix, input/direction/preview regression"
@@ -937,7 +971,7 @@
         "docs/releases/BUILDOUT-F2-SETTINGS-MATRIX.md",
         "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Actual overlap, auto/manual size, difficulty/directions, files, seed, instructions, eight packs, filler/hidden-message fallbacks, clues, case and recovery workflows pass; unsupported controls are explained/disabled, accepted legacy behavior retained. Final combined43-feature validation and physical/device acceptance remain separate.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Actual overlap, auto/manual size, difficulty/directions, files, seed, instructions, eight packs, filler/hidden-message fallbacks, clues, case and recovery workflows pass; unsupported controls are explained/disabled, accepted legacy behavior retained. Final combined43-feature validation and physical/device acceptance remain separate.",
       "manualApproval": false
     },
     {
@@ -950,7 +984,9 @@
       "prs": [
         16,
         83,
-        96
+        96,
+        109,
+        111
       ],
       "checks": [
         "npm run test:inputs",
@@ -962,13 +998,13 @@
         "docs/releases/BUILDOUT-BOUNDED-SEARCH-QUERIES.md",
         "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Empty/unsupported/all-too-long and actual seed-dependent zero-placement states now fail closed with editable recovery; malformed states stay generic. Central post-placement guard and500tests/browser/cache regressions pass; valid150/1200 fingerprints unchanged. Final combined rerun remains.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Empty/unsupported/all-too-long and actual seed-dependent zero-placement states now fail closed with editable recovery; malformed states stay generic. Central post-placement guard and500tests/browser/cache regressions pass; valid150/1200 fingerprints unchanged. Final combined rerun remains.",
       "manualApproval": false
     },
     {
       "id": "F2.solver",
       "title": "Mouse, touch, keyboard, replay and accurate solved state",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13
       ],
@@ -976,7 +1012,8 @@
         37,
         47,
         63,
-        66
+        66,
+        108
       ],
       "checks": [
         "Full browser pointer/touch/tap/keyboard solver matrix"
@@ -985,20 +1022,21 @@
         "tests/e2e/browser-smoke.mjs",
         "docs/releases/BUILDOUT-F2-SINGLE-CELL.md"
       ],
-      "remaining": "One-cell regression repaired across keyboard/pointer/tap. Physical Safari/Android and assistive-technology checks remain manual.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. One-cell regression repaired across keyboard/pointer/tap. Physical Safari/Android and assistive-technology checks remain manual.",
       "manualApproval": false
     },
     {
       "id": "F2.sharing",
       "title": "Reliable native/copy/QR sharing and private completion stats",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         15
       ],
       "prs": [
         21,
         37,
-        73
+        73,
+        108
       ],
       "checks": [
         "npm run test:completion",
@@ -1009,7 +1047,7 @@
         "docs/releases/BUILDOUT-B09-COMPLETION.md",
         "docs/releases/BUILDOUT-SHARE-DESTINATIONS.md"
       ],
-      "remaining": "Explicit WhatsApp/email links, pre-action word-list privacy disclosure, copy recovery and native cancellation pass16 responsive light/dark cases. Real provider delivery/native devices/QR scanning and final combined acceptance remain manual.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. Explicit WhatsApp/email links, pre-action word-list privacy disclosure, copy recovery and native cancellation pass16 responsive light/dark cases. Real provider delivery/native devices/QR scanning and final combined acceptance remain manual.",
       "manualApproval": false
     },
     {
@@ -1440,12 +1478,13 @@
     {
       "id": "F5.security",
       "title": "Production and development dependency security",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [],
       "prs": [
         39,
         45,
-        97
+        97,
+        111
       ],
       "checks": [
         "npm audit",
@@ -1455,18 +1494,19 @@
       "evidence": [
         "docs/releases/BUILDOUT-TOOLING-SECURITY.md"
       ],
-      "remaining": "DirectNode22.23.4 frozenB full and production-only npm audits both report0vulnerabilities with unchanged lockfile. Candidate remediation is not deployed to production. Repeat only if dependencies/source or advisory evidence changes.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. DirectNode22.23.4 frozenB full and production-only npm audits both report0vulnerabilities with unchanged lockfile. Candidate remediation is not deployed to production. Repeat only if dependencies/source or advisory evidence changes.",
       "manualApproval": false
     },
     {
       "id": "F5.ads-lifecycle",
       "title": "Preserve first-filled-ad global placeholder suppression",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [],
       "prs": [
         37,
         42,
-        84
+        84,
+        110
       ],
       "checks": [
         "npm run test:ads"
@@ -1475,7 +1515,7 @@
         "ai-issues/AD-PLACEHOLDER-SAFETY.md",
         "docs/releases/BUILDOUT-ADVERTISING-COPY.md"
       ],
-      "remaining": "FreshB monetization and visual/H10 geometry checks pass; protected ad sources remain unchanged. Nonperformance hosted correctness fixtures use explicit standard loader mocks, not genuine-fill approval. Real fill/consent and the3internal eligibility findings remain external/unwaived; draft policy copy84 requires owner acceptance.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. FreshB monetization and visual/H10 geometry checks pass; protected ad sources remain unchanged. Nonperformance hosted correctness fixtures use explicit standard loader mocks, not genuine-fill approval. Real fill/consent and the3internal eligibility findings remain external/unwaived; draft policy copy84 requires owner acceptance.",
       "manualApproval": false
     },
     {
@@ -1506,7 +1546,8 @@
       "prs": [
         37,
         51,
-        97
+        97,
+        111
       ],
       "checks": [
         "npm run audit:static-host",
@@ -1517,7 +1558,7 @@
         "docs/releases/FINAL-STATIC-PDF-PRESERVATION.md",
         "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FreshB150published defaults/fingerprints,217metadata/JSON-LD and35redirects match;61+8drafts and5H08seeds remain isolated across722text files. Hosted217sitemap/61draftpaths404 and encodedroute noindex/parity pass. Separate strict route-audit actualexit1 reproduces exactly3knownad-eligibility findings; no new SEO failures or waiver.",
+      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FreshB150published defaults/fingerprints,217metadata/JSON-LD and35redirects match;61+8drafts and5H08seeds remain isolated across722text files. Hosted217sitemap/61draftpaths404 and encodedroute noindex/parity pass. Separate strict route-audit actualexit1 reproduces exactly3knownad-eligibility findings; no new SEO failures or waiver.",
       "manualApproval": false
     },
     {

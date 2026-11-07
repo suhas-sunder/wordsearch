@@ -65,8 +65,8 @@ try {
   for (const route of specialtyRoutes) {
     await page.goto(`${base}/specialty/${route.slug}`, { waitUntil: "domcontentloaded" });
     const note = page.getByRole("note", { name: "Format readiness" });
-    assert.ok((await note.textContent())?.includes(route.status));
-    assert.ok((await note.textContent())?.toLowerCase().includes(route.implementation));
+    assert.ok((await note.textContent())?.includes(route.status.replace("This scaffold", "This preview")));
+    assert.ok((await note.textContent())?.includes(route.implementation === "scaffold" ? "Format not available yet" : "Experimental format — review limitations"));
     assert.ok(await page.locator('meta[name="robots"]').getAttribute("content").then((value) => value?.includes("noindex")));
   }
   await context.close();

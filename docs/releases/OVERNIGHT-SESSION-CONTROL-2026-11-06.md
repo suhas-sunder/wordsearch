@@ -74,3 +74,32 @@ The freeze helper now rejects any runtime other than the verified Node22.23.4,
 and the independent carry audit rejects a manifest with a mismatched runtime.
 Use the actual `node/bin/node.exe`, verify both direct and child `node --version`,
 and preserve failed or unsupported attempts rather than relabeling them.
+
+
+## November 7 follow-up: distinguish the later successful shutdown
+
+The earlier November5 no-command account above remains accurate for that older
+session. It must not be applied to the later overnight checkpoint. The later
+Codex log records `shutdown.exe /s /t 0` returning exit0. Fresh read-only Windows
+System-log inspection now supplies stronger corroboration:
+
+- Kernel-General event13 at **2026-11-07 07:24:05.649 UTC** says the operating
+  system is shutting down (02:24:05 Eastern).
+- EventLog6006 records the log stopping at02:23:54 Eastern.
+- Kernel-General event12 reports the next OS start at **13:41:13.500 UTC**
+  (08:41:13 Eastern); Win32_OperatingSystem.LastBootUpTime agrees.
+- EventLog6005 records the log starting at08:41:28 Eastern.
+
+These observations support a normal OS shutdown followed by a later boot;
+there is no evidence that the later session simply omitted the command or was
+rejected. They do not provide an external physical power measurement or explain
+who subsequently started the machine. No settings or forced-termination workaround
+is warranted. The workflow correction for the older missed shutdown remains the
+explicit completion→saved-handoff→actual-window/session checks→non-forced final
+command sequence, now being used for the excellence continuation.
+
+Sanitized exact event observations are external at
+`product-excellence/shutdown-investigation/kernel-general-12-13.json` and
+`eventlog-lifecycle.json` under the common November6 evidence root. This is a
+historical investigation, not permission to shut down while the new correction
+workers and validation jobs remain active. Final safety checks must be fresh.
