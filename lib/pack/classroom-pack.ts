@@ -6,14 +6,14 @@ export interface ClassroomPackInput {
   title: string;
   wordsText: string;
   seed: string;
-  count: 5 | 10;
+  count: 5 | 10 | 20;
 }
 
 /** Stable assignment numbers and exact user seed define each reproducible grid. */
 export function buildClassroomPack(input: ClassroomPackInput): PuzzlePack {
   if (!input || typeof input.title !== "string" || !/^[A-Za-z0-9][A-Za-z0-9 ' -]{0,79}$/.test(input.title) || input.title.trim() !== input.title || input.title.includes("  ")) throw new Error("Enter a title of 1–80 letters, numbers, spaces, apostrophes or hyphens, with single spaces and no spaces at either end.");
   if (typeof input.seed !== "string" || !/^[A-Za-z0-9_-]{1,64}$/.test(input.seed)) throw new Error("Enter a seed of 1–64 letters, numbers, underscores or hyphens.");
-  if (input.count !== 5 && input.count !== 10) throw new Error("Choose 5 or 10 puzzles.");
+  if (input.count !== 5 && input.count !== 10 && input.count !== 20) throw new Error("Choose 5, 10 or 20 puzzles.");
   if (typeof input.wordsText !== "string" || input.wordsText.length > 1500 || !input.wordsText) throw new Error("Enter 2–30 words or phrases, one per line, up to 1500 characters total.");
   const lines = input.wordsText.split(/\r?\n/);
   if (lines.length < 2 || lines.length > 30 || lines.some((line) => !/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(line))) throw new Error("Enter 2–30 nonempty lines using only English letters and single spaces within phrases; remove blank lines, punctuation and extra spaces.");

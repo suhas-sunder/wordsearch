@@ -4,7 +4,8 @@ import { sanitizePuzzleFilename } from "@/lib/puzzle/output-options";
 export async function createBrowserPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackOptions) {
   const { createPuzzlePackPdf } = await import("@/lib/pdf/create-puzzle-pack-pdf");
   const bytes = await createPuzzlePackPdf(pack, options);
-  return { blob: new Blob([bytes.slice().buffer], { type: "application/pdf" }), filename: sanitizePuzzleFilename(pack.name).replace(/-word-search\.pdf$/, "-word-search-pack.pdf") };
+  const suffix = options.pages === "students" ? "student-worksheets" : options.pages === "answers" ? "teacher-answers" : "word-search-pack";
+  return { blob: new Blob([bytes.slice().buffer], { type: "application/pdf" }), filename: sanitizePuzzleFilename(pack.name).replace(/-word-search\.pdf$/, `-${suffix}.pdf`) };
 }
 
 export async function downloadBrowserPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackOptions) {

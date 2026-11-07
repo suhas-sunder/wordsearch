@@ -105,6 +105,24 @@ try {
     assert.equal(ten[2 * i].grid, ten[2 * i + 1].grid);
     if (i < 5) assert.equal(ten[2 * i].grid, five[i].grid);
   }
+  await page.getByLabel("Puzzles").selectOption("20");
+  await page.getByLabel("Download pages").selectOption("students");
+  assert.ok(await page.getByLabel("Answer pages").isDisabled());
+  const [studentDownload] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Download PDF pack" }).click()]);
+  assert.match(studentDownload.suggestedFilename(), /student-worksheets\.pdf$/);
+  const studentSheets = await readPages(await downloadBytes(studentDownload));
+  assert.equal(studentSheets.length, 20);
+  assert.ok(studentSheets.every((sheet) => !sheet.text.includes("Answer Key")));
+  await page.getByLabel("Download pages").selectOption("answers");
+  const [answerDownload] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Download PDF pack" }).click()]);
+  assert.match(answerDownload.suggestedFilename(), /teacher-answers\.pdf$/);
+  const teacherSheets = await readPages(await downloadBytes(answerDownload));
+  assert.equal(teacherSheets.length, 20);
+  for (let i = 0; i < 20; i++) {
+    assert.match(teacherSheets[i].text, /Answer Key/);
+    assert.equal(studentSheets[i].grid, teacherSheets[i].grid);
+    if (i < 5) assert.equal(studentSheets[i].grid, five[i].grid);
+  }
   await page.evaluate(() => { URL.createObjectURL = () => { throw new Error("Download unavailable"); }; });
   await page.getByRole("button", { name: "Download PDF pack" }).click();
   assert.match(await page.locator("form").getByRole("alert").innerText(), /could not be downloaded/);
@@ -115,5 +133,5 @@ try {
   assert.ok(await page.getByRole("button", { name: "Download PDF pack" }).isEnabled());
   const axe = await new AxeBuilder({ page }).analyze();
   assert.deepEqual(axe.violations.filter((violation) => ["serious", "critical"].includes(violation.impact)).map((violation) => violation.id), []);
-  console.log(`Pack workflow passed: 5/10 downloads (${fiveBytes.length}/${tenBytes.length} bytes), matching answer grids, stable assignments, noindex, local requests, busy/error recovery and desktop/mobile.`);
+  console.log(`Pack workflow passed: 5/10 combined downloads (${fiveBytes.length}/${tenBytes.length} bytes), 20 student/teacher packets, matching answer grids, stable assignments, noindex, local requests, busy/error recovery and desktop/mobile.`);
 } finally { await browser.close(); }

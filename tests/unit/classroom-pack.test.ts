@@ -3,6 +3,12 @@ import { buildClassroomPack } from "@/lib/pack/classroom-pack";
 
 const input = { title: "Classroom", wordsText: "planet\ncomet\nstar", seed: "class-01", count: 5 as const };
 describe("classroom pack assignment generation", () => {
+  test("twenty assignments retain the first five and ten grids", () => {
+    const small = buildClassroomPack(input), large = buildClassroomPack({ ...input, count: 20 });
+    expect(large.puzzles).toHaveLength(20);
+    expect(large.puzzles.slice(0, small.puzzles.length)).toEqual(small.puzzles);
+    expect(new Set(large.puzzles.map(({ puzzle }) => JSON.stringify(puzzle.grid))).size).toBe(20);
+  });
   test("replays stable IDs, requests, grids and placements and extends the first five to ten", () => {
     const five = buildClassroomPack(input);
     const ten = buildClassroomPack({ ...input, count: 10 });
