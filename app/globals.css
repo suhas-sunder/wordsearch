@@ -898,6 +898,26 @@ input[type="checkbox"] {
   white-space: nowrap;
 }
 
+.solver-save-progress {
+  margin: 0 0 14px;
+}
+
+.solver-save-progress label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.solver-save-progress input {
+  width: 20px;
+  height: 20px;
+}
+
+.solver-save-progress p {
+  margin: 6px 0;
+}
+
 .solver-actions,
 .solver-start-actions {
   display: flex;
