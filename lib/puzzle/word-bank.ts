@@ -16,3 +16,12 @@ export function puzzleWordBank(puzzle: PuzzleResult): ParsedWord[] {
     clue: source.get(placement.wordId)?.clue
   })), puzzle.request.wordBankOrder);
 }
+
+/** Numbering is shared by student clues, solver clues and teacher answer mappings. */
+export function puzzleBankLabels(puzzle: PuzzleResult, answerKey = false): string[] {
+  return puzzleWordBank(puzzle).map((word, index) => {
+    if (puzzle.request.wordBankMode !== "clues") return word.label;
+    if (!word.clue?.trim()) throw new Error("Every placed answer needs a clue before exporting a clue worksheet.");
+    return `${index + 1}. ${answerKey ? `${word.label} - ` : ""}${word.clue}`;
+  });
+}

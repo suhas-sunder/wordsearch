@@ -19,6 +19,7 @@ const puzzleShareKeys = [
   "hiddenMessage",
   "largePrint",
   "wordBankOrder",
+  "wordBankMode",
   "showCoordinates",
   "nameDateLine"
 ] as const satisfies readonly (keyof PuzzleRequest)[];

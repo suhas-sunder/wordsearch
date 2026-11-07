@@ -1,4 +1,4 @@
-import { puzzleWordBank } from "@/lib/puzzle/word-bank";
+import { puzzleWordBank, puzzleBankLabels } from "@/lib/puzzle/word-bank";
 import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import { encodeShareState, shareUrl } from "@/lib/share-state/state";
@@ -26,6 +26,8 @@ export function PrintablePuzzle({
   shareTarget
 }: PrintablePuzzleProps) {
   const words = puzzleWordBank(puzzle);
+  const labels = puzzleBankLabels(puzzle, answerKey);
+  const clueMode = puzzle.request.wordBankMode === "clues";
   const target = shareTarget ?? shareUrl(puzzle.sharePath);
   const Heading = headingLevel === 1 ? "h1" : "h2";
   const page = pdfPageSpec(options.paperSize, options.orientation);
@@ -35,7 +37,8 @@ export function PrintablePuzzle({
     options.printScale === "large" ? "print-scale-large" : "",
     options.wordBankPlacement === "beside" ? "print-bank-beside" : "",
     options.inkSaving ? "print-ink-saving" : "",
-    answerKey ? "print-answer-sheet" : ""
+    answerKey ? "print-answer-sheet" : "",
+    clueMode ? "print-clue-sheet" : ""
   ].filter(Boolean).join(" ");
 
   return (
@@ -67,9 +70,9 @@ export function PrintablePuzzle({
             inkSaving={options.inkSaving}
           />
         </div>
-        {!answerKey && (
-          <section className="print-word-bank" aria-label="Word bank">
-            {words.map((word) => <span key={word.id}>{word.label}</span>)}
+        {(!answerKey || clueMode) && (
+          <section className={`print-word-bank${clueMode ? " print-clue-bank" : ""}`} aria-label={clueMode ? answerKey ? "Clue answer mappings" : "Clues to solve" : "Word bank"}>
+            {words.map((word, index) => <span key={word.id}>{labels[index]}</span>)}
           </section>
         )}
       </div>
