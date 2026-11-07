@@ -353,7 +353,7 @@ await solverPage.keyboard.press("Escape");
 if (await solverPage.getByRole("dialog", { name: "Puzzle settings" }).isVisible()) failures.push("Escape did not close solver settings");
 if (!(await overlaySettingsButton.evaluate((element) => element === document.activeElement))) failures.push("settings dialog did not return focus to its trigger");
 await overlaySettingsButton.click();
-await solverPage.getByLabel("Letter case").selectOption("lowercase");
+await solverPage.getByRole("dialog", { name: "Puzzle settings" }).getByLabel("Letter case").selectOption("lowercase");
 await solverPage.getByRole("button", { name: "Done" }).click();
 const lowerGrid = await solverPage.locator(".solver-grid").innerText();
 if (lowerGrid !== lowerGrid.toLocaleLowerCase()) failures.push("lowercase preference did not change display case");
