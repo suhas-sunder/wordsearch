@@ -101,3 +101,28 @@ Scope is five existing noindex utility kinds (print/pdf/answer/play/custom);
 embed is unchanged. Utility loading/ready layout and CLS must be rerun on the
 next candidate, since shorter help can affect reserved geometry. These changes
 are task help, not indexed editorial changes or new capability claims.
+
+
+## Final assessment closure and new no-JS tool notice
+
+Actual C3 generator/Dog samples at390light/1280dark establish HowItWorks and the
+standards links are useful, readable and unobstructed: **KEEP**, with unchanged
+151-route scope. Actual classroom print-help review at390 establishes the exact
+size/fit/directions caveats are useful: **KEEP**. The14hub search panel likewise
+stays after eight actual native/JS/keyboard contexts. These decisions close the
+earlier hypothetical structural-removal/pending-rendered items; no blind removal
+is authorized or needed. Existing CategoryC proposals remain owner-held.
+
+A true-noJS generator/Dog reproduction did confirm a falsely busy/inert deferred
+loader. The PR112 fallback is essential local tool help (CategoryA) with bounded
+shared SSR scope (CategoryB):243existing pages,151indexed,92noindex, independently
+measured/reviewed before editing. Exact H2 is “JavaScript is required for the
+interactive puzzle”; paragraph is “The puzzle editor, online play, puzzle printing
+and downloads need JavaScript. You can still read this page and browse the
+published catalog or guides.” The only new links are “Browse published topics”
+to /topics and “Read word search guides” to /guides. The existing loading section
+is only data-marked; noscript hides that subtree and supplies the notice. Normal
+JS loading/error/retry, all editorial/H1/metadata/schema/word banks/ad definitions
+remain unchanged. Before final capture, independent exact expectations were
+prepared for453tool-only field pairs/3groups; no wildcard UI ignore or owner-hold
+approval is permitted. Final observations must still match those predictions.

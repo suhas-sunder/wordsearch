@@ -546,6 +546,12 @@
       "sha": "abc78e06b5777cc26cff12dd203bd7447a9ac9d5",
       "branch": "codex/excellence-native-search-fallback",
       "draft": true
+    },
+    "112": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/112",
+      "sha": "de7b46ef13f2ac91b90939a55ec768381a00821a",
+      "branch": "codex/excellence-builder-noscript",
+      "draft": true
     }
   },
   "features": [
@@ -561,7 +567,8 @@
         97,
         98,
         99,
-        100
+        100,
+        112
       ],
       "checks": [
         "npm run lint",
@@ -580,7 +587,7 @@
         "docs/releases/FINAL-SCOPE-CROSSWALK.md",
         "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: DirectNode22.23.4 frozenB550tests/79files, lint/type/build335/static217/35/6 pass; all84CLS0 plus2pending/noJS and448/448visual pass. Ten selected current functional suites and7actualhosted suites pass with source/served/provider/fixture provenance. All100PRs and original source histories reconciled. Separate failed performance/ad-eligibility gates and independent owner approval are not waived.",
+      "remaining": "New truthful no-JS builder fallback covers243existing surfaces/151indexed; exact pre-reviewed453tool-only changes await final combined source/provider validation. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: DirectNode22.23.4 frozenB550tests/79files, lint/type/build335/static217/35/6 pass; all84CLS0 plus2pending/noJS and448/448visual pass. Ten selected current functional suites and7actualhosted suites pass with source/served/provider/fixture provenance. All100PRs and original source histories reconciled. Separate failed performance/ad-eligibility gates and independent owner approval are not waived.",
       "manualApproval": false
     },
     {
@@ -665,7 +672,8 @@
       "prs": [
         33,
         107,
-        111
+        111,
+        112
       ],
       "checks": [
         "npm run test:navigation"
@@ -673,7 +681,7 @@
       "evidence": [
         "tests/e2e/header-navigation.mjs"
       ],
-      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. PR107 enlarged-text/header/footer source is locally integrated. Fresh combined exact-source browser/visual/keyboard/ad/SEO validation remains; historical evidence below is retained.",
+      "remaining": "New truthful no-JS builder fallback covers243existing surfaces/151indexed; exact pre-reviewed453tool-only changes await final combined source/provider validation. PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. PR107 enlarged-text/header/footer source is locally integrated. Fresh combined exact-source browser/visual/keyboard/ad/SEO validation remains; historical evidence below is retained.",
       "manualApproval": false
     },
     {
@@ -879,7 +887,8 @@
         99,
         109,
         110,
-        111
+        111,
+        112
       ],
       "checks": [
         "320/390/768/1024/1280/1600 light/dark screenshot and axe matrix"
@@ -894,7 +903,7 @@
         "docs/releases/FINAL-B-VISUAL-UTILITY-EVIDENCE.md",
         "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FrozenB448/448 full visual matrix passes,0failures/0notices,28archetypes x8profiles x2themes. Full176source/747disk/747HTTP guards pass unchanged. Sixteen unique images individually reviewed; no claim all448 manually inspected. Native zoom/physical devices/owner visual approval remain separate.",
+      "remaining": "New truthful no-JS builder fallback covers243existing surfaces/151indexed; exact pre-reviewed453tool-only changes await final combined source/provider validation. PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FrozenB448/448 full visual matrix passes,0failures/0notices,28archetypes x8profiles x2themes. Full176source/747disk/747HTTP guards pass unchanged. Sixteen unique images individually reviewed; no claim all448 manually inspected. Native zoom/physical devices/owner visual approval remain separate.",
       "manualApproval": false
     },
     {
@@ -928,7 +937,8 @@
       ],
       "prs": [
         81,
-        109
+        109,
+        112
       ],
       "checks": [
         "Node22 lint/typecheck/475tests/build335/static",
@@ -937,7 +947,7 @@
       "evidence": [
         "docs/releases/BUILDOUT-SOLVER-SOUND.md"
       ],
-      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. Actual browser lifecycle tests pass; no external assets/network or default sound. Physical sound/device quality remains manual; final combined regression pending.",
+      "remaining": "New truthful no-JS builder fallback covers243existing surfaces/151indexed; exact pre-reviewed453tool-only changes await final combined source/provider validation. PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. Actual browser lifecycle tests pass; no external assets/network or default sound. Physical sound/device quality remains manual; final combined regression pending.",
       "manualApproval": false
     },
     {
@@ -957,7 +967,8 @@
         82,
         83,
         86,
-        109
+        109,
+        112
       ],
       "checks": [
         "Settings matrix, input/direction/preview regression"
@@ -971,7 +982,7 @@
         "docs/releases/BUILDOUT-F2-SETTINGS-MATRIX.md",
         "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Actual overlap, auto/manual size, difficulty/directions, files, seed, instructions, eight packs, filler/hidden-message fallbacks, clues, case and recovery workflows pass; unsupported controls are explained/disabled, accepted legacy behavior retained. Final combined43-feature validation and physical/device acceptance remain separate.",
+      "remaining": "New truthful no-JS builder fallback covers243existing surfaces/151indexed; exact pre-reviewed453tool-only changes await final combined source/provider validation. PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: Actual overlap, auto/manual size, difficulty/directions, files, seed, instructions, eight packs, filler/hidden-message fallbacks, clues, case and recovery workflows pass; unsupported controls are explained/disabled, accepted legacy behavior retained. Final combined43-feature validation and physical/device acceptance remain separate.",
       "manualApproval": false
     },
     {
@@ -1431,7 +1442,8 @@
       ],
       "prs": [
         37,
-        42
+        42,
+        112
       ],
       "checks": [
         "npm run test:a11y",
@@ -1442,7 +1454,7 @@
         "docs/launch-checklist.md",
         "docs/releases/BUILDOUT-OFFLINE-REVIEW-AXE-FIXTURE.md"
       ],
-      "remaining": "B448visual has0axe notices; current accessibility/keyboard/navigation suites pass. Offline4 retains no-JS proof plus unchangedAxe on identical JS-enabled analysis DOM, original unsupported-context failure retained. Physical assistive technology, realSafari/Android, native browser zoom and owner visual acceptance remain unexecuted.",
+      "remaining": "New truthful no-JS builder fallback covers243existing surfaces/151indexed; exact pre-reviewed453tool-only changes await final combined source/provider validation. B448visual has0axe notices; current accessibility/keyboard/navigation suites pass. Offline4 retains no-JS proof plus unchangedAxe on identical JS-enabled analysis DOM, original unsupported-context failure retained. Physical assistive technology, realSafari/Android, native browser zoom and owner visual acceptance remain unexecuted.",
       "manualApproval": false
     },
     {
@@ -1547,7 +1559,8 @@
         37,
         51,
         97,
-        111
+        111,
+        112
       ],
       "checks": [
         "npm run audit:static-host",
@@ -1558,7 +1571,7 @@
         "docs/releases/FINAL-STATIC-PDF-PRESERVATION.md",
         "docs/releases/PRODUCT-EXCELLENCE-2026-11-07.md"
       ],
-      "remaining": "PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FreshB150published defaults/fingerprints,217metadata/JSON-LD and35redirects match;61+8drafts and5H08seeds remain isolated across722text files. Hosted217sitemap/61draftpaths404 and encodedroute noindex/parity pass. Separate strict route-audit actualexit1 reproduces exactly3knownad-eligibility findings; no new SEO failures or waiver.",
+      "remaining": "New truthful no-JS builder fallback covers243existing surfaces/151indexed; exact pre-reviewed453tool-only changes await final combined source/provider validation. PR109\u2013111 and bounded interface help are locally integrated after independent C2 review found footer word breaks, a falsely busy settled error and missing native search transport. Fresh final combined source/export/browser/provider acceptance is pending. Historical source-scoped evidence is retained. November7 product-excellence continuation is active. Historical B/R evidence below is retained, not validation of changed runtime. New upload/edit preservation, mobile maker/collection navigation, opt-in readable PDF, classroom cancellation and exact semantic SEO guard require new combined source/export/browser/provider acceptance. See PRODUCT-EXCELLENCE-2026-11-07.md. Historical scope: FreshB150published defaults/fingerprints,217metadata/JSON-LD and35redirects match;61+8drafts and5H08seeds remain isolated across722text files. Hosted217sitemap/61draftpaths404 and encodedroute noindex/parity pass. Separate strict route-audit actualexit1 reproduces exactly3knownad-eligibility findings; no new SEO failures or waiver.",
       "manualApproval": false
     },
     {
@@ -1569,7 +1582,8 @@
       "prs": [
         51,
         70,
-        97
+        97,
+        112
       ],
       "checks": [
         "NETLIFY_PREVIEW_URL=preview EXPECTED_PREVIEW_COMMIT=sha PREVIEW_AUDIT_OUTPUT=outside-repo npx tsx tests/e2e/provider-preview-smoke.ts"
@@ -1578,7 +1592,7 @@
         "docs/releases/README.md",
         "docs/releases/FINAL-HOSTED-ACCEPTANCE.md"
       ],
-      "remaining": "ExactREADYB6aeebc77f2d9525d41a905c9/commitf7849cd immutablepreview passes7hosted suites with14actualPDFs/30pages,217sitemap/61draft404, query/H10/library/clue/measuredLP and route parity. Final operations-only review-head/provider verification is recorded in PR97 final handoff; independent exact-SHA product/release approval remains unexecuted.",
+      "remaining": "New truthful no-JS builder fallback covers243existing surfaces/151indexed; exact pre-reviewed453tool-only changes await final combined source/provider validation. ExactREADYB6aeebc77f2d9525d41a905c9/commitf7849cd immutablepreview passes7hosted suites with14actualPDFs/30pages,217sitemap/61draft404, query/H10/library/clue/measuredLP and route parity. Final operations-only review-head/provider verification is recorded in PR97 final handoff; independent exact-SHA product/release approval remains unexecuted.",
       "manualApproval": false
     },
     {

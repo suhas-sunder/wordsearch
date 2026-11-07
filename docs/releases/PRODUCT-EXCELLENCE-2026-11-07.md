@@ -146,3 +146,60 @@ C1 and C2 evidence is historical, not relabeled as a pass for the new applicatio
 See the public-copy audit for additional existing CategoryC proposals, including
 the teacher collection mismatch; these are separate from13 observed changed-field
 holds across7routes. No indexed editorial correction or publication is implied.
+
+
+## Final loading-state correction and strict baseline-control follow-up
+
+C3 `e7e00eb` completed all57 local functional fixtures with no failures, all448
+visual cases with0failures/notices,13hosted suites, fresh1200PDF exact comparisons,
+source/static isolation and dual217-route semantic captures. Independent reviewers
+also inspected16selected hosted views,14workflow views,10trust-page views and
+shared help samples. Existing HowItWorks/standards on151pages and classroom print
+help are concrete **KEEP** decisions after actual rendering/task review; the
+historical pending-review wording in the earlier audit is superseded.
+
+A final real no-JS defect remained: DeferredWordSearchBuilder permanently showed
+a busy preparation shell and inert Load puzzle now button when scripting was off.
+**PR112 `de7b46e`** adds an independently reviewed tool fallback: JavaScript is
+needed for the interactive puzzle; real Topics/Guides links remain usable. Only
+that existing inert subtree is hidden in noJS. Existing JS idle/manual/delayed/
+failed-chunk retry and exact loaded grids are unchanged. The actual scope is
+**243existing HTML pages,151indexed and92noindex**, measured before implementation;
+it is not the earlier guessed164. Full677/build335/static/lint/type and eight
+actual browser scopes pass on the isolated package. No new page or publication
+is introduced. Exact pre-observation C3→next expectations contain453tool-only
+pairs/3groups; predicted composed R comparison is677pairs/11groups, with all
+existing13material owner holds retained. Predictions are not observed final QA.
+
+The raw utility comparison's first C3 run used a pre-PR64 contract against B,
+which already has the asserted maker/QR actions; it failed correctly. A separate
+explicit preserved-b mode now requires B's full source pin and preserves exact
+existing action/QR URLs, hint/label counts and complete main text/order except
+four reviewed task-help substitutions. Historical mode and all grid/CLS/overflow/
+pending/noJS/ad-free checks remain. Independent review corrected relative QR
+comparison to resolve against the actual utility path. An unchanged C2 negative
+control fails as expected on the missing reviewed-copy occurrence. Original
+attempts are retained: the first B adapter completed84zero-CLS pairs but needed
+that comparison precision; the stricter rerun stopped on Chromium
+ERR_NO_BUFFER_SPACE before a response, without an application assertion failure.
+A snapshot afterward showed8.4GB free and629TCP connections, so persistent memory
+or ephemeral-port exhaustion is not established. Final browser jobs will be
+serialized/retried without changing system network settings or thresholds.
+The corrected fixture needs a fresh full final-source run before the CLS gate
+can be technically closed. B's747disk and literal HTTP bytes were reverified.
+
+Native Windows Chrome zoom was attempted in an isolated test profile, but
+Computer Use stopped browser inspection because it could not establish the URL
+confidently enough to enforce policy. **No zoom inputs were sent and no native
+zoom pass is claimed.** The own test context was closed normally through its
+API; no user browser or forced termination was used. CSStext200% and emulated
+reflow remain separate completed evidence. Native zoom retains manual acceptance.
+See the exact external computer-use-stop.json for the tool message and cleanup.
+
+Two previously documented idle HTTP children survived retired exec sessions.
+Their exact task PID/port/script identity was verified and normal Server.close
+used (3506/3520), followed by process absence and ECONNREFUSED. State-filtered
+TCP inventory was unreliable in this environment; final cleanup must use actual
+port/PID queries plus HTTP probes. No unrelated process was stopped. The next
+application checkpoint combines PR112 with the strict utility baseline fixture;
+fresh affected/combined acceptance is still required, not a C3 relabeling.
