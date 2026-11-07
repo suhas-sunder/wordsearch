@@ -67,6 +67,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   const startedAt = useRef<number | null>(null);
   const [completionElapsed, setCompletionElapsed] = useState<number | null>(null);
   const accumulatedMs = useRef(0);
+  const pausedForNavigation = useRef(false);
   const completionElapsedRef = useRef<number | null>(null);
   const fingerprintRef = useRef<string | null>(null);
   const rememberRef = useRef(false);
@@ -119,6 +120,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
     setActiveSelection(null);
     setFocusedCell({ row: 0, col: 0 });
     startedAt.current = null;
+    pausedForNavigation.current = false;
     accumulatedMs.current = 0;
     completionElapsedRef.current = null;
     setCompletionElapsed(null);
@@ -136,9 +138,25 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   }, [puzzle]);
 
   useEffect(() => {
-    const save = () => saveSnapshot(foundPlacementIdsRef.current);
-    window.addEventListener("pagehide", save);
-    return () => window.removeEventListener("pagehide", save);
+    const pause = () => {
+      saveSnapshot(foundPlacementIdsRef.current);
+      if (startedAt.current !== null && completionElapsedRef.current === null) {
+        accumulatedMs.current = elapsedNow();
+        startedAt.current = null;
+        pausedForNavigation.current = true;
+      }
+    };
+    const restore = () => {
+      if (!pausedForNavigation.current) return;
+      pausedForNavigation.current = false;
+      if (completionElapsedRef.current === null) startedAt.current = performance.now();
+    };
+    window.addEventListener("pagehide", pause);
+    window.addEventListener("pageshow", restore);
+    return () => {
+      window.removeEventListener("pagehide", pause);
+      window.removeEventListener("pageshow", restore);
+    };
   });
 
   useEffect(() => {
@@ -348,6 +366,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   }
 
   function beginPuzzle() {
+    pausedForNavigation.current = false;
     accumulatedMs.current = 0;
     completionElapsedRef.current = null;
     startedAt.current = performance.now();
@@ -383,6 +402,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   function resumeProgress() {
     if (progressRead.kind !== "saved") return;
     const saved = progressRead.value;
+    pausedForNavigation.current = false;
     const ids = new Set(saved.indices.map((index) => puzzle.placed[index].wordId));
     foundPlacementIdsRef.current = ids;
     setFoundPlacementIds(ids);
@@ -409,6 +429,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
     foundPlacementIdsRef.current = empty;
     setFoundPlacementIds(empty);
     startedAt.current = null;
+    pausedForNavigation.current = false;
     accumulatedMs.current = 0;
     completionElapsedRef.current = null;
     setCompletionElapsed(null);
@@ -464,7 +485,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
 
       <div className="solver-save-progress">
         <label><input type="checkbox" checked={remember} disabled={progressRead.kind !== "none"} onChange={(event) => setRememberProgress(event.target.checked)} /> Remember progress on this device</label>
-        <p className="control-help">An opaque puzzle identifier, found-word indexes, and elapsed time are saved on this device. Time continues while this tab is open, pauses when you close or navigate away, and continues when you choose Resume. Closing a tab may lose time since the last save.</p>
+        <p className="control-help">An opaque puzzle identifier, found-word indexes, and elapsed time are saved on this device. Time continues while this page is open and pauses when you close or navigate away. It continues when the browser restores this page, or when you choose Resume after reloading. Closing a tab may lose time since the last save.</p>
         {progressRead.kind === "saved" && <p>Saved progress is available for this puzzle. Resume it or clear it before enabling a new save.</p>}
         {progressRead.kind === "invalid" && <p>Saved progress for this puzzle is invalid or unsupported. Clear it to start saving again.</p>}
         {progressRead.kind === "unavailable" && <p>Device storage or secure puzzle identification is unavailable. You can still solve without saving.</p>}
