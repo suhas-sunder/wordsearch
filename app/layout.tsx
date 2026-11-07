@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { websiteJsonLd } from "@/lib/seo/structured-data";
+import { themeBootstrap } from "@/lib/theme";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "optional" });
@@ -31,7 +32,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${serif.variable} ${puzzle.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${serif.variable} ${puzzle.variable}`}>
+      <head><script dangerouslySetInnerHTML={{ __html: themeBootstrap }} /></head>
       <body>
         <a className="skip-link" href="#main-content">Skip to main content</a>
         <JsonLd data={websiteJsonLd()} />

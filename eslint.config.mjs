@@ -10,6 +10,9 @@ export default [
   },
   js.configs.recommended,
   {
+    // Next checks this config file itself, outside the TypeScript file scope.
+    // Register globally; framework rules below still apply to the same TS/TSX files.
+    plugins: { "@next/next": nextPlugin },
     rules: {
       "no-undef": "off"
     }
@@ -25,7 +28,6 @@ export default [
     },
     plugins: {
       "@typescript-eslint": tsPlugin,
-      "@next/next": nextPlugin,
       "react-hooks": reactHooks
     },
     rules: {

@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import { chromium } from "playwright";
-import { launch } from "chrome-launcher";
+import { launchAuditChrome } from "./audit-chrome.mjs";
 import lighthouse from "lighthouse";
 import { screenEmulationMetrics, throttling, userAgents } from "lighthouse/core/config/constants.js";
 
@@ -19,7 +19,7 @@ const routes = [
 const commonWindowsChrome = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe";
 const chromePath = process.env.CHROME_PATH
   ?? (process.platform === "win32" && existsSync(commonWindowsChrome) ? commonWindowsChrome : chromium.executablePath());
-const chrome = await launch({
+const chrome = await launchAuditChrome({
   chromePath,
   chromeFlags: ["--headless=new", "--no-sandbox", "--disable-gpu"],
   logLevel: "silent"
@@ -106,9 +106,10 @@ try {
   }
 } finally {
   try {
-    await chrome.kill();
+    console.log(`Audit browser cleanup: ${JSON.stringify(await chrome.close())}`);
   } catch (error) {
-    console.warn(`Chrome exited, but its temporary audit profile could not be removed immediately: ${error instanceof Error ? error.message : "unknown cleanup error"}`);
+    console.error(`Audit browser graceful cleanup failed: ${error instanceof Error ? error.message : "unknown cleanup error"}`);
+    process.exitCode = 1;
   }
 }
 

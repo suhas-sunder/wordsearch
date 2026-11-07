@@ -2,18 +2,21 @@
 
 import { createPortal } from "react-dom";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { Check, FileDown, KeyRound, Printer, Share2, X } from "lucide-react";
+import { Check, FileDown, KeyRound, Mail, MessageCircle, Printer, Share2, X } from "lucide-react";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import {
   normalizePuzzleOutputOptions,
   outputOptionsForRequest,
+  syncRequestOutputOptions,
   type PageOrientation,
   type PaperSize,
   type PuzzleOutputOptions
 } from "@/lib/puzzle/output-options";
-import { downloadBrowserPuzzlePdf } from "@/lib/pdf/browser-download";
+import { downloadBrowserPuzzlePdf, type BrowserPdfLayout } from "@/lib/pdf/browser-download";
 import { puzzlePlayUrl } from "@/lib/share-state/state";
+import { puzzleShareDestinations } from "@/lib/share-state/destinations";
 import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
+import { downloadOfflineWorksheet } from "@/lib/print/offline-html";
 
 const outputStorageKey = "ilws:puzzle-output-options";
 
@@ -27,10 +30,14 @@ export interface PuzzleUtilitiesContext {
   compactToolbar: ReactNode;
   previewToolbar: ReactNode;
   printablePreview: ReactNode;
+  downloadHtmlWorksheet: () => void;
+  htmlExportMessage: string;
+  htmlExportWorking: boolean;
 }
 
 interface PuzzleUtilitiesProps {
   puzzle: PuzzleResult;
+  outputsBlocked?: boolean;
   unfinished?: boolean;
   leadingActions?: ReactNode;
   onAnnouncement?: (message: string) => void;
@@ -50,7 +57,7 @@ function optionCheckbox(
   );
 }
 
-export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, onAnnouncement, children }: PuzzleUtilitiesProps) {
+export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = false, leadingActions, onAnnouncement, children }: PuzzleUtilitiesProps) {
   const [options, setOptions] = useState(() => outputOptionsForRequest(puzzle.request));
   const [answersVisible, setAnswersVisible] = useState(false);
   const [previewMode, setPreviewMode] = useState<PreviewMode>("puzzle");
@@ -62,12 +69,36 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
   const [qrStatus, setQrStatus] = useState<"idle" | "generating" | "ready" | "error">("idle");
   const [pdfStatus, setPdfStatus] = useState<"idle" | "working" | "error">("idle");
   const [pdfError, setPdfError] = useState("");
+  const [pdfAttempt, setPdfAttempt] = useState<BrowserPdfLayout>("legacy");
+  const [htmlExportMessage, setHtmlExportMessage] = useState("");
+  const [htmlExportWorking, setHtmlExportWorking] = useState(false);
   const [utilityAnnouncement, setUtilityAnnouncement] = useState("");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const initialFocusRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const qrTargetRef = useRef("");
+  const printPortalRef = useRef<HTMLDivElement>(null);
+  const previousPrintRequest = useRef(puzzle.request);
+  const pdfJob = useRef(0);
+  const htmlJob = useRef(0);
+  const htmlController = useRef<AbortController | null>(null);
+  const currentOutput = useRef({ definition: puzzle.request, options, blocked: outputsBlocked });
+  currentOutput.current = { definition: puzzle.request, options, blocked: outputsBlocked };
   const playUrl = useMemo(() => puzzlePlayUrl(puzzle.request), [puzzle.request]);
+  const shareDestinations = useMemo(() => puzzleShareDestinations(playUrl), [playUrl]);
+
+  useEffect(() => {
+    htmlJob.current++;
+    htmlController.current?.abort();
+    htmlController.current = null;
+    setHtmlExportWorking(false);
+    setHtmlExportMessage("");
+  }, [puzzle.request, options, outputsBlocked]);
+
+  useEffect(() => () => {
+    htmlController.current?.abort();
+    htmlController.current = null;
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -86,6 +117,12 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
   }, []);
 
   useEffect(() => {
+    const previous = previousPrintRequest.current;
+    previousPrintRequest.current = puzzle.request;
+    setOptions((current) => syncRequestOutputOptions(current, previous, puzzle.request));
+  }, [puzzle.request]);
+
+  useEffect(() => {
     if (!mounted) return;
     try {
       window.localStorage.setItem(outputStorageKey, JSON.stringify(options));
@@ -95,7 +132,14 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
   }, [mounted, options]);
 
   useEffect(() => {
-    if (!options.qrCode && dialog !== "share") {
+    if (outputsBlocked) {
+      document.body.classList.remove("utility-print-enabled");
+      setDialog(null);
+    } else if (mounted) document.body.classList.add("utility-print-enabled");
+  }, [outputsBlocked, mounted]);
+
+  useEffect(() => {
+    if (outputsBlocked || (!options.qrCode && dialog !== "share")) {
       setQrDataUrl("");
       setQrStatus("idle");
       return;
@@ -108,7 +152,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
       .then((url) => { if (active) { qrTargetRef.current = playUrl; setQrDataUrl(url); setQrStatus("ready"); } })
       .catch(() => { if (active) { setQrDataUrl(""); setQrStatus("error"); } });
     return () => { active = false; };
-  }, [dialog, options.qrCode, playUrl, qrDataUrl]);
+  }, [dialog, options.qrCode, playUrl, qrDataUrl, outputsBlocked]);
 
   useEffect(() => {
     const element = dialogRef.current;
@@ -125,11 +169,40 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
     onAnnouncement?.(message);
   }
 
+  async function downloadHtmlWorksheet() {
+    if (htmlController.current) return;
+    const portal = printPortalRef.current;
+    if (outputsBlocked || !portal) {
+      setHtmlExportMessage("The worksheet is not ready. Wait for valid preview settings before downloading.");
+      return;
+    }
+    const job = ++htmlJob.current;
+    const controller = new AbortController();
+    htmlController.current = controller;
+    const definition = puzzle.request;
+    const selectedOptions = options;
+    const isCurrent = () => htmlJob.current === job && htmlController.current === controller && !controller.signal.aborted && !currentOutput.current.blocked && currentOutput.current.definition === definition && currentOutput.current.options === selectedOptions && printPortalRef.current === portal;
+    setHtmlExportWorking(true);
+    setHtmlExportMessage("Checking worksheet print fit before creating the HTML file…");
+    try {
+      const downloaded = await downloadOfflineWorksheet(portal, puzzle.request.title, options, isCurrent, controller.signal);
+      if (downloaded && isCurrent()) setHtmlExportMessage("HTML worksheet downloaded. This private file contains the word list and any included answers.");
+    } catch (error) {
+      if (isCurrent()) setHtmlExportMessage(error instanceof Error ? error.message : "The HTML worksheet could not be downloaded.");
+    } finally {
+      if (htmlController.current === controller) {
+        htmlController.current = null;
+        if (printPortalRef.current) setHtmlExportWorking(false);
+      }
+    }
+  }
+
   function updateOptions(patch: Partial<PuzzleOutputOptions>) {
     setOptions((current) => normalizePuzzleOutputOptions({ ...current, ...patch }, current));
   }
 
   function openDialog(next: Exclude<UtilityDialog, null>, event: React.MouseEvent<HTMLElement>) {
+    pdfJob.current++;
     returnFocusRef.current = event.currentTarget;
     setPdfStatus("idle");
     setPdfError("");
@@ -138,6 +211,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
   }
 
   function closeDialog() {
+    pdfJob.current++;
     setDialog(null);
     window.requestAnimationFrame(() => returnFocusRef.current?.focus());
   }
@@ -174,22 +248,33 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
   }
 
   function startPrint() {
+    if (printPortalRef.current?.querySelector('.print-fit-status:not([data-fit-state="ready"])')) {
+      announce("The worksheet is still being checked or does not fit. Review the preview message and adjust print settings before printing.");
+      return;
+    }
     closeDialog();
     window.requestAnimationFrame(() => window.requestAnimationFrame(() => window.print()));
   }
 
-  async function downloadPdf() {
+  async function downloadPdf(layout: BrowserPdfLayout = "legacy") {
+    const job = ++pdfJob.current;
+    const definition = puzzle.request;
+    const selectedOptions = options;
+    const isCurrent = () => pdfJob.current === job && !currentOutput.current.blocked && currentOutput.current.definition === definition && currentOutput.current.options === selectedOptions && dialogRef.current?.open === true;
     setPdfStatus("working");
+    setPdfAttempt(layout);
     setPdfError("");
     try {
-      await downloadBrowserPuzzlePdf(puzzle, options, playUrl);
+      const downloaded = await downloadBrowserPuzzlePdf(puzzle, options, playUrl, layout, isCurrent);
+      if (!downloaded) return;
       setPdfStatus("idle");
       closeDialog();
-      announce("PDF download started.");
+      announce(layout === "large-print" ? "Measured large-print PDF download started." : layout === "readable" ? "Readable PDF download started." : "PDF download started.");
     } catch (error) {
+      if (!isCurrent()) return;
       setPdfStatus("error");
       setPdfError(error instanceof Error ? error.message : "The PDF could not be generated.");
-    }
+    } finally { if (pdfJob.current === job && dialogRef.current) setPdfStatus((current) => current === "working" ? "idle" : current); }
   }
 
   async function copyShareLink() {
@@ -248,7 +333,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
     <div className="preview-toolbar output-preview-toolbar" aria-label="Preview and output controls">
       <label>Paper<select value={options.paperSize} onChange={(event) => updateOptions({ paperSize: event.target.value as PaperSize })}><option value="letter">Letter</option><option value="a4">A4</option></select></label>
       <label>Layout<select value={options.orientation} onChange={(event) => updateOptions({ orientation: event.target.value as PageOrientation })}><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
-      {optionCheckbox("Large print", options.printScale === "large", (checked) => updateOptions({ printScale: checked ? "large" : "standard" }))}
+      {optionCheckbox("Larger grid type", options.printScale === "large", (checked) => updateOptions({ printScale: checked ? "large" : "standard" }))}
       {optionCheckbox("Name/date", options.nameDateLine, (checked) => updateOptions({ nameDateLine: checked }))}
       <div className="preview-toolbar-actions" role="group" aria-label="Preview actions">
         <button type="button" className="secondary-button" onClick={(event) => openDialog("share", event)}><Share2 size={17} aria-hidden="true" /> Share</button>
@@ -273,8 +358,8 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
     </div>
   );
 
-  const printPortal = mounted ? createPortal(
-    <div className="utility-print-portal" aria-hidden="true">
+  const printPortal = mounted && !outputsBlocked ? createPortal(
+    <div ref={printPortalRef} className="utility-print-portal" aria-hidden="true">
       <PrintablePuzzle puzzle={puzzle} qrDataUrl={qrDataUrl} options={options} shareTarget={playUrl} headingLevel={2} />
       {options.includeAnswerKey && <PrintablePuzzle puzzle={puzzle} answerKey qrDataUrl={qrDataUrl} options={options} shareTarget={playUrl} headingLevel={2} />}
     </div>,
@@ -283,10 +368,10 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
 
   return (
     <>
-      {children({ answersVisible, previewMode, options, compactToolbar, previewToolbar, printablePreview })}
+      {children({ answersVisible, previewMode, options, compactToolbar, previewToolbar, printablePreview, downloadHtmlWorksheet, htmlExportMessage, htmlExportWorking })}
       {printPortal}
       <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{utilityAnnouncement}</p>
-      <dialog
+      {!outputsBlocked && <dialog
         ref={dialogRef}
         className="solver-settings-dialog output-dialog"
         aria-labelledby="output-dialog-title"
@@ -321,19 +406,26 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
                 <button ref={initialFocusRef} type="button" className="primary-button" onClick={copyShareLink}>{shareCopied ? <Check size={17} aria-hidden="true" /> : <Share2 size={17} aria-hidden="true" />}{shareCopied ? "Copied" : "Copy link"}</button>
                 {mounted && typeof navigator.share === "function" && <button type="button" className="secondary-button" onClick={nativeShare}>Share with an app</button>}
               </div>
+              <p id="share-destination-notice" className="control-help">WhatsApp and email open a draft for you to send. Opening either passes that service a link containing the word list and settings, with no solving progress. Very long links may need copy and paste.</p>
+              <div className="utility-actions" role="group" aria-label="Share destinations" aria-describedby="share-destination-notice">
+                <a className="secondary-button" href={shareDestinations.whatsapp} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer"><MessageCircle size={17} aria-hidden="true" />WhatsApp (new tab)</a>
+                <a className="secondary-button" href={shareDestinations.email}><Mail size={17} aria-hidden="true" />Email</a>
+              </div>
               <p className="share-status" role="status" aria-live="polite">{shareMessage}</p>
             </div>
           ) : (
             <div className="output-dialog-body">
               <p id="output-dialog-description">These settings apply to the on-page print layout and the downloaded PDF.</p>
-              <p className="output-summary"><strong>Preview:</strong> {options.paperSize === "a4" ? "A4" : "US Letter"}, {options.orientation}, {options.printScale} type, {options.includeAnswerKey ? "two pages with answer key" : "one puzzle page"}.</p>
+              <p className="output-summary"><strong>Preview:</strong> {options.paperSize === "a4" ? "A4" : "US Letter"}, {options.orientation}, {options.printScale === "large" ? "larger grid type" : "standard type"}, {options.includeAnswerKey ? "two pages with answer key" : "one puzzle page"}.</p>
               <div className="output-settings-grid">
                 <label>Paper size<select value={options.paperSize} onChange={(event) => updateOptions({ paperSize: event.target.value as PaperSize })}><option value="letter">US Letter</option><option value="a4">A4</option></select></label>
                 <label>Orientation<select value={options.orientation} onChange={(event) => updateOptions({ orientation: event.target.value as PageOrientation })}><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label>
                 <label>Word bank<select value={options.wordBankPlacement} onChange={(event) => updateOptions({ wordBankPlacement: event.target.value as PuzzleOutputOptions["wordBankPlacement"] })}><option value="below">Below the grid</option><option value="beside">Beside the grid</option></select></label>
+                <label>Printed letter case<select aria-label="Printed letter case" disabled={puzzle.request.alphabetPack !== "latin"} value={options.letterCase ?? "uppercase"} onChange={(event) => updateOptions({ letterCase: event.target.value as PuzzleOutputOptions["letterCase"] })}><option value="uppercase">Original (uppercase grid)</option><option value="lowercase">Lowercase A–Z</option></select></label>
               </div>
+              <p className="control-help">Printed case changes A–Z in the Latin grid and word-bank answers in preview and exports. Clue prose, accented characters and the seeded puzzle stay unchanged. Other alphabet packs retain their original tokens.</p>
               <div className="output-toggle-grid">
-                {optionCheckbox("Large print", options.printScale === "large", (checked) => updateOptions({ printScale: checked ? "large" : "standard" }))}
+                {optionCheckbox("Larger grid type", options.printScale === "large", (checked) => updateOptions({ printScale: checked ? "large" : "standard" }))}
                 {optionCheckbox("Answer key page", options.includeAnswerKey, (checked) => updateOptions({ includeAnswerKey: checked }))}
                 {optionCheckbox("Name/date line", options.nameDateLine, (checked) => updateOptions({ nameDateLine: checked }))}
                 {optionCheckbox("Instructions", options.instructions, (checked) => updateOptions({ instructions: checked }))}
@@ -341,11 +433,19 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
                 {optionCheckbox("Coordinates", options.coordinates, (checked) => updateOptions({ coordinates: checked }))}
                 {optionCheckbox("Ink-saving key", options.inkSaving, (checked) => updateOptions({ inkSaving: checked }))}
               </div>
-              {pdfStatus === "error" && <div className="output-error" role="alert"><strong>PDF failed.</strong> {pdfError}</div>}
+              <p className="control-help">Larger grid type keeps the ordinary layout; it does not guarantee a minimum word-bank size. {dialog === "pdf" ? "Choose Download large-print PDF below for the separate measured layout." : "Open Download PDF for the separate measured large-print choice."}</p>
+              {dialog === "pdf" && <div className="measured-pdf-choice">
+                <p id="alternate-pdf-description">Both layouts keep your exact puzzle, paper size, answer pages, name/date and instructions. They use portrait pages with words below the grid, without QR codes or coordinates. If the puzzle cannot fit, you get an error rather than smaller type. Sizes below are at 100% print scale.</p>
+                <p id="readable-pdf-description">Readable: at least 9-point grid letters and a 9.5-point word bank.</p>
+                <button type="button" className="secondary-button" disabled={pdfStatus === "working"} aria-describedby="alternate-pdf-description readable-pdf-description" onClick={() => downloadPdf("readable")}><FileDown size={17} aria-hidden="true" />Download readable PDF</button>
+                <p id="measured-pdf-description">Large print: at least 16-point grid letters and an 18-point word bank. Headers and footers stay smaller.</p>
+                <button type="button" className="secondary-button" disabled={pdfStatus === "working"} aria-describedby="alternate-pdf-description measured-pdf-description" onClick={() => downloadPdf("large-print")}><FileDown size={17} aria-hidden="true" />Download measured large-print PDF</button>
+              </div>}
+              {pdfStatus === "error" && <div className="output-error" role="alert"><strong>{pdfAttempt === "large-print" ? "Measured large-print PDF failed." : pdfAttempt === "readable" ? "Readable PDF failed." : "PDF failed."}</strong> {pdfError}</div>}
               <footer>
                 <button ref={initialFocusRef} type="button" className="secondary-button" onClick={closeDialog}>Cancel</button>
                 {dialog === "pdf" ? (
-                  <button type="button" className="primary-button" disabled={pdfStatus === "working"} onClick={downloadPdf}><FileDown size={17} aria-hidden="true" />{pdfStatus === "working" ? "Generating…" : pdfStatus === "error" ? "Retry PDF" : "Download PDF"}</button>
+                  <button type="button" className="primary-button" disabled={pdfStatus === "working"} onClick={() => downloadPdf()}><FileDown size={17} aria-hidden="true" />{pdfStatus === "working" ? "Generating…" : pdfStatus === "error" && pdfAttempt === "legacy" ? "Retry PDF" : "Download PDF"}</button>
                 ) : (
                   <button type="button" className="primary-button" onClick={startPrint}><Printer size={17} aria-hidden="true" />Open print dialog</button>
                 )}
@@ -353,7 +453,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
             </div>
           )}
         </div>
-      </dialog>
+      </dialog>}
     </>
   );
 }
