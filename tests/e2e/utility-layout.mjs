@@ -94,7 +94,7 @@ try {
             assert.equal(status.state, "ready");
             assert.equal(status.label, "QR code ready.");
             assert.equal(status.text.replace(/\s+/g, " ").trim(), "QR code ready. Print without a QR code");
-            const recovery = new URL(status.href, candidate);
+            const recovery = new URL(status.href, new URL(result.path, candidate));
             assert.equal(recovery.origin, new URL(candidate).origin);
             assert.equal(recovery.pathname, result.path);
             assert.equal(recovery.hash, "");

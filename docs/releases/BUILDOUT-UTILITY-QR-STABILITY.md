@@ -79,3 +79,11 @@ request/grid hashes and original +0.01 tolerance remain exact. The integrated
 new freeze must rerun full84, then 448 visual cases and offline collection HTML,
 then enabled-provider Lighthouse. No publication, main push, merge to main,
 auto-merge or deployment is authorized by this package.
+
+Independent pre-execution review caught a fixture-only URL resolution mistake:
+the query-only no-QR href must resolve against the actual encoded route, rather
+than the host root. The comparator now uses that document URL while retaining the
+same exact pathname/options assertions. A bounded Node assertion reproduces the
+wrong-root result and proves the corrected encoded path/options. Syntax/ESLint
+pass; this does not change product code, thresholds or the recorded native
+recovery proof, which already clicked the real link successfully.
