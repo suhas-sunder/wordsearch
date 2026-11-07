@@ -60,6 +60,11 @@ export function auditContent(records: ContentRecord[]): ContentAuditResult {
   const fingerprintablePuzzles = puzzles.filter((record) => Array.isArray(record.puzzle.directions)
     && record.puzzle.directions.length > 0
     && Array.from(record.puzzle.directions).every((direction) => validPuzzleDirections.has(direction)));
+  const fingerprints = new Map<PuzzleContentRecord, ReturnType<typeof generatedPuzzleFingerprints>>();
+  for (const record of fingerprintablePuzzles) {
+    try { fingerprints.set(record, generatedPuzzleFingerprints(record)); }
+    catch (error) { errors.push({ level: "error", code: "puzzle-generation-failed", message: `${record.canonicalPath}: ${error instanceof Error ? error.message : String(error)}`, ids: [record.id] }); }
+  }
 
   addDuplicateIssues(records, errors, "duplicate-id", "content ID", (record) => record.id);
   addDuplicateIssues(records, errors, "duplicate-path", "canonical path", (record) => record.canonicalPath);
@@ -74,9 +79,9 @@ export function auditContent(records: ContentRecord[]): ContentAuditResult {
   addDuplicateIssues(puzzles, errors, "duplicate-word-set", "sorted word set", (record) => [...normalizeWords(record.puzzle.words)].sort().join("\u001f"));
   addDuplicateIssues(puzzles, errors, "duplicate-seed-settings", "seed and puzzle settings", (record) => JSON.stringify({ seed: record.puzzle.seed, rows: record.puzzle.rows, columns: record.puzzle.columns, directions: record.puzzle.directions, overlap: record.puzzle.allowOverlap, pack: record.puzzle.alphabetPack }));
   addDuplicateIssues(inputFingerprintablePuzzles, errors, "duplicate-input-fingerprint", "puzzle input fingerprint", puzzleInputFingerprint);
-  addDuplicateIssues(fingerprintablePuzzles, errors, "duplicate-grid", "generated grid", (record) => generatedPuzzleFingerprints(record).grid);
-  addDuplicateIssues(fingerprintablePuzzles, errors, "duplicate-placements", "placement fingerprint", (record) => generatedPuzzleFingerprints(record).placements);
-  addDuplicateIssues(fingerprintablePuzzles, errors, "duplicate-puzzle", "complete puzzle fingerprint", (record) => generatedPuzzleFingerprints(record).complete);
+  addDuplicateIssues(fingerprintablePuzzles, errors, "duplicate-grid", "generated grid", (record) => fingerprints.get(record)?.grid);
+  addDuplicateIssues(fingerprintablePuzzles, errors, "duplicate-placements", "placement fingerprint", (record) => fingerprints.get(record)?.placements);
+  addDuplicateIssues(fingerprintablePuzzles, errors, "duplicate-puzzle", "complete puzzle fingerprint", (record) => fingerprints.get(record)?.complete);
 
   const ids = new Set(records.map((record) => record.id));
   const recordsById = new Map(records.map((record) => [record.id, record]));

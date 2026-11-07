@@ -10,7 +10,7 @@ import { downloadBrowserPuzzlePdf } from "@/lib/pdf/browser-download";
 import { generatePuzzle } from "@/lib/puzzle/generate";
 import { outputOptionsForRequest, parsePuzzleOutputOptions, serializePuzzleOutputOptions, type PuzzleOutputOptions } from "@/lib/puzzle/output-options";
 import type { PuzzleResult } from "@/lib/puzzle/types";
-import { decodePuzzleShareState, puzzlePlayUrl } from "@/lib/share-state/state";
+import { decodePuzzleShareState, puzzlePlayUrl, puzzleRecoveryLink } from "@/lib/share-state/state";
 import styles from "./StaticPuzzleRoute.module.css";
 
 export type StaticPuzzleRouteKind = "play" | "print" | "pdf" | "answer-key" | "embed" | "custom";
@@ -66,6 +66,7 @@ function encodedStateFromLocation(kind: StaticPuzzleRouteKind) {
 export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
   const [loaded, setLoaded] = useState<LoadedPuzzleRoute | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "invalid">("loading");
+  const [recovery, setRecovery] = useState<ReturnType<typeof puzzleRecoveryLink>>(null);
   const [qrDataUrl, setQrDataUrl] = useState("");
   const [qrFailed, setQrFailed] = useState(false);
   const [pdfStatus, setPdfStatus] = useState<"idle" | "working" | "error">("idle");
@@ -87,10 +88,12 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
   }, [status]);
 
   useEffect(() => {
+    const encoded = encodedStateFromLocation(kind);
+    setRecovery(null);
     try {
-      const encoded = encodedStateFromLocation(kind);
       const request = decodePuzzleShareState(encoded);
       if (!request) {
+        setRecovery(puzzleRecoveryLink(encoded));
         setStatus("invalid");
         return;
       }
@@ -100,7 +103,8 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
         options: parsePuzzleOutputOptions(window.location.search, outputOptionsForRequest(puzzle.request))
       });
       setStatus("ready");
-    } catch {
+    } catch (error) {
+      setRecovery(puzzleRecoveryLink(encoded, error));
       setStatus("invalid");
     }
   }, [kind]);
@@ -172,8 +176,9 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
   if (status === "invalid" || !loaded) {
     return (
       <main className={`utility-page site-shell content-section ${styles.invalid}`} data-utility-state="invalid">
-        <h1>Puzzle link not found</h1>
-        <p>The encoded puzzle link is incomplete, invalid, or no longer available. No fallback puzzle was generated.</p>
+        <h1>{recovery ? "Puzzle needs changes" : "Puzzle link not found"}</h1>
+        <p>{recovery ? recovery.message : "The encoded puzzle link is incomplete, invalid, or no longer available. No fallback puzzle was generated."}</p>
+        {recovery && <p><Link href={recovery.href} prefetch={false}>Edit this puzzle</Link></p>}
         <div className="hero-actions">
           <Link className="primary-button" href="/word-search-generator">Create a puzzle</Link>
           <Link className="secondary-button" href="/topics">Browse topics</Link>

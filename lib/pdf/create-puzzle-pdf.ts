@@ -379,7 +379,7 @@ export function validatePuzzleForPdf(value: unknown): value is PuzzleResult {
   if (!Array.isArray(puzzle.request.directions) || !puzzle.request.directions.length || !puzzle.request.directions.every((direction) => direction in directionVectors)) return false;
   if (!Array.isArray(puzzle.grid) || puzzle.grid.length !== puzzle.rows) return false;
   if (!puzzle.grid.every((row) => Array.isArray(row) && row.length === puzzle.cols && row.every((token) => typeof token === "string" && token.length <= 32))) return false;
-  if (!Array.isArray(puzzle.placed) || puzzle.placed.length > 300) return false;
+  if (!Array.isArray(puzzle.placed) || puzzle.placed.length < 1 || puzzle.placed.length > 300) return false;
   const placementIds = new Set<string>();
   return puzzle.placed.every((placement) => {
     if (typeof placement.wordId !== "string" || !placement.wordId || placementIds.has(placement.wordId)) return false;

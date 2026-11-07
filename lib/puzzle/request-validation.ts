@@ -8,6 +8,15 @@ export const puzzleInputLimits = {
   maxTotalTokens: 4096, maxRequestBytes: 24_000, maxShareCharacters: 32_000
 } as const;
 
+export const noPlayableWordsError = "Add at least one supported word that fits the selected grid and directions.";
+export const incompleteClueError = "Clue mode needs a supported answer and a clue of 1–500 characters on every line: ANSWER | clue. Commas belong inside that line.";
+export const noPlacementsError = "No words were placed with this seed and configuration. Change the seed, use more directions, enlarge the grid, or shorten the words.";
+export const nonblankSeedError = "Enter a nonblank puzzle seed before playing, sharing, or exporting.";
+
+export function isEditablePuzzleError(message: unknown): message is string {
+  return typeof message === "string" && [noPlayableWordsError, incompleteClueError, noPlacementsError, nonblankSeedError].includes(message);
+}
+
 const stringLimits = {
   title: 256, subtitle: 500, instructions: 2000, wordsText: 16_000,
   seed: 256, customFiller: 2000, hiddenMessage: 2000
@@ -77,7 +86,7 @@ export function puzzleRequestError(input: unknown): string | null {
   }
   if (typeof request.wordsText === "string") {
     const parsed = parseWordInput(request.wordsText, (request.alphabetPack ?? "latin") as AlphabetPackId, request.wordBankMode === "clues");
-    if (request.wordBankMode === "clues" && (!parsed.words.length || parsed.words.length !== splitWordInput(request.wordsText, true).length || parsed.words.some((word) => !word.clue?.trim() || word.clue.length > 500))) return "Clue mode needs a supported answer and a clue of 1–500 characters on every line: ANSWER | clue. Commas belong inside that line.";
+    if (request.wordBankMode === "clues" && (!parsed.words.length || parsed.words.length !== splitWordInput(request.wordsText, true).length || parsed.words.some((word) => !word.clue?.trim() || word.clue.length > 500))) return incompleteClueError;
     const words = parsed.words.filter((word) => !word.duplicateOf);
     const effective = { autoSize: true, allowOverlap: true, ...request } as Partial<PuzzleRequest>;
     const { rows, cols } = choosePuzzleSize(words, effective);
@@ -85,6 +94,12 @@ export function puzzleRequestError(input: unknown): string | null {
     if (placementTokenCheckBound(words, rows, cols, count) > maxPlacementTokenChecks) {
       return "Puzzle workload exceeds the safe placement limit. Use fewer or shorter words, a smaller grid, or fewer repeated direction entries.";
     }
+    // Reject geometrically impossible lists cheaply. Seeded placement still
+    // uses bounded random attempts and checks its actual result separately.
+    const longestSpan = Array.isArray(request.directions)
+      ? Math.max(...request.directions.map((direction) => direction === "E" || direction === "W" ? cols : direction === "N" || direction === "S" ? rows : Math.min(rows, cols)))
+      : Math.max(rows, cols);
+    if (!words.some((word) => word.tokens.length <= longestSpan)) return noPlayableWordsError;
   }
   return null;
 }

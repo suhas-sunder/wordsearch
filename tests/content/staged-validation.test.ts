@@ -34,7 +34,7 @@ describe("staged technical validation", () => {
     expect(validateStaged([left, right]).issues.map((i) => i.code)).toContain("duplicate-token-sets");
   });
   test("checks category, collisions, dimensions and incomplete placement", () => {
-    const bad = { ...sample, proposedPath: "/word-searches/animals/dog-word-search", taxonomy: { primaryCategory: "holiday-word-searches" }, puzzle: { ...sample.puzzle, rows: 6, columns: 6, words: ["EXTRALONGWORD"] } };
+    const bad = { ...sample, proposedPath: "/word-searches/animals/dog-word-search", taxonomy: { primaryCategory: "holiday-word-searches" }, puzzle: { ...sample.puzzle, rows: 6, columns: 6, words: ["CAT", "EXTRALONGWORD"] } };
     expect(validateStaged([bad]).issues.map((i) => i.code)).toEqual(expect.arrayContaining(["category-path", "duplicate-path", "excluded-word"]));
   });
   test("detects candidate exposure in generated indexed HTML, sitemap, search and files", () => {

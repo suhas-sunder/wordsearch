@@ -60,6 +60,7 @@ describe("external puzzle configuration", () => {
     }
     const partial = { title: "Café & classroom", seed: "legacy-omitted", wordsText: "café\nniño" };
     expect(generatePuzzle(decodePuzzleShareState(encodeShareState(partial))!)).toEqual(generatePuzzle(partial));
-    expect(generatePuzzle({ wordsText: "" }).warnings.join(" ")).toMatch(/supported word/i);
+    // Filler-only definitions now fail closed; valid legacy replay above stays exact.
+    expect(() => generatePuzzle({ wordsText: "" })).toThrow(/supported word.*fits/i);
   });
 });

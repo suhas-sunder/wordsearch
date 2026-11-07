@@ -3,7 +3,7 @@
 import { useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
 import { Download, FileCode2, Play, RefreshCw, Shuffle, Upload } from "lucide-react";
 import { defaultPuzzleRequest, generatePuzzle, directionsByDifficulty, directionSelectionError } from "@/lib/puzzle/generate";
-import { puzzleInputLimits, puzzleRequestError } from "@/lib/puzzle/request-validation";
+import { isEditablePuzzleError, nonblankSeedError, puzzleInputLimits, puzzleRequestError } from "@/lib/puzzle/request-validation";
 import type { AlphabetPackId, Difficulty, DirectionKey, FillerMode, PuzzleRequest, PuzzleResult, WordBankOrder } from "@/lib/puzzle/types";
 import { nextSeed } from "@/lib/puzzle/prng";
 import { decodeShareState, stateId } from "@/lib/share-state/state";
@@ -119,21 +119,27 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     }
     const handle = window.setTimeout(() => {
       startTransition(() => setDebouncedRequest(request));
-      const storage = safeLocalStorage();
-      if (storage && !urlStateActive.current && !loadError && !puzzleRequestError(request) && typeof request.seed === "string" && request.seed.trim()) {
-        try { storage.setItem("ilws:last-builder-state", JSON.stringify(request)); } catch { /* Editing also works without storage. */ }
-      }
     }, 220);
     return () => window.clearTimeout(handle);
   }, [persistState, request, loadError]);
 
   const directionError = directionSelectionError(request.directions);
-  const requestError = loadError ?? puzzleRequestError(request) ?? (typeof request.seed !== "string" || !request.seed.trim() ? "Enter a nonblank puzzle seed before playing, sharing, or exporting." : null);
+  const configurationError = loadError ?? puzzleRequestError(request) ?? (typeof request.seed !== "string" || !request.seed.trim() ? nonblankSeedError : null);
+  const generated = useMemo(() => {
+    if (!stateLoaded || request !== debouncedRequest || configurationError || puzzleRequestError(debouncedRequest)) return { puzzle: null, error: null };
+    try { return { puzzle: generatePuzzle(debouncedRequest), error: null }; }
+    catch (error) { return { puzzle: null, error: error instanceof Error ? error.message : "This puzzle could not be generated. Edit the settings and try again." }; }
+  }, [debouncedRequest, request, configurationError, stateLoaded]);
+  const puzzle = generated.puzzle;
+  const requestError = configurationError ?? generated.error;
   useEffect(() => {
-    if (!requestError) lastValidRequest.current = request;
-  }, [request, requestError]);
-  const puzzle = useMemo(() => !stateLoaded || request !== debouncedRequest || requestError || puzzleRequestError(debouncedRequest)
-    ? null : generatePuzzle(debouncedRequest), [debouncedRequest, request, requestError, stateLoaded]);
+    if (puzzle) lastValidRequest.current = request;
+  }, [request, puzzle]);
+  useEffect(() => {
+    if (!persistState || !puzzle || urlStateActive.current || loadError) return;
+    const storage = safeLocalStorage();
+    try { storage?.setItem("ilws:last-builder-state", JSON.stringify(request)); } catch { /* Editing also works without storage. */ }
+  }, [persistState, puzzle, request, loadError]);
   const encoded = useMemo(() => puzzle ? stateId(puzzle.request) : "", [puzzle]);
   useEffect(() => { if (puzzle) lastValidPuzzle.current = puzzle; }, [puzzle]);
   useEffect(() => {
@@ -199,7 +205,8 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     return <section className="builder-loading-shell" aria-busy="true"><p>Checking saved puzzle settings…</p></section>;
   }
 
-  if ((requestError || !puzzle) && !hasUserEdits) {
+  const editableSemanticError = isEditablePuzzleError(requestError);
+  if ((requestError || !puzzle) && !hasUserEdits && !editableSemanticError) {
     return (
       <section className="builder-surface content-section" aria-label="Word search builder">
         <h2>Check puzzle settings</h2>

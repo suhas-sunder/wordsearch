@@ -1,5 +1,5 @@
 import type { PuzzleRequest } from "@/lib/puzzle/types";
-import { puzzleInputLimits, puzzleRequestError } from "@/lib/puzzle/request-validation";
+import { isEditablePuzzleError, nonblankSeedError, puzzleInputLimits, puzzleRequestError } from "@/lib/puzzle/request-validation";
 
 const puzzleShareKeys = [
   "title",
@@ -69,6 +69,14 @@ export function decodePuzzleShareState(value: string | null | undefined): Partia
   if (typeof state.seed !== "string" || !state.seed.trim()) return null;
   if (typeof state.wordsText !== "string" || !state.wordsText.trim()) return null;
   return state;
+}
+
+/** Preserve only bounded, structurally valid definitions with known editable errors. */
+export function puzzleRecoveryLink(value: string | null | undefined, generationError?: unknown): { href: string; message: string } | null {
+  const state = decodeShareState(value);
+  if (!state || typeof value !== "string" || typeof state.seed !== "string" || typeof state.wordsText !== "string") return null;
+  const message = puzzleRequestError(state) ?? (!state.seed.trim() ? nonblankSeedError : generationError instanceof Error ? generationError.message : generationError);
+  return isEditablePuzzleError(message) ? { href: `/word-search-generator?state=${encodeURIComponent(value)}`, message } : null;
 }
 
 export function shareUrl(path: string) {
