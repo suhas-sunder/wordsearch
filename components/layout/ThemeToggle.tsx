@@ -9,6 +9,7 @@ const choices: Theme[] = ["system", "light", "dark"];
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("system");
+  const [ready, setReady] = useState(false);
   const preference = useRef<Theme>("system");
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -23,6 +24,7 @@ export function ThemeToggle() {
       document.documentElement.dataset.theme = choice === "system" ? (media.matches ? "dark" : "light") : choice;
     }
     sync();
+    setReady(true);
     media.addEventListener("change", sync);
     window.addEventListener("storage", sync);
     return () => {
@@ -40,5 +42,6 @@ export function ThemeToggle() {
   }
   const Icon = theme === "system" ? Monitor : theme === "light" ? Sun : Moon;
   const next = choices[(choices.indexOf(theme) + 1) % choices.length];
-  return <button className="theme-toggle" type="button" onClick={change} aria-label={`Theme: ${theme}. Switch to ${next} mode`} title={`Theme: ${theme}. Switch to ${next} mode`}><Icon size={18} aria-hidden="true" /></button>;
+  const label = ready ? `Theme: ${theme}. Switch to ${next} mode` : "Theme selection requires JavaScript. Without it, your device preference is used.";
+  return <button className="theme-toggle" type="button" disabled={!ready} onClick={change} aria-label={label} title={label}><Icon size={18} aria-hidden="true" /></button>;
 }
