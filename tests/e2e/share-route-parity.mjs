@@ -48,10 +48,11 @@ try {
       await page.getByRole("button", { name: "Download this PDF" }).click();
       const download = await downloadPromise;
       const bytes = await readFile(await download.path());
-      const doc = await getDocument({ data: new Uint8Array(bytes), useSystemFonts: true }).promise;
+      const loadingTask = getDocument({ data: new Uint8Array(bytes), useSystemFonts: true });
+      const doc = await loadingTask.promise;
       const text = (await (await doc.getPage(1)).getTextContent()).items.map(item => "str" in item ? item.str : "").join("").replace(/\s/g, "").toUpperCase();
       for (let row = 0; row < 12; row++) check(text.includes(grid.slice(row * 12, row * 12 + 12).join("").toUpperCase()), `PDF: row ${row + 1} differs`);
-      await doc.destroy();
+      await loadingTask.destroy();
     }
   }
   for (const kind of ["play", "print", "pdf", "answer-key", "embed", "custom"]) {

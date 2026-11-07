@@ -15,7 +15,8 @@ export async function inspectCandidatePdfs(freeze: Freeze): Promise<{ issues: Va
       const options = { ...defaultPuzzleOutputOptions, paperSize, includeAnswerKey: true, qrCode: false };
       const bytes = await createPuzzlePdf({ puzzle: freeze.result, options, shareUrl: "https://www.ilovewordsearch.com/" });
       const standardFontDataUrl = `${fileURLToPath(new URL("../../node_modules/pdfjs-dist/standard_fonts/", import.meta.url))}/`;
-      const pdf = await getDocument({ data: bytes.slice(), standardFontDataUrl }).promise;
+      const loadingTask = getDocument({ data: bytes.slice(), standardFontDataUrl });
+      const pdf = await loadingTask.promise;
       const spec = pdfPageSpec(paperSize, "portrait");
       if (pdf.numPages !== 2) throw new Error(`Expected two pages, got ${pdf.numPages}`);
       const pages = await Promise.all([pdf.getPage(1), pdf.getPage(2)]);
@@ -67,7 +68,7 @@ export async function inspectCandidatePdfs(freeze: Freeze): Promise<{ issues: Va
       const minGlyphPt = glyphs.length ? Math.min(...glyphs.map((item) => "transform" in item ? Math.abs(item.transform[3]) : Infinity)) : 0;
       if (glyphs.length < freeze.rows * freeze.columns) issues.push({ stage: "pdf", code: "grid-glyphs", id: freeze.id, detail: `${paperSize}: too few individual extracted grid glyphs` });
       evidence.push({ paperSize, pages: pdf.numPages, widthPt: views[0].width, heightPt: views[0].height, extractedSingleGlyphs: glyphs.length, minExtractedGlyphPt: minGlyphPt, minGridGlyphPt, minWordBankPt, studentPaths: strokes[0], answerPaths: strokes[1], bytes: bytes.length });
-      await pdf.destroy();
+      await loadingTask.destroy();
     } catch (error) { issues.push({ stage: "pdf", code: "pdf-inspection", id: freeze.id, detail: `${paperSize}: ${error instanceof Error ? error.message : String(error)}` }); }
   }
   return { issues, evidence };

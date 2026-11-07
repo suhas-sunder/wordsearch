@@ -15,14 +15,15 @@ async function downloadBytes(download) {
 }
 async function readPages(bytes) {
   const standardFontDataUrl = `${fileURLToPath(new URL("../../node_modules/pdfjs-dist/standard_fonts/", import.meta.url))}/`;
-  const pdf = await getDocument({ data: new Uint8Array(bytes), standardFontDataUrl }).promise;
+  const loadingTask = getDocument({ data: new Uint8Array(bytes), standardFontDataUrl });
+  const pdf = await loadingTask.promise;
   const pages = [];
   for (let i = 1; i <= pdf.numPages; i++) {
     const content = await (await pdf.getPage(i)).getTextContent();
     const values = content.items.filter((item) => "str" in item).map((item) => item.str);
     pages.push({ text: values.join(" "), grid: values.filter((value) => /^[A-Z]$/.test(value)).slice(0, 225).join("") });
   }
-  await pdf.destroy();
+  await loadingTask.destroy();
   return pages;
 }
 try {
