@@ -342,7 +342,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             <label><input type="checkbox" checked={request.showCoordinates ?? false} onChange={(event) => patch({ showCoordinates: event.target.checked })} /> Coordinates</label>
             <label><input type="checkbox" checked={request.nameDateLine ?? true} onChange={(event) => patch({ nameDateLine: event.target.checked })} /> Name/date line</label>
           </div>
-          <p className="control-help">Share-link defaults update this preview. Larger grid type can change auto-sized dimensions; it does not enlarge the word bank. For both, choose the measured large-print option in Download PDF.</p>
+          <p className="control-help">Share-link defaults update this preview. Larger grid type can change auto-sized dimensions; it does not guarantee a minimum word-bank size. For measured grid and word-bank sizes, choose the large-print option in Download PDF.</p>
           <details className="advanced-controls">
             <summary>Advanced print and fill controls</summary>
             <label>
