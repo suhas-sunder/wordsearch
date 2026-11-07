@@ -3,6 +3,7 @@ import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import { createPuzzlePdf } from "@/lib/pdf/create-puzzle-pdf";
 import type { PuzzleOutputOptions } from "@/lib/puzzle/output-options";
 import type { PuzzleResult } from "@/lib/puzzle/types";
+import { splitCoalescedWordBank } from "@/lib/pdf/coalesced-word-bank";
 
 export interface MeasuredBox { text: string; x: number; y: number; width: number; height: number; fontPt: number }
 export interface PrintMeasurement {
@@ -20,7 +21,8 @@ export async function measurePuzzlePdf(puzzle: PuzzleResult, options: PuzzleOutp
 /** Measure a selected puzzle page from an already composed PDF. */
 export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, options: PuzzleOutputOptions, pageNumber = 1): Promise<PrintMeasurement> {
   const standardFontDataUrl = `${fileURLToPath(new URL("../../node_modules/pdfjs-dist/standard_fonts/", import.meta.url))}/`;
-  const document = await getDocument({ data: bytes.slice(), standardFontDataUrl }).promise;
+  const loadingTask = getDocument({ data: bytes.slice(), standardFontDataUrl });
+  const document = await loadingTask.promise;
   try {
     const page = await document.getPage(pageNumber), viewport = page.getViewport({ scale: 1 }), contents = await page.getTextContent();
     const text: MeasuredBox[] = contents.items.flatMap((item) => "str" in item && "transform" in item && item.str.trim() ? [{ text: item.str.trim(), x: item.transform[4], y: item.transform[5], width: item.width, height: item.height, fontPt: Math.abs(item.transform[3]) }] : []);
@@ -38,7 +40,9 @@ export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, o
     const titleLines = text.filter((item) => item.fontPt >= 12 && item.text.length >= 1 && puzzle.request.title.includes(item.text) && item.y > bounds.y + bounds.height);
     const title = titleLines.length ? { text: titleLines.map((line) => line.text).join(" "), x: Math.min(...titleLines.map((line) => line.x)), y: Math.min(...titleLines.map((line) => line.y)), width: Math.max(...titleLines.map((line) => line.x + line.width)) - Math.min(...titleLines.map((line) => line.x)), height: Math.max(...titleLines.map((line) => line.y + line.height)) - Math.min(...titleLines.map((line) => line.y)), fontPt: Math.min(...titleLines.map((line) => line.fontPt)) } : null;
     const labels = puzzle.placed.map((placement) => placement.label);
-    const candidates = text.slice(text.indexOf(glyphs[glyphs.length - 1]) + 1).filter((item) => !["Exact seeded word search", "Scan to open the same unsolved puzzle."].includes(item.text));
+    const extracted = text.slice(text.indexOf(glyphs[glyphs.length - 1]) + 1).filter((item) => !["Exact seeded word search", "Scan to open the same unsolved puzzle."].includes(item.text));
+    const candidates: MeasuredBox[] = [];
+    for (const item of extracted) candidates.push(...(await splitCoalescedWordBank(item, labels) ?? [item]));
     const wordBank: MeasuredBox[] = [], unmeasuredWords: string[] = [];
     const normalized = (value: string) => value.replace(/\s+/g, "").toLowerCase();
     for (const label of labels) {
@@ -69,5 +73,5 @@ export async function measurePdfBytes(bytes: Uint8Array, puzzle: PuzzleResult, o
     if (!title) findings.push({ code: "title-not-measured", detail: puzzle.request.title });
     if (unmeasuredWords.length) findings.push({ code: "words-not-measured", detail: unmeasuredWords.join(", ") });
     return { paperSize: options.paperSize, printScale: options.printScale, page: { widthPt: viewport.width, heightPt: viewport.height }, grid: { rows: puzzle.rows, columns: puzzle.cols, cellWidthPt, cellHeightPt, minFontPt: Math.min(...glyphs.map((item) => item.fontPt)), bounds }, title, titleLines, wordBank, unmeasuredWords, findings };
-  } finally { await document.destroy(); }
+  } finally { await loadingTask.destroy(); }
 }
