@@ -11,7 +11,7 @@ export default function EditorialPolicyPage() {
     { heading: "Word-list standards", items: ["Review spelling and topic relevance.", "Remove duplicates and choose an appropriate difficulty.", "Check grid fit and audience suitability.", "Do not add filler terms solely to increase the word count."] },
     { heading: "Description standards", items: ["Write unique, useful copy rather than lightly spun templates.", "Avoid keyword stuffing, fake counts, fabricated popularity claims, and unsupported educational or health outcomes."] },
     { heading: "Corrections", paragraphs: [<>Visitors can <Link href="/contact">report</Link> spelling errors, broken puzzles, print or PDF problems, accessibility issues, unsuitable content, or duplicate pages.</>] },
-    { heading: "Advertising separation", paragraphs: ["If advertising is enabled later, it must remain separate from puzzle controls, never imitate download or navigation buttons, stay out of print and PDF output, avoid obstructing play, and never determine editorial topic selection. The current ad-labelled areas are layout placeholders, not active advertising."] },
+    { heading: "Advertising separation", paragraphs: ["Eligible content pages may display advertising. Ads must remain separate from puzzle controls, never imitate download or navigation buttons, stay out of print and PDF output, avoid obstructing play, and never determine editorial topic selection."] },
     { heading: "Automation and review", paragraphs: ["Software and automation assist with puzzle generation, validation, formatting, and parts of the publishing workflow. Indexable puzzle topics, word lists, and supporting page content are subject to editorial review before they are treated as finished resources."] }
   ]} />;
 }
