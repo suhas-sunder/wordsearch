@@ -48,6 +48,16 @@ h1,h2{font-size:20pt;line-height:1.15;margin:0 0 10px}p{margin:8px 0}.print-bran
 @page{size:${safe.paperSize === "a4" ? "A4" : "letter"} ${safe.orientation};margin:.45in}
 @media(max-width:600px){body{padding:8px}.print-sheet{padding:16px}.print-header{flex-wrap:wrap}.print-bank-beside .print-puzzle-body{display:block}}
 @media print{:root,body{background:white}body{padding:0}main{max-width:none}.print-sheet{margin:0;padding:0;break-after:page}.print-sheet:last-child{break-after:auto}.print-answer-sheet{break-before:page}.print-header{break-inside:avoid}.print-grid-wrap{break-inside:avoid}}
+@media print{
+.print-sheet{height:calc(${height} - .9in - 1px);display:grid;grid-template-rows:auto minmax(0,1fr);break-inside:avoid}
+.print-header{flex-wrap:nowrap}.print-header>div{min-width:0}
+.print-sheet .print-puzzle-body{min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
+.print-sheet.print-bank-beside:not(.print-answer-sheet) .print-puzzle-body{grid-template-columns:minmax(0,1fr) minmax(7em,.35fr);grid-template-rows:minmax(0,1fr);align-items:stretch}
+.print-sheet.print-answer-sheet .print-puzzle-body{grid-template-columns:minmax(0,1fr)}
+.print-sheet .print-grid-wrap{width:100%;height:100%;min-height:0;min-width:0;margin:0}
+.print-sheet .puzzle-svg{width:100%;height:100%;max-height:none;overflow:hidden}
+.print-word-bank{align-content:start}
+}
 `;
   return `<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'"><title>${escapedText(title)} — offline worksheet</title><style>${css}</style></head><body><main>${markup}</main></body></html>`;
 }

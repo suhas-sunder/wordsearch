@@ -2597,6 +2597,11 @@ input[type="checkbox"] {
   .print-page-a4-portrait { page: a4-portrait; }
   .print-page-a4-landscape { page: a4-landscape; }
 
+  .print-page-letter-portrait { --print-content-height: 10.1in; }
+  .print-page-letter-landscape { --print-content-height: 7.6in; }
+  .print-page-a4-portrait { --print-content-height: 275mm; }
+  .print-page-a4-landscape { --print-content-height: 188mm; }
+
   body {
     background: white;
   }
@@ -2712,7 +2717,58 @@ input[type="checkbox"] {
     width: 68px;
     height: 68px;
   }
+
+  /* Reserve real paper height for header, bank and QR before fitting the SVG.
+     An intrinsic tall SVG must never force its parent across several sheets.
+     The 1px allowance avoids an extra page from print-unit rounding. */
+  .print-sheet {
+    height: calc(var(--print-content-height) - 1px);
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    break-inside: avoid;
+    break-after: page;
+  }
+
+  .print-sheet:last-child { break-after: auto; }
+
+  .print-sheet .print-puzzle-body {
+    min-height: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .print-sheet.print-bank-beside:not(.print-answer-sheet) .print-puzzle-body {
+    grid-template-columns: minmax(0, 1fr) minmax(150px, .32fr);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .print-sheet.print-answer-sheet .print-puzzle-body { grid-template-columns: minmax(0, 1fr); }
+
+  .print-sheet .print-grid-wrap {
+    min-width: 0;
+    min-height: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+  }
+
+  .print-sheet .puzzle-svg { width: 100%; height: 100%; }
+  .print-sheet .print-word-bank { margin-top: 0; align-content: start; }
+  .print-sheet .print-word-bank span { overflow-wrap: anywhere; }
+  .print-sheet .print-header > div { min-width: 0; }
+  .print-sheet .print-header { flex-direction: row; align-items: flex-start; }
+  .print-sheet .print-footer { flex-direction: row; align-items: flex-end; }
+  .print-sheet .print-header h1,
+  .print-sheet .print-header h2,
+  .print-sheet .print-subtitle { overflow-wrap: anywhere; }
 }
+
+.print-qr-unavailable { max-width: 170px; font-weight: 700; }
+.utility-page > .print-sheet + .print-sheet { margin-top: 24px; }
+@media print { .utility-page > .print-sheet + .print-sheet { margin-top: 0; } }
 
 /* Theme tokens affect site UI; puzzle paper and print keep their light palette. */
 :root { color-scheme: light; }
