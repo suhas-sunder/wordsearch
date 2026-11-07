@@ -21,6 +21,12 @@ describe("source-only Christmas collection review", () => {
   });
 
   test("fails closed on independent suitability/reuse and does not pad kids inventory", () => {
+    const traditions = christmasCollectionReviews[0];
+    const approvedReuse = { ...traditions.children[0], collectionFitApproved: true, audienceSuitabilityApproved: true, reuseApproved: true };
+    expect(buildCollectionReview({ ...traditions, children: [approvedReuse] }).approvedPublishedChildCount).toBe(1);
+    for (const gate of ["collectionFitApproved", "audienceSuitabilityApproved", "reuseApproved"] as const) {
+      expect(buildCollectionReview({ ...traditions, children: [{ ...approvedReuse, [gate]: false }] }).approvedPublishedChildCount, gate).toBe(0);
+    }
     const kids = christmasCollectionReviews[1];
     const report = buildCollectionReview(kids);
     expect(report.children.map(({ id }) => id)).toEqual(["X02"]);
