@@ -10,6 +10,7 @@ import { decodeShareState, stateId } from "@/lib/share-state/state";
 import { PuzzleUtilities } from "@/components/puzzle/PuzzleUtilities";
 import { LocalPuzzleLibrary } from "@/components/builder/LocalPuzzleLibrary";
 import { getAlphabetPack } from "@/lib/alphabet-packs";
+import { downloadGridBlob, gridExportFilename, pngGridBlob, puzzleGridText, standaloneGridSvg } from "@/lib/print/grid-export";
 
 export interface BuilderProps {
   initialRequest: Partial<PuzzleRequest>;
@@ -55,6 +56,13 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   const [stateLoaded, setStateLoaded] = useState(!persistState);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [hasUserEdits, setHasUserEdits] = useState(false);
+  const [gridExportMessage, setGridExportMessage] = useState("");
+  const [pngWorking, setPngWorking] = useState(false);
+  const currentExportRequest = useRef(request);
+  currentExportRequest.current = request;
+  const exportMounted = useRef(true);
+  useEffect(() => { exportMounted.current = true; return () => { exportMounted.current = false; }; }, []);
+  useEffect(() => { setGridExportMessage(""); }, [request]);
   const lastValidRequest = useRef(request);
   const lastValidPuzzle = useRef<PuzzleResult | null>(null);
   const previewRef = useRef<HTMLDivElement | null>(null);
@@ -156,17 +164,24 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     });
   }
 
-  function downloadSvg() {
+  async function downloadGrid(format: "svg" | "png" | "txt") {
     if (!puzzle) return;
-    const svg = document.querySelector(".builder-preview .puzzle-svg");
-    if (!svg) return;
-    const blob = new Blob([new XMLSerializer().serializeToString(svg)], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${(puzzle.request.title || "word-search").toLowerCase().replace(/[^a-z0-9]+/g, "-")}.svg`;
-    link.click();
-    URL.revokeObjectURL(url);
+    const definition = request;
+    setGridExportMessage("");
+    if (format === "png") setPngWorking(true);
+    try {
+      const svg = previewRef.current?.querySelector<SVGSVGElement>(".puzzle-svg");
+      if (!svg) throw new Error("The grid is not ready. Wait for a valid preview.");
+      const hasAnswers = svg.querySelector("line") !== null;
+      const blob = format === "png" ? await pngGridBlob(svg)
+        : format === "txt" ? new Blob([puzzleGridText(puzzle)], { type: "text/plain;charset=utf-8" })
+          : new Blob([standaloneGridSvg(svg).markup], { type: "image/svg+xml" });
+      if (!exportMounted.current || currentExportRequest.current !== definition) return;
+      downloadGridBlob(blob, gridExportFilename(puzzle.request.title, format));
+      setGridExportMessage(`${format.toUpperCase()} grid downloaded.${format !== "txt" && hasAnswers ? " Includes the visible answer highlights." : ""}`);
+    } catch (error) {
+      if (exportMounted.current && currentExportRequest.current === definition) setGridExportMessage(error instanceof Error ? error.message : "The grid could not be downloaded.");
+    } finally { if (exportMounted.current) setPngWorking(false); }
   }
 
   function handleFile(file: File | undefined) {
@@ -385,11 +400,15 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             )}
           </div>
           <div className="export-row">
-            <button type="button" onClick={downloadSvg}><Download size={16} aria-hidden="true" /> SVG</button>
+            <button type="button" onClick={() => downloadGrid("svg")}><Download size={16} aria-hidden="true" /> SVG grid</button>
+            <button type="button" disabled={pngWorking} onClick={() => downloadGrid("png")}><Download size={16} aria-hidden="true" /> {pngWorking ? "Creating PNG…" : "PNG grid"}</button>
+            <button type="button" onClick={() => downloadGrid("txt")}><FileCode2 size={16} aria-hidden="true" /> Grid text</button>
             <button type="button" onClick={downloadHtmlWorksheet}><FileCode2 size={16} aria-hidden="true" /> HTML worksheet</button>
             <span>Print, PDF, answer key, play, share, and QR all use this exact seeded state.</span>
             {!persistState && <a href={puzzle.sharePath}>Open in maker to save</a>}
           </div>
+          <p className="control-help">SVG and PNG save the displayed grid, including visible answers, for your own documents. Grid text saves one tab-separated cell per column. These files contain puzzle letters; keep private puzzles private.</p>
+          <p className="control-help" role="status" aria-live="polite" aria-atomic="true">{gridExportMessage}</p>
           <p className="control-help">HTML saves an offline, script-free worksheet with the current paper/layout choices and any included answer page. QR and share links are omitted. It contains your words; keep the file private. Browser printing can use extra sheets for crowded content; use PDF for fixed page layout.</p>
           {htmlExportMessage && <p className="control-help" role="status">{htmlExportMessage}</p>}
           <div className="sr-only" aria-live="polite">
