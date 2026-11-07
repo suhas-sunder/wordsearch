@@ -83,7 +83,7 @@ export function PrintablePuzzle({
             <strong>{utilityLabel ?? (answerKey ? "Answer key" : "Open this exact puzzle")}</strong>
             <span>{target.length > 96 ? "Scan the QR code to open the exact seeded puzzle." : target}</span>
           </div>
-          {qrDataUrl ? <img src={qrDataUrl} alt="QR code for this puzzle state" /> : <span className="print-qr-unavailable" role="status">QR code not ready. Wait or turn off QR printing.</span>}
+          {qrDataUrl ? <img src={qrDataUrl} alt="QR code for this puzzle state" /> : <span className="print-qr-unavailable" role="status">QR code not ready</span>}
         </footer>
       )}
     </article>

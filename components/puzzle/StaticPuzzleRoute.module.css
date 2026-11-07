@@ -40,6 +40,10 @@
 .embed .grid { width: 100%; }
 .printChecking { display: none; }
 
+/* Two real, useful text rows persist across QR preparation and recovery.
+   No synthetic page height or blank loading spacer is involved. */
+.qrStatus { flex-basis: 100%; display: grid; justify-items: start; gap: 2px; margin: 0; font-size: .82rem; line-height: 1.4; }
+
 .invalid h1,
 .checking > noscript h1 {
   margin: .5rem 0 1rem;
