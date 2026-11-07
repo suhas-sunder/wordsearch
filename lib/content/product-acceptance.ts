@@ -5,8 +5,8 @@ export const requiredOwnerIssues = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 
 export const requiredAcceptanceFeatures = [
   "F0.integration", "F0.integrity", "F0.cls",
   "F1.brand-icons", "F1.navigation", "F1.discovery", "F1.faq", "F1.internal-links", "F1.cross-sites", "F1.author-footer", "F1.social", "F1.theme", "F1.visual",
-  "F2.settings", "F2.clues", "F2.input-safety", "F2.solver", "F2.sharing", "F2.resume", "F2.library",
-  "F3.single-pdf", "F3.layout-fit", "F3.large-print", "F3.packets", "F3.presets", "F3.worksheet-fields", "F3.html-export", "F3.grid-exports",
+  "F2.settings", "F2.clues", "F2.feedback", "F2.input-safety", "F2.solver", "F2.sharing", "F2.resume", "F2.library",
+  "F3.single-pdf", "F3.layout-fit", "F3.large-print", "F3.print-case", "F3.packets", "F3.presets", "F3.worksheet-fields", "F3.html-export", "F3.grid-exports",
   "F4.inventory", "F4.calendar", "F4.publication", "F4.cohorts",
   "F5.accessibility", "F5.performance", "F5.security", "F5.ads-lifecycle", "F5.ad-eligibility", "F5.seo-static", "F5.preview", "F5.rollback", "F6.optional"
 ];

@@ -336,6 +336,60 @@
       "sha": "105eec46c1bfeff186baa72bf19cd8a9007ae1e2",
       "branch": "codex/grid-export-formats",
       "draft": true
+    },
+    "76": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/76",
+      "sha": "446e15344f263655c8d97f6290e985fde2bf10d4",
+      "branch": "codex/single-measured-large-print",
+      "draft": true
+    },
+    "77": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/77",
+      "sha": "0e546929514867328e228dd03a4de65e99ab6b89",
+      "branch": "codex/browser-print-preflight",
+      "draft": true
+    },
+    "78": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/78",
+      "sha": "a73301168096c601cb521f44c70027f75d349264",
+      "branch": "codex/clue-worksheets",
+      "draft": true
+    },
+    "79": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/79",
+      "sha": "41aa3e0a79e411bbd9407ca22106ac35d01a1d0b",
+      "branch": "codex/preserved-owner-inventory",
+      "draft": true
+    },
+    "80": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/80",
+      "sha": "4d863d47a2de1df2e40b693b126d4437404c368f",
+      "branch": "codex/staged-editorial-quality",
+      "draft": true
+    },
+    "81": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/81",
+      "sha": "7cb3dbbd1315b6737825f1793d5a7fb03b105475",
+      "branch": "codex/optional-solver-sound",
+      "draft": true
+    },
+    "82": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/82",
+      "sha": "f1413b27a4a2bfac4bc10b04c34c5d2ab55db63e",
+      "branch": "codex/printable-letter-case",
+      "draft": true
+    },
+    "83": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/83",
+      "sha": "58c284b492a03288cc1031b0282914ead9c076f9",
+      "branch": "codex/empty-puzzle-recovery",
+      "draft": true
+    },
+    "84": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/84",
+      "sha": "0fa79b452c2262482026df1e53002eb9e6e38717",
+      "branch": "codex/advertising-copy-accuracy",
+      "draft": true
     }
   },
   "features": [
@@ -630,19 +684,42 @@
     {
       "id": "F2.clues",
       "title": "Actual opt-in clue banks and teacher answer alignment",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         13,
         18
       ],
-      "prs": [],
+      "prs": [
+        78
+      ],
       "checks": [
         "Exact parsed-ID alignment, punctuation-safe input, excluded/duplicate entries, preview/PDF/HTML and old-request parity"
       ],
       "evidence": [
-        "ai-issues/2026-11-06-buildout-catalog-and-release-queue.md"
+        "ai-issues/2026-11-06-buildout-catalog-and-release-queue.md",
+        "docs/releases/BUILDOUT-T02-CLUE-WORKSHEETS.md"
       ],
-      "remaining": "T02 implementation active; existing answer|clue parsing alone is not delivered clue output.",
+      "remaining": "Actual numbered student clues/teacher mappings, punctuation-safe input, solver and real PDF/HTML checks pass.1200 historical PDF hashes unchanged. Final combined and user-written clue review remain separate.",
+      "manualApproval": false
+    },
+    {
+      "id": "F2.feedback",
+      "title": "Optional default-off local word-found sound and reduced-motion feedback",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        81
+      ],
+      "checks": [
+        "Node22 lint/typecheck/475tests/build335/static",
+        "Native muted WebAudio lifecycle, default silence, opt-in, duplicate/reveal/replay, blocked APIs and saved-progress regression"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-SOLVER-SOUND.md"
+      ],
+      "remaining": "Actual browser lifecycle tests pass; no external assets/network or default sound. Physical sound/device quality remains manual; final combined regression pending.",
       "manualApproval": false
     },
     {
@@ -657,7 +734,10 @@
         51,
         65,
         66,
-        74
+        74,
+        78,
+        82,
+        83
       ],
       "checks": [
         "Settings matrix, input/direction/preview regression"
@@ -666,9 +746,10 @@
         "tests/e2e/request-validation.mjs",
         "tests/e2e/direction-validation.mjs",
         "docs/releases/BUILDOUT-F2-PRINT-SETTINGS.md",
-        "docs/releases/BUILDOUT-ADVANCED-SETTINGS.md"
+        "docs/releases/BUILDOUT-ADVANCED-SETTINGS.md",
+        "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md"
       ],
-      "remaining": "Seed/filler/input-bank controls, hidden-message cells and13 upfront specialty limitation pages pass; all1200 historical PDF hashes preserved. Actual opt-in clue/answer alignment and printable case choices remain active, followed by final combined settings validation.",
+      "remaining": "Advanced filler/order/seed, actual clues, printable ASCII case and empty/seed-miss recovery are implemented. Final full supported-settings combination matrix and combined04 validation remain.",
       "manualApproval": false
     },
     {
@@ -679,16 +760,18 @@
         13
       ],
       "prs": [
-        16
+        16,
+        83
       ],
       "checks": [
         "npm run test:inputs",
         "npm run test:workload"
       ],
       "evidence": [
-        "docs/releases/WORKLOAD-2026-11-06.md"
+        "docs/releases/WORKLOAD-2026-11-06.md",
+        "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md"
       ],
-      "remaining": "Keep resource envelope and old-link limits documented.",
+      "remaining": "Empty/unsupported/all-too-long and actual seed-dependent zero-placement states now fail closed with editable recovery; malformed states stay generic. Central post-placement guard and500tests/browser/cache regressions pass; valid150/1200 fingerprints unchanged. Final combined rerun remains.",
       "manualApproval": false
     },
     {
@@ -814,7 +897,10 @@
         25,
         37,
         68,
-        72
+        72,
+        76,
+        77,
+        82
       ],
       "checks": [
         "npm run audit:pdf",
@@ -824,15 +910,16 @@
       "evidence": [
         "tests/unit/pdf.test.ts",
         "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
-        "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md"
+        "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md",
+        "docs/releases/BUILDOUT-SINGLE-LARGE-PRINT.md"
       ],
-      "remaining": "Browser answer parity and24 square/wide/tall PDF cases pass, including offline HTML; actual small-type limits disclosed. Further200-word beside-bank overflow reproduced after72; actual print-layout preflight/error recovery is actively being implemented. Final combined and physical printer checks remain.",
+      "remaining": "Real PDF geometry/parity and measured single-puzzle output pass. Independent review confirmed static utility PDF can finish after navigation; focused stale-export cancellation fix is active before final acceptance.",
       "manualApproval": false
     },
     {
       "id": "F3.layout-fit",
       "title": "Robust measured titles/banks and actionable fit failures",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         13
       ],
@@ -840,7 +927,9 @@
         27,
         43,
         68,
-        72
+        72,
+        77,
+        78
       ],
       "checks": [
         "PDF geometry, old byte hashes and measured-layout tests"
@@ -849,30 +938,54 @@
         "tests/unit/print-measure.test.ts",
         "tests/unit/pdf-pack-layout.test.ts",
         "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
-        "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md"
+        "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md",
+        "docs/releases/BUILDOUT-BROWSER-PRINT-PREFLIGHT.md"
       ],
-      "remaining": "Browser answer parity and24 square/wide/tall PDF cases pass, including offline HTML; actual small-type limits disclosed. Further200-word beside-bank overflow reproduced after72; actual print-layout preflight/error recovery is actively being implemented. Final combined and physical printer checks remain.",
+      "remaining": "Actual paper/font/QR preflight rejects dense banks, oversized content and within-cell glyph collisions; normal/long-grid and recovery PDFs pass. Final84-pair CLS/combined regression and physical printers remain.",
       "manualApproval": false
     },
     {
       "id": "F3.large-print",
       "title": "Measured readable grid and word bank on Letter/A4",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         13
       ],
       "prs": [
         43,
-        46
+        46,
+        76
       ],
       "checks": [
         "node tests/e2e/large-print-pack.mjs",
         "Large-print inventory PDF geometry"
       ],
       "evidence": [
-        "docs/releases/BUILDOUT-MEASURED-LARGE-PRINT.md"
+        "docs/releases/BUILDOUT-MEASURED-LARGE-PRINT.md",
+        "docs/releases/BUILDOUT-SINGLE-LARGE-PRINT.md"
       ],
-      "remaining": "Measured classroom packs already satisfy16pt grid/18pt bank. Existing generic larger-grid setting does not enlarge its bank; truthful labels and an explicit measured single-puzzle PDF action are under implementation. Physical printing remains manual.",
+      "remaining": "Explicit measured single-puzzle and classroom PDFs enforce16pt grid/18pt bank or fail actionably; eight real single outputs and visual review pass. Legacy flags truthfully say Larger grid type; old default PDF bytes remain unchanged. Physical printing remains manual.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.print-case",
+      "title": "ASCII Latin printed case across preview and document exports",
+      "status": "TESTED",
+      "ownerIssues": [
+        13,
+        18
+      ],
+      "prs": [
+        82
+      ],
+      "checks": [
+        "Node22 lint/typecheck/486tests/build335/static",
+        "Real PDF/HTML/SVG/PNG/TXT case parity, preferences, clue prose and1200 historical PDF hashes"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-PRINTABLE-CASE.md"
+      ],
+      "remaining": "Lowercase A-Z is presentation-only, preserving canonical definitions and non-Latin tokens/clue prose. Actual browser/output tests pass; final combined/manual font and printer acceptance remains.",
       "manualApproval": false
     },
     {
@@ -936,22 +1049,26 @@
     {
       "id": "F3.html-export",
       "title": "Useful safe offline HTML worksheet export",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         18
       ],
       "prs": [
         59,
-        66
+        66,
+        77,
+        78,
+        82
       ],
       "checks": [
         "Real-file offline/no-network/XSS/grid/answer/print tests"
       ],
       "evidence": [
         "components/puzzle/PuzzleSvg.tsx",
-        "docs/releases/BUILDOUT-F3-OFFLINE-HTML.md"
+        "docs/releases/BUILDOUT-F3-OFFLINE-HTML.md",
+        "docs/releases/BUILDOUT-BROWSER-PRINT-PREFLIGHT.md"
       ],
-      "remaining": "Script-free offline HTML reuses rendered worksheet/answer SVG, with escaping/CSP and real offline browser PDF checks. Revalidate after browser-print layout changes.",
+      "remaining": "Supported offline files and real print/clue/case/XSS checks pass, but held validation can still download old HTML after invalid edits or navigation. Confirmed bug is under focused cancellation/one-job repair; do not treat prior valid-file passes as a fix.",
       "manualApproval": false
     },
     {
@@ -966,16 +1083,19 @@
         46,
         49,
         53,
-        58
+        58,
+        79,
+        80
       ],
       "checks": [
         "npm run audit:staged-inventory -- --pdf --export"
       ],
       "evidence": [
         "scripts/audit-staged-inventory.ts",
-        "docs/releases/BUILDOUT-CALENDAR-CATALOG-AUDIT.md"
+        "docs/releases/BUILDOUT-CALENDAR-CATALOG-AUDIT.md",
+        "docs/releases/BUILDOUT-PRESERVED-OWNER-INVENTORY.md"
       ],
-      "remaining": "60 new-path candidates,16 utility selections and2 preserved owner overlays remain source-only. Real PDF/export audits pass; factual, rights, audience and editorial approvals remain absent.",
+      "remaining": "60 main candidates,16 utility selections and8 preserved owner proposals (6 existing drafts/2 proposed paths) remain source-only. Two unpublished titles/request fingerprints migrated explicitly after semantic review; all150 published unchanged. Original raw owner source unchanged. Human facts/rights/audience/editorial approval absent.",
       "manualApproval": false
     },
     {
@@ -986,16 +1106,19 @@
       "prs": [
         14,
         56,
-        58
+        58,
+        79,
+        80
       ],
       "checks": [
         "Typed dates/kinds/candidate/reference/zero-fallback tests"
       ],
       "evidence": [
         "ai-issues/2026-11-06-2027-WEEKLY-EDITORIAL-CALENDAR.md",
-        "docs/releases/BUILDOUT-2027-EDITORIAL-CALENDAR.md"
+        "docs/releases/BUILDOUT-2027-EDITORIAL-CALENDAR.md",
+        "docs/releases/BUILDOUT-STAGED-CONTENT-QUALITY.md"
       ],
-      "remaining": "All53 Friday windows and35 conditional opportunities mapped with default zero and initial cap1; no automatic publication or approval.",
+      "remaining": "53 windows/35 opportunities still default zero/cap1. Only original2 PR53 owner assets are mapped; recovered6 are not automatically scheduled. Current seven candidate files match exact pinned Git sources; no publication approval.",
       "manualApproval": false
     },
     {
@@ -1107,15 +1230,17 @@
       "ownerIssues": [],
       "prs": [
         37,
-        42
+        42,
+        84
       ],
       "checks": [
         "npm run test:ads"
       ],
       "evidence": [
-        "ai-issues/AD-PLACEHOLDER-SAFETY.md"
+        "ai-issues/AD-PLACEHOLDER-SAFETY.md",
+        "docs/releases/BUILDOUT-ADVERTISING-COPY.md"
       ],
-      "remaining": "Mocks do not certify genuine ad-network fill/consent/production behavior.",
+      "remaining": "Advertising code/lifecycle/placement unchanged. A factual one-paragraph policy correction is prepared as an independent draft requiring owner editorial acceptance. Genuine ad fill/consent and final combined regression remain manual/unexecuted.",
       "manualApproval": false
     },
     {

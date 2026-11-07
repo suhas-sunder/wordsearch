@@ -13,6 +13,10 @@ links60, pack discovery61, context validation62, one-cell solving63, exact
 save paths64, print flags65, guest checkpoint66, utility layout67, PDF fit68
 and theme control69. The Lighthouse attribution71, browser print72, explicit
 sharing73 and advanced settings74 are also merged, preserving source ancestry.
+Grid formats75, measured single-puzzle large print76, actual print preflight77,
+clue worksheets78, complete owner preservation79, semantic quality/provenance80,
+default-off solver sound81, printable ASCII case82, zero-answer recovery83 and
+the separately reviewable advertising-policy copy correction84 are included.
 Exact package references and evidence are recorded in PRODUCT-ACCEPTANCE.json;
 its generated Markdown is verified by four acceptance-ledger tests.
 
@@ -33,11 +37,13 @@ No new candidate has entered runtime content, sitemap, search or public links.
   packets, answers-last/interleaved, measured large type, optional Class line
   and bounded custom directions. Reopen an explicitly saved local preset.
 
-Current work repairs a newly reproduced200-word beside-bank overflow, adds
-meaningful clue output and a measured single-puzzle large-print PDF action,
-and completes document-ready PNG/SVG/text exports. These paths must be tested
-after their final integration; the earlier print/advanced/sharing packages are
-implemented separately and retain their actual scoped validation evidence.
+The dense-bank/within-cell failures now reject actionably, clues and measured
+single-puzzle large print are implemented, and document grid formats are tested.
+The remaining confirmed code defect is stale HTML/static-utility PDF download
+after invalid edits or navigation while asynchronous output work completes.
+A focused cancellation package is active. Final supported-settings and combined
+source/build/browser/PDF/visual/provider validation remain pending; individual
+packages retain their actual scoped validation evidence.
 
 ## Evidence already available, with limits
 
