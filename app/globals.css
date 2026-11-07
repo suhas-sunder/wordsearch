@@ -1761,6 +1761,19 @@ input[type="checkbox"] {
   max-width: none;
 }
 
+.search-page h1,
+.error-page h1 {
+  margin: .5rem 0 1rem;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.error-page > p {
+  max-width: 65ch;
+  line-height: 1.6;
+}
+
 .search-results,
 .search-no-results {
   margin-top: 46px;
