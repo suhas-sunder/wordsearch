@@ -1,4 +1,4 @@
-import { SearchTools } from "@/components/page/PageSections";
+import { FaqBlock, SearchTools } from "@/components/page/PageSections";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -350,6 +350,7 @@ export function RouteHub({ page }: { page: SitePage }) {
         </div>
       </section>
       <SearchTools />
+      <FaqBlock items={page.faq} />
 </main>
     </MonetizedPageShell>
   );
