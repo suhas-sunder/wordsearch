@@ -74,12 +74,31 @@ excluded by this repository's existing Vitest configuration; it was not counted
 as passing. The test now follows the established `.test.ts` convention and
 uses React `createElement`; no test discovery rule was weakened.
 
-Production build and targeted browser validation are queued behind the shared
-PDF/HTML build slots. `tests/e2e/owned-site-links.mjs` checks seven raw SSR
-responses; six required widths in light/dark across teacher, collection and
-pack contexts; keyboard focus; axe; no external destination requests during
-render; print exclusion; ad geometry and no-JavaScript usability. Final results
-and screenshot evidence must be recorded before completing this package.
+Final combined validation used `codex/context-tools-validation` application
+commit `6be2dfd91f7e1f58fd3279398e783bf48d544672`, including this package,
+the separate pack-discovery package and hub FAQs. Lint, TypeScript, all 394
+tests, the production build (335 pages) and static-host audit (217 sitemap
+entries, 35 redirects, six shell routes) passed. Final runner refinements and
+this evidence do not change the built application tree.
+
+On the fresh static export at port 3446, `owned-site-links.mjs` passed seven
+raw SSR responses and 72 layout/theme/context combinations (six widths,
+light/dark, teacher/collection/pack), keyboard focus for cards and both profile
+links, scoped serious/critical axe checks, print exclusion, ad geometry,
+no-JavaScript usability and no outbound requests to the added destinations.
+`pack-discovery.mjs` passed separately. `npm run test:ads` passed nine eligible
+routes at five viewports and 14 ad-free routes. No ad thresholds were changed.
+
+An initial browser run found a real introduced profile-caption contrast failure
+(2.88 in the light theme on the always-dark footer); the caption now inherits
+the existing readable footer text and a fresh build plus browser rerun passed.
+An accidentally occupied preview port was rejected and its results discarded.
+The pack runner initially needed an explicit Playwright browser context for
+axe; that harness setup was corrected without removing its checks.
+
+Light/dark mobile (390) and desktop (1280) activity/profile screenshots were
+visually inspected, including card wrapping and keyboard rings. Artifacts are
+outside the repository at `C:/Users/Suhas/.codex/tmp/ws-owned-sites-visual/`.
 
 The separate hub-FAQ package inserts its FAQ after `SearchTools`. During
 integration preserve the order `SearchTools`, FAQ, activity suggestions. The
