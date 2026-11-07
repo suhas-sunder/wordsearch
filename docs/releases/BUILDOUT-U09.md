@@ -37,6 +37,10 @@ trust/pack routes, serious/critical axe checks including the open menu, overflow
 system changes, persisted override/reload, blocked storage, no-JS dark and
 no-JS light printing. All puzzle paper remains white. Seven unit cases verify
 the prepaint script against saved, invalid, system and unavailable storage.
+Additional dark Share, Print and PDF-dialog axe checks pass at 390/1440 and are
+included in the durable theme harness. An exploratory selector used an explicit
+ARIA role attribute on a native dialog and found no elements; corrected to
+`dialog[open]`, without any application workaround or relaxed accessibility rule.
 
 Against that fresh final export: the protected advertising suite passes nine
 eligible routes × five widths plus fourteen ad-free routes; preview-toolbar
