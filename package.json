@@ -35,6 +35,7 @@
     "inventory:content": "tsx scripts/content-inventory.ts",
     "audit:candidates": "tsx scripts/audit-candidates.ts",
     "audit:print-measure": "tsx scripts/measure-print.ts",
+    "audit:published-pdf-fit": "tsx scripts/audit-published-pdf-fit.ts",
     "test:solver-progress": "tsx tests/e2e/solver-progress.ts"
   },
   "dependencies": {
