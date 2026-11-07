@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import styles from "./ClassroomPackBuilder.module.css";
 import { buildClassroomPack } from "@/lib/pack/classroom-pack";
 import type { PaperSize } from "@/lib/puzzle/output-options";
@@ -25,6 +25,26 @@ export function ClassroomPackBuilder() {
   const [status, setStatus] = useState("");
   const [presets, setPresets] = useState<ClassroomPreset[]>([]);
   const active = useRef(false);
+  const mounted = useRef(true);
+  const currentSettings = useRef("");
+  currentSettings.current = JSON.stringify({ title, wordsText, seed, count, paperSize, order, pages, largePrint, classLine, instructions });
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
+
+  function chooseSeed() {
+    setError("");
+    setStatus("");
+    try {
+      const bytes = new Uint8Array(8);
+      window.crypto.getRandomValues(bytes);
+      setSeed(`classroom-${Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("")}`);
+      setStatus("A seed is ready. Keep it with your title and word list to recreate this set.");
+    } catch {
+      setError("This browser could not choose a seed. Enter a code in Base seed; your entries are unchanged.");
+    }
+  }
 
   function presetAction(action: "show" | "save" | "clear") {
     setError("");
@@ -59,6 +79,8 @@ export function ClassroomPackBuilder() {
     event.preventDefault();
     if (active.current) return;
     active.current = true;
+    const settings = currentSettings.current;
+    const isCurrent = () => mounted.current && currentSettings.current === settings;
     setBusy(true);
     setError("");
     setStatus("Preparing your pack locally…");
@@ -66,17 +88,22 @@ export function ClassroomPackBuilder() {
     try {
       // Allow the busy state to paint before the bounded synchronous work starts.
       await new Promise<void>((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
+      if (!isCurrent()) return;
       const pack = buildClassroomPack({ title, wordsText, seed, count, ...(instructions ? { instructions } : {}) });
       downloading = true;
       const { downloadBrowserPuzzlePackPdf } = await import("@/lib/pdf/browser-pack-download");
-      await downloadBrowserPuzzlePackPdf(pack, { paperSize, order, pages, classLine, layoutProfile: largePrint ? "large-print" : "pack" });
-      setStatus(`Your ${count}-puzzle PDF download has started.`);
+      const downloaded = await downloadBrowserPuzzlePackPdf(pack, { paperSize, order, pages, classLine, layoutProfile: largePrint ? "large-print" : "pack" }, isCurrent);
+      if (downloaded && isCurrent()) setStatus(`Your ${count}-puzzle PDF download has started.`);
     } catch (cause) {
+      if (!isCurrent()) return;
       setStatus("");
       setError(cause instanceof Error && cause.name === "PdfPackLayoutError" ? cause.message : downloading ? "The PDF could not be downloaded. Please try again; your entries are unchanged." : cause instanceof Error ? cause.message : "The pack could not be created. Please check your entries and try again.");
     } finally {
       active.current = false;
-      setBusy(false);
+      if (mounted.current) {
+        setBusy(false);
+        if (!isCurrent()) setStatus("Your settings changed. Review them and download the pack again.");
+      }
     }
   }
 
@@ -91,7 +118,7 @@ export function ClassroomPackBuilder() {
       <form onSubmit={onSubmit} noValidate className={styles.form} aria-busy={busy}>
         <div><label className={label} htmlFor="pack-title">Pack title</label><input className={control} id="pack-title" value={title} onChange={(event) => setTitle(event.target.value)} aria-describedby="title-help" /><p id="title-help" className={styles.help}>Up to 80 letters, numbers, apostrophes or hyphens; use single spaces and no spaces at either end.</p></div>
         <div><label className={label} htmlFor="pack-words">Words or phrases</label><textarea className={control} id="pack-words" rows={8} value={wordsText} onChange={(event) => setWordsText(event.target.value)} aria-describedby="words-help" /><p id="words-help" className={styles.help}>Enter 2–30 different words or phrases, one per line. Use English letters and single spaces; 2–14 letters per entry. No blank lines or punctuation. A 9-point minimum grid type size applies; lists that cannot fit will be rejected.</p></div>
-        <div><label className={label} htmlFor="pack-seed">Base seed</label><input className={control} id="pack-seed" value={seed} onChange={(event) => setSeed(event.target.value)} aria-describedby="seed-help" /><p id="seed-help" className={styles.help}>Use 1–64 letters, numbers, underscores or hyphens. Save this seed and the exact title and word list to recreate the assignments. Assignment numbers 01–{String(count).padStart(2, "0")} use fixed derived seeds.</p></div>
+        <div><label className={label} htmlFor="pack-seed">Base seed</label><input className={control} id="pack-seed" value={seed} onChange={(event) => setSeed(event.target.value)} aria-describedby="seed-help" /><div className={styles.presetActions}><button type="button" className={`secondary-button ${styles.seedButton}`} aria-label="Choose for me: Base seed" aria-describedby="seed-help" onClick={chooseSeed}>Choose for me</button></div><p id="seed-help" className={styles.help}>Choose a code, or let us choose one. Use 1–64 letters, numbers, underscores or hyphens. Keep it with the same title and word list to recreate this set.</p></div>
         <div className={styles.options}>
           <div><label className={label} htmlFor="pack-count">Puzzles</label><select className={control} id="pack-count" value={count} onChange={(event) => setCount(Number(event.target.value) as 5 | 10 | 20)}><option value={5}>5 puzzles</option><option value={10}>10 puzzles</option><option value={20}>20 puzzles</option></select></div>
           <div><label className={label} htmlFor="pack-paper">Paper size</label><select className={control} id="pack-paper" value={paperSize} onChange={(event) => setPaperSize(event.target.value as PaperSize)}><option value="letter">US Letter</option><option value="a4">A4</option></select></div>
