@@ -36,7 +36,7 @@ describe("X03 source-only measured Christmas format", () => {
     expect(artifact.editorialStatus).toBe("unreviewed");
     expect(Object.hasOwn(artifact, "proposedPath")).toBe(false);
     expect(source.puzzle.largePrintSuitable).toBe(false); // Do not relabel ordinary canonical output.
-    expect(allStagedCandidates).toHaveLength(60);
+    expect(allStagedCandidates).toHaveLength(61);
     expect(allStagedCandidates.some(({ id }) => id === artifact.id)).toBe(false);
     expect(routeInventory.filter(record => record.contentType === "puzzle" && record.publicationStatus === "published")).toHaveLength(150);
   });
