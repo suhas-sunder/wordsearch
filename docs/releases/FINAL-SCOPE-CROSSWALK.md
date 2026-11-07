@@ -1,5 +1,7 @@
 # Final BUILD NOW scope crosswalk
 
+Current excellence continuation: [C4 release record](PRODUCT-EXCELLENCE-RELEASE-CANDIDATE.md) and [45-feature ledger](PRODUCT-ACCEPTANCE.md) supersede historical completion counts below. All new inventory remains unpublished; owner/manual/production gates remain separate.
+
 Source boundary: frozen **B `f7849cddda2a7df5daff2425ba179b9af21f6272`**, export SHA-256 `3b1b611fe5de81527e8327a31ae6298dd3230596246e2df9b36daa127be279d3`. This reconciles the [master](../../ai-issues/2026-11-06-MASTER-BUILDOUT-AND-CONTROLLED-RELEASES.md), [catalog](../../ai-issues/2026-11-06-buildout-catalog-and-release-queue.md) and actual source/test files. It does not mark final visual, functional, performance, hosted-provider or manual acceptance complete. Their results belong in the [product ledger](PRODUCT-ACCEPTANCE.md) and release record.
 
 The external initial source audit and `IMPLEMENTATION-FOLLOWUP.md` are preserved under the chat's `final-build-now-scope-audit/` evidence directory. Their late H08/T12/X06 omissions were followed by implementation, not converted into documentation-only completion. No new unresolved feasible implementation gap was identified in this final bounded reconciliation; that is not a guarantee against defects discovered by final QA or permission to waive a failed check.

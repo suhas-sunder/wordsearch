@@ -1,13 +1,14 @@
 # Controlled delivery: two independent tracks
 
-Active continuation: [draft PR103](https://github.com/suhas-sunder/wordsearch/pull/103)
-implements the [Final Product Excellence Program](../../ai-issues/2026-11-07-FINAL-PRODUCT-EXCELLENCE-PROGRAM.md).
-The preserved PR97 application B and review R below are historical baselines.
-Their passing checks do not validate the new combined application. The
-[45-feature acceptance ledger](PRODUCT-ACCEPTANCE.md) marks affected features in
-progress until fresh exact-source combined validation. The indexed-copy gate
-also retains 13 owner-held fields across seven existing routes; no editorial
-approval is implied by the independently reviewed footer template.
+Current review: [draft PR108](https://github.com/suhas-sunder/wordsearch/pull/108),
+[release evidence](PRODUCT-EXCELLENCE-RELEASE-CANDIDATE.md),
+[owner review handbook](PRODUCT-EXCELLENCE-OWNER-HANDBOOK.md) and
+[45-feature ledger](PRODUCT-ACCEPTANCE.md). Tested applicationC4 is `39c0d35`;
+PR103 retains the integration. Feasible implementation and combined correctness
+checks are complete:677unit/content/SEO,58functional,448visual,84utility and14hosted
+fixtures.38features are TESTED;3manual,3blocked and1owner-deferred remain.
+Ordinary Lighthouse77, internal ad eligibility and13indexed-copy fields are
+unwaived. No production, editorial or physical/manual approval is implied.
 
 Preserved review: [PR97](https://github.com/suhas-sunder/wordsearch/pull/97),
 [previous release candidate](PRODUCT-RELEASE-CANDIDATE-04.md) and

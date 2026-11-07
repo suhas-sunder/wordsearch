@@ -1,4 +1,63 @@
-# Final performance gates
+# Final performance gates — current C4 and preserved B
+
+Current application C4 is `39c0d3564eb014741e259507c9564a4ee1699f1d`.
+The ordinary provider-enabled audit completed33actual audits/11groups on Node22.23.4
+and unchanged Lighthouse13.4.1 fixture SHA256
+`59a1a9fa8c2685c1452d977c23a664a09a2ab4618d0c5508e60ccb6424de021c`.
+**Actual exit1 remains unwaived: Best Practices77 in all11groups.**
+
+Current artifacts are under the external `product-excellence/final-39c0d35/`
+namespace: `lighthouse-ordinary/attempt-02/{execution,reported-table}.json` and
+`console.log`. This is fresh C4 execution, not a relabeled B score. Every group
+contains3runs; scores/metrics below are the unchanged fixture's reported aggregates.
+
+| Route | Device | Runs | Performance | Accessibility | Best Practices | SEO | LCP ms | Median CLS | TBT ms |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Home | mobile | 3 | 98 | 100 | 77 | 100 | 2253 | 0 | 44 |
+| Generator | mobile | 3 | 97 | 100 | 77 | 100 | 2254 | 0 | 84 |
+| Easy puzzle | mobile | 3 | 95 | 100 | 77 | 100 | 2253 | 0 | 176 |
+| Hard puzzle | mobile | 3 | 86 | 100 | 77 | 100 | 2252 | 0 | 459 |
+| Category | mobile | 3 | 99 | 100 | 77 | 100 | 2103 | 0 | 36 |
+| Collection | mobile | 3 | 98 | 100 | 77 | 100 | 2253 | 0 | 38 |
+| Guide | mobile | 3 | 99 | 100 | 77 | 100 | 2103 | 0 | 42 |
+| Topics | mobile | 3 | 98 | 100 | 77 | 100 | 2253 | 0 | 43 |
+| Home | desktop | 3 | 100 | 100 | 77 | 100 | 563 | 0 | 0 |
+| Generator | desktop | 3 | 100 | 100 | 77 | 100 | 482 | 0 | 0 |
+| Topics | desktop | 3 | 100 | 100 | 77 | 100 | 562 | 0 | 0 |
+
+The failed weighted audits are `third-party-cookies` and `inspector-issues` in
+every group. All other existing guards pass: accessibility/SEO100, LCP<=2500ms,
+CLS<=0.1 and editorial performance>=90. Generator and the two puzzle examples
+retain the fixture's original noneditorial classification. **Hard-puzzle mobile
+performance86 and TBT459ms are explicitly retained**; there is no independent TBT
+assertion. Historical B was87/439ms. These unpaired lab observations establish
+no whole-page speed improvement or field Core Web Vitals result. The bounded
+print-check coalescing experiment's frame-work reduction is a separate measured
+result; it must not be presented as a Lighthouse improvement.
+
+Reported median CLS is0 across11groups, but the retained generator worst trace
+contains a0.01351327351823848 shift attributed by Lighthouse to web fonts loading.
+Do not claim every raw Lighthouse sample had zero shift. The fixture's original
+aggregation and0.1 limit are unchanged; the separate84utility pairs are all0.
+No font policy, provider request, audit category or threshold was altered.
+
+Current cookie/inspector IDs agree with earlier provider diagnosis. The specific
+Google DoubleClick/WarnThirdPartyPhaseout attribution below belongs to that
+historical five-sample diagnosis, not a new C4 domain-level capture. Protected
+advertising source/CSS identity is independently verified. Provider-disabled
+samples are attribution only, never release passes. The ordinary gate remains
+blocked pending provider/owner disposition.
+
+Attempt01 failed before any audit on Windows ESM path handling. The external
+output-only launcher was corrected to a `file:` URL; both attempts are retained.
+Attempt02 used the exact unchanged fixture/configuration/provider requests and
+thresholds; its console-table tap only saves the post-audit reported rows.
+ChromePID64308 closed normally by CDP Browser.close, exit0/profileCleanuptrue.
+Before/after clean-source guards verified175 selected source files, all747 disk
+exports, all747 actual HTTP files and three canonical routes. Whole HEAD/tree
+identity additionally protects configuration outside the175-file subset.
+
+## Historical frozen B performance gates
 
 Frozen application B is `f7849cddda2a7df5daff2425ba179b9af21f6272`, with local export SHA-256 `3b1b611fe5de81527e8327a31ae6298dd3230596246e2df9b36daa127be279d3`. The ordinary Lighthouse run **failed with actual exit code 1**. Every one of its eleven route/device groups had Best Practices 77; no threshold, advertising behavior or release gate was waived.
 

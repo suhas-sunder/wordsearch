@@ -203,3 +203,50 @@ TCP inventory was unreliable in this environment; final cleanup must use actual
 port/PID queries plus HTTP probes. No unrelated process was stopped. The next
 application checkpoint combines PR112 with the strict utility baseline fixture;
 fresh affected/combined acceptance is still required, not a C3 relabeling.
+
+## C4 final closure — actual combined results
+
+The requirements above are now executed against application
+`39c0d3564eb014741e259507c9564a4ee1699f1d`, frozen clean in QA04 and independently
+verified READY at deploy `6aef630dea767b4dae5a4557`. Clean supported install,
+lint/type, 677 tests/84 files, 335-page build/static217/35/6 and both security
+audits0 passed. All58 functional fixtures,448 visual cases (zero failures/notices),
+84 preserved-B utility pairs (both maximum CLS0), two pending checks/true-noJS
+recovery and14 hosted fixtures passed. Hosted execution saved23 actual PDFs/
+79 pages. Root personally inspected10 selected current images and6 actual PDF
+pages, including the matching student/answer pages1/6 in a ten-page teacher pack.
+This is finite inspection, not manual acceptance of every screenshot or printer.
+
+All747 actual disk/HTTP files and175 selected source files matched after the
+functional/visual/utility suite and again after Lighthouse; whole clean HEAD/tree
+identity also protects configuration. Fresh C3→C4 semantic453/3 and R→C4 677/11
+comparisons pass. Main→C4 2242/58 retains exactly13 material owner fields, exit1;
+all217 C4 responses were second-fetched byte-exact and243 fallback contexts
+checked. The actual C3 1200-PDF execution remains C3 provenance: the C4 zero-render
+carry proves173 unchanged runtime files,38 PDF/input source files and12 installed
+digests, alongside150 fingerprints,217metadata/JSONLD,35 redirects and isolation.
+
+Fresh ordinary Lighthouse completed33 audits/11 groups with actualexit1:
+Best Practices77 and cookie/inspector failures in every group. Accessibility/SEO
+are100 and the other existing gates pass. Hard mobile86/TBT459ms is retained,
+with no whole-page speed improvement claimed. Median CLS0 includes a retained
+0.013513 font-loading shift trace; it does not certify zero in every raw sample.
+The unchanged fixture/hash/thresholds/provider requests and normal CDP cleanup
+are recorded. The first external launcher failed before audits on Windows import
+URL handling; separately retained attempt02 corrects that harness only.
+
+The fresh strict route audit still exits1 on three representative internal ad
+conflicts. A fresh scan of330 HTML files confirms the exact12 affected noindex
+outputs, unchanged protected sources, wrapper selections and25 ad CSS rules.
+No policy, ad behavior, indexed editorial hold or failure was waived.
+
+Independent roadmap/source/PR/worktree reconciliation found no additional
+confirmed feasible implementation gap. The ledger now has38 TESTED,3 MANUAL
+ACCEPTANCE PENDING,3 BLOCKED,1 OWNER-DEFERRED and0 DONE. Actual physical/AT/
+Safari/Android/native zoom/printing/genuine fill/legal/editorial/release approvals
+remain separate. All staged inventory remains unpublished. The new
+[release record](PRODUCT-EXCELLENCE-RELEASE-CANDIDATE.md) and
+[owner handbook](PRODUCT-EXCELLENCE-OWNER-HANDBOOK.md) supersede the historical
+pending wording above. Later final documentation-only review head, runtime
+identity, provider recheck and shutdown safety/outcome are pinned in GitHub;
+they do not relabel application C4 execution as fresh tests of changed code.

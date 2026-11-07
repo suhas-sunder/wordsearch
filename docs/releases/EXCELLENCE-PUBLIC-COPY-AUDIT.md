@@ -126,3 +126,17 @@ JS loading/error/retry, all editorial/H1/metadata/schema/word banks/ad definitio
 remain unchanged. Before final capture, independent exact expectations were
 prepared for453tool-only field pairs/3groups; no wildcard UI ignore or owner-hold
 approval is permitted. Final observations must still match those predictions.
+
+## Final C4 acceptance closure
+
+The final C4 release record now binds the exact implemented display changes to
+fresh 58-fixture functional,448-case visual,84-pair utility and14-fixture hosted
+acceptance. Independent semantic review observed C3→C4 453 exact tool-only pairs/
+3 groups, R→C4 677/11 and main→C4 2242/58 with13 material owner-held fields and
+zero unexplained/stale changes. All217 indexed C4 bodies were second-fetched
+byte-exact and all243 fallback contexts checked. The exact shared footer and
+tool fallback reviews remain Category B; no Category C approval is inferred.
+Existing KEEP decisions and separate unchanged editorial proposals above remain.
+See [current release evidence](PRODUCT-EXCELLENCE-RELEASE-CANDIDATE.md) and the
+[owner review procedure](PRODUCT-EXCELLENCE-OWNER-HANDBOOK.md). No indexed content
+or staged inventory is newly approved for publication by this closure.
