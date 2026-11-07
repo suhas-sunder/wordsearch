@@ -20,6 +20,7 @@ const allRoutes = [
   ["home", "/"], ["search", "/search?q=food"],
   ["generator", "/word-search-generator"], ["puzzle", "/word-searches/animals/dog-word-search"],
   ["hard-hub", "/collections/hard-printable-word-searches"], ["collection", "/collections/easy-printable-word-searches"],
+  ["answer-hub", "/collections/word-searches-with-answer-keys"],
   ["category", "/categories/animals-word-searches"], ["guide", "/guides/how-to-print-a-word-search"],
   ["specialty", "/specialty/morse-code-word-search-generator"], ["classroom", "/pack-builder"],
   ["pdf-tool", `/pdf/${encoded}`], ["about", "/about"], ["privacy", "/privacy"],

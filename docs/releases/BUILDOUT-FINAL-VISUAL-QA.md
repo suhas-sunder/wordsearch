@@ -1,6 +1,6 @@
 # Expanded frozen-candidate visual acceptance
 
-This package extends the existing F1 fixture from 14 to 27 real interface states.
+This package extends the existing F1 fixture from 14 to 28 real interface states.
 It is development evidence, not editorial, owner, physical-device, production,
 advertising-provider or medical acceptance. All staged content stays unpublished.
 
@@ -10,7 +10,8 @@ Run `node tests/e2e/product-visual-acceptance.mjs` with `BASE_URL`, the exact
 40-character `F1_SOURCE_SHA`, and an outside-repository `F1_VISUAL_OUTPUT`.
 Optional comma-separated `F1_CASE_NAMES` and `F1_VIEWPORT_NAMES` make bounded
 regressions explicit in the manifest; a filtered run never claims the full matrix.
-The default is 27 cases, eight viewports, and two themes: **432 cases**.
+The default is 28 cases, eight viewports, and two themes: **448 cases**. The
+original a3988 run below had 27 archetypes/432 cases; that evidence is preserved.
 
 The retained cases cover home, search, generator, published puzzle, hard hub,
 collection, category, guide, supported Morse specialty, pack builder, encoded PDF,
@@ -18,6 +19,9 @@ About, privacy and 404. Added cases cover teacher/worksheet hubs, print with ans
 page, answer key, online play, invalid encoded utility, a real named local save,
 ready and invalid/repaired clue worksheets, actual SVG/PNG/TXT downloads, a forced
 PNG failure, the measured PDF dialog and the solver settings dialog.
+The added answer-key collection archetype covers H10's mixed-difficulty finding
+controls alongside the existing hard-collection archetype. Interaction, no-JS and
+held-JavaScript hydration CLS remain a separate focused H10 fixture.
 
 The sound row is exercised default-off, on and off without solving. Instrumented
 AudioContext/oscillator construction/start and media requests must remain zero;
@@ -84,7 +88,7 @@ failures, recheck all eight dark play profiles, and pass the text-bound assertio
 No advertising, puzzle placement, seed, editorial text or publication flag is
 changed by this QA package.
 
-Individual review covered 50 original-export captures: every archetype at a
+Individual review covered 50 original-export captures: all 27 original archetypes at a
 narrow mobile width (dialog checks also use the 320 smoke), selected 1280 desktop
 pages/details, light/dark saved-library and clue output, and short-landscape
 settings/PDF dialogs. The outside-repository `manual-visual-review.json` records
@@ -107,12 +111,12 @@ start card were inspected individually: text remains separated and readable.
 Artifacts are under
 `C:/Users/Suhas/.codex/tmp/product-candidate-04-repaired-patch/` in
 `visual-focused`, `visual-play` and `visual-spacing-390`. This bounded patch
-evidence does not replace the pending final committed-SHA 432-case run.
+evidence does not replace the pending final committed-SHA 448-case run.
 
 ## Remaining acceptance boundaries
 
 Manual review is a recorded sample of generated screenshots, not an assertion
-that every captured pixel or all 432 screenshots were individually inspected.
+that every captured pixel or all captured screenshots were individually inspected.
 Physical mobile/Safari, native browser zoom, real printing, audible sound and owner
 visual acceptance remain human checks. Provider-enabled Lighthouse and the
 84-pair utility CLS comparison require their separate quiet resource slot and
