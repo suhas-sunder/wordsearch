@@ -50,3 +50,11 @@ inventory, escaped HTML and no scripts/external/live draft resources. HTML sourc
 and generated manifests were inspected; rendered visual acceptance is pending.
 A production build/static exposure check is pending a serialized slot; no browser
 or Next process was started while the final functional suite was active.
+
+The prepared `tests/e2e/christmas-collection-review.mjs` accepts
+`COLLECTION_REVIEW_DIRECTORY` and `COLLECTION_REVIEW_OUTPUT` for a bounded local
+render check at 390/1280 with page JavaScript disabled. It compares every word bank
+and canonical/seed to its exported manifest, checks no external requests or live
+resources, overflow and serious/critical axe, and captures full pages/first-child
+details. Its syntax/ESLint checks pass; actual browser execution is queued after
+the final visual matrix rather than overlapping the active functional job.
