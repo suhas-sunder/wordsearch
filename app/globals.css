@@ -1512,6 +1512,17 @@ input[type="checkbox"] {
   border-radius: 7px;
 }
 
+/* Lower-page search expands in flow rather than covering nearby tools or ads. */
+.tools-section > .puzzle-search {
+  margin-bottom: 28px;
+}
+
+.tools-section .search-suggestions {
+  position: static;
+  max-height: none;
+  margin-top: 8px;
+}
+
 .search-suggestions > a.active,
 .search-suggestions > a:hover {
   background: #eef8f2;
