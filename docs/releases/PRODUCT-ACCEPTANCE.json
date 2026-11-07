@@ -175,6 +175,12 @@
       "branch": "codex/buildout-contextual-discovery",
       "draft": true
     },
+    "49": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/49",
+      "sha": "6ca81e11b45e1fe8591334dd241f6af54287eebd",
+      "branch": "codex/annual-review-packs",
+      "draft": true
+    },
     "50": {
       "url": "https://github.com/suhas-sunder/wordsearch/pull/50",
       "sha": "86987dbf2638f5deabee53ec8be3c694f754c49d",
@@ -183,8 +189,122 @@
     },
     "51": {
       "url": "https://github.com/suhas-sunder/wordsearch/pull/51",
-      "sha": "1839428c6557dcb3aa663af882cade593618fc6a",
+      "sha": "08ffcd2ea97aa43fd73ce79904a86623d7752f84",
       "branch": "codex/buildout-integration-03",
+      "draft": true
+    },
+    "52": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/52",
+      "sha": "14414d9b47e0a192052d53f2786155df7f2009cf",
+      "branch": "codex/buildout-search-layout",
+      "draft": true
+    },
+    "53": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/53",
+      "sha": "11e492098eaeeb9259ce98ed8b35c75558ba1760",
+      "branch": "codex/calendar-inventory-gaps",
+      "draft": true
+    },
+    "54": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/54",
+      "sha": "be4b4c852c46c400100d735618dd64ce808ed215",
+      "branch": "codex/classroom-worksheet-fields",
+      "draft": true
+    },
+    "55": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/55",
+      "sha": "4b47bf23ffb1d6be0014ad428a1057495ff42244",
+      "branch": "codex/local-puzzle-library",
+      "draft": true
+    },
+    "56": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/56",
+      "sha": "1e6d6cc69c455e7bba89d7a21175c67a1ca34474",
+      "branch": "codex/editorial-calendar-2027",
+      "draft": true
+    },
+    "57": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/57",
+      "sha": "d55e7937ae60d03a8aae536d354558a8164ba623",
+      "branch": "codex/buildout-f1-visual",
+      "draft": true
+    },
+    "58": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/58",
+      "sha": "ea27212e7ced9003c6b69100f1efa1c8156b07f7",
+      "branch": "codex/full-calendar-inventory-audit",
+      "draft": true
+    },
+    "59": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/59",
+      "sha": "0b8e03681ad69c8aa0839c8082074e38240d6cfa",
+      "branch": "codex/offline-html-worksheet",
+      "draft": true
+    },
+    "60": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/60",
+      "sha": "6a862b7cf28950d6291e9c4cf720b1b19ad56262",
+      "branch": "codex/contextual-owned-sites",
+      "draft": true
+    },
+    "61": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/61",
+      "sha": "57813648edbb9daa1f2ff1ef4665adc176cb53cc",
+      "branch": "codex/classroom-pack-discovery",
+      "draft": true
+    },
+    "62": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/62",
+      "sha": "d0002b03421505c8e20a828206b192ba1911d5d2",
+      "branch": "codex/context-tools-validation",
+      "draft": true
+    },
+    "63": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/63",
+      "sha": "1780019a4a748cbd084c3705610956b5bdaeb96c",
+      "branch": "codex/solver-single-cell",
+      "draft": true
+    },
+    "64": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/64",
+      "sha": "c80ffe2d0e6f23b392d05897bec6a33bea239e00",
+      "branch": "codex/saved-puzzle-reachability",
+      "draft": true
+    },
+    "65": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/65",
+      "sha": "587442cdda85d98eeddaa05e612ecfdad05843a5",
+      "branch": "codex/request-print-settings",
+      "draft": true
+    },
+    "66": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/66",
+      "sha": "8019e4b441403c81cb4372ef145bd12e410a11af",
+      "branch": "codex/f2-guest-validation",
+      "draft": true
+    },
+    "67": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/67",
+      "sha": "b3677920d7c28dc91ce5f41ba52ad8456060494e",
+      "branch": "codex/buildout-utility-layout",
+      "draft": true
+    },
+    "68": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/68",
+      "sha": "28cb5f72659e5567d6052acfe085cf90d31d81d9",
+      "branch": "codex/pdf-fit-errors",
+      "draft": true
+    },
+    "69": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/69",
+      "sha": "7c8a617b910921667bc6b102aa3349af9a8fce21",
+      "branch": "codex/theme-progressive-control",
+      "draft": true
+    },
+    "70": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/70",
+      "sha": "203d2d83b9ef5ee9b9c4779b31effc888a934bc9",
+      "branch": "codex/product-candidate-04",
       "draft": true
     }
   },
@@ -196,7 +316,8 @@
       "ownerIssues": [],
       "prs": [
         37,
-        51
+        51,
+        70
       ],
       "checks": [
         "npm run lint",
@@ -206,9 +327,10 @@
         "npm run test:e2e"
       ],
       "evidence": [
-        "docs/releases/BUILDOUT-INTEGRATION-02.md"
+        "docs/releases/BUILDOUT-INTEGRATION-02.md",
+        "docs/releases/BUILDOUT-INTEGRATION-03.md"
       ],
-      "remaining": "Integration03 browser checks and later packages remain separate; final product candidate not frozen.",
+      "remaining": "Checkpoint03 passed combined regression. Candidate04 source is combined; new browser-print and supported-settings packages and final exact-head validation remain.",
       "manualApproval": false
     },
     {
@@ -236,20 +358,23 @@
     {
       "id": "F0.cls",
       "title": "Reconcile UI15 evidence and fix search hydration layout shifts",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         11
       ],
       "prs": [
-        15
+        15,
+        52,
+        67
       ],
       "checks": [
         "Repeated before/after visual/CLS comparisons"
       ],
       "evidence": [
-        "docs/releases/fast-track-2026-11-06-ui-integration.md"
+        "docs/releases/fast-track-2026-11-06-ui-integration.md",
+        "docs/releases/BUILDOUT-UTILITY-LAYOUT.md"
       ],
-      "remaining": "Two of three baseline comparisons failed; independent search-layout fix under test.",
+      "remaining": "Search three repeated paired runs and84 utility pairs pass unchanged guards; rerun final combined candidate. Historical failed comparisons remain recorded.",
       "manualApproval": false
     },
     {
@@ -316,91 +441,112 @@
     {
       "id": "F1.faq",
       "title": "Useful context-specific FAQs with server-rendered answers",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         6
       ],
       "prs": [
         48,
-        50
+        50,
+        62
       ],
       "checks": [
         "FAQ SSR and exact hub HTML checks"
       ],
       "evidence": [
-        "tests/unit/page-faq.test.ts"
+        "tests/unit/page-faq.test.ts",
+        "docs/releases/BUILDOUT-U05-HUB-FAQ.md"
       ],
-      "remaining": "Fifteen new hub questions await combined integration; other contexts need usefulness review.",
+      "remaining": "Authored SSR hub answers and combined context checks pass; independent editorial usefulness acceptance remains.",
       "manualApproval": false
     },
     {
       "id": "F1.internal-links",
       "title": "Meaningful related-topic/category/collection pathways",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         12
       ],
       "prs": [
-        48
+        48,
+        61,
+        62
       ],
       "checks": [
         "Content/reference/crawlable link checks"
       ],
       "evidence": [
         "components/page/CuratedPuzzlePage.tsx",
-        "tests/seo/discovery.test.ts"
+        "tests/seo/discovery.test.ts",
+        "docs/releases/BUILDOUT-PACK-DISCOVERY.md"
       ],
-      "remaining": "Broader context-specific link audit and improvements remain feasible.",
+      "remaining": "Pack paths now discoverable. Read-only217-URL main-link audit found all150 puzzles have at least six peer links and no indexable main-content dead ends; exact final export review remains.",
       "manualApproval": false
     },
     {
       "id": "F1.cross-sites",
       "title": "Selective relevant owned-site suggestions",
-      "status": "NOT STARTED",
+      "status": "TESTED",
       "ownerIssues": [
         7
       ],
-      "prs": [],
-      "checks": [],
-      "evidence": [
-        "ai-issues/README.md"
+      "prs": [
+        60,
+        62
       ],
-      "remaining": "Implement only contextually useful links; no site-network footer farm.",
+      "checks": [
+        "Contextual owned-site SSR, six-width/light-dark, keyboard, axe, print, no-JS and ad-geometry browser suite"
+      ],
+      "evidence": [
+        "ai-issues/README.md",
+        "docs/releases/BUILDOUT-CONTEXTUAL-OWNED-SITES.md"
+      ],
+      "remaining": "Three relevant tools on seven explicit contexts passed SSR, keyboard, axe, print and ad-geometry checks. Independent final manual acceptance remains.",
       "manualApproval": false
     },
     {
       "id": "F1.author-footer",
       "title": "Truthful author/About and professional legal footer",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         8,
         9
       ],
       "prs": [
-        31
+        31,
+        57,
+        60,
+        62
       ],
       "checks": [
         "Trust metadata, browser and accessibility tests"
       ],
       "evidence": [
-        "docs/releases/BUILDOUT-U08.md"
+        "docs/releases/BUILDOUT-U08.md",
+        "docs/releases/BUILDOUT-F1-VISUAL.md"
       ],
-      "remaining": "Manual review found the footer maintainer link rendered as a block by the global cascade; scoped fix underway. Owner biography review remains separate; no invented credentials or review dates.",
+      "remaining": "Scoped footer cascade/contrast repairs pass. Owner biography accuracy and final manual review remain separate.",
       "manualApproval": false
     },
     {
       "id": "F1.social",
       "title": "Appropriate verified social/profile links",
-      "status": "NOT STARTED",
+      "status": "TESTED",
       "ownerIssues": [
         17
       ],
-      "prs": [],
-      "checks": [],
-      "evidence": [
-        "ai-issues/README.md"
+      "prs": [
+        60,
+        62
       ],
-      "remaining": "Inspect owned-site source and verified profiles before displaying a section.",
+      "checks": [
+        "Contextual owned-site SSR, six-width/light-dark, keyboard, axe, print, no-JS and ad-geometry browser suite"
+      ],
+      "evidence": [
+        "ai-issues/README.md",
+        "docs/releases/BUILDOUT-CONTEXTUAL-OWNED-SITES.md"
+      ],
+      "remaining": "Verified existing portfolio/LinkedIn references only; automated LinkedIn retrieval returned999, external availability remains manual.",
       "manualApproval": false
     },
     {
@@ -411,16 +557,18 @@
         10
       ],
       "prs": [
-        42
+        42,
+        69
       ],
       "checks": [
         "node tests/e2e/theme.mjs"
       ],
       "evidence": [
         "docs/releases/BUILDOUT-U09.md",
-        "tests/unit/theme.test.ts"
+        "tests/unit/theme.test.ts",
+        "docs/releases/BUILDOUT-THEME-CONTROL.md"
       ],
-      "remaining": "Expanded combined visual matrix pending.",
+      "remaining": "Seven widths and seven routes plus persistence, blocked storage, dialogs, no-JS and print pass. Physical/manual acceptance and final combined rerun remain.",
       "manualApproval": false
     },
     {
@@ -433,16 +581,20 @@
       ],
       "prs": [
         42,
-        51
+        51,
+        57,
+        67,
+        69
       ],
       "checks": [
         "320/390/768/1024/1280/1600 light/dark screenshot and axe matrix"
       ],
       "evidence": [
         "tests/e2e/theme.mjs",
-        "tests/e2e/accessibility.mjs"
+        "tests/e2e/accessibility.mjs",
+        "docs/releases/BUILDOUT-F1-VISUAL.md"
       ],
-      "remaining": "Keep actual screenshots and resolve defects; snapshots alone are not approval.",
+      "remaining": "224 baseline cases and48 corrected samples passed; defects repaired. Extend final candidate coverage to new guest/classroom/export surfaces and retain screenshots.",
       "manualApproval": false
     },
     {
@@ -454,16 +606,19 @@
       ],
       "prs": [
         16,
-        51
+        51,
+        65,
+        66
       ],
       "checks": [
         "Settings matrix, input/direction/preview regression"
       ],
       "evidence": [
         "tests/e2e/request-validation.mjs",
-        "tests/e2e/direction-validation.mjs"
+        "tests/e2e/direction-validation.mjs",
+        "docs/releases/BUILDOUT-F2-PRINT-SETTINGS.md"
       ],
-      "remaining": "Complete explicit combination/unsupported alphabet and clue/filler/hidden-message coverage.",
+      "remaining": "Edited print flags now affect actual output; advanced filler/order/seed and truthful specialty controls underway. Clue behavior and full supported-setting matrix remain.",
       "manualApproval": false
     },
     {
@@ -495,15 +650,18 @@
       ],
       "prs": [
         37,
-        47
+        47,
+        63,
+        66
       ],
       "checks": [
         "Full browser pointer/touch/tap/keyboard solver matrix"
       ],
       "evidence": [
-        "tests/e2e/browser-smoke.mjs"
+        "tests/e2e/browser-smoke.mjs",
+        "docs/releases/BUILDOUT-F2-SINGLE-CELL.md"
       ],
-      "remaining": "Physical Safari/Android and assistive-technology checks pending.",
+      "remaining": "One-cell regression repaired across keyboard/pointer/tap. Physical Safari/Android and assistive-technology checks remain manual.",
       "manualApproval": false
     },
     {
@@ -551,30 +709,36 @@
     {
       "id": "F2.library",
       "title": "Explicit named local saved-puzzle library",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         14
       ],
-      "prs": [],
+      "prs": [
+        55,
+        64,
+        66
+      ],
       "checks": [
         "Named-library browser/storage/print checks"
       ],
       "evidence": [
-        "components/builder/WordSearchBuilder.tsx"
+        "components/builder/WordSearchBuilder.tsx",
+        "docs/releases/BUILDOUT-F2-GUEST-VALIDATION.md"
       ],
-      "remaining": "Implementation and tests underway; no cloud/account claim.",
+      "remaining": "Explicit20-item local library, corruption recovery, exact curated/shared maker reachability and combined workflows pass; no cloud claim. Final combined/manual acceptance remains.",
       "manualApproval": false
     },
     {
       "id": "F3.single-pdf",
       "title": "Deterministic single-puzzle print/PDF/answer output",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         13
       ],
       "prs": [
         25,
-        37
+        37,
+        68
       ],
       "checks": [
         "npm run audit:pdf",
@@ -582,9 +746,10 @@
         "npm run test:parity"
       ],
       "evidence": [
-        "tests/unit/pdf.test.ts"
+        "tests/unit/pdf.test.ts",
+        "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md"
       ],
-      "remaining": "Physical Letter/A4 printers and legacy oversized-layout defects still need acceptance/fix.",
+      "remaining": "All1200 historical QR-enabled PDF hashes preserved. Download fit errors repaired; utility browser-print answer parity and extreme-grid pagination defects under active repair.",
       "manualApproval": false
     },
     {
@@ -596,16 +761,18 @@
       ],
       "prs": [
         27,
-        43
+        43,
+        68
       ],
       "checks": [
         "PDF geometry, old byte hashes and measured-layout tests"
       ],
       "evidence": [
         "tests/unit/print-measure.test.ts",
-        "tests/unit/pdf-pack-layout.test.ts"
+        "tests/unit/pdf-pack-layout.test.ts",
+        "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md"
       ],
-      "remaining": "Measured packs pass; legacy single-PDF long-title/crowded-bank behavior remains to resolve.",
+      "remaining": "Single PDF now rejects oversized titles/instructions/banks and colliding tokens. Measured geometry and1200 historical outputs pass. Browser-print extreme-grid fit remains active; physical printers remain manual.",
       "manualApproval": false
     },
     {
@@ -670,35 +837,42 @@
     {
       "id": "F3.worksheet-fields",
       "title": "Name/date/class and custom instructions without collisions",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         13
       ],
-      "prs": [],
+      "prs": [
+        54
+      ],
       "checks": [
         "Real PDF field, geometry and saved-setting tests"
       ],
       "evidence": [
-        "components/pack-builder/ClassroomPackBuilder.tsx"
+        "components/pack-builder/ClassroomPackBuilder.tsx",
+        "docs/releases/BUILDOUT-CLASSROOM-FIELDS.md"
       ],
-      "remaining": "Blank Class field/custom instruction implementation in isolated package.",
+      "remaining": "Optional blank Class line and bounded custom directions pass real Letter/A4 standard/large output and old-preset compatibility. Physical/manual acceptance remains.",
       "manualApproval": false
     },
     {
       "id": "F3.html-export",
       "title": "Useful safe offline HTML worksheet export",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         18
       ],
-      "prs": [],
+      "prs": [
+        59,
+        66
+      ],
       "checks": [
         "Real-file offline/no-network/XSS/grid/answer/print tests"
       ],
       "evidence": [
-        "components/puzzle/PuzzleSvg.tsx"
+        "components/puzzle/PuzzleSvg.tsx",
+        "docs/releases/BUILDOUT-F3-OFFLINE-HTML.md"
       ],
-      "remaining": "Bounded viable implementation assigned; no dummy button.",
+      "remaining": "Script-free offline HTML reuses rendered worksheet/answer SVG, with escaping/CSP and real offline browser PDF checks. Revalidate after browser-print layout changes.",
       "manualApproval": false
     },
     {
@@ -710,32 +884,39 @@
         35,
         40,
         41,
-        46
+        46,
+        49,
+        53,
+        58
       ],
       "checks": [
         "npm run audit:staged-inventory -- --pdf --export"
       ],
       "evidence": [
-        "scripts/audit-staged-inventory.ts"
+        "scripts/audit-staged-inventory.ts",
+        "docs/releases/BUILDOUT-CALENDAR-CATALOG-AUDIT.md"
       ],
-      "remaining": "45 candidate drafts plus16 utility selections; human editorial/factual/rights approval absent.",
+      "remaining": "60 new-path candidates,16 utility selections and2 preserved owner overlays remain source-only. Real PDF/export audits pass; factual, rights, audience and editorial approvals remain absent.",
       "manualApproval": false
     },
     {
       "id": "F4.calendar",
       "title": "53 optional2027 windows and35 conditional candidate mappings",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [],
       "prs": [
-        14
+        14,
+        56,
+        58
       ],
       "checks": [
         "Typed dates/kinds/candidate/reference/zero-fallback tests"
       ],
       "evidence": [
-        "ai-issues/2026-11-06-2027-WEEKLY-EDITORIAL-CALENDAR.md"
+        "ai-issues/2026-11-06-2027-WEEKLY-EDITORIAL-CALENDAR.md",
+        "docs/releases/BUILDOUT-2027-EDITORIAL-CALENDAR.md"
       ],
-      "remaining": "Typed manifest and missing differentiated inventory being built; no automated publication.",
+      "remaining": "All53 Friday windows and35 conditional opportunities mapped with default zero and initial cap1; no automatic publication or approval.",
       "manualApproval": false
     },
     {
@@ -805,15 +986,18 @@
       ],
       "prs": [
         15,
-        45
+        45,
+        52,
+        67
       ],
       "checks": [
         "Repeated CLS and Lighthouse measurements"
       ],
       "evidence": [
-        "tests/e2e/lighthouse-audit.mjs"
+        "tests/e2e/lighthouse-audit.mjs",
+        "docs/releases/BUILDOUT-LIGHTHOUSE-PROVIDER-DIAGNOSIS.md"
       ],
-      "remaining": "Search repair active; baseline Best Practices77 cookie/inspector findings need resolution/disposition.",
+      "remaining": "Search/utility CLS repairs pass. Five frozen03 Lighthouse diagnostics attribute repeated enabled-home BP77 to Google third-party cookie/Inspector warnings; ad-free controls BP100. Blocked-provider control is not a release pass or waiver. Final04 performance checks remain.",
       "manualApproval": false
     },
     {
@@ -898,12 +1082,17 @@
       "title": "Independent exact-SHA preview/product acceptance",
       "status": "IN PROGRESS",
       "ownerIssues": [],
-      "prs": [],
-      "checks": [],
+      "prs": [
+        51,
+        70
+      ],
+      "checks": [
+        "NETLIFY_PREVIEW_URL=preview EXPECTED_PREVIEW_COMMIT=sha PREVIEW_AUDIT_OUTPUT=outside-repo npx tsx tests/e2e/provider-preview-smoke.ts"
+      ],
       "evidence": [
         "docs/releases/README.md"
       ],
-      "remaining": "Inspect exact PR preview/provider status and test a real preview; production deployment remains unauthorized.",
+      "remaining": "Real hosted03 at08ffcd2 passed canonical/noindex/217sitemap/60draft404, six-route parity and real5-page PDF tests. Candidate04 exact-SHA hosted validation and independent approval remain.",
       "manualApproval": false
     },
     {
@@ -912,7 +1101,9 @@
       "status": "MANUAL ACCEPTANCE PENDING",
       "ownerIssues": [],
       "prs": [
-        37
+        37,
+        51,
+        70
       ],
       "checks": [
         "Release record and remote main SHA verification"
@@ -920,7 +1111,7 @@
       "evidence": [
         "docs/releases/BUILDOUT-INTEGRATION-02.md"
       ],
-      "remaining": "Capture provider deployment ID and independent exact-SHA approval; no production accepted claim.",
+      "remaining": "Ready production deploy6aedd79021e0a4d96f61990a matches recorded main471a118. Revert/fix-forward through reviewed Git delivery documented; independent candidate approval and authorized production operation remain.",
       "manualApproval": false
     },
     {

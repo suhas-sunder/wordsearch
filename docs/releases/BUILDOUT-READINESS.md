@@ -1,5 +1,37 @@
 # Buildout readiness ledger — November 6, 2026
 
+## Current controlling status: candidate04 in development
+
+Use [PRODUCT-ACCEPTANCE.md](PRODUCT-ACCEPTANCE.md) and its validated JSON for the
+definitive feature-by-feature status; older recovery tables below are historical.
+Draft PR70 combines the later packages on tested03, with no main merge or
+production deployment. The ledger currently records28 TESTED,7 IN PROGRESS,
+2 MANUAL ACCEPTANCE PENDING,1 BLOCKED and1 OWNER-DEFERRED; zero DONE approvals.
+TESTED refers to recorded package evidence, not automatic combined acceptance.
+
+Implemented additions include named local puzzles and exact maker reachability,
+one-cell solving, synchronized print controls, offline HTML, classroom fields,
+meaningful FAQs, selective activity/profile links, pack discovery, search/utility
+CLS repairs and theme hydration behavior. PDF fit errors preserve all1200
+historical QR-enabled PDF hashes. All60 new-path candidates,16 utility selections,
+2 preserved owner overlays and the53-window/35-opportunity calendar stay source-only.
+The initial release limit is **at most one** genuinely distinct indexable URL per
+independently approved weekly release; zero remains valid. This supersedes older
+0–3 wording below.
+
+Active implementation: supported advanced settings/clue behavior and browser-print
+answer parity/extreme-grid pagination. Final combined04 build/browser/visual/PDF
+and exact provider-preview validation follow these repairs. Real03 provider
+verification is recorded in PROVIDER-VERIFICATION-2026-11-06.md.
+
+Remaining external gates: physical printing/devices/assistive technology, human
+editorial/factual/rights review, independent exact-SHA approval, genuine ad/consent
+behavior and owner decisions on three noindex/ad-eligibility findings. Repeated
+enabled-home Lighthouse Best Practices77 is attributed to Google's third-party
+cookie/Inspector warning; diagnostic blocking is not a waiver or release pass.
+Both dependency audit scopes were zero on03; repeat at final04. Production and
+new-content approval remain false.
+
 This is development status, not approval to publish. Source of truth remains the
 owner README and the three unchanged Christmas-growth planning documents.
 Every release needs its exact commit, independent review, test evidence and

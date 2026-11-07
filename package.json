@@ -27,6 +27,7 @@
     "test:inputs": "node tests/e2e/request-validation.mjs",
     "test:workload": "node tests/e2e/generation-workload.mjs",
     "test:parity": "node tests/e2e/share-route-parity.mjs",
+    "test:provider-preview": "tsx tests/e2e/provider-preview-smoke.ts",
     "test:transport": "tsx tests/e2e/share-transport-study.ts",
     "test:completion": "tsx tests/e2e/completion-card.ts",
     "test:navigation": "node tests/e2e/header-navigation.mjs",

@@ -1,5 +1,36 @@
 # Buildout execution ledger — November 6, 2026
 
+## Current reconciliation (supersedes older active-state entries)
+
+Draft PR70 (`codex/product-candidate-04`) is the active combined candidate on
+frozen03. All previous branches, PRs, dirty root growth proposals and superseded
+preparation remain preserved. No main merge/push, auto-merge or production deploy.
+
+- Completed independent packages:49 annual packs;50 authored FAQs;52 search CLS;
+  53 calendar gaps;54 classroom fields;55 local library;56 typed2027 calendar;
+  57 visual/footer repairs;58 whole-calendar inventory audit;59 offline HTML;
+  60 contextual activity/profile links;61 pack discovery;62 context validation;
+  63 one-cell solver;64 exact save reachability;65 request print flags;
+  66 combined guest validation;67 utility pending/error CLS;68 PDF fit errors;
+  69 progressive theme control. Their exact SHA snapshots and evidence are in
+  PRODUCT-ACCEPTANCE.json. Earlier completed milestones remain in03/02 records.
+- Active: inventory worker repairs ready browser-print answer parity and extreme
+  grid pagination in `codex/browser-print-layout`; resume worker develops advanced
+  settings/input bank order and specialty honesty; navigation worker independently
+  audits remaining F1 acceptance gaps; root maintains04 integration and evidence.
+- Combined04 validation is pending these source changes. Serialize Next/Lighthouse
+  work; do not mistake a separate package pass for an exact combined-head pass.
+- Five Lighthouse diagnosis samples completed on frozen03. Enabled-home BP77
+  repeats; Google cookie/Inspector origins identified; ad-free controls BP100.
+  No advertising modification, threshold relaxation or blocked-provider waiver.
+- Real03 hosted preview passed parity, draft isolation, actual PDF and key UI
+  smoke.04 requires its own exact-SHA hosted checks. Production remains471a118.
+- External/manual gates are explicit in PRODUCT-ACCEPTANCE and readiness. Neither
+  editorial approval nor production/product acceptance is recorded.
+
+The work continues through feasible implementation; this reconciliation does
+not mark undocumented or merely planned features complete.
+
 Development only. Main, production, publication and protected advertising stay
 unchanged. The extended owner authorization is in the November 6 chat attachment;
 the master plan and candidate catalog remain authoritative for scope.
