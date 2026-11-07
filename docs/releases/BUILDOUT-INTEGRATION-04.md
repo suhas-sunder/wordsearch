@@ -4,6 +4,35 @@ Draft [PR70](https://github.com/suhas-sunder/wordsearch/pull/70), branch
 `codex/product-candidate-04`, based on frozen03. This is an active development
 record, not a final release candidate or product acceptance claim.
 
+## Acceptance repairs after the first freeze
+
+Application `a3988b546eedf44c772691dbe65a139b1a74a523` was independently audited:
+all1200 published PDF byte hashes match the baseline, all150 production puzzle
+definitions/results and217 sitemap metadata/JSON-LD records match, and35 redirects
+are unchanged. Main60 drafts,16 larger-type utility selections and8 preserved
+owner proposals passed their separate real-PDF/isolation checks. Legacy48
+landscape PDFs below9pt remain an explicit limitation, not measured large print.
+
+The complete432-case visual run finished without interruption. Eight dark solver
+start-card contrast failures and a manually detected export-helper overlap reopen
+F1 implementation. Expanded fixture [PR87](https://github.com/suhas-sunder/wordsearch/pull/87)
+reproduces text collisions; [repair88](https://github.com/suhas-sunder/wordsearch/pull/88)
+passes28 focused cases,514 tests,335-page build and217/35/6 static checks.
+Original and repaired screenshots/manifests are kept separately. See
+[the repair evidence](BUILDOUT-VISUAL-ACCEPTANCE-REPAIRS.md).
+
+A separate [X03 measured Christmas format89](https://github.com/suhas-sunder/wordsearch/pull/89)
+uses the exact unchanged X02 candidate. Real Letter/A4 student/teacher PDFs pass
+with18pt bank and grid type above25pt;519 tests/72 files, build335 and static
+217/35/6 pass. It adds no public URL or editorial approval. The combined
+replacement freeze must pass48 functional suites, the repaired full432 visual
+matrix, quiet84 CLS pairs, unchanged Lighthouse gates and exact hosted preview.
+Those checks remain open; frozen a3988 evidence is not relabeled as later SHA QA.
+Combined replacement-source lint, TypeScript and all519 tests in72 files pass
+on Node22.23.4. The next committed head is frozen for its own production export
+and serialized browser acceptance; no ledger/source commit may change that head
+while the functional runner is active.
+
 ## What is combined
 
 All earlier02/03 work remains in ancestry. Subsequent normal merges preserve

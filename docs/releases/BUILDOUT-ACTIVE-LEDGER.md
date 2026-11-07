@@ -7,12 +7,17 @@ dense-bank recovery;78 real clues/teacher mappings;79 all8 original owner
 proposals preserved;80 authored-topic alignment and exact pinned-file checks;
 81 default-off local sound;82 printable ASCII case;83 zero-answer/seed-miss
 recovery;84 factual advertising-policy copy correction for owner review.
-All are in current04. The remaining confirmed code defect is stale HTML/static
-PDF completion after invalid edits/navigation; cancellation85 now repairs it
-alongside stale PNG errors. Settings/fallback acceptance86 is also complete.
+All are in current04. Cancellation85 repairs stale HTML/static PDF completion
+after invalid edits/navigation and stale PNG errors. Settings/fallback
+acceptance86 is also complete. Expanded visual fixture87 found export-help
+overlap and dark solver-start contrast defects; repair88 passes28 focused cases.
 Combined clean-install/lint/typecheck/514tests/build335/static217/35/6 passes.
-Final432-case visual matrix,84-pair utility CLS, combined browser/PDF checks and
-regressions and exact provider preview are still pending. The machine ledger
+The original frozen432 visual run completed with eight dark start-card contrast
+failures, plus the manually found text overlap. Original failures are retained;
+the repaired final432 matrix,84-pair utility CLS,48-suite functional regression
+and exact provider preview remain pending. Independent frozen PDF/static audits
+pass:1200 published PDF hashes unchanged,150 published definitions/results,
+217 sitemap metadata/JSON-LD and35 redirects unchanged. The machine ledger
 now covers43 features; no production/editorial approval is recorded. Feature
 implementation is frozen for acceptance; any new concrete defect reopens work.
 
@@ -28,12 +33,14 @@ preparation remain preserved. No main merge/push, auto-merge or production deplo
   66 combined guest validation;67 utility pending/error CLS;68 PDF fit errors;
   69 progressive theme control. Their exact SHA snapshots and evidence are in
   PRODUCT-ACCEPTANCE.json. Earlier completed milestones remain in03/02 records.
-- Active: inventory worker repairs ready browser-print answer parity and extreme
-  grid pagination in `codex/browser-print-layout`; resume worker develops advanced
-  settings/input bank order and specialty honesty; navigation worker independently
-  audits remaining F1 acceptance gaps; root maintains04 integration and evidence.
-- Combined04 validation is pending these source changes. Serialize Next/Lighthouse
-  work; do not mistake a separate package pass for an exact combined-head pass.
+- Completed89: X03 is a typed, measured, source-only format of unchanged X02,
+  with real Letter/A4 student/teacher PDFs and519 passing tests in72 files.
+- Active: inventory worker owns repaired visual/CLS acceptance; resume
+  worker has completed static audits and prepared48 sequential functional suites;
+  root integrates verified changes and maintains exact-SHA acceptance evidence.
+- Combined04 validation is pending the replacement freeze. Serialize Next and
+  browser/Lighthouse work under memory pressure; individual package passes do
+  not replace exact combined-head checks.
 - Five Lighthouse diagnosis samples completed on frozen03. Enabled-home BP77
   repeats; Google cookie/Inspector origins identified; ad-free controls BP100.
   No advertising modification, threshold relaxation or blocked-provider waiver.

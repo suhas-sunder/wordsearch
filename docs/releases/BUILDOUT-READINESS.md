@@ -9,6 +9,16 @@ production deployment. The43-feature ledger currently records35 TESTED,4 IN PROG
 2 MANUAL ACCEPTANCE PENDING,1 BLOCKED and1 OWNER-DEFERRED; zero DONE approvals.
 TESTED refers to recorded package evidence, not automatic combined acceptance.
 
+Frozen a3988 independent audits pass:150 production definitions/results,
+217 sitemap metadata/JSON-LD and35 redirects unchanged;1200 published PDF hashes
+identical. Expanded visual87 completed all432 cases and exposed eight dark
+solver-start contrast failures plus manual export-help overlap. Repair88 passes
+28 focused cases and514 tests/build335/static checks. The final replacement
+432-case matrix,48 functional suites,84 CLS pairs, ordinary Lighthouse and exact
+hosted preview remain open. Original failures are retained. PR89 implements X03
+as a measured source-only format of unchanged X02, with no public URL; its
+519 tests/72 files,335-page build and217/35/6 static checks pass.
+
 Implemented additions include named local puzzles and exact maker reachability,
 one-cell solving, synchronized print controls, offline HTML, classroom fields,
 meaningful FAQs, selective activity/profile links, pack discovery, search/utility
