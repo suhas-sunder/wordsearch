@@ -10,6 +10,7 @@ import type { PuzzleContentRecord } from "@/content/model";
 import { getRouteRecord, routeInventory } from "@/content/registry";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/seo/structured-data";
+import { RelatedActivityTools } from "@/components/page/RelatedActivityTools";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -108,6 +109,7 @@ export default async function CollectionPage({ params }: Props) {
         </section>
 
         <SearchTools />
+        <RelatedActivityTools path={path} />
         </main>
       </MonetizedPageShell>
     </>

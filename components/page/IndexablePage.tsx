@@ -6,6 +6,7 @@ import { DeferredWordSearchBuilder } from "@/components/builder/DeferredWordSear
 import { EditorialModules, QuickLinks, SearchTools } from "@/components/page/PageSections";
 import type { PuzzleRequest } from "@/lib/puzzle/types";
 import { breadcrumbJsonLd } from "@/lib/seo/structured-data";
+import { RelatedActivityTools } from "@/components/page/RelatedActivityTools";
 
 interface IndexablePageProps {
   title: string;
@@ -90,6 +91,7 @@ export function IndexablePage({
           </section>
           {children}
           <EditorialModules modules={modules} faq={faq} adTemplate={adTemplate} />
+          <RelatedActivityTools path={path} />
           <section className="content-section site-shell standards-link">
             <p>Learn about <Link href="/how-word-searches-are-made">how our puzzles are made</Link> and the site&apos;s <Link href="/editorial-policy">editorial and puzzle standards</Link>.</p>
           </section>
