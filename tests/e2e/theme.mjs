@@ -7,7 +7,7 @@ const base = process.env.BASE_URL ?? "http://localhost:3264";
 const browser = await chromium.launch({ headless: true });
 if (process.env.THEME_VISUAL_OUTPUT) await mkdir(process.env.THEME_VISUAL_OUTPUT, { recursive: true });
 try {
-  for (const width of [320, 390, 768, 1440]) {
+  for (const width of [320, 390, 768, 1024, 1280, 1440, 1600]) {
     const context = await browser.newContext({ viewport: { width, height: 1000 }, colorScheme: "dark" });
     await context.route("https://pagead2.googlesyndication.com/**", (route) => route.fulfill({ contentType: "application/javascript", body: "" }));
     const page = await context.newPage();
@@ -51,6 +51,8 @@ try {
   }
   const noScript = await browser.newPage({ javaScriptEnabled: false, colorScheme: "dark" });
   await noScript.goto(base);
+  const unavailableToggle = noScript.getByRole("button", { name: "Theme selection requires JavaScript. Without it, your device preference is used.", exact: true });
+  assert.equal(await unavailableToggle.isDisabled(), true, "no-JS theme control explains its inactive state");
   assert.equal(await noScript.locator("html").evaluate((el) => getComputedStyle(el).colorScheme), "dark", "no-JS device preference");
   await noScript.emulateMedia({ media: "print" });
   assert.equal(await noScript.locator("html").evaluate((el) => getComputedStyle(el).colorScheme), "light", "no-JS print remains light");
@@ -63,4 +65,4 @@ try {
   assert.equal(await restricted.locator("html").getAttribute("data-theme"), "dark");
   await restricted.close();
 } finally { await browser.close(); }
-console.log("PASS theme persistence/device override/system changes, blocked storage, no-JS, four widths, dark axe and light print paper");
+console.log("PASS theme persistence/device override/system changes, blocked storage, no-JS, seven widths, dark axe and light print paper");
