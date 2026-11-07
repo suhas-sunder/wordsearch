@@ -16,7 +16,7 @@ export default function SearchPage() {
         <div className="section-heading">
           <span className="eyebrow">Curated catalog</span>
           <h1>Search Word Searches</h1>
-          <p>Search existing puzzles, categories, collections, guides, and primary tools. Arbitrary queries do not create public puzzle pages.</p>
+          <p>Search puzzles, categories, collections, guides and tools.</p>
         </div>
         <SearchPageClient />
       </section>

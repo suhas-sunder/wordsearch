@@ -57,3 +57,47 @@ Before implementation, the independent guard reviewer confirmed two bounded Cate
 The maker ASL option likewise uses the local display label “ASL labels (not handshapes)” while preserving value/order/mapping and the full limitation help. All other subjective B/C proposals, five earlier FAQ sets, biography, privacy and policy material remain owner-held as recorded by the semantic guard. New application source still requires final combined browser/static/semantic validation; the old package results are historical.
 
 The later exact footer CategoryB review is in [EXCELLENCE-FOOTER-B-REVIEW.md](EXCELLENCE-FOOTER-B-REVIEW.md): the original230-field report is preserved, while the new50-group disposition retains13material CategoryC fields after independently reviewing the exact owner-requested footer. This is not a change to the public footer or an owner/manual product approval. About-source corrections and exact scope counts are recorded in [the supplemental classifier review](EXCELLENCE-SEO-SITE-CHROME-REFINEMENT.md).
+
+
+## Final visual follow-up — bounded interface copy and retained owner decision
+
+Independent C2 rendered/source review supports a Category A correction on the
+sole existing noindex `/search` route: “Search existing puzzles, categories,
+collections, guides, and primary tools. Arbitrary queries do not create public
+puzzle pages.” becomes “Search puzzles, categories, collections, guides and tools.”
+Actual HTTP200 contains the old sentence once, robots noindex/follow and canonical
+/search. Only the task-help paragraph changes; H1, metadata, query handling,
+search kinds/index and result links stay unchanged. This removes indexing
+plumbing from a visitor instruction. It creates no new indexed-copy allowance.
+
+The PDF dialog also receives a Category A contextual sentence correction:
+inside Download PDF, the measured-choice help says “Choose Download large-print
+PDF below for the separate measured layout.” The Print dialog retains “Open
+Download PDF for the separate measured large-print choice.” Minimum sizes,
+limitations, actions, settings and output bytes remain preserved.
+
+A distinct **existing Category C owner-held factual proposal** was confirmed on
+`/word-searches-for-teachers`: it names classroom/science/substitute-teacher
+collections, while the actual published cards are classroom/science/answer-key;
+the substitute-teacher collection remains draft. Proposed owner-review wording:
+“Use existing classroom, science and answer-key collections when you need a
+quick handout.” This source sentence is unchanged from production and is
+additional to the 13 observed main-to-candidate changed-field holds. No teacher
+editorial copy or draft publication status is changed by this follow-up.
+These pending interface edits need the next combined candidate validation.
+
+
+Root's actual C2 image review also identified internal rendering terminology in
+`StaticPuzzleRoute.tsx` help. A bounded Category A follow-up replaces “real PDF
+generated entirely in this browser” with “Download a PDF in your browser, or print
+this worksheet”; “same deterministic placements” with “This answer key matches
+your puzzle”; and “print-only CSS” with an instruction to use the print button or
+browser command while retaining the no-ad worksheet disclosure. The shared
+loading/ready play/custom intro now says printing, downloads, answers and share
+links use the same puzzle, instead of “exact seed and placement set.” Builder
+seed/recreation help, local-progress privacy, output limits, validation/recovery,
+no-fallback behavior, titles, metadata and all puzzle/print/PDF code stay exact.
+Scope is five existing noindex utility kinds (print/pdf/answer/play/custom);
+embed is unchanged. Utility loading/ready layout and CLS must be rerun on the
+next candidate, since shorter help can affect reserved geometry. These changes
+are task help, not indexed editorial changes or new capability claims.
