@@ -28,6 +28,7 @@ export function PuzzleSvg({
     <svg
       className="puzzle-svg"
       viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="xMidYMin meet"
       role="img"
       aria-label={`${puzzle.request.title} word search grid, ${puzzle.rows} rows by ${puzzle.cols} columns`}
     >

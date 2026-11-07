@@ -8,7 +8,7 @@ import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
 import { PuzzleSvg } from "@/components/puzzle/PuzzleSvg";
 import { downloadBrowserPuzzlePdf } from "@/lib/pdf/browser-download";
 import { generatePuzzle } from "@/lib/puzzle/generate";
-import { outputOptionsForRequest, parsePuzzleOutputOptions, type PuzzleOutputOptions } from "@/lib/puzzle/output-options";
+import { outputOptionsForRequest, parsePuzzleOutputOptions, serializePuzzleOutputOptions, type PuzzleOutputOptions } from "@/lib/puzzle/output-options";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import { decodePuzzleShareState, puzzlePlayUrl } from "@/lib/share-state/state";
 import styles from "./StaticPuzzleRoute.module.css";
@@ -67,6 +67,7 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
   const [loaded, setLoaded] = useState<LoadedPuzzleRoute | null>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "invalid">("loading");
   const [qrDataUrl, setQrDataUrl] = useState("");
+  const [qrFailed, setQrFailed] = useState(false);
   const [pdfStatus, setPdfStatus] = useState<"idle" | "working" | "error">("idle");
   const [pdfError, setPdfError] = useState("");
 
@@ -114,13 +115,14 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
       return;
     }
     let active = true;
+    setQrFailed(false);
     import("qrcode")
       .then((QRCode) => QRCode.toDataURL(shareTarget, { margin: 4, width: 224, errorCorrectionLevel: "M" }))
       .then((value) => {
         if (active) setQrDataUrl(value);
       })
       .catch(() => {
-        if (active) setQrDataUrl("");
+        if (active) { setQrDataUrl(""); setQrFailed(true); }
       });
     return () => {
       active = false;
@@ -196,14 +198,16 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
         <p className="control-help">
           {outputHelp(kind)}
         </p>
+        {(puzzle.rows > 25 || puzzle.cols > 25) && <p className="control-help">This long grid fits one sheet using small letters. Choose fewer rows or columns for larger type.</p>}
         <div className="utility-actions">
-          <button type="button" className="secondary-button" onClick={() => window.print()}><Printer size={17} aria-hidden="true" /> Print</button>
+          <button type="button" className="secondary-button" disabled={options.qrCode && !qrDataUrl} onClick={() => window.print()}><Printer size={17} aria-hidden="true" /> Print</button>
           {kind === "pdf" && (
             <button type="button" className="primary-button" disabled={pdfStatus === "working"} onClick={downloadPdf}>
               <FileDown size={17} aria-hidden="true" /> {pdfStatus === "working" ? "Generating…" : pdfStatus === "error" ? "Retry PDF" : "Download this PDF"}
             </button>
           )}
         </div>
+        {options.qrCode && !qrDataUrl && <p role="status">{qrFailed ? "The QR code could not be prepared." : "Preparing the QR code before printing."} <a href={`?${serializePuzzleOutputOptions({ ...options, qrCode: false })}`}>Print without a QR code</a>.</p>}
         {pdfStatus === "error" && <div className="output-error" role="alert"><strong>PDF failed.</strong> {pdfError}</div>}
       </div>
       <PrintablePuzzle
@@ -214,6 +218,14 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
         options={options}
         shareTarget={shareTarget}
       />
+      {!answerKey && options.includeAnswerKey && <PrintablePuzzle
+        puzzle={puzzle}
+        answerKey
+        headingLevel={2}
+        qrDataUrl={qrDataUrl}
+        options={options}
+        shareTarget={shareTarget}
+      />}
     </main>
   );
 }
