@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { FileDown, Printer } from "lucide-react";
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { OnlineSolver } from "@/components/puzzle/OnlineSolver";
 import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
 import { PuzzleSvg } from "@/components/puzzle/PuzzleSvg";
@@ -72,6 +72,15 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
   const [pdfStatus, setPdfStatus] = useState<"idle" | "working" | "error">("idle");
   const [pdfError, setPdfError] = useState("");
   const [printMessage, setPrintMessage] = useState("");
+  const pdfJob = useRef(0);
+  const pdfMounted = useRef(false);
+  const currentPdf = useRef({ loaded, status });
+  currentPdf.current = { loaded, status };
+
+  useEffect(() => {
+    pdfMounted.current = true;
+    return () => { pdfMounted.current = false; };
+  }, []);
 
   useLayoutEffect(() => {
     if (status === "loading") {
@@ -136,15 +145,20 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
 
   async function downloadPdf() {
     if (!loaded) return;
+    const job = ++pdfJob.current;
+    const selected = loaded;
+    const selectedPath = window.location.pathname + window.location.search;
+    const isCurrent = () => pdfMounted.current && pdfJob.current === job && currentPdf.current.status === "ready" && currentPdf.current.loaded === selected && window.location.pathname + window.location.search === selectedPath;
     setPdfStatus("working");
     setPdfError("");
     try {
-      await downloadBrowserPuzzlePdf(loaded.puzzle, loaded.options, shareTarget);
-      setPdfStatus("idle");
+      const downloaded = await downloadBrowserPuzzlePdf(selected.puzzle, selected.options, shareTarget, "legacy", isCurrent);
+      if (downloaded && isCurrent()) setPdfStatus("idle");
     } catch (error) {
+      if (!isCurrent()) return;
       setPdfStatus("error");
       setPdfError(error instanceof Error ? error.message : "The PDF could not be generated.");
-    }
+    } finally { if (pdfMounted.current && pdfJob.current === job) setPdfStatus((current) => current === "working" ? "idle" : current); }
   }
 
   function printBrowser() {

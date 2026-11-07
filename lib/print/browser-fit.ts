@@ -38,12 +38,17 @@ async function measureHtml(html: string, options: PuzzleOutputOptions, offline: 
     // Start font discovery/layout before taking the font readiness promise.
     doc.body.getBoundingClientRect();
     let timeout: ReturnType<typeof setTimeout> | undefined;
+    let onAbort: (() => void) | undefined;
     try {
       await Promise.race([
         Promise.all([doc.fonts.ready, ...Array.from(doc.images).map((image) => image.decode())]),
-        new Promise((_, reject) => { timeout = setTimeout(() => reject(new Error("Print fonts or QR image are not ready. Please retry.")), 5000); })
+        new Promise((_, reject) => { timeout = setTimeout(() => reject(new Error("Print fonts or QR image are not ready. Please retry.")), 5000); }),
+        ...(signal ? [new Promise((_, reject) => {
+          onAbort = () => reject(signal.reason ?? new DOMException("Print check canceled", "AbortError"));
+          signal.addEventListener("abort", onAbort, { once: true });
+        })] : [])
       ]);
-    } finally { clearTimeout(timeout); }
+    } finally { clearTimeout(timeout); if (signal && onAbort) signal.removeEventListener("abort", onAbort); }
     signal?.throwIfAborted();
     const articles = Array.from(doc.querySelectorAll<HTMLElement>("article.print-sheet"));
     if (!articles.length || articles.length > 2) throw new Error("Print worksheet is not ready.");
@@ -94,6 +99,6 @@ export function validateBrowserPrintSheet(article: HTMLElement, options: PuzzleO
   }
 }
 
-export function validateOfflinePrintHtml(html: string, options: PuzzleOutputOptions): Promise<void> {
-  return serialMeasure(html, options, true);
+export function validateOfflinePrintHtml(html: string, options: PuzzleOutputOptions, signal?: AbortSignal): Promise<void> {
+  return serialMeasure(html, options, true, signal);
 }

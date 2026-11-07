@@ -32,6 +32,7 @@ export interface PuzzleUtilitiesContext {
   printablePreview: ReactNode;
   downloadHtmlWorksheet: () => void;
   htmlExportMessage: string;
+  htmlExportWorking: boolean;
 }
 
 interface PuzzleUtilitiesProps {
@@ -70,6 +71,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   const [pdfError, setPdfError] = useState("");
   const [pdfAttempt, setPdfAttempt] = useState<BrowserPdfLayout>("legacy");
   const [htmlExportMessage, setHtmlExportMessage] = useState("");
+  const [htmlExportWorking, setHtmlExportWorking] = useState(false);
   const [utilityAnnouncement, setUtilityAnnouncement] = useState("");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const initialFocusRef = useRef<HTMLButtonElement>(null);
@@ -78,14 +80,25 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   const printPortalRef = useRef<HTMLDivElement>(null);
   const previousPrintRequest = useRef(puzzle.request);
   const pdfJob = useRef(0);
-  const pdfDefinition = useRef(puzzle.request);
-  const pdfOptions = useRef(options);
-  const pdfOutputsBlocked = useRef(outputsBlocked);
-  pdfDefinition.current = puzzle.request;
-  pdfOptions.current = options;
-  pdfOutputsBlocked.current = outputsBlocked;
+  const htmlJob = useRef(0);
+  const htmlController = useRef<AbortController | null>(null);
+  const currentOutput = useRef({ definition: puzzle.request, options, blocked: outputsBlocked });
+  currentOutput.current = { definition: puzzle.request, options, blocked: outputsBlocked };
   const playUrl = useMemo(() => puzzlePlayUrl(puzzle.request), [puzzle.request]);
   const shareDestinations = useMemo(() => puzzleShareDestinations(playUrl), [playUrl]);
+
+  useEffect(() => {
+    htmlJob.current++;
+    htmlController.current?.abort();
+    htmlController.current = null;
+    setHtmlExportWorking(false);
+    setHtmlExportMessage("");
+  }, [puzzle.request, options, outputsBlocked]);
+
+  useEffect(() => () => {
+    htmlController.current?.abort();
+    htmlController.current = null;
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -157,15 +170,30 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   }
 
   async function downloadHtmlWorksheet() {
-    if (outputsBlocked || !printPortalRef.current) {
+    if (htmlController.current) return;
+    const portal = printPortalRef.current;
+    if (outputsBlocked || !portal) {
       setHtmlExportMessage("The worksheet is not ready. Wait for valid preview settings before downloading.");
       return;
     }
+    const job = ++htmlJob.current;
+    const controller = new AbortController();
+    htmlController.current = controller;
+    const definition = puzzle.request;
+    const selectedOptions = options;
+    const isCurrent = () => htmlJob.current === job && htmlController.current === controller && !controller.signal.aborted && !currentOutput.current.blocked && currentOutput.current.definition === definition && currentOutput.current.options === selectedOptions && printPortalRef.current === portal;
+    setHtmlExportWorking(true);
+    setHtmlExportMessage("Checking worksheet print fit before creating the HTML file…");
     try {
-      await downloadOfflineWorksheet(printPortalRef.current, puzzle.request.title, options);
-      setHtmlExportMessage("HTML worksheet downloaded. This private file contains the word list and any included answers.");
+      const downloaded = await downloadOfflineWorksheet(portal, puzzle.request.title, options, isCurrent, controller.signal);
+      if (downloaded && isCurrent()) setHtmlExportMessage("HTML worksheet downloaded. This private file contains the word list and any included answers.");
     } catch (error) {
-      setHtmlExportMessage(error instanceof Error ? error.message : "The HTML worksheet could not be downloaded.");
+      if (isCurrent()) setHtmlExportMessage(error instanceof Error ? error.message : "The HTML worksheet could not be downloaded.");
+    } finally {
+      if (htmlController.current === controller) {
+        htmlController.current = null;
+        if (printPortalRef.current) setHtmlExportWorking(false);
+      }
     }
   }
 
@@ -232,7 +260,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
     const job = ++pdfJob.current;
     const definition = puzzle.request;
     const selectedOptions = options;
-    const isCurrent = () => pdfJob.current === job && !pdfOutputsBlocked.current && pdfDefinition.current === definition && pdfOptions.current === selectedOptions && dialogRef.current?.open === true;
+    const isCurrent = () => pdfJob.current === job && !currentOutput.current.blocked && currentOutput.current.definition === definition && currentOutput.current.options === selectedOptions && dialogRef.current?.open === true;
     setPdfStatus("working");
     setPdfAttempt(layout);
     setPdfError("");
@@ -340,7 +368,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
 
   return (
     <>
-      {children({ answersVisible, previewMode, options, compactToolbar, previewToolbar, printablePreview, downloadHtmlWorksheet, htmlExportMessage })}
+      {children({ answersVisible, previewMode, options, compactToolbar, previewToolbar, printablePreview, downloadHtmlWorksheet, htmlExportMessage, htmlExportWorking })}
       {printPortal}
       <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{utilityAnnouncement}</p>
       {!outputsBlocked && <dialog

@@ -64,15 +64,16 @@ h1,h2{font-size:20pt;line-height:1.15;margin:0 0 10px}p{margin:8px 0}.print-bran
   return `<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'"><title>${escapedText(title)} — offline worksheet</title><style>${css}</style></head><body><main>${markup}</main></body></html>`;
 }
 
-export async function downloadOfflineWorksheet(portal: HTMLElement, title: string, options: PuzzleOutputOptions): Promise<void> {
+export async function downloadOfflineWorksheet(portal: HTMLElement, title: string, options: PuzzleOutputOptions, isCurrent: () => boolean = () => true, signal?: AbortSignal): Promise<boolean> {
+  if (!isCurrent()) return false;
   const html = createOfflineWorksheetHtml(portal, title, options);
-  await validateOfflinePrintHtml(html, options);
+  await validateOfflinePrintHtml(html, options, signal);
+  if (!isCurrent()) return false;
   const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
   const link = document.createElement("a");
   link.href = url;
   link.download = htmlWorksheetFilename(title);
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  try { document.body.appendChild(link); link.click(); }
+  finally { link.remove(); window.setTimeout(() => URL.revokeObjectURL(url), 1000); }
+  return true;
 }
