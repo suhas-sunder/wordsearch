@@ -1,4 +1,6 @@
 # iLoveWordSearch — complete candidate catalog, build order and release inventory
+
+> **Publication policy clarification:** The [full 2027 Friday editorial calendar](./2026-11-06-2027-WEEKLY-EDITORIAL-CALENDAR.md) provides the *review windows* and overrides this catalog's older provisional 0–3 weekly URL ceiling: **0–1 new independently approved indexable URL per Friday initially, with exceptional second URLs only after demonstrated quality and adequate observation**. There is never a requirement to fill a weekly content slot. The [product finalization and acceptance contract](./2026-11-06-PRODUCT-FINALIZATION-AND-ACCEPTANCE.md) governs a polished guest-first site. These changes do **not** slow development: build the proposed inventory as fast as sound and keep staged assets unpublished until human/editorial and separate release approval.
 Prepared 2026-11-06 · Companion to MASTER-BUILDOUT-AND-CONTROLLED-RELEASES.md
 
 **Purpose:** a finite, explicit implementation queue for building immediately, WITHOUT equating build completion with publication. This catalog is a product/editorial research backlog, not a mandate to publish every suggestion. Existing published pages are deliberately kept separate from proposals. New URL paths are reserved only after an actual collision and canonical-intent check against the live source/sitemap.

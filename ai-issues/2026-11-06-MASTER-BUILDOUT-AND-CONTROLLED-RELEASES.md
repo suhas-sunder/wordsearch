@@ -1,4 +1,7 @@
 # iLoveWordSearch — complete buildout and controlled release program (2026–2028)
+
+> **Editorial calendar and finished-product policy (2026-11-06):** The [53-Friday 2027 editorial review calendar](./2026-11-06-2027-WEEKLY-EDITORIAL-CALENDAR.md) now details the entire year; the [product finalization contract](./2026-11-06-PRODUCT-FINALIZATION-AND-ACCEPTANCE.md) defines what a truly polished, accepted site means. **These newer policies supersede the provisional initial 0–3 new-URL weekly ceiling below:** initially **0–1 new unique indexable URL per Friday**, with a second only as an explicit, exceptional independently approved decision after at least eight weeks of observation. No calendar slot obligates any new indexable page. Both docs expand implementation goals, not production permission. All source-only content may be built immediately while release slots remain gated.
+
 Prepared 2026-11-06 · Master plan v1 · Planning-only, no production authorization
 
 ## The governing decision: build NOW, publish in measured waves
