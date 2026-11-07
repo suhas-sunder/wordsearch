@@ -15,7 +15,7 @@ export type AlphabetPackId =
   | "emoji"
   | "asl";
 
-export type WordBankOrder = "custom" | "alphabetical" | "length";
+export type WordBankOrder = "custom" | "input" | "alphabetical" | "length";
 
 export type FillerMode = "alphabet" | "used" | "custom" | "rare";
 

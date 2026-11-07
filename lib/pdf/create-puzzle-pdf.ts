@@ -1,5 +1,5 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
-import { orderWordBank } from "@/lib/puzzle/parse";
+import { puzzleWordBank } from "@/lib/puzzle/word-bank";
 import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import { directionVectors } from "@/lib/puzzle/generate";
 import type { PuzzleResult } from "@/lib/puzzle/types";
@@ -101,16 +101,7 @@ function pngBytes(dataUrl: string) {
 }
 
 function orderedLabels(puzzle: PuzzleResult) {
-  return orderWordBank(
-    puzzle.placed.map((placement) => ({
-      id: placement.wordId,
-      raw: placement.label,
-      label: placement.label,
-      normalized: placement.label,
-      tokens: placement.tokens
-    })),
-    puzzle.request.wordBankOrder
-  ).map((word) => word.label);
+  return puzzleWordBank(puzzle).map((word) => word.label);
 }
 
 function drawWordBankBelow(

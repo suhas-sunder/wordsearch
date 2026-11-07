@@ -202,8 +202,8 @@ export const corePages: SitePage[] = [
     slug: "specialty-word-search-generators",
     title: "Specialty Word Search Generators | Morse, Braille, Binary and More",
     h1: "Specialty Word Search Generators",
-    description: "Explore symbol-based word search generators built on alphabet packs for Morse, Braille, binary, hex, Greek, kana, and hidden messages.",
-    intro: "Specialty modes use token-based generation so the engine is not limited to A-Z letters.",
+    description: "Explore experimental symbol mappings and draft specialty formats, with current input, PDF, and language limitations explained before use.",
+    intro: "These formats include experimental mappings and unfinished scaffolds. Review each format's current limitations before preparing a worksheet; native language and assistive-technology support is not implied.",
     presetWords: ["signal", "code", "symbol", "braille", "morse", "binary", "hex", "greek", "kana", "message"],
     difficulty: "medium",
     modules: ["specialty", "alphabetPacks", "faq"]

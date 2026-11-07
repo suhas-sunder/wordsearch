@@ -6,6 +6,7 @@ import { DeferredWordSearchBuilder } from "@/components/builder/DeferredWordSear
 import { EditorialModules, QuickLinks, SearchTools } from "@/components/page/PageSections";
 import type { PuzzleRequest } from "@/lib/puzzle/types";
 import { breadcrumbJsonLd } from "@/lib/seo/structured-data";
+import styles from "./IndexablePage.module.css";
 
 interface IndexablePageProps {
   title: string;
@@ -24,6 +25,7 @@ interface IndexablePageProps {
   requestOverride?: Partial<PuzzleRequest> | null;
   persistBuilderState?: boolean;
   adTemplate?: AdTemplate;
+  toolStatus?: { label: string; description: string };
 }
 
 export function IndexablePage({
@@ -41,6 +43,7 @@ export function IndexablePage({
   hiddenMessage,
   requestOverride,
   persistBuilderState = false,
+  toolStatus,
   adTemplate = "major-hub"
 }: IndexablePageProps) {
   const request: Partial<PuzzleRequest> = {
@@ -70,6 +73,7 @@ export function IndexablePage({
             <div className="hero-copy">
               <h1>{h1}</h1>
               <p className="value-prop">{description}</p>
+              {toolStatus && <div className={styles.toolStatus} role="note" aria-label="Format readiness"><strong>{toolStatus.label}</strong><p>{toolStatus.description}</p></div>}
               <QuickLinks />
             </div>
             <div className="hero-visual" aria-hidden="true">

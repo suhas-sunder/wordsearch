@@ -86,14 +86,15 @@ export function SpecialtyGrid() {
   return (
     <section className="content-section site-shell">
       <div className="section-heading">
-        <h2>Specialty Generators</h2>
-        <p>Token-based alphabet packs let the generator work beyond single A-Z cells.</p>
+        <h2>Experimental specialty formats</h2>
+        <p>These draft formats include limited mappings and unfinished scaffolds. Read the current limitations before using them.</p>
       </div>
       <div className="link-grid compact">
         {specialtyRoutes.map((route) => (
-          <Link key={route.slug} href={`/specialty/${route.slug}`}>
+          <Link key={route.slug} href={`/specialty/${route.slug}`} data-specialty-readiness={route.implementation}>
             <strong>{route.title}</strong>
-            <span>{route.description}</span>
+            <span>{route.implementation === "scaffold" ? "Scaffold — format not implemented" : "Experimental — review limitations"}</span>
+            <span>{route.status}</span>
           </Link>
         ))}
       </div>
