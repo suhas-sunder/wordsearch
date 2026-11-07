@@ -15,6 +15,7 @@ export interface CreatePuzzlePdfInput {
   shareUrl: string;
   qrDataUrl?: string;
   layoutProfile?: "legacy" | "pack" | "large-print";
+  classLine?: boolean;
 }
 
 export class PdfPackLayoutError extends Error {
@@ -161,7 +162,8 @@ async function drawPuzzlePage(
   fonts: { regular: PDFFont; bold: PDFFont },
   shareTarget: string,
   qrDataUrl?: string,
-  layoutProfile: "legacy" | "pack" | "large-print" = "legacy"
+  layoutProfile: "legacy" | "pack" | "large-print" = "legacy",
+  classLine = false
 ) {
   const spec = pdfPageSpec(options.paperSize, options.orientation);
   const page = document.addPage([spec.width, spec.height]);
@@ -223,6 +225,11 @@ async function drawPuzzlePage(
     page.drawLine({ start: { x: lineX, y: topLineY - 4 }, end: { x: lineX + lineWidth, y: topLineY - 4 }, thickness: 0.7, color: ink });
     page.drawText("Date", { x: lineX, y: topLineY - 25, size: 8, font: fonts.regular, color: ink });
     page.drawLine({ start: { x: lineX, y: topLineY - 29 }, end: { x: lineX + lineWidth, y: topLineY - 29 }, thickness: 0.7, color: ink });
+    if (classLine) {
+      page.drawText("Class", { x: lineX, y: topLineY - 50, size: 8, font: fonts.regular, color: ink });
+      page.drawLine({ start: { x: lineX, y: topLineY - 54 }, end: { x: lineX + lineWidth, y: topLineY - 54 }, thickness: 0.7, color: ink });
+      headerBottom = Math.min(headerBottom, topLineY - 66);
+    }
   }
 
   headerBottom -= 8;
@@ -370,7 +377,8 @@ export function validatePuzzleForPdf(value: unknown): value is PuzzleResult {
   });
 }
 
-export async function createPuzzlePdf({ puzzle, options, shareUrl, qrDataUrl, layoutProfile = "legacy" }: CreatePuzzlePdfInput) {
+export async function createPuzzlePdf({ puzzle, options, shareUrl, qrDataUrl, layoutProfile = "legacy", classLine = false }: CreatePuzzlePdfInput) {
+  if (typeof classLine !== "boolean" || (classLine && (layoutProfile === "legacy" || !options.nameDateLine))) throw new Error("The class line requires a measured worksheet layout with name/date fields.");
   if (!["legacy", "pack", "large-print"].includes(layoutProfile)) throw new Error("Invalid PDF layout profile.");
   if (layoutProfile !== "legacy" && (options.orientation !== "portrait" || options.printScale !== (layoutProfile === "large-print" ? "large" : "standard") || options.wordBankPlacement !== "below" || options.qrCode || options.coordinates)) throw new Error("Measured layout requires portrait pages, the matching print scale, a below-grid word bank and no QR code or coordinates.");
   if (!validatePuzzleForPdf(puzzle)) throw new Error("Puzzle data is invalid for PDF generation.");
@@ -394,7 +402,7 @@ export async function createPuzzlePdf({ puzzle, options, shareUrl, qrDataUrl, la
   };
 
   for (const pageType of pdfPagePlan(options)) {
-    await drawPuzzlePage(document, puzzle, options, pageType === "answer-key", fonts, shareUrl, qrDataUrl, layoutProfile);
+    await drawPuzzlePage(document, puzzle, options, pageType === "answer-key", fonts, shareUrl, qrDataUrl, layoutProfile, classLine);
   }
   return document.save({ useObjectStreams: false });
 }
