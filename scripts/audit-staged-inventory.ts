@@ -1,5 +1,6 @@
 import { allStagedCandidates, stagedCandidateGroups } from "@/content/staged/catalog";
 import { largePrintDraftSelections } from "@/content/staged/large-print-selections";
+import { preservedGrowthEnhancements } from "@/content/staged/preserved-growth-enhancements";
 import { routeInventory } from "@/content/registry";
 import { auditCandidates } from "@/lib/content/candidates";
 import { readSourceInventory } from "@/lib/content/inventory";
@@ -18,8 +19,11 @@ const issues = [...crossIssues, ...validations.flatMap(({ validation }) => valid
 console.log(JSON.stringify({
   candidateCount: allStagedCandidates.length,
   utilityOnlyLargePrintSelections: largePrintDraftSelections.length,
+  preservedOwnerEnhancements: preservedGrowthEnhancements.map(({ id, targetCanonicalPath, sourceFileSha256, newIndexableUrlAllowance }) => ({ id, targetCanonicalPath, sourceFileSha256, newIndexableUrlAllowance, validationReference: "PR53: existing-draft preservation and real Letter/A4 PDF tests" })),
   editorialApproval: false, publicationAuthorized: false,
   groups: validations.map(({ id, validation }) => ({ id, count: validation.freezes.length, fingerprints: validation.freezes.map(({ id, requestSha256, gridSha256, answerSha256 }) => ({ id, requestSha256, gridSha256, answerSha256 })) })),
-  pdfChecked: process.argv.includes("--pdf"), exportChecked, issues
+  pdfChecked: process.argv.includes("--pdf"), pdfCandidateCount: pdfChecks.length,
+  pdfScope: "Staged new-path candidates only. Larger-type utilities and preserved existing-draft enhancements have separate measured tests; counts are not a claim this command reran them.",
+  exportChecked, issues
 }, null, 2));
 if (issues.length) process.exitCode = 1;
