@@ -433,7 +433,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
                 {optionCheckbox("Coordinates", options.coordinates, (checked) => updateOptions({ coordinates: checked }))}
                 {optionCheckbox("Ink-saving key", options.inkSaving, (checked) => updateOptions({ inkSaving: checked }))}
               </div>
-              <p className="control-help">Larger grid type keeps the ordinary layout; it does not enlarge the word bank. Open Download PDF for the separate measured large-print choice.</p>
+              <p className="control-help">Larger grid type keeps the ordinary layout; it does not guarantee a minimum word-bank size. Open Download PDF for the separate measured large-print choice.</p>
               {dialog === "pdf" && <div className="measured-pdf-choice">
                 <p id="measured-pdf-description">Measured large-print PDF uses at least 16-point grid letters and an 18-point word bank when the puzzle fits. It keeps this exact grid, your paper size, answer-page, name/date and instructions choices. Its portrait layout places words below the grid and omits QR codes and coordinates. Crowded or unsupported grids show a fit error instead of shrinking the type.</p>
                 <button type="button" className="secondary-button" disabled={pdfStatus === "working"} aria-describedby="measured-pdf-description" onClick={() => downloadPdf("large-print")}><FileDown size={17} aria-hidden="true" />Download measured large-print PDF</button>

@@ -608,6 +608,11 @@ input[type="checkbox"] {
   background: var(--soft);
 }
 
+.builder-preview > .control-help,
+.builder-preview > [role="status"] > .control-help {
+  margin: 8px 0 0;
+}
+
 .preview-toolbar {
   margin-bottom: 14px;
 }
@@ -2837,6 +2842,7 @@ input[type="checkbox"] {
 input, textarea, select { color: inherit; }
 .solver-grid-stage {
   color-scheme: light;
+  color: var(--ink);
   --ink: #172033;
   --muted: #5d687a;
   --subtle: #eef1f4;
