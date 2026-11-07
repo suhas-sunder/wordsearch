@@ -25,6 +25,7 @@ try {
       await page.locator('[data-utility-state="ready"]').waitFor();
       await page.getByRole("button", { name: "Print", exact: true }).waitFor();
       await page.waitForFunction(() => document.querySelectorAll(".print-footer img").length === 2 && [...document.querySelectorAll(".print-footer img")].every((img) => img.complete && img.naturalWidth > 0));
+      await page.waitForFunction(() => [...document.querySelectorAll(".print-fit-status")].every((node) => node.dataset.fitState === "ready"));
       assert.equal(await page.locator(".print-sheet").count(), 2);
       assert.equal(await page.locator("h1").count(), 1);
       assert.equal(await page.locator(".print-answer-sheet h2").count(), 1);
@@ -77,6 +78,7 @@ try {
   for (const [kind, answerCount] of [["print", 1], ["pdf", 2], ["answer-key", 1]]) {
     await page.goto(`${base}/${kind}/${normalState}?answers=${kind === "print" ? 0 : 1}&qr=0`, { waitUntil: "networkidle" });
     await page.locator('[data-utility-state="ready"]').waitFor();
+    await page.waitForFunction(() => [...document.querySelectorAll(".print-fit-status")].every((node) => node.dataset.fitState === "ready"));
     assert.equal(await page.locator(".print-sheet").count(), answerCount);
     const bytes = await page.pdf({ preferCSSPageSize: true, printBackground: true });
     await writeFile(resolve(output, `normal-${kind}.pdf`), bytes);
@@ -98,6 +100,7 @@ try {
   await failure.getByRole("status").filter({ hasText: "could not be prepared" }).waitFor();
   assert.equal(await failure.getByRole("button", { name: "Print", exact: true }).isDisabled(), true);
   assert.equal(await failure.locator(".qr-placeholder").count(), 0);
+  await failure.waitForFunction(() => [...document.querySelectorAll(".print-fit-status")].every((node) => node.dataset.fitState === "ready"));
   const beforeQr = getDocument({ data: new Uint8Array(await failure.pdf({ preferCSSPageSize: true })), useSystemFonts: true });
   try {
     const sheet = await (await beforeQr.promise).getPage(1);
@@ -105,6 +108,7 @@ try {
   } finally { await beforeQr.destroy(); }
   await failure.getByRole("link", { name: "Print without a QR code", exact: true }).click();
   await failure.locator('[data-utility-state="ready"]').waitFor();
+  await failure.waitForFunction(() => [...document.querySelectorAll(".print-fit-status")].every((node) => node.dataset.fitState === "ready"));
   assert.equal(await failure.getByRole("button", { name: "Print", exact: true }).isEnabled(), true);
   assert.equal(await failure.locator(".print-sheet").count(), 2);
   assert.equal(await failure.locator(".print-footer").count(), 0);

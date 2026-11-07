@@ -1,4 +1,5 @@
 import { normalizePuzzleOutputOptions, pdfPageSpec, type PuzzleOutputOptions } from "@/lib/puzzle/output-options";
+import { validateOfflinePrintHtml } from "@/lib/print/browser-fit";
 
 export function htmlWorksheetFilename(title: string): string {
   const stem = title.normalize("NFKD").replace(/\p{Diacritic}/gu, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80).replace(/-$/, "");
@@ -15,7 +16,7 @@ export function createOfflineWorksheetHtml(portal: HTMLElement, title: string, o
   if (!articles.length || articles.length > 2 || articles[0].getAttribute("aria-label") !== "Printable word search") throw new Error("The worksheet is not ready. Try again after the preview finishes updating.");
   const markup = articles.map((article, index) => {
     const copy = article.cloneNode(true) as HTMLElement;
-    copy.querySelectorAll(".print-footer,script,iframe,object,embed,link,meta,style,form,input,button,textarea,select,img").forEach((element) => element.remove());
+    copy.querySelectorAll(".print-fit-status,.print-footer,script,iframe,object,embed,link,meta,style,form,input,button,textarea,select,img").forEach((element) => element.remove());
     for (const element of [copy, ...copy.querySelectorAll("*")]) {
       for (const attribute of [...element.attributes]) {
         if (attribute.name.toLowerCase().startsWith("on") || ["href", "src", "srcset", "style", "formaction"].includes(attribute.localName)) element.removeAttribute(attribute.name);
@@ -62,8 +63,9 @@ h1,h2{font-size:20pt;line-height:1.15;margin:0 0 10px}p{margin:8px 0}.print-bran
   return `<!doctype html>\n<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'"><title>${escapedText(title)} — offline worksheet</title><style>${css}</style></head><body><main>${markup}</main></body></html>`;
 }
 
-export function downloadOfflineWorksheet(portal: HTMLElement, title: string, options: PuzzleOutputOptions): void {
+export async function downloadOfflineWorksheet(portal: HTMLElement, title: string, options: PuzzleOutputOptions): Promise<void> {
   const html = createOfflineWorksheetHtml(portal, title, options);
+  await validateOfflinePrintHtml(html, options);
   const url = URL.createObjectURL(new Blob([html], { type: "text/html;charset=utf-8" }));
   const link = document.createElement("a");
   link.href = url;
