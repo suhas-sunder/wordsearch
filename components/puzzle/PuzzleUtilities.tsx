@@ -7,6 +7,7 @@ import type { PuzzleResult } from "@/lib/puzzle/types";
 import {
   normalizePuzzleOutputOptions,
   outputOptionsForRequest,
+  syncRequestOutputOptions,
   type PageOrientation,
   type PaperSize,
   type PuzzleOutputOptions
@@ -73,6 +74,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const qrTargetRef = useRef("");
   const printPortalRef = useRef<HTMLDivElement>(null);
+  const previousPrintRequest = useRef(puzzle.request);
   const playUrl = useMemo(() => puzzlePlayUrl(puzzle.request), [puzzle.request]);
 
   useEffect(() => {
@@ -90,6 +92,12 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
     }
     return () => document.body.classList.remove("utility-print-enabled");
   }, []);
+
+  useEffect(() => {
+    const previous = previousPrintRequest.current;
+    previousPrintRequest.current = puzzle.request;
+    setOptions((current) => syncRequestOutputOptions(current, previous, puzzle.request));
+  }, [puzzle.request]);
 
   useEffect(() => {
     if (!mounted) return;
