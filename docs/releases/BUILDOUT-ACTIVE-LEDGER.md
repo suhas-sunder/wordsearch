@@ -1,86 +1,66 @@
-# Buildout execution ledger — November 6, 2026
+# Buildout execution ledger — November 7, 2026
 
-## Current reconciliation (supersedes older active-state entries)
+## Current execution state
 
-Code integration now includes96, the confirmed pasted-query performance fix;
-the shared Unicode-safe160-unit bound preserves normal ranking and passes544
-tests/build335/static checks plus6 query and14 repeated H10 browser cases.
-No independently audited BUILD NOW code/source gap remains. Final combined
-validation remains mandatory and active; a new defect reopens implementation.
-Draft97 is the final guest-product review candidate against main, superseding70
-for current review; main/production are unchanged. The lossless13-file recovery
-checkpoint and explicit shutdown runbook are pushed at749b5ab. No shutdown has
-been requested while useful validation remains.
+- Completed application: Bf7849cd, supported550/79/build335/static217/35/6,
+  84allCLS0+2pending/no-JS,448visual,10current functional and7hosted suites.
+- Completed evidence:87retainedPDF/10source pins,14actualhostedPDF/30pages,
+  exhaustive roadmap/100PR crosswalk and original work preservation.
+- Confirmed external blockers: ordinary Lighthouse77 and3internal ad-eligibility
+  findings. Manual devices/printers/AT/genuine ads/editorial/release approval remain.
+- Root active: validate and checkpoint coherent final operations package (ledger
+  links, graceful audit cleanup, precise offline axe and hosted artifact fixtures),
+  push/draft/merge to review branch only, verify final exact preview, then final
+  worktree/remote/agent/process/window/session handoff and authorized shutdown.
+- All three workers have finished useful execution; no worker browser/server job.
+  Any fresh confirmed feasible defect reopens work. Do not shut down prematurely.
 
-Final review integration now includes90 authored X05/X06 collection artifacts,
-91 precise current functional fixtures,92 Christian Nativity source draft,
-93 exact-bank substitute folder,94 real30-target challenge sheets and95 hard/
-answer collection finding/sorting. Main source catalog61; runtime150/217 unchanged.
-FrozenF26fa36d passed48 current functional suites; original failures and the
-historical-footer replacement mapping are retained. H10's14 focused cases pass
-with zero measured initial/hydration CLS. A confirmed large pasted-search-query
-slowdown is receiving the existing160-character bound consistently before final
-freeze. Final448/84CLS/Lighthouse/provider checks remain pending. The definitive
-ledger now has44 features. No production/editorial approval or shutdown has occurred.
+Original owner13files and historical mirrors remain saved; no main/production or
+protected-advertising change. Readiness and candidate records above are current;
+older narrative below retains its original source scope.
 
-The user separately authorized shutdown only after all useful work, saved/pushed
-handoff and desktop/session checks. The prior missing shutdown was an explicit
-unsaved-state safety decision, not a rejected OS command. A durable runbook and
-verbatim13-file original-owner recovery archive are being checkpointed.
+## Prior checkpoint narrative — historical
 
-Latest extension:76 single measured large-print PDF;77 actual DOM print fit and
-dense-bank recovery;78 real clues/teacher mappings;79 all8 original owner
-proposals preserved;80 authored-topic alignment and exact pinned-file checks;
-81 default-off local sound;82 printable ASCII case;83 zero-answer/seed-miss
-recovery;84 factual advertising-policy copy correction for owner review.
-All are in current04. Cancellation85 repairs stale HTML/static PDF completion
-after invalid edits/navigation and stale PNG errors. Settings/fallback
-acceptance86 is also complete. Expanded visual fixture87 found export-help
-overlap and dark solver-start contrast defects; repair88 passes28 focused cases.
-Combined clean-install/lint/typecheck/514tests/build335/static217/35/6 passes.
-The original frozen432 visual run completed with eight dark start-card contrast
-failures, plus the manually found text overlap. Original failures are retained;
-the repaired final432 matrix,84-pair utility CLS,48-suite functional regression
-and exact provider preview remain pending. Independent frozen PDF/static audits
-pass:1200 published PDF hashes unchanged,150 published definitions/results,
-217 sitemap metadata/JSON-LD and35 redirects unchanged. The machine ledger
-now covers43 features; no production/editorial approval is recorded. Feature
-implementation is frozen for acceptance; any new concrete defect reopens work.
+## Current reconciliation
 
-Draft PR70 (`codex/product-candidate-04`) is the active combined candidate on
-frozen03. All previous branches, PRs, dirty root growth proposals and superseded
-preparation remain preserved. No main merge/push, auto-merge or production deploy.
+Primary review: draft97, `codex/final-product-acceptance`, frozen application
+A=`90a0ee32bc984e583cf39d4ebb4b587a2b630c4b`. Main/production/publication and protected
+advertising remain unchanged. PR70/F and every earlier package remain preserved.
 
-- Completed independent packages:49 annual packs;50 authored FAQs;52 search CLS;
-  53 calendar gaps;54 classroom fields;55 local library;56 typed2027 calendar;
-  57 visual/footer repairs;58 whole-calendar inventory audit;59 offline HTML;
-  60 contextual activity/profile links;61 pack discovery;62 context validation;
-  63 one-cell solver;64 exact save reachability;65 request print flags;
-  66 combined guest validation;67 utility pending/error CLS;68 PDF fit errors;
-  69 progressive theme control. Their exact SHA snapshots and evidence are in
-  PRODUCT-ACCEPTANCE.json. Earlier completed milestones remain in03/02 records.
-- Completed89: X03 is a typed, measured, source-only format of unchanged X02,
-  with real Letter/A4 student/teacher PDFs and519 passing tests in72 files.
-- Active: inventory worker owns repaired visual/CLS acceptance; resume
-  worker has completed static audits and prepared48 sequential functional suites;
-  root integrates verified changes and maintains exact-SHA acceptance evidence.
-- Combined04 validation is pending the replacement freeze. Serialize Next and
-  browser/Lighthouse work under memory pressure; individual package passes do
-  not replace exact combined-head checks.
-- Five Lighthouse diagnosis samples completed on frozen03. Enabled-home BP77
-  repeats; Google cookie/Inspector origins identified; ad-free controls BP100.
-  No advertising modification, threshold relaxation or blocked-provider waiver.
-- Real03 hosted preview passed parity, draft isolation, actual PDF and key UI
-  smoke.04 requires its own exact-SHA hosted checks. Production remains471a118.
-- External/manual gates are explicit in PRODUCT-ACCEPTANCE and readiness. Neither
-  editorial approval nor production/product acceptance is recorded.
+- Completed integration: packages through96, including all independently audited
+  BUILD NOW gaps, real H08 thirty-target packets, T12 substitute curation, H10
+  collection finding and Unicode-safe bounded search. Main staged catalog61;
+  runtime150 published puzzles and217 sitemap pages remain unchanged.
+- Combined A: lint/typecheck,544 tests/78 files, warning-free335-page build,
+  static217/35/6 pass. Export747 files; exact-A Netlify preview READY. Browser
+  preview acceptance is pending, not inferred from provider readiness.
+- Confirmed repair active: inventory worker owns isolated QR geometry/status
+  work. Final84 paired utility tests passed the unchanged relative threshold,
+  but29 QR print/PDF/answer rows have nonzeroCLS up to0.0439689522. A six-case
+  trace identifies removal of transient QR preparation text as the56px shift;
+  QR-off controls are0. A remains frozen while this defect is fixed and tested.
+- Navigation worker completed bounded A source/static/PDF carry-forward proof,
+  and now repairs the confirmed X06 source-only selection/resolver omission by
+  reusing exact X08-A. No new bank/URL, publication or child-gate waiver. Heavy
+  builds/browser jobs remain serialized for quiet measurements.
+- Resume worker prepares final affected core/collection-review regressions.
+  FrozenF's48 current functional suites remain historical proof with original
+  failures and precise fixture replacement history preserved.
+- Root owns integration, evidence-only handoff documents and remaining final
+  acceptance scheduling. After the repair: quiet84, full448 visual, affected
+  core/native-print, ordinary Lighthouse and exact hosted acceptance. Failed
+  gates reopen feasible fixes; no skipped/interrupted job counts as passed.
 
-The work continues through feasible implementation; this reconciliation does
-not mark undocumented or merely planned features complete.
+Original13-file dirty preparation is untouched and losslessly checkpointed at
+749b5ab. Final worktree/remote/agent/process reconciliation remains pending.
+No shutdown is issued while useful work remains. At genuine completion, save
+all checkpoints and GitHub handoff, check actual sessions/windows, stop only
+owned idle processes normally, then execute the authorized non-forced shutdown.
+See [session control](OVERNIGHT-SESSION-CONTROL-2026-11-06.md).
 
-Development only. Main, production, publication and protected advertising stay
-unchanged. The extended owner authorization is in the November 6 chat attachment;
-the master plan and candidate catalog remain authoritative for scope.
+## Historical checkpoints
+
+The following entries retain earlier progress and are not current assignments.
 
 ## Reconciled starting point
 

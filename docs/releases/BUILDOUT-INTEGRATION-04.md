@@ -1,37 +1,68 @@
 # Product candidate04 — development and review record
 
-Draft [PR70](https://github.com/suhas-sunder/wordsearch/pull/70), branch
-`codex/product-candidate-04`, based on frozen03. This is an active development
-record, not a final release candidate or product acceptance claim.
+## Current status: feasible buildout complete, release gates blocked
 
-Current final review has moved to draft
-[PR97](https://github.com/suhas-sunder/wordsearch/pull/97), branch
-`codex/final-product-acceptance`. All remaining BUILD NOW gaps and the reproduced
-search-input defect are implemented. The new combined export and final448/84CLS/
-Lighthouse/hosted validation are in progress. Historical PR70/F evidence below
-remains accurate for its own frozen source and is not relabeled as the new SHA.
+Application B is `f7849cddda2a7df5daff2425ba179b9af21f6272` in draft PR97.
+Supported Node 22.23.4 lint/type,550 tests in79 files,335-page build/static217/35/6,
+84 zero-CLS utility comparisons plus2pending/no-JS,448 visual cases and10selected
+functional suites pass. All7actualhosted suites pass on exact deploy
+6aeebc77f2d9525d41a905c9, preserving14PDFs/30pages. Source/served/provider guards
+remain exact. Full and production dependency audits report0.
 
-## Final-review continuation after frozenF
+Ordinary Lighthouse actualexit1 remains unwaived: BestPractices77 in all11groups
+(33audits). Other existing limits pass; hard noneditorial performance87 is retained
+explicitly. Fresh5sample attribution identifies Google doubleclick Cookie/
+WarnThirdPartyPhaseout. The strict route audit actualexit1 retains exactly3known
+ad/noindex findings. These two feature gates require owner/provider decisions;
+physical/manual and independent release approvals remain separate.
 
-`26fa36d1113ecbef7721ed158aa9441cd16c57d2` passed48 current functional suites:
-47 original suites plus an explicitly mapped current-footer acceptance check.
-The old cosmetic-only comparator remains unchanged/not applicable; it is not
-falsely counted as passed. All failed fixture/runner attempts are preserved.
+The44-feature ledger records38TESTED,3MANUAL ACCEPTANCE PENDING,2BLOCKED and
+1OWNER-DEFERRED,0DONE. Product status isBLOCKED, not production accepted.
+[The final candidate](PRODUCT-RELEASE-CANDIDATE-04.md),
+[roadmap crosswalk](FINAL-SCOPE-CROSSWALK.md),
+[all100priorPRs](BUILDOUT-PR-RECONCILIATION.md),
+[visual proof](FINAL-B-VISUAL-UTILITY-EVIDENCE.md),
+[performance gates](FINAL-PERFORMANCE-GATES.md) and
+[hosted proof](FINAL-HOSTED-ACCEPTANCE.md) are controlling.
 
-Independent `codex/final-product-acceptance` integrates90–95, including authored
-Christmas/substitute collection review, one narrowly sourced Christian Nativity
-draft and real30-target challenge packets. Main staged count61 preserves the
-original60 source/fingerprint aggregates. Runtime H10 collection controls pass
-14 focused cases, zero initial/hydration CLS,531 tests and build335/static checks.
-A confirmed oversized pasted-query slowdown is being fixed in a separate package.
-The next combined export requires full448 visual, quiet84 utility CLS, unchanged
-Lighthouse gates, fresh source/PDF/export checks and actual hosted acceptance.
+The operations/evidence package passes final lint/type and 551 tests in 79 files.
+Its commit/push/draft, operations-only merge, final exact preview pin/smoke and
+safety handoff remain active. No main merge/push, production deploy, new-content approval or protected-ad
+change. Shutdown follows only after those feasible final steps are safely saved.
 
-[The final candidate record](PRODUCT-RELEASE-CANDIDATE-04.md) is still in progress.
-[Overnight session control](OVERNIGHT-SESSION-CONTROL-2026-11-06.md) records the
-new explicit shutdown authorization, previous-session findings and required gates.
-The original dirty preparation remains untouched and has a verbatim recovery
-archive under `recovery/owner-growth-2026-11-06`; its publishing flags are not approval.
+## Prior checkpoint narrative — historical
+
+The primary final review is [draft PR97](https://github.com/suhas-sunder/wordsearch/pull/97),
+branch `codex/final-product-acceptance`; PR70/F remains a separate preserved
+checkpoint. This document records development, not product/production approval.
+
+## Current freeze and reopened repair
+
+Application A=`90a0ee32bc984e583cf39d4ebb4b587a2b630c4b` includes90–96 and passes
+lint/typecheck,544 tests/78 files, warning-free335-page build and217/35/6 static
+checks. Its exact Netlify deploy `6aeeb106f9012b875f013008` is READY; hosted
+browser acceptance remains pending. The export has747 files and SHA256
+`a8fc1e5ddd6e10dfe30cd572f49ba9eea64d3ea2bc7c708cfa82a2b4c7dda859`.
+
+Quiet84 paired utility comparisons plus2 pending/no-JS cases pass the unchanged
+relative tolerance. However29 QR-enabled print/PDF/answer cases have nonzeroCLS,
+maximum0.0439689522. A causal six-case trace proves removal of transient QR
+preparation text moves the worksheet56px; all QR-off controls measure0. A focused
+isolated fix is active. A stays frozen and original measurements remain intact.
+Final448 visual, affected functional/native-print, ordinary Lighthouse, source/PDF
+carry and exact hosted checks must use the repaired final freeze.
+
+[The final candidate record](PRODUCT-RELEASE-CANDIDATE-04.md) and
+[44-feature acceptance ledger](PRODUCT-ACCEPTANCE.md) remain in progress.
+No editorial publication, main mutation, production deployment or advertising
+change is authorized by these records. The13-file original preparation is
+losslessly preserved in749b5ab; [session control](OVERNIGHT-SESSION-CONTROL-2026-11-06.md)
+records final shutdown gates and the previous-session investigation.
+
+## Historical checkpoints
+
+These older results retain their original source scope and are not relabeled
+as final-A or repaired-final acceptance.
 
 ## Acceptance repairs after the first freeze
 

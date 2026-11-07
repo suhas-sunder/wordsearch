@@ -85,6 +85,8 @@ try {
     await context.close();
   }
   const page = await browser.newPage();
+  // This separate crowded-layout context needs the same correctness-test mock.
+  await page.context().route("https://pagead2.googlesyndication.com/**", route => route.fulfill({ contentType: "application/javascript", body: "" }));
   await page.goto(`${base}/word-search-generator?state=${encodeShareState({ ...request, rows: 40, cols: 40 })}`, { waitUntil: "networkidle" });
   const crowded = await page.locator(".builder-preview .puzzle-token").allTextContents();
   let downloads = 0; page.on("download", () => downloads++);

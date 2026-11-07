@@ -1,194 +1,159 @@
-# Product release candidate04 — acceptance reconciliation
+# Final guest product release candidate — application B
 
-Verified runtime baseline: `26fa36d1113ecbef7721ed158aa9441cd16c57d2` in
-[draft PR70](https://github.com/suhas-sunder/wordsearch/pull/70).
-**Final acceptance is in progress.** This record must be completed from actual
-results; it does not authorize production or any editorial publication.
+Application source: `f7849cddda2a7df5daff2425ba179b9af21f6272`. Primary review:
+[draft PR97](https://github.com/suhas-sunder/wordsearch/pull/97),
+`codex/final-product-acceptance`. **Feasible guest implementation and application
+QA are complete; product/release acceptance remains BLOCKED.** Neither production
+nor editorial publication is approved. The final operations-only review SHA,
+Netlify deploy and smoke results are pinned in PR97's final GitHub handoff after
+this document is committed; immutable application B remains the runtime baseline.
 
-The new combined candidate is [draft PR97](https://github.com/suhas-sunder/wordsearch/pull/97),
-branch `codex/final-product-acceptance`, superseding PR70 for current review.
-All independently audited BUILD NOW gaps are implemented. PR96 fixes the
-reproduced pasted-query slowdown with the shared Unicode-safe160-unit limit:
-544 tests/build335/static checks, six query cases and14 repeated H10 cases pass.
-The combined44-feature preflight and new exact-SHA export/448/84CLS/Lighthouse/
-hosted checks remain pending; no individual package substitutes for those checks.
+The [44-feature ledger](PRODUCT-ACCEPTANCE.md) records 38 TESTED, 3 MANUAL ACCEPTANCE PENDING, 2 BLOCKED, 1 OWNER-DEFERRED; zero DONE and
+zero manual approvals. TESTED refers to its stated technical scope, not approval
+of the whole release. [Every roadmap ID](FINAL-SCOPE-CROSSWALK.md) has an actual
+source/test or explicit research/external decision crosswalk. These documents do
+not substitute for implementation: the source and executed artifacts are linked.
 
-New combined preflight (including the44-feature schema, every new source asset
-and bounded queries) passes lint, TypeScript and **544 tests in78 files** on
-Node22.23.4. The containing application commit is being frozen for its own
-production export and quiet/visual/hosted acceptance. Final evidence will pin
-that exact SHA; historicalF results remain separately labeled.
+## Try the actual website
 
-The definitive 44-feature matrix is [PRODUCT-ACCEPTANCE.md](PRODUCT-ACCEPTANCE.md),
-generated from validated JSON. TESTED records technical evidence; DONE requires
-named independent approval. No production or new-content approval is recorded.
+The independently identified [B preview](https://6aeebc77f2d9525d41a905c9--ilovewordsearch.netlify.app)
+is READY at exact commit B, deploy`6aeebc77f2d9525d41a905c9`. Seven hosted suites
+passed against this immutable permalink, preserving14 actual PDFs / 30 pages.
 
-## Product available for review
+- Find published puzzles through responsive More/search, keyboard controls,
+  contextual FAQs and links. Filter/order the existing hard and answer collections;
+  full server-rendered/no-JS listings remain available. Choose system/light/dark.
+- Create an exact seeded puzzle with dimensions/directions, overlap, supported
+  alphabet, filler/hidden message, clues, bank order, case and instructions.
+  Invalid or empty-placement requests retain editable, actionable recovery.
+- Solve with pointer/touch/keyboard workflows, including one-cell answers;
+  reveal/reset, accurate elapsed time, opt-in resume and default-off local sound.
+  Save/reopen up to 20 named definitions on this device without an account.
+- Share encoded puzzle links deliberately, or private completion images without
+  word lists. Copy/native/draft destinations have fallbacks; links are not encryption.
+- Export ordinary or measured large-print PDFs, script-free offline HTML, SVG,
+  PNG and tabbed grid text. The measured profile requires 16 pt grid / 18 pt bank or
+  rejects actionably. Stale jobs cannot deliver an earlier puzzle after edits.
+- Produce 5/10/20 deterministic classroom assignments with student/teacher/both,
+  answer order, Letter/A4, Class/name/date/instructions and local presets.
+  QR preparation/recovery has stable geometry. App Print is disabled while QR is
+  pending/error; early native printing retains its explicit QR-not-ready warning.
 
-The frozen [Netlify preview](https://6aee9d8754f1183fd8251956--ilovewordsearch.netlify.app)
-is ready at the exact application SHA, deploy `6aee9d8754f1183fd8251956`.
-Read-only noindex/canonical/sitemap checks pass. Hosted browser acceptance remains
-pending for the new combined review. This permalink cannot replace production.
+## Executed validation and evidence
 
-- Find published puzzles through responsive navigation, More, keyboard search,
-  useful topic links, authored FAQs and the published catalog. Select system,
-  light or dark appearance, including narrow layouts and overlays.
-- Create a seeded puzzle with explicit dimensions/directions, presets, overlap,
-  supported alphabet, hidden message or custom filler, bank order, instructions
-  and numbered clues. Invalid input remains editable with actionable recovery.
-- Play with pointer, touch or keyboard, including one-cell answers; reveal/reset,
-  pause/revisit, optional local progress and default-off local sound. Name and
-  save an exact puzzle on this device without an account.
-- Share an encoded puzzle deliberately, or share a private completion image that
-  excludes puzzle text. Copy/native sharing and WhatsApp/email drafts are tested
-  separately; encoded links are not encryption.
-- Preview and print Letter/A4 student/answer sheets; download ordinary or measured
-  large-print PDFs, offline script-free HTML, standalone SVG, PNG or tabbed grid
-  text. Unsupported fonts/crowded layouts fail visibly. Stale jobs cannot deliver
-  an earlier puzzle after editing, invalidation or navigation.
-- Build 5/10/20 reproducible classroom assignments, choose student/teacher/both,
-  answer order, measured large type, Class/name/date and custom instructions;
-  explicitly save/reopen bounded device-only presets.
-
-## Master backlog reconciliation
-
-| Lane / catalog scope | Implemented and bounded result | Evidence |
-| --- | --- | --- |
-| B00 / U01 | Prior packages integrated without resetting original work; input/workload bounds, direction semantics, security fixes and legacy parity | Integration01/02/03 records; PR70; F0 ledger |
-| B01/B02 / U23 | Typed source inventory, lifecycle/approval separation, collision checks, frozen request/grid/answer hashes, real-PDF and export-isolation tools, pinned Git provenance | PR17/20/56/58/79/80; F4 ledger |
-| B03 / U11/U27 | Guest batch builder, stable assignment IDs, 5/10/20 sheets, student/teacher packets, deterministic keys and local presets | PR19/23/27/38/44/54; F3 ledger |
-| B04 | Measured large-print utility/pack/single output, complete-bank fitting, real browser/offline geometry preflight and fail-closed recovery | PR25/27/43/46/68/72/76/77/89 |
-| B05 | Christmas, winter, New Year and year-round compositions authored source-only; X03 uses unchanged X02; X05/X06 have actual gated collection review; X09 is narrow Christian vocabulary | PR22/29/35/49/53/89/90/92 |
-| B06 | Hard evergreen, teacher/ESL/subject and larger-type inventory; owner8 proposals preserved; T12 exact-bank substitute folder and H08 actual30-target packet now built | PR26/40/41/46/53/58/79/80/93/94 |
-| B07 / U04–U07 / H10 | Navigation, menu/lower-page search, All Tools, authored FAQs, contextual links and owned-site suggestions; real hard/answer collection filtering/ordering with full SSR/no-JS listings | PR33/48/50/60/61/62/95 |
-| B08 / U02/U03/U08/U09 | Icons, meaningful headings, truthful author/footer/legal links, persisted system-aware themes and responsive visual repairs | PR15/31/32/42/57/69/87/88 |
-| B09 / U12–U15 | Privacy-conscious result sharing, elapsed time, one-cell solving, guest resume/library, optional sound and tested cancellation | PR21/34/47/55/63/64/65/66/73/81/85 |
-| B10 / U21 | Offline cohort reporting, source/indexability snapshots and honest denominators; no invented traffic or silently installed tracking | PR18; BUILDOUT-B10.md |
-| B11 / U16 | All 13 existing specialty routes audited; actual selected pack and known linguistic/font/scaffold limits exposed; incomplete capabilities remain unactivated | PR30/36/74/86 |
-| B12 / U22 | Ad lifecycle/placements preserved; dependency audits zero; actionable print/CLS fixes and Lighthouse attribution; exact preview/release records | PR39/45/52/67/71/84; F5 ledger |
-| B13 / U17–U20/U24/U26/U28 | Bounded discovery/specification only; auth/cloud/realtime/payment/OCR/community remain separately gated, with missing provider/privacy/rights/cost/engagement evidence explicit | PR24; optional-identity-and-business.md |
-| U10/U25 | Seed/filler/order/settings, hidden message, real clues, rectangular advanced layouts and useful document exports implemented; shape/image-input research remains explicitly unimplemented, as scoped below | PR74/75/78/82/83/86 |
-
-These rows do not turn research contracts into delivered features. U25 shape
-templates remain RESEARCH in the catalog, with no mask configuration, placement,
-pointer geometry or cross-renderer mask contract implemented or advertised. No
-speculative shape control is activated for this guest release. Image INPUT/OCR is
-separately gated by rights, representative-corpus accuracy and provider choices;
-image OUTPUTS are implemented. Recurring challenge/community/backend ideas retain
-their explicit research/defer scope rather than becoming false completed features.
-
-Naively shrinking current complete pages into two/four-up output is NO-GO under
-existing legibility standards. Even optimistic zero-gutter scaling reduces a9pt
-grid to5.82/6.36pt on Letter/A4 two-up, and a9.5pt bank to6.15/6.72pt; four-up yields
-4.5/4.75pt. These are geometric bounds, not rendered/physical approval. Current
-one-puzzle-per-page packets remain the delivered format; a purpose-built compact
-profile would be a different future design, not a secretly enabled n-up option.
-
-## Editorial inventory remains unpublished
-
-The main catalog contains 61 candidates (the original60 plus one X09 draft).
-Separately, 16 measured utility selections
-and 8 preserved owner proposals remain unreviewed; six owner proposals target
-existing draft canonicals and two propose new paths. The X03 format creates no
-additional indexable variant. X05/X06 authored collection review, T12 curation and
-H08 five30-target sheets likewise create no new indexable variants. Pack
-compositions reuse their component puzzles;
-counts are not summed into a claim of distinct approved URLs.
-
-The 2027 calendar provides 53 review windows and 35 conditional new-content
-opportunities. It is not a release cron or a page quota. Initially at most one
-genuinely distinct new indexable URL may enter an independently approved weekly
-release; zero remains valid. Christmas Baking/electric-circuit overlap and all
-other distinct-intent/factual/rights/audience gates remain visible. The original
-eight-topic owner file and its unverified review claims remain preserved.
-
-## Validation record
-
-| Check | Result at this record's current stage |
+| Scope | Actual result and limit |
 | --- | --- |
-| Independent candidate-owned Node22 clean install and full/production audit | Pass, zero vulnerabilities; unchanged lockfile |
-| FrozenF lint / TypeScript / unit-content-SEO tests | Pass,519 tests in72 files; later source packages separately pass537 and H10 passes531; new combined suite pending |
-| FrozenF production export | Pass,335 pages;746 exported files; manifest SHA256 `d3a45492e9250a0d36da8d9601b0876f9f2eb74bb2c9fab07dab3f2413ab5450`; replacement export pending |
-| Static hosting | Pass,217 sitemap paths/35 redirects/6 decoded utility shells |
-| Published preservation | Fresh final export:150 rendered defaults,217 metadata/JSON-LD and35 redirects match; source carry-forward is proven against unchanged a3988 inputs |
-| Published real PDFs | Frozen a3988:1200 exact baseline byte hashes, zero differences; final115 tracked dependencies/source/config/output files identical, fresh150 published/60 staged generation fingerprints match; not a fresh1200-file claim |
-| Separate draft PDF corpora | Original60 ->120 files;16 measured utilities/packets;8 owner proposals ->16 files; X03, newX09, T12 and H08 real Letter/A4 student/teacher outputs pass |
-| Original visual defects | Full432 completed: eight dark start-card contrast failures plus manually found helper overlap; original evidence retained |
-| Focused visual repairs |28 cases pass with rendered text bounds, axe, computed colors and reviewed screenshots |
-| FrozenF48 current functional suites | Pass:47 originals plus stronger current-footer acceptance; historical comparator not applicable, not claimed passed; every attempt/provenance retained |
-| H10 focused functional/visual |14 cases pass, full SSR/no-JS cards, both palettes, keyboard/filter/order/reset, initial/hydrationCLS0 |
-| Final448 full visual /84 utility CLS pairs | Pending new combined export; visual scope expanded to28archetypes |
-| Ordinary Lighthouse | Pending final run; prior provider BP77 remains an unresolved gate |
-| Exact hosted browser/PDF acceptance | Pending; HTTP preflight only passes so far |
+| Supported local runtime | Node 22.23.4; direct executable and child PATH verified |
+| Application lint/type/unit-content-SEO | Pass,550 tests in 79 files |
+| Production export/static host | Warning-free335 pages;217sitemap/35redirect/6utility shells;747 exported files / 176 source hashes |
+| Frozen export SHA256 | `3b1b611fe5de81527e8327a31ae6298dd3230596246e2df9b36daa127be279d3` |
+| Full visual matrix |448/448 pass,28 archetypes × 8 profiles × 2 themes,0 failures / 0 notices;16 unique images individually reviewed, not all 448 |
+| Utility comparison |84/84 candidate CLS 0 plus 2 pending/no-JS pass; original limits unchanged |
+| Frozen identity |176 source / 747 disk / 747 literal HTTP hashes plus canonical responses pass before/after; no build/HEAD changes during QA |
+| Current functional regression |10 selected suites pass: full 4 e2e constituents, query 6, H10 14, offline 4, accessibility/search-layout/navigation; original offlineAxe failure and precise repair retained |
+| Earlier functional carry |Frozen F 48 current suites remain separately scoped; unchanged source proof and actual B exceptions recorded. Historical footer comparator is not claimed passed |
+| Actual QR/native printing |36 controlled + 6 normal tracesCLS0;10 PDFs / 20 pages / 1,280 glyphs and24 native-layout PDFs pass; actual72/68 px QR geometry verified |
+| Hosted application |7 suites pass on exactB;14 actual PDFs / 30 pages,217sitemap,61draftpaths404, parity/query/H10/library/clues/measuredLP |
+| Published preservation |Fresh150 defaults/fingerprints,217 metadata/JSON-LD and35 redirects match production baseline |
+| Draft isolation/provenance |61 main + 8 owner and5 H08 seeds absent from722 text assets; pinned source evidence verified |
+| PDF carry |87 actual retained files and10 source/export pins reverified. Original1,200 published-PDF execution/hash comparison is historical, not freshly rerun |
+| Dependency security |Full and production-only audits0on B; unchanged lockfile. This is not a claim production contains the patches |
+| Ordinary Lighthouse |FAILactualexit1:33 audits / 11 groups, Best Practices 77 throughout. Allother existing guard limits pass; hard noneditorial performance 87 / TBT 439 ms explicitly retained |
+| Strict route audit |FAILactualexit1: exactly 3 known internal noindex/ad-eligibility findings, no new findings; not waived |
+| Operations milestone checks |Pass: direct Node 22.23.4 lint/type and 551 tests in 79 files; ledger 44/44 valid |
 
-Fresh final export isolation scans722 HTML/RSC TXT/JS/JSON/XML files with no
-main60/owner8 leaks. The PDF carry-forward checks71 retained artifact hashes,
-records current dependency digests without inventing historical installed-file
-hashes, and regenerates two actual X03 files matching the frozen probe exactly.
+[Visual/utility proof](FINAL-B-VISUAL-UTILITY-EVIDENCE.md),
+[static/PDF preservation](FINAL-STATIC-PDF-PRESERVATION.md),
+[performance gates](FINAL-PERFORMANCE-GATES.md),
+[hosted artifacts and full PDF hashes](FINAL-HOSTED-ACCEPTANCE.md),
+[offline Axe fixture](BUILDOUT-OFFLINE-REVIEW-AXE-FIXTURE.md) and
+[graceful audit cleanup](BUILDOUT-GRACEFUL-AUDIT-CLEANUP.md) define exact scope.
+The200%matrix profile is equivalent reflow/DPR, not native browser zoom.
 
-All final command exit codes, artifacts, source SHA and actual manual review scope
-must be recorded before describing the candidate as technically complete.
+UnsupportedNode25preflight/build results are preserved under
+`product-final-f7849cd/node25-attempt/` and excluded. The complete supported
+preflight/build was rerun before any B browser acceptance; freeze/carry guards
+reject mismatched runtimes. Original a3988visual failures, A's29nonzero QR rows,
+failed fixture attempts and both30sAxe diagnostics remain intact.
 
-## Unresolved external and manual acceptance
+## Unpublished inventory and honest no-go decisions
 
-- Existing internal ad/noindex findings remain at
-  `/categories/health-and-wellness-word-searches`,
-  `/collections/brain-training-word-searches`, and
-  `/guides/how-hidden-message-word-searches-work`. They require an owner placement
-  decision and are not proved AdSense violations. No waiver is recorded.
-- Prior ordinary enabled-home Lighthouse Best Practices77 comes from Google
-  third-party-cookie/Inspector warnings. Ad-free controls and diagnostic loader
-  blocking do not pass or waive the ordinary release gate. Final results and any
-  independent written disposition remain required.
-- Physical Letter/A4 printing at 100%, real Safari/Android, assistive technology,
-  native zoom, actual QR scans and genuine ad fill/consent are unexecuted manual
-  checks. Chromium emulation and PDF geometry do not certify those experiences.
-- 48 legacy landscape PDFs contain grid text below 9pt (minimum 7.8208pt). They are
-  preserved legacy output, not measured large-print certification. Measured
-  output instead enforces16pt grid and18pt bank or rejects actionably.
-- Independent product/release approval, truthful owner biography/factual review,
-  editorial rights/audience suitability and the precise advertising-policy copy
-  correction require their respective reviewers. No agent self-approval applies.
-- Live aggregate analytics require operator-supplied real exports/provider access;
-  no metrics are fabricated. Optional backend products require explicit GO/NO-GO.
+Main catalog61 preserves the original60 plus one narrow Christian Nativity draft.
+Separately16 measured utility selections and8 owner proposals remain unapproved;
+these are not additive approved URLs. Real Christmas/winter/New Year/year-round,
+hard/teacher/ESL/large-print and14 annual pack compositions are built source-only.
+X03 is a format of unchanged X02; H08 adds five real 30-target utility sheets;
+T12 reuses an exact diverse substitute packet. X05/X06 have useful source review
+HTML/JSON. X06's exact X08-A action companion never supplies the missing minimum
+of 2 approved/published independent children. No filler bank was invented.
 
-## Production boundary and rollback
+The 2027 calendar has 53 review windows, 35 conditional candidate opportunities,
+15 enhancements and 3 holds. It is not a publication cron or page quota. Initially
+at most one distinct new indexable URL per independently approved weekly release;
+zero is valid. Human facts/rights/audience/distinct-intent approval remains false.
 
-Known production main is `471a118dd459f2181cd641ed0572ba6dd7005540`, ready Netlify
-deployment `6aedd79021e0a4d96f61990a` in project
-`66aedb4c-b210-45ca-b775-d338d4077dc6`. Final reconciliation must recheck it.
-No main push/merge, auto-merge or production deployment occurred in this buildout.
+Broad X10 worldwide-cultural claims, naive2/4-up shrinkage and unimplemented mask
+shapes retain their documented research/no-go boundaries. Native-language/ASL
+limitations are truthful; incomplete features are not activated. Optional accounts,
+waitlist capture, co-op, paid tiers, OCR and community services require separate
+provider/privacy/cost/security/moderation decisions. No speculative backend is shipped.
 
-An independent operator must approve the exact code/review SHA and outstanding
-risks before ordinary Git delivery. After an authorized release, record the
-resulting production commit/deploy ID and smoke results. A regression requires
-a reviewed revert or fix-forward through Git; do not force-push main or restore
-a provider deployment without separate authorization. Editorial selections have
-their own reversible manifest/review and do not auto-publish with product code.
+## Remaining external gates — no silent waivers
 
-## Preserved work and source reconciliation
+1. Three internal eligibility findings: `/categories/health-and-wellness-word-searches`,
+   `/collections/brain-training-word-searches`, and
+   `/guides/how-hidden-message-word-searches-work`. Owner placement decisions are
+   required; these findings are not proved AdSense policy violations. No ad
+   placement, fill detection or global first-filled-ad suppression was changed.
+2. Ordinary Lighthouse BestPractices77: fresh diagnosis attributes Cookie/
+   WarnThirdPartyPhaseout issues to`googleads.g.doubleclick.net`; enabled home77
+   twice, ad-free controls100and blocked-loader100are attribution only. They do
+   not pass the ordinary gate. Explicit owner/provider/consent risk disposition
+   and genuine-network review remain required. No threshold was weakened.
+3. Physical Letter/A4 at 100%, actual QR scans, real Safari/Android, assistive
+   technology, native zoom and genuine ad fill/consent remain unexecuted manual
+   checks. Use [the exact manual checklist](../launch-checklist.md).
+4. Owner biography/legal/policy-copy accuracy, editorial factual/rights/audience
+   review and independent exact-SHA product/release approval remain separate.
+   No candidate has new human editorial approval.48 legacy landscape PDFs below
+   9 pt (minimum 7.8208 pt) remain preserved ordinary output, not large-print certification.
+5. Real aggregate analytics/cohorts require operator exports/provider access and
+   actual released cohorts; no traffic, ranking, revenue or causal uplift is invented.
 
-The frozen-stage audit records 96 worktrees, 47 with reported local changes.
-Of those, 39 contain only snapshot line-ending/working-copy markers: Git-normalized
-content diffs are empty, verified without modifying those worktrees. The other
-eight are the original 13-change root preparation, four historical validation
-mirrors, superseded contextual-resource preparation, the current CLS fixture and
-this acceptance-document worktree. They remain intact; dirty mirrors are not
-newly activated features or instructions to repeat completed work.
+## Review order and rollback
 
-The original owner source retains SHA256
-`b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c`.
-Its promotion plumbing stays unmerged. Current implementation is carried
-by the individual tested branches and the combined candidate, including the
-later progress/theme/specialty/context repairs; preserved older mirrors are not
-silently substituted for those implementations.
+Review the application in PR97, then the final operations/evidence draft linked
+in its handoff. [All 100 prior PR heads/states/bases](BUILDOUT-PR-RECONCILIATION.md)
+are reconciled:87 are exact application ancestors; initial 1–13 are preserved
+through prior squash/reconstruction. Do not merge older graphs again. Only the
+previously approved PR1 was merged to main; subsequent integrated PRs targeted
+isolated review branches.
 
-Of 69 exact source references in the acceptance ledger, 68 are ancestors of the
-frozen candidate. The sole exception is historical PR8's reconstructed audit
-repair: its four contract/doc files are byte-identical and its Vitest package
-command is unchanged. Its historical branch remains preserved; merging its older
-parent graph again would duplicate work. This exception and all worktree heads,
-branches and statuses are captured in the outside-repository reconciliation.
+Known-good production baseline is main`471a118dd459f2181cd641ed0572ba6dd7005540`,
+Netlify deploy`6aedd79021e0a4d96f61990a`, site`66aedb4c-b210-45ca-b775-d338d4077dc6`.
+Final remote/published-deploy and review-head checks are recorded in the handoff.
+No main push/merge, auto-merge or production deploy occurred. After a separately
+authorized release, record the exact resulting SHA/deploy and public smoke tests.
+A regression requires a separately authorized reviewed Git revert or fix-forward;
+no force-push or unapproved provider restore. Product code does not auto-approve
+any staged editorial selection.
 
-Final branch/PR/head and active/blocked reconciliation is still pending the
-remaining acceptance jobs; this file does not prematurely close them.
+## Recovery and session completion
+
+The original 13-file dirty owner preparation is untouched. Its raw source SHA256
+is`b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c`; lossless raw
+files/patch/manifest are pushed at 749b5ab under
+[recovery instructions](recovery/owner-growth-2026-11-06/README.md). Restore only
+into a separate worktree at `6d72c82` if needed; never activate its publication plumbing
+in this release. Historical validation mirrors, normalized snapshot markers and
+superseded context preparation remain saved in their original worktrees.
+
+Final worktree/remote/agent/process counts, source identity of the operations-only
+merge, actual desktop/session safety observations and the last GitHub checkpoint
+belong in the final handoff. The [shutdown runbook](OVERNIGHT-SESSION-CONTROL-2026-11-06.md)
+records the prior missed shutdown's actual cause: no command was issued because
+unsaved desktop state was not verified. This run must finish/push every feasible
+checkpoint, stop only owned idle processes normally, refresh actual window/session
+checks and issue the authorized `shutdown.exe /s /t 0` as its final operation.
+It does not wait idle for routine confirmation. A rejected command must be recorded
+with its actual error; no forced fallback or unverified power-off claim is allowed.

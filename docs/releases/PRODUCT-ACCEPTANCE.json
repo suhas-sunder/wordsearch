@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "updatedOn": "2026-11-06",
-  "productStatus": "IN PROGRESS",
+  "updatedOn": "2026-11-07",
+  "productStatus": "BLOCKED",
   "productionSha": "471a118dd459f2181cd641ed0572ba6dd7005540",
   "productionAccepted": false,
   "contentEditorialApproved": false,
@@ -465,8 +465,26 @@
     },
     "97": {
       "url": "https://github.com/suhas-sunder/wordsearch/pull/97",
-      "sha": "749b5ab47d37cf2943801ee9934b0e0217f6f5a0",
+      "sha": "f7849cddda2a7df5daff2425ba179b9af21f6272",
       "branch": "codex/final-product-acceptance",
+      "draft": true
+    },
+    "98": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/98",
+      "sha": "982f47cf91b8133c9f71a0cbb76c899d8ec9273a",
+      "branch": "codex/final-visual-qa",
+      "draft": true
+    },
+    "99": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/99",
+      "sha": "4a07d67704a92846a4b44931ac4ec282c8c24839",
+      "branch": "codex/utility-qr-stability",
+      "draft": true
+    },
+    "100": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/100",
+      "sha": "0fd07e68d76de122cadf132644f82c7ea778336f",
+      "branch": "codex/christmas-kids-review-companion",
       "draft": true
     }
   },
@@ -474,13 +492,16 @@
     {
       "id": "F0.integration",
       "title": "Combine independent branches without losing work",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [],
       "prs": [
         37,
         51,
         70,
-        97
+        97,
+        98,
+        99,
+        100
       ],
       "checks": [
         "npm run lint",
@@ -491,9 +512,14 @@
       ],
       "evidence": [
         "docs/releases/BUILDOUT-INTEGRATION-02.md",
-        "docs/releases/BUILDOUT-INTEGRATION-03.md"
+        "docs/releases/BUILDOUT-INTEGRATION-03.md",
+        "docs/releases/BUILDOUT-UTILITY-QR-STABILITY.md",
+        "docs/releases/BUILDOUT-X06-ACTION-COMPANION.md",
+        "docs/releases/FINAL-STATIC-PDF-PRESERVATION.md",
+        "docs/releases/BUILDOUT-PR-RECONCILIATION.md",
+        "docs/releases/FINAL-SCOPE-CROSSWALK.md"
       ],
-      "remaining": "All independently audited BUILD NOW gaps are implemented through96, including actual source assets and H10 browsing. FrozenF48 suites pass with retained fixture history; new query guard passes544 tests/build335 and20 focused browser cases. The final44-feature combined preflight/export/448visual/84CLS/Lighthouse/hosted checks remain pending.",
+      "remaining": "DirectNode22.23.4 frozenB550tests/79files, lint/type/build335/static217/35/6 pass; all84CLS0 plus2pending/noJS and448/448visual pass. Ten selected current functional suites and7actualhosted suites pass with source/served/provider/fixture provenance. All100PRs and original source histories reconciled. Separate failed performance/ad-eligibility gates and independent owner approval are not waived.",
       "manualApproval": false
     },
     {
@@ -528,16 +554,19 @@
       "prs": [
         15,
         52,
-        67
+        67,
+        99
       ],
       "checks": [
         "Repeated before/after visual/CLS comparisons"
       ],
       "evidence": [
         "docs/releases/fast-track-2026-11-06-ui-integration.md",
-        "docs/releases/BUILDOUT-UTILITY-LAYOUT.md"
+        "docs/releases/BUILDOUT-UTILITY-LAYOUT.md",
+        "docs/releases/BUILDOUT-UTILITY-CLS-ATTRIBUTION.md",
+        "docs/releases/BUILDOUT-UTILITY-QR-STABILITY.md"
       ],
-      "remaining": "Search three repeated paired runs and84 utility pairs pass unchanged guards; rerun final combined candidate. Historical failed comparisons remain recorded.",
+      "remaining": "Original search regression repaired without tolerance changes. A29QRrows reached0.043969; actual56px paragraph-removal shift confirmed and fixed. FreshB all84utility rowsCLS0 plus2pending/noJSchecks pass, with exact176source/747disk/747HTTP guards before/after.36controlled/6normal trace and native10PDF/20pages plus24layoutPDFs also pass. Physical device/printer acceptance remains separate.",
       "manualApproval": false
     },
     {
@@ -763,7 +792,7 @@
     {
       "id": "F1.visual",
       "title": "Every archetype across required widths, zoom and landscape",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         11,
         13
@@ -775,7 +804,8 @@
         67,
         69,
         87,
-        88
+        88,
+        99
       ],
       "checks": [
         "320/390/768/1024/1280/1600 light/dark screenshot and axe matrix"
@@ -785,9 +815,11 @@
         "tests/e2e/accessibility.mjs",
         "docs/releases/BUILDOUT-F1-VISUAL.md",
         "docs/releases/BUILDOUT-FINAL-VISUAL-QA.md",
-        "docs/releases/BUILDOUT-VISUAL-ACCEPTANCE-REPAIRS.md"
+        "docs/releases/BUILDOUT-VISUAL-ACCEPTANCE-REPAIRS.md",
+        "docs/releases/BUILDOUT-UTILITY-QR-STABILITY.md",
+        "docs/releases/FINAL-B-VISUAL-UTILITY-EVIDENCE.md"
       ],
-      "remaining": "Original432 completed with8 dark start-card failures and manual helper overlap, now repaired28focusedpasses. H10 adds14passing focused cases and mixed answer-hub coverage, so final matrix is448cases; full combined run remains pending.",
+      "remaining": "FrozenB448/448 full visual matrix passes,0failures/0notices,28archetypes x8profiles x2themes. Full176source/747disk/747HTTP guards pass unchanged. Sixteen unique images individually reviewed; no claim all448 manually inspected. Native zoom/physical devices/owner visual approval remain separate.",
       "manualApproval": false
     },
     {
@@ -1215,7 +1247,8 @@
         90,
         92,
         93,
-        94
+        94,
+        100
       ],
       "checks": [
         "npm run audit:staged-inventory -- --pdf --export"
@@ -1228,9 +1261,12 @@
         "docs/releases/BUILDOUT-CHRISTMAS-COLLECTION-REVIEW.md",
         "docs/releases/BUILDOUT-X09-NATIVITY-DRAFT.md",
         "docs/releases/BUILDOUT-T12-SUBSTITUTE-REVIEW.md",
-        "docs/releases/BUILDOUT-H08-THIRTY-TARGET-PACKET.md"
+        "docs/releases/BUILDOUT-H08-THIRTY-TARGET-PACKET.md",
+        "docs/releases/BUILDOUT-X06-ACTION-COMPANION.md",
+        "docs/releases/FINAL-STATIC-PDF-PRESERVATION.md",
+        "docs/releases/FINAL-SCOPE-CROSSWALK.md"
       ],
-      "remaining": "Main catalog61 includes one explicitly Christian source-only X09; all original60 source/fingerprint aggregates unchanged. X03 measured format, authoredX05/X06 collection review, T12 exact-bank substitute folder and H08 real30-target utility packet are implemented, with no new runtime/indexable activation. All human editorial/rights/audience/physical-print reviews remain independent.",
+      "remaining": "61main candidates,16measured utility selections and8owner proposals remain source-only/unapproved; actual batches/compositions cover the53-window calendar. X06 exact X08-A companion has pinned provenance, never counts as an independent published child and creates no new bank/URL.87retainedPDFs/10source pins plus new actual hosted outputs are verified. Human facts/rights/suitability and distinct-intent review remain; X06 still lacks2approved/published independent children.",
       "manualApproval": false
     },
     {
@@ -1309,15 +1345,17 @@
         "Theme/dialog axe"
       ],
       "evidence": [
-        "tests/e2e/accessibility.mjs"
+        "tests/e2e/accessibility.mjs",
+        "docs/launch-checklist.md",
+        "docs/releases/BUILDOUT-OFFLINE-REVIEW-AXE-FIXTURE.md"
       ],
-      "remaining": "Automated checks pass; physical screen-reader/Safari/Android/manual accessibility not executed.",
+      "remaining": "B448visual has0axe notices; current accessibility/keyboard/navigation suites pass. Offline4 retains no-JS proof plus unchangedAxe on identical JS-enabled analysis DOM, original unsupported-context failure retained. Physical assistive technology, realSafari/Android, native browser zoom and owner visual acceptance remain unexecuted.",
       "manualApproval": false
     },
     {
       "id": "F5.performance",
       "title": "Resolve hydration CLS and prevent Lighthouse/CWV regressions",
-      "status": "IN PROGRESS",
+      "status": "BLOCKED",
       "ownerIssues": [
         11
       ],
@@ -1326,16 +1364,20 @@
         45,
         52,
         67,
-        71
+        71,
+        99
       ],
       "checks": [
         "Repeated CLS and Lighthouse measurements"
       ],
       "evidence": [
         "tests/e2e/lighthouse-audit.mjs",
-        "docs/releases/BUILDOUT-LIGHTHOUSE-PROVIDER-DIAGNOSIS.md"
+        "docs/releases/BUILDOUT-LIGHTHOUSE-PROVIDER-DIAGNOSIS.md",
+        "docs/releases/BUILDOUT-UTILITY-QR-STABILITY.md",
+        "docs/releases/FINAL-PERFORMANCE-GATES.md",
+        "docs/releases/BUILDOUT-GRACEFUL-AUDIT-CLEANUP.md"
       ],
-      "remaining": "Search/utility CLS repairs pass. Five frozen03 Lighthouse diagnostics attribute repeated enabled-home BP77 to Google third-party cookie/Inspector warnings; ad-free controls BP100. Blocked-provider control is not a release pass or waiver. Final04 performance checks remain.",
+      "remaining": "OrdinaryB Lighthouse actualexit1: all11route/profile groups x3runs BestPractices77, failed third-party-cookies/inspector-issues. Allother existing limits pass: SEO/a11y100,CLS0,LCP523-2481ms; hard noneditorial performance87/TBT439ms retained. Fivefresh diagnostic samples attribute Google doubleclick WarnThirdPartyPhaseout; blocked-loader/adfree100 controls are NOT release passes. Explicit owner/provider/consent risk disposition remains required; no ad changes or threshold weakening.",
       "manualApproval": false
     },
     {
@@ -1345,7 +1387,8 @@
       "ownerIssues": [],
       "prs": [
         39,
-        45
+        45,
+        97
       ],
       "checks": [
         "npm audit",
@@ -1355,7 +1398,7 @@
       "evidence": [
         "docs/releases/BUILDOUT-TOOLING-SECURITY.md"
       ],
-      "remaining": "Independent candidate-owned clean npm ci completed; full and production npm audit scopes zero. Final frozen-code install/lockfile provenance is recorded in integration04; no production security approval is inferred.",
+      "remaining": "DirectNode22.23.4 frozenB full and production-only npm audits both report0vulnerabilities with unchanged lockfile. Candidate remediation is not deployed to production. Repeat only if dependencies/source or advisory evidence changes.",
       "manualApproval": false
     },
     {
@@ -1375,7 +1418,7 @@
         "ai-issues/AD-PLACEHOLDER-SAFETY.md",
         "docs/releases/BUILDOUT-ADVERTISING-COPY.md"
       ],
-      "remaining": "FrozenF monetization suite passes with protected source unchanged. H10 filters retain ad wrappers and pass zero-overlap checks; genuine fill/consent is still manual. Draft policy-copy84 requires owner editorial acceptance;3existing eligibility findings remain unwaived.",
+      "remaining": "FreshB monetization and visual/H10 geometry checks pass; protected ad sources remain unchanged. Nonperformance hosted correctness fixtures use explicit standard loader mocks, not genuine-fill approval. Real fill/consent and the3internal eligibility findings remain external/unwaived; draft policy copy84 requires owner acceptance.",
       "manualApproval": false
     },
     {
@@ -1405,34 +1448,38 @@
       ],
       "prs": [
         37,
-        51
+        51,
+        97
       ],
       "checks": [
         "npm run audit:static-host",
         "SEO/content tests"
       ],
       "evidence": [
-        "tests/seo/seo-architecture.test.ts"
+        "tests/seo/seo-architecture.test.ts",
+        "docs/releases/FINAL-STATIC-PDF-PRESERVATION.md"
       ],
-      "remaining": "Repeat sitemap/public URL zero-diff and provider preview verification at final candidate.",
+      "remaining": "FreshB150published defaults/fingerprints,217metadata/JSON-LD and35redirects match;61+8drafts and5H08seeds remain isolated across722text files. Hosted217sitemap/61draftpaths404 and encodedroute noindex/parity pass. Separate strict route-audit actualexit1 reproduces exactly3knownad-eligibility findings; no new SEO failures or waiver.",
       "manualApproval": false
     },
     {
       "id": "F5.preview",
       "title": "Independent exact-SHA preview/product acceptance",
-      "status": "IN PROGRESS",
+      "status": "MANUAL ACCEPTANCE PENDING",
       "ownerIssues": [],
       "prs": [
         51,
-        70
+        70,
+        97
       ],
       "checks": [
         "NETLIFY_PREVIEW_URL=preview EXPECTED_PREVIEW_COMMIT=sha PREVIEW_AUDIT_OUTPUT=outside-repo npx tsx tests/e2e/provider-preview-smoke.ts"
       ],
       "evidence": [
-        "docs/releases/README.md"
+        "docs/releases/README.md",
+        "docs/releases/FINAL-HOSTED-ACCEPTANCE.md"
       ],
-      "remaining": "Ready deploy-preview6aee9d8754f1183fd8251956 matches appF26fa36d; HTTPnoindex/canonical/217sitemap preflight passes. Final combined review exact-SHA hosted browser/PDF checks and independent approval remain pending.",
+      "remaining": "ExactREADYB6aeebc77f2d9525d41a905c9/commitf7849cd immutablepreview passes7hosted suites with14actualPDFs/30pages,217sitemap/61draft404, query/H10/library/clue/measuredLP and route parity. Final operations-only review-head/provider verification is recorded in PR97 final handoff; independent exact-SHA product/release approval remains unexecuted.",
       "manualApproval": false
     },
     {
@@ -1451,9 +1498,10 @@
       "evidence": [
         "docs/releases/BUILDOUT-INTEGRATION-02.md",
         "docs/releases/OVERNIGHT-SESSION-CONTROL-2026-11-06.md",
-        "docs/releases/recovery/owner-growth-2026-11-06/README.md"
+        "docs/releases/recovery/owner-growth-2026-11-06/README.md",
+        "docs/launch-checklist.md"
       ],
-      "remaining": "Ready production deploy6aedd79021e0a4d96f61990a matches recorded main471a118. Revert/fix-forward through reviewed Git delivery documented; independent candidate approval and authorized production operation remain.",
+      "remaining": "Known-good main471a118/deploy6aedd79021e0a4d96f61990a and reviewed-Git revert/fix-forward instructions documented. Final remote/published-deploy recheck and operations review-head pin are recorded in GitHub handoff. No production operation or rollback executed; separate exact-SHA approval remains required.",
       "manualApproval": false
     },
     {

@@ -59,3 +59,18 @@ session's explicit handoff remains the direct evidence for that decision.
 No shutdown is scheduled while the buildout is running. This document is a
 runbook, not a background shutdown hook. Actual final checks, saved checkpoint
 SHA and command outcome must be recorded separately when the work is exhausted.
+
+## Runtime guard correction during this session
+
+Before final B browser acceptance, the root freeze recorded Node25.9.0 and
+exposed a task-local PATH prefix missing the Node package's `bin` directory.
+That550-test/build/static attempt is retained under
+`product-final-f7849cd/node25-attempt/` outside Git and is not a supported-runtime
+pass. No browser acceptance used that export. The complete preflight and build
+were rerun using the explicit Node22.23.4 executable and verified child PATH;
+550tests/79files, lint, typecheck,335-page build and217/35/6 static checks pass.
+
+The freeze helper now rejects any runtime other than the verified Node22.23.4,
+and the independent carry audit rejects a manifest with a mismatched runtime.
+Use the actual `node/bin/node.exe`, verify both direct and child `node --version`,
+and preserve failed or unsupported attempts rather than relabeling them.

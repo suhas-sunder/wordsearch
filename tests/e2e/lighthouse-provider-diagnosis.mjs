@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { resolve, relative, dirname, isAbsolute } from "node:path";
 import { chromium } from "playwright";
-import { launch } from "chrome-launcher";
+import { launchAuditChrome } from "./audit-chrome.mjs";
 import lighthouse from "lighthouse";
 import { summarizeDiagnostic } from "./lighthouse-diagnostic-summary.mjs";
 
@@ -32,7 +32,7 @@ const report = { schemaVersion: 1, baseOrigin: base.origin, assertedProvenance: 
 await mkdir(dirname(output), { recursive: true });
 let chrome;
 try {
-  chrome = await launch({ chromePath, chromeFlags: ["--headless=new", "--no-sandbox", "--disable-gpu"], logLevel: "silent" });
+  chrome = await launchAuditChrome({ chromePath, chromeFlags: ["--headless=new", "--no-sandbox", "--disable-gpu"], logLevel: "silent" });
   for (const sample of plan) {
     const response = await fetch(new URL(sample.path, base), { signal: AbortSignal.timeout(15000) });
     if (!response.ok) throw new Error(`SSR status ${response.status} on ${sample.path}`);
@@ -56,8 +56,11 @@ try {
   }
 } finally {
   if (chrome) {
-    try { await chrome.kill(); }
-    catch { console.warn("Chrome exited; temporary profile cleanup needs manual verification."); }
+    try { console.log(`Audit browser cleanup: ${JSON.stringify(await chrome.close())}`); }
+    catch (error) {
+      console.error(`Audit browser graceful cleanup failed: ${error instanceof Error ? error.message : String(error)}`);
+      process.exitCode = 1;
+    }
   }
 }
 console.log("Diagnosis complete; this command does not replace or waive audit:lighthouse guardrails.");

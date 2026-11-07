@@ -1,82 +1,87 @@
-# Buildout readiness ledger — November 6, 2026
+# Buildout readiness ledger — November 7, 2026
 
-## Current controlling status: candidate04 in development
+## Current status: feasible buildout complete, release gates blocked
 
-Use [PRODUCT-ACCEPTANCE.md](PRODUCT-ACCEPTANCE.md) and its validated JSON for the
-definitive feature-by-feature status; older recovery tables below are historical.
-Draft PR70 combines the later packages on tested03, with no main merge or
-production deployment. The44-feature ledger currently records36 TESTED,4 IN PROGRESS,
-2 MANUAL ACCEPTANCE PENDING,1 BLOCKED and1 OWNER-DEFERRED; zero DONE approvals.
-TESTED refers to recorded package evidence, not automatic combined acceptance.
+Application B is `f7849cddda2a7df5daff2425ba179b9af21f6272` in draft PR97.
+Supported Node 22.23.4 lint/type,550 tests in79 files,335-page build/static217/35/6,
+84 zero-CLS utility comparisons plus2pending/no-JS,448 visual cases and10selected
+functional suites pass. All7actualhosted suites pass on exact deploy
+6aeebc77f2d9525d41a905c9, preserving14PDFs/30pages. Source/served/provider guards
+remain exact. Full and production dependency audits report0.
 
-PR96 resolves the reproduced oversized-query slowdown consistently across popup,
-full-page and collection search: normal results preserved, Unicode-safe160-unit
-bound,544 tests/build335/static checks and20 focused browser cases pass. All
-identified BUILD NOW gaps are implemented; final97 combined acceptance continues.
-PR70/F remains a preserved earlier checkpoint. This update does not waive final
-performance/provider/manual gates or authorize publication/production.
+Ordinary Lighthouse actualexit1 remains unwaived: BestPractices77 in all11groups
+(33audits). Other existing limits pass; hard noneditorial performance87 is retained
+explicitly. Fresh5sample attribution identifies Google doubleclick Cookie/
+WarnThirdPartyPhaseout. The strict route audit actualexit1 retains exactly3known
+ad/noindex findings. These two feature gates require owner/provider decisions;
+physical/manual and independent release approvals remain separate.
 
-The independent final review branch now integrates90–95: authored Christmas
-collection review, precise functional fixtures, one Christian Nativity draft,
-substitute-folder curation, five real30-target utility sheets and actual hard/
-answer collection finding/sorting. Main staged catalog is61 (original60 preserved),
-all unpublished. FrozenF passed48 current functional suites with retained fixture
-history and a mapped current-footer replacement; the historical cosmetic-only
-comparator is not claimed passed. H10 passes14 focused cases, initial/hydration
-CLS0. A reproduced large-query slowdown is being bounded consistently before
-the new combined freeze. Final448 visual, quiet84CLS, ordinary Lighthouse and
-exact hosted acceptance remain open. The authorized shutdown follows only after
-all useful work and the pushed handoff; see OVERNIGHT-SESSION-CONTROL-2026-11-06.md.
+The44-feature ledger records38TESTED,3MANUAL ACCEPTANCE PENDING,2BLOCKED and
+1OWNER-DEFERRED,0DONE. Product status isBLOCKED, not production accepted.
+[The final candidate](PRODUCT-RELEASE-CANDIDATE-04.md),
+[roadmap crosswalk](FINAL-SCOPE-CROSSWALK.md),
+[all100priorPRs](BUILDOUT-PR-RECONCILIATION.md),
+[visual proof](FINAL-B-VISUAL-UTILITY-EVIDENCE.md),
+[performance gates](FINAL-PERFORMANCE-GATES.md) and
+[hosted proof](FINAL-HOSTED-ACCEPTANCE.md) are controlling.
 
-Frozen a3988 independent audits pass:150 production definitions/results,
-217 sitemap metadata/JSON-LD and35 redirects unchanged;1200 published PDF hashes
-identical. Expanded visual87 completed all432 cases and exposed eight dark
-solver-start contrast failures plus manual export-help overlap. Repair88 passes
-28 focused cases and514 tests/build335/static checks. The final replacement
-432-case matrix,48 functional suites,84 CLS pairs, ordinary Lighthouse and exact
-hosted preview remain open. Original failures are retained. PR89 implements X03
-as a measured source-only format of unchanged X02, with no public URL; its
-519 tests/72 files,335-page build and217/35/6 static checks pass.
+The operations/evidence package passes final lint/type and 551 tests in 79 files.
+Its commit/push/draft, operations-only merge, final exact preview pin/smoke and
+safety handoff remain active. No main merge/push, production deploy, new-content approval or protected-ad
+change. Shutdown follows only after those feasible final steps are safely saved.
 
-Implemented additions include named local puzzles and exact maker reachability,
-one-cell solving, synchronized print controls, offline HTML, classroom fields,
-meaningful FAQs, selective activity/profile links, pack discovery, search/utility
-CLS repairs and theme hydration behavior. PDF fit errors preserve all1200
-historical QR-enabled PDF hashes. All60 new-path candidates,16 utility selections,
-8 preserved owner proposals (6 draft canonicals/2 proposed paths) and the
-53-window/35-opportunity calendar stay source-only.
-The initial release limit is **at most one** genuinely distinct indexable URL per
-independently approved weekly release; zero remains valid. This supersedes older
-0–3 wording below.
+## Prior checkpoint narrative — historical
 
-Advanced74, measured single large print76, print preflight77, actual clues78,
-owner preservation79, editorial quality80, optional default-off sound81,
-printed ASCII case82 and zero-answer recovery83 are now merged. Independent
-review caught stale HTML/static-PDF downloads and PNG errors; cancellation85
-fixes these, and settings/fallback matrix86 is complete. Combined04 lint/typecheck,
-514 tests and335-page build/static checks pass after a clean supported-runtime
-install. Final browser/visual/CLS/PDF and exact provider-preview validation follow.
-Real03 provider
-verification is recorded in PROVIDER-VERIFICATION-2026-11-06.md.
-PNG/SVG/TXT package75 is implemented and independently checked; final combined
-coverage remains separate. Image tokens that overlap cells fail actionably.
-A one-paragraph correction of the false “no active advertising” policy statement
-is prepared in draft84; owner editorial acceptance remains required. Advertising
-code, placement and lifecycle stay unchanged.
+## Current controlling status: final acceptance and confirmed defect repair
 
-Remaining external gates: physical printing/devices/assistive technology, human
-editorial/factual/rights review, independent exact-SHA approval, genuine ad/consent
-behavior and owner decisions on three noindex/ad-eligibility findings. Repeated
-enabled-home Lighthouse Best Practices77 is attributed to Google's third-party
-cookie/Inspector warning; diagnostic blocking is not a waiver or release pass.
-Both dependency audit scopes were zero on03; repeat at final04. Production and
-new-content approval remain false.
+The primary review is [draft PR97](https://github.com/suhas-sunder/wordsearch/pull/97),
+branch `codex/final-product-acceptance`. Application freeze A is
+`90a0ee32bc984e583cf39d4ebb4b587a2b630c4b`. PR70/F remains a preserved historical
+checkpoint. Main and production are unchanged; new editorial inventory remains
+unpublished. [PRODUCT-ACCEPTANCE.md](PRODUCT-ACCEPTANCE.md) is the definitive
+44-feature ledger; no DONE, production or editorial approval is recorded.
 
-This is development status, not approval to publish. Source of truth remains the
-owner README and the three unchanged Christmas-growth planning documents.
-Every release needs its exact commit, independent review, test evidence and
-rollback reference. Main remains `471a118dd459f2181cd641ed0572ba6dd7005540`.
-See BUILDOUT-INTEGRATION-01.md for the frozen combined candidate and exclusions.
+Combined A passes lint, TypeScript,544 tests in78 files, warning-free335-page
+production build and217 sitemap/35 redirect/6 utility-shell static checks. Its
+747-file export has SHA256
+`a8fc1e5ddd6e10dfe30cd572f49ba9eea64d3ea2bc7c708cfa82a2b4c7dda859`.
+Exact-A Netlify preview `6aeeb106f9012b875f013008` is READY; hosted browser tests
+remain pending. FrozenF separately passed48 current functional suites; its
+historical footer comparator remains not applicable, with replacement mapped.
+
+Final quiet utility acceptance passed84 paired comparisons plus2 pending/no-JS
+cases without changing the +0.01 threshold. This does not mean zero CLS:
+29 QR-enabled print/PDF/answer rows measured about0.036–0.044. A six-case causal
+trace confirmed a56px worksheet shift when transient QR preparation text is
+removed; QR-disabled controls measured0. This is a confirmed feasible defect,
+so implementation has reopened in an isolated branch while A stays frozen.
+Original measurements and failures remain preserved. A final inventory audit also found the X06 resolver omits the existing exact
+X08-A easy action-word companion. Isolated source-only selection/resolver work
+is active; it creates no new bank/URL and cannot bypass the published-child gate.
+Full448 visual, affected functional/native-print, ordinary Lighthouse and hosted
+acceptance follow both completed packages.
+
+Source-only inventory includes61 main candidates,16 measured utility selections,
+8 preserved owner proposals, actual X03/X05/X06/T12/H08 assets and the full
+53-window/35-opportunity 2027 calendar. Counts do not represent approved URLs.
+Initially at most one distinct new indexable URL may enter each independently
+approved weekly release; zero remains valid. No automatic publication is enabled.
+
+Open external gates include three internal noindex/ad-eligibility findings,
+ordinary Lighthouse provider warnings pending final measurement, physical
+printing/devices/assistive technology, genuine ad/consent behavior, editorial
+review and independent release approval. None is waived. The protected
+first-filled-ad suppression behavior remains unchanged.
+
+The original13-file dirty owner preparation is untouched and losslessly saved
+in the pushed749b5ab recovery checkpoint. [The shutdown runbook](OVERNIGHT-SESSION-CONTROL-2026-11-06.md)
+records why the prior session did not issue shutdown and the required final
+gates. Shutdown is not scheduled while useful development or validation remains.
+
+## Historical checkpoints
+
+The following sections preserve earlier states; they do not override the
+current controlling status above or the definitive acceptance ledger.
 
 ## Extended autonomous pass — active state
 

@@ -1,10 +1,13 @@
 # Controlled delivery: two independent tracks
 
-Current autonomous development: [candidate04 draft record](BUILDOUT-INTEGRATION-04.md)
-and [definitive feature acceptance ledger](PRODUCT-ACCEPTANCE.md). The older
-dated candidate/track sections below remain historical evidence. Candidate04
-is still being implemented and tested; no product, production or editorial
-approval follows from a completed package or ready preview.
+Current final review: [PR97](https://github.com/suhas-sunder/wordsearch/pull/97),
+[release candidate](PRODUCT-RELEASE-CANDIDATE-04.md),
+[roadmap scope](FINAL-SCOPE-CROSSWALK.md) and
+[44-feature acceptance ledger](PRODUCT-ACCEPTANCE.md). Feasible guest buildout and
+application QA are complete; ordinary Lighthouse77,3ad-eligibility findings and
+manual/independent approvals remain unwaived. Final operations checkpoint and
+exact review-head verification are recorded in the PR97 handoff. No production
+or editorial approval follows from a tested package or ready preview.
 
 ## Active buildout review queue
 

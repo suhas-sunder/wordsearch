@@ -50,7 +50,7 @@ export function renderProductAcceptance(value: ProductAcceptance): string {
     lines.push(`## F${area}`, "", "| Feature | Status | Evidence and remaining work |", "| --- | --- | --- |");
     for (const feature of value.features.filter(({ id }) => id.startsWith(`F${area}.`))) {
       const refs = feature.prs.map((pr) => { const ref = value.sourceRefs[String(pr)]; return `[PR${pr}](${ref.url}) at \`${ref.sha.slice(0, 12)}\``; }).join(", ");
-      const evidence = feature.evidence.map((path) => `[${path}](${path.replace(/^docs\/releases\//, "").replace(/^(?!BUILDOUT|README|AD-)/, "../../")})`).join(", ");
+      const evidence = feature.evidence.map((path) => `[${path}](${path.startsWith("docs/releases/") ? path.slice("docs/releases/".length) : `../../${path}`})`).join(", ");
       lines.push(`| ${feature.id}: ${feature.title}${feature.ownerIssues.length ? ` (owner ${feature.ownerIssues.join(", ")})` : ""} | ${feature.status} | ${refs}${refs ? ". " : ""}${feature.checks.join("; ")}. ${evidence}. **Remaining:** ${feature.remaining} |`);
     }
     lines.push("");
