@@ -320,6 +320,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             <label><input type="checkbox" checked={request.showCoordinates ?? false} onChange={(event) => patch({ showCoordinates: event.target.checked })} /> Coordinates</label>
             <label><input type="checkbox" checked={request.nameDateLine ?? true} onChange={(event) => patch({ nameDateLine: event.target.checked })} /> Name/date line</label>
           </div>
+          <p className="control-help">Share-link defaults update this preview. Large print can change auto-sized dimensions; other output choices stay selected.</p>
           <details className="advanced-controls">
             <summary>Advanced print and fill controls</summary>
             <label>
@@ -365,6 +366,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             <button type="button" onClick={downloadSvg}><Download size={16} aria-hidden="true" /> SVG</button>
             <button type="button" onClick={downloadHtmlWorksheet}><FileCode2 size={16} aria-hidden="true" /> HTML worksheet</button>
             <span>Print, PDF, answer key, play, share, and QR all use this exact seeded state.</span>
+            {!persistState && <a href={puzzle.sharePath}>Open in maker to save</a>}
           </div>
           <p className="control-help">HTML saves an offline, script-free worksheet with the current paper/layout choices and any included answer page. QR and share links are omitted. It contains your words; keep the file private. Browser printing can use extra sheets for crowded content; use PDF for fixed page layout.</p>
           {htmlExportMessage && <p className="control-help" role="status">{htmlExportMessage}</p>}

@@ -59,6 +59,21 @@ export function outputOptionsForRequest(request: Partial<PuzzleRequest>): Puzzle
   };
 }
 
+/** Apply edited definition defaults without resetting independent output choices. */
+export function syncRequestOutputOptions(
+  current: PuzzleOutputOptions,
+  previousRequest: Partial<PuzzleRequest>,
+  nextRequest: Partial<PuzzleRequest>
+): PuzzleOutputOptions {
+  const previous = outputOptionsForRequest(previousRequest);
+  const next = outputOptionsForRequest(nextRequest);
+  const patch: Partial<PuzzleOutputOptions> = {};
+  if (previous.printScale !== next.printScale) patch.printScale = next.printScale;
+  if (previous.coordinates !== next.coordinates) patch.coordinates = next.coordinates;
+  if (previous.nameDateLine !== next.nameDateLine) patch.nameDateLine = next.nameDateLine;
+  return Object.keys(patch).length ? { ...current, ...patch } : current;
+}
+
 export function normalizePuzzleOutputOptions(
   value: unknown,
   fallback: PuzzleOutputOptions = defaultPuzzleOutputOptions
