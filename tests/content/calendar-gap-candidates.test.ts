@@ -18,6 +18,7 @@ import { createPuzzlePdf } from "@/lib/pdf/create-puzzle-pdf";
 import { measurePdfBytes } from "@/lib/pdf/measure-pdf";
 import { defaultPuzzleOutputOptions } from "@/lib/puzzle/output-options";
 import { generatePuzzle } from "@/lib/puzzle/generate";
+import { allStagedCandidates } from "@/content/staged/catalog";
 
 describe("calendar gap inventory remains an editorial draft", () => {
   test("collision-checks every new topic against the published and staged siblings", () => {
@@ -31,21 +32,48 @@ describe("calendar gap inventory remains an editorial draft", () => {
       expect(Object.hasOwn(candidate, "approval")).toBe(false);
     }
   });
-  test("preserves owner parks/landmarks work as existing-canonical enhancements without inferred review", () => {
+  test("preserves all eight owner proposals and classifies existing versus proposed paths without inferred review", () => {
+    expect(preservedGrowthEnhancements.map(({ id }) => id)).toEqual([
+      "OWNER-LANDMARKS", "OWNER-PARKS", "OWNER-COUNTRIES", "OWNER-STATE-CAPITALS",
+      "OWNER-AMERICAN-REVOLUTION", "OWNER-CIVIL-RIGHTS", "OWNER-PERIODIC-TABLE", "OWNER-GENETICS"
+    ]);
     for (const record of preservedGrowthEnhancements) {
       const target = routeInventory.find((target) => target.canonicalPath === record.targetCanonicalPath);
-      expect(target?.contentType).toBe("puzzle");
-      expect(target?.publicationStatus).toBe("draft");
+      if (record.targetKind === "existing-draft") {
+        expect(target?.contentType).toBe("puzzle");
+        expect(target?.publicationStatus).toBe("draft");
+        expect(target?.indexable).toBe(false);
+      } else {
+        expect(target).toBeUndefined();
+        expect(allStagedCandidates.some(({ proposedPath }) => proposedPath === record.targetCanonicalPath)).toBe(false);
+      }
       expect(record.newIndexableUrlAllowance).toBe(0);
       expect(record.editorialStatus).toBe("unreviewed");
       expect(record.originalReviewDateIgnored).toBe(true);
+      expect(record.unverifiedSourceReviewClaims).toBe(true);
+      expect(record.runtimeImportAllowed).toBe(false);
+      expect(record.puzzle.words).toHaveLength(20);
+      expect(record.originalEditorialProposal.introduction.length).toBeGreaterThan(50);
+      expect(Object.hasOwn(record, "reviewedOn")).toBe(false);
+      expect(Object.hasOwn(record.originalEditorialProposal, "reviewedOn")).toBe(false);
       expect(record.sourceFileSha256).toBe("b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c");
     }
+    expect(preservedGrowthEnhancements.filter(({ targetKind }) => targetKind === "proposed-new-path").map(({ id }) => id)).toEqual(["OWNER-AMERICAN-REVOLUTION", "OWNER-GENETICS"]);
   });
   test("freezes complete requests, grids and answer cells for all seventeen review assets", () => {
-    const results = [...calendarGapCandidates, ...preservedGrowthEnhancements].map(({ id }) => ({ id, result: generateCalendarReviewAsset(id) }));
+    const results = [...calendarGapCandidates, ...preservedGrowthEnhancements.filter(({ id }) => id === "OWNER-LANDMARKS" || id === "OWNER-PARKS")].map(({ id }) => ({ id, result: generateCalendarReviewAsset(id) }));
     expect(results.map(({ id, result }) => ({ id, hash: createHash("sha256").update(JSON.stringify({ request: result.request, grid: result.grid, answers: result.placed })).digest("hex") }))).toMatchSnapshot();
     for (const { result } of results) {
+      expect(result.grid).toEqual(generatePuzzle(result.request).grid);
+      for (const word of result.placed) expect(word.cells.map(({ row, col }) => result.grid[row][col])).toEqual(word.tokens);
+    }
+  });
+  test("freezes the six additional original owner requests without changing the previous seventeen", () => {
+    const results = preservedGrowthEnhancements.filter(({ id }) => id !== "OWNER-LANDMARKS" && id !== "OWNER-PARKS").map(({ id }) => ({ id, result: generateCalendarReviewAsset(id) }));
+    expect(results).toHaveLength(6);
+    expect(results.map(({ id, result }) => ({ id, hash: createHash("sha256").update(JSON.stringify({ request: result.request, grid: result.grid, answers: result.placed })).digest("hex") }))).toMatchSnapshot();
+    for (const { result } of results) {
+      expect(result.placed).toHaveLength(20);
       expect(result.grid).toEqual(generatePuzzle(result.request).grid);
       for (const word of result.placed) expect(word.cells.map(({ row, col }) => result.grid[row][col])).toEqual(word.tokens);
     }

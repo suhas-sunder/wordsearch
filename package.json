@@ -37,6 +37,7 @@
     "audit:candidates": "tsx scripts/audit-candidates.ts",
     "audit:print-measure": "tsx scripts/measure-print.ts",
     "audit:staged-inventory": "tsx scripts/audit-staged-inventory.ts",
+    "audit:preserved-owner-export": "tsx scripts/audit-preserved-owner-export.ts",
     "audit:product-acceptance": "tsx scripts/audit-product-acceptance.ts",
     "audit:published-pdf-fit": "tsx scripts/audit-published-pdf-fit.ts",
     "test:solver-progress": "tsx tests/e2e/solver-progress.ts"

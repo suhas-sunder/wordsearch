@@ -1,11 +1,20 @@
 import type { PuzzleDefinition } from "@/content/model";
 
-/** Preserved source-only proposals for existing draft canonicals; no inferred approval. */
+/** Preserved source-only owner proposals; no inferred approval.
+ * originalEditorialProposal is archival text, including unverified review claims.
+ * It is never used for public metadata, printed instructions or review approval.
+ */
 export interface PreservedGrowthEnhancement {
   id: string; targetCanonicalPath: string; title: string; sourceFile: string; sourceFileSha256: string;
   provenance: "preserved-uncommitted-owner-work"; originalReviewDateIgnored: true;
   publicationStatus: "draft"; editorialStatus: "unreviewed"; runtimeImportAllowed: false;
   newIndexableUrlAllowance: 0; puzzle: PuzzleDefinition;
+  originalEditorialProposal: {
+    introduction: string; context: string; audience: string[]; difficultyNote: string;
+    printNote: string; metaTitle: string; metaDescription: string;
+  };
+  unverifiedSourceReviewClaims: true;
+  targetKind: "existing-draft" | "proposed-new-path";
 }
 
 export const preservedGrowthEnhancements: PreservedGrowthEnhancement[] = [
@@ -66,7 +75,21 @@ export const preservedGrowthEnhancements: PreservedGrowthEnhancement[] = [
       "printableAvailable": true,
       "pdfAvailable": true,
       "largePrintSuitable": false
-    }
+    },
+    "originalEditorialProposal": {
+      "introduction": "Explore a cross-regional set of cultural and natural landmarks, from Stonehenge and Petra to Machu Picchu and Victoria Falls.",
+      "context": "The word list spans recognized sites in Africa, Asia, Europe, North America, South America, and Oceania, pairing ancient places with later monuments and natural features.",
+      "audience": [
+        "Classroom",
+        "general"
+      ],
+      "difficultyNote": "This Hard puzzle uses an 18 by 18 grid with twenty words, overlap, reverse paths, and diagonal placements.",
+      "printNote": "Several landmark names span two or three words in the word bank; solvers trace their letters continuously in the grid without spaces.",
+      "metaTitle": "World Landmarks Word Search | Challenging Printable",
+      "metaDescription": "Explore twenty world landmarks in a challenging 18 × 18 word search. Play online or print the puzzle, PDF, and matching solution."
+    },
+    "unverifiedSourceReviewClaims": true,
+    "targetKind": "existing-draft"
   },
   {
     "id": "OWNER-PARKS",
@@ -125,6 +148,458 @@ export const preservedGrowthEnhancements: PreservedGrowthEnhancement[] = [
       "printableAvailable": true,
       "pdfAvailable": true,
       "largePrintSuitable": false
-    }
+    },
+    "originalEditorialProposal": {
+      "introduction": "Search for twenty official U.S. national park names, ranging from Acadia and Congaree to Denali, Mesa Verde, and Yosemite.",
+      "context": "Every entry in this selected set carries the National Park designation; monuments, national historical parks, preserves, and other National Park System units are intentionally excluded.",
+      "audience": [
+        "Classroom",
+        "general"
+      ],
+      "difficultyNote": "This Hard puzzle uses an 18 by 18 grid with twenty words, overlap, reverse paths, and diagonal placements.",
+      "printNote": "The printable list uses the distinctive part of each official park name, omitting the repeated words “National Park” to keep the hunt readable.",
+      "metaTitle": "U.S. National Parks Word Search | Hard Printable",
+      "metaDescription": "Find twenty official U.S. national parks in a hard printable word search, with an 18 × 18 grid, online play, PDF, and answer key."
+    },
+    "unverifiedSourceReviewClaims": true,
+    "targetKind": "existing-draft"
+  },
+  {
+    "id": "OWNER-COUNTRIES",
+    "targetCanonicalPath": "/word-searches/geography/countries-word-search",
+    "title": "Countries Around the World Word Search",
+    "sourceFile": "original-owner-worktree:content/curated-topics-growth.ts",
+    "sourceFileSha256": "b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c",
+    "provenance": "preserved-uncommitted-owner-work",
+    "originalReviewDateIgnored": true,
+    "publicationStatus": "draft",
+    "editorialStatus": "unreviewed",
+    "runtimeImportAllowed": false,
+    "newIndexableUrlAllowance": 0,
+    "puzzle": {
+      "puzzleTitle": "Countries Around the World Word Search",
+      "words": [
+        "ARGENTINA",
+        "AUSTRALIA",
+        "BRAZIL",
+        "CANADA",
+        "COSTA RICA",
+        "EGYPT",
+        "FIJI",
+        "FRANCE",
+        "GERMANY",
+        "INDIA",
+        "INDONESIA",
+        "JAPAN",
+        "JORDAN",
+        "KENYA",
+        "MEXICO",
+        "NEW ZEALAND",
+        "NIGERIA",
+        "NORWAY",
+        "POLAND",
+        "SOUTH AFRICA"
+      ],
+      "seed": "curated-countries-word-search-v1-329",
+      "rows": 18,
+      "columns": 18,
+      "directions": [
+        "E",
+        "W",
+        "S",
+        "N",
+        "SE",
+        "SW",
+        "NE",
+        "NW"
+      ],
+      "difficulty": "hard",
+      "alphabetPack": "latin",
+      "allowOverlap": true,
+      "answerKeyAvailable": true,
+      "onlinePlayAvailable": true,
+      "printableAvailable": true,
+      "pdfAvailable": true,
+      "largePrintSuitable": false
+    },
+    "originalEditorialProposal": {
+      "introduction": "Travel across six inhabited continents as you find a deliberately varied selection of country names in a challenging grid.",
+      "context": "The twenty-country list samples several regions rather than attempting to represent every country, with examples from Africa, Asia, Europe, North America, South America, and Oceania.",
+      "audience": [
+        "Classroom",
+        "general"
+      ],
+      "difficultyNote": "This Hard puzzle uses an 18 by 18 grid with twenty words, overlap, reverse paths, and diagonal placements.",
+      "printNote": "The printable word bank retains spaces in Costa Rica, New Zealand, and South Africa while the grid places each country name as one continuous letter path.",
+      "metaTitle": "Countries Around the World Word Search | Hard Printable",
+      "metaDescription": "Find twenty selected countries from six continents in a hard 18 × 18 word search. Play online or print the puzzle, PDF, and answer key."
+    },
+    "unverifiedSourceReviewClaims": true,
+    "targetKind": "existing-draft"
+  },
+  {
+    "id": "OWNER-STATE-CAPITALS",
+    "targetCanonicalPath": "/word-searches/geography/state-capitals-word-search",
+    "title": "U.S. State Capitals Word Search",
+    "sourceFile": "original-owner-worktree:content/curated-topics-growth.ts",
+    "sourceFileSha256": "b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c",
+    "provenance": "preserved-uncommitted-owner-work",
+    "originalReviewDateIgnored": true,
+    "publicationStatus": "draft",
+    "editorialStatus": "unreviewed",
+    "runtimeImportAllowed": false,
+    "newIndexableUrlAllowance": 0,
+    "puzzle": {
+      "puzzleTitle": "U.S. State Capitals Word Search",
+      "words": [
+        "ALBANY",
+        "ANNAPOLIS",
+        "ATLANTA",
+        "AUSTIN",
+        "BATON ROUGE",
+        "BISMARCK",
+        "BOISE",
+        "BOSTON",
+        "CARSON CITY",
+        "CHEYENNE",
+        "COLUMBUS",
+        "DENVER",
+        "DES MOINES",
+        "HONOLULU",
+        "INDIANAPOLIS",
+        "JACKSON",
+        "JUNEAU",
+        "PHOENIX",
+        "SACRAMENTO",
+        "SANTA FE"
+      ],
+      "seed": "curated-state-capitals-word-search-v1-293",
+      "rows": 18,
+      "columns": 18,
+      "directions": [
+        "E",
+        "W",
+        "S",
+        "N",
+        "SE",
+        "SW",
+        "NE",
+        "NW"
+      ],
+      "difficulty": "hard",
+      "alphabetPack": "latin",
+      "allowOverlap": true,
+      "answerKeyAvailable": true,
+      "onlinePlayAvailable": true,
+      "printableAvailable": true,
+      "pdfAvailable": true,
+      "largePrintSuitable": false
+    },
+    "originalEditorialProposal": {
+      "introduction": "Find twenty U.S. state capital cities drawn from different regions, including Juneau, Santa Fe, Annapolis, and Honolulu.",
+      "context": "This is a selected set of twenty state capitals, not a complete list of all fifty. The mix includes single-word cities and multiword names from across the United States.",
+      "audience": [
+        "Classroom",
+        "general"
+      ],
+      "difficultyNote": "This Hard puzzle uses an 18 by 18 grid with twenty words, overlap, reverse paths, and diagonal placements.",
+      "printNote": "Print copies with the answer key kept separate, then use the city names as prompts for matching each selected capital to its state.",
+      "metaTitle": "U.S. State Capitals Word Search | Hard Printable PDF",
+      "metaDescription": "Search for twenty selected U.S. state capitals in a hard printable word search, with online play, a matching PDF, and an answer key."
+    },
+    "unverifiedSourceReviewClaims": true,
+    "targetKind": "existing-draft"
+  },
+  {
+    "id": "OWNER-AMERICAN-REVOLUTION",
+    "targetCanonicalPath": "/word-searches/history/american-revolution-word-search",
+    "title": "American Revolution Word Search",
+    "sourceFile": "original-owner-worktree:content/curated-topics-growth.ts",
+    "sourceFileSha256": "b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c",
+    "provenance": "preserved-uncommitted-owner-work",
+    "originalReviewDateIgnored": true,
+    "publicationStatus": "draft",
+    "editorialStatus": "unreviewed",
+    "runtimeImportAllowed": false,
+    "newIndexableUrlAllowance": 0,
+    "puzzle": {
+      "puzzleTitle": "American Revolution Word Search",
+      "words": [
+        "BOSTON TEA PARTY",
+        "LEXINGTON",
+        "CONCORD",
+        "BUNKER HILL",
+        "SARATOGA",
+        "YORKTOWN",
+        "CONTINENTAL ARMY",
+        "MINUTEMEN",
+        "PATRIOTS",
+        "LOYALISTS",
+        "INDEPENDENCE",
+        "DECLARATION",
+        "STAMP ACT",
+        "TEA ACT",
+        "INTOLERABLE ACTS",
+        "PAUL REVERE",
+        "GEORGE WASHINGTON",
+        "BENJAMIN FRANKLIN",
+        "TREATY OF PARIS",
+        "VALLEY FORGE"
+      ],
+      "seed": "curated-american-revolution-word-search-v1-19",
+      "rows": 18,
+      "columns": 18,
+      "directions": [
+        "E",
+        "W",
+        "S",
+        "N",
+        "SE",
+        "SW",
+        "NE",
+        "NW"
+      ],
+      "difficulty": "hard",
+      "alphabetPack": "latin",
+      "allowOverlap": true,
+      "answerKeyAvailable": true,
+      "onlinePlayAvailable": true,
+      "printableAvailable": true,
+      "pdfAvailable": true,
+      "largePrintSuitable": false
+    },
+    "originalEditorialProposal": {
+      "introduction": "Review people, places, documents, laws, and turning points associated with the American Revolution in one twenty-term puzzle.",
+      "context": "The vocabulary connects colonial protest and the opening fighting at Lexington and Concord with the Continental Army, major campaigns, independence, and the peace settlement.",
+      "audience": [
+        "Classroom",
+        "general"
+      ],
+      "difficultyNote": "This Hard puzzle uses an 18 by 18 grid with twenty words, overlap, reverse paths, and diagonal placements.",
+      "printNote": "Use the printable as a vocabulary companion to historical sources; the word bank is a focused selection, not a complete timeline of the Revolution.",
+      "metaTitle": "American Revolution Word Search | Hard Printable",
+      "metaDescription": "Find twenty American Revolution people, places, events, and documents in a hard printable word search with PDF and answer key."
+    },
+    "unverifiedSourceReviewClaims": true,
+    "targetKind": "proposed-new-path"
+  },
+  {
+    "id": "OWNER-CIVIL-RIGHTS",
+    "targetCanonicalPath": "/word-searches/history/civil-rights-word-search",
+    "title": "Civil Rights Movement Word Search",
+    "sourceFile": "original-owner-worktree:content/curated-topics-growth.ts",
+    "sourceFileSha256": "b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c",
+    "provenance": "preserved-uncommitted-owner-work",
+    "originalReviewDateIgnored": true,
+    "publicationStatus": "draft",
+    "editorialStatus": "unreviewed",
+    "runtimeImportAllowed": false,
+    "newIndexableUrlAllowance": 0,
+    "puzzle": {
+      "puzzleTitle": "Civil Rights Movement Word Search",
+      "words": [
+        "EQUALITY",
+        "JUSTICE",
+        "NONVIOLENCE",
+        "SEGREGATION",
+        "INTEGRATION",
+        "BOYCOTT",
+        "SIT IN",
+        "FREEDOM RIDES",
+        "FREEDOM SUMMER",
+        "MARCH ON WASHINGTON",
+        "CIVIL RIGHTS ACT",
+        "VOTING RIGHTS ACT",
+        "BROWN V BOARD",
+        "MONTGOMERY",
+        "SELMA",
+        "LITTLE ROCK NINE",
+        "GREENSBORO FOUR",
+        "ROSA PARKS",
+        "MARTIN LUTHER KING",
+        "THURGOOD MARSHALL"
+      ],
+      "seed": "curated-civil-rights-word-search-v1-402",
+      "rows": 18,
+      "columns": 18,
+      "directions": [
+        "E",
+        "W",
+        "S",
+        "N",
+        "SE",
+        "SW",
+        "NE",
+        "NW"
+      ],
+      "difficulty": "hard",
+      "alphabetPack": "latin",
+      "allowOverlap": true,
+      "answerKeyAvailable": true,
+      "onlinePlayAvailable": true,
+      "printableAvailable": true,
+      "pdfAvailable": true,
+      "largePrintSuitable": false
+    },
+    "originalEditorialProposal": {
+      "introduction": "This carefully selected vocabulary set connects central campaigns, court action, federal legislation, places, and leaders in the U.S. Civil Rights Movement.",
+      "context": "Terms such as segregation and boycott refer to injustice and organized resistance, while the named students, leaders, cases, marches, and laws require historical context beyond the puzzle itself.",
+      "audience": [
+        "Classroom",
+        "general"
+      ],
+      "difficultyNote": "This Hard puzzle uses an 18 by 18 grid with twenty words, overlap, reverse paths, and diagonal placements.",
+      "printNote": "Pair the printable with age-appropriate historical materials so the people, student groups, protests, decisions, and laws are discussed with their proper significance.",
+      "metaTitle": "Civil Rights Movement Word Search | History Printable",
+      "metaDescription": "Explore twenty carefully reviewed Civil Rights Movement terms in a hard history word search with printable PDF and matching answer key."
+    },
+    "unverifiedSourceReviewClaims": true,
+    "targetKind": "existing-draft"
+  },
+  {
+    "id": "OWNER-PERIODIC-TABLE",
+    "targetCanonicalPath": "/word-searches/science/periodic-table-word-search",
+    "title": "Periodic Table Word Search",
+    "sourceFile": "original-owner-worktree:content/curated-topics-growth.ts",
+    "sourceFileSha256": "b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c",
+    "provenance": "preserved-uncommitted-owner-work",
+    "originalReviewDateIgnored": true,
+    "publicationStatus": "draft",
+    "editorialStatus": "unreviewed",
+    "runtimeImportAllowed": false,
+    "newIndexableUrlAllowance": 0,
+    "puzzle": {
+      "puzzleTitle": "Periodic Table Word Search",
+      "words": [
+        "PERIODIC TABLE",
+        "ELEMENT",
+        "ATOMIC NUMBER",
+        "ATOMIC WEIGHT",
+        "PERIOD",
+        "GROUP",
+        "METAL",
+        "NONMETAL",
+        "METALLOID",
+        "ALKALI METAL",
+        "ALKALINE EARTH",
+        "HALOGEN",
+        "NOBLE GAS",
+        "LANTHANIDE",
+        "ACTINIDE",
+        "TRANSITION METAL",
+        "VALENCE ELECTRON",
+        "PROTON",
+        "SYMBOL",
+        "PERIODICITY"
+      ],
+      "seed": "curated-periodic-table-word-search-v1-32",
+      "rows": 18,
+      "columns": 18,
+      "directions": [
+        "E",
+        "W",
+        "S",
+        "N",
+        "SE",
+        "SW",
+        "NE",
+        "NW"
+      ],
+      "difficulty": "hard",
+      "alphabetPack": "latin",
+      "allowOverlap": true,
+      "answerKeyAvailable": true,
+      "onlinePlayAvailable": true,
+      "printableAvailable": true,
+      "pdfAvailable": true,
+      "largePrintSuitable": false
+    },
+    "originalEditorialProposal": {
+      "introduction": "Find vocabulary used to read and discuss the periodic table, including its rows, columns, classifications, and atomic information.",
+      "context": "The twenty terms distinguish periods from groups and include standard family and classification names; the list focuses on periodic-table structure rather than mixing in individual element names.",
+      "audience": [
+        "Classroom",
+        "general"
+      ],
+      "difficultyNote": "This Hard puzzle uses an 18 by 18 grid with twenty words, overlap, reverse paths, and diagonal placements.",
+      "printNote": "Keep a current periodic table nearby if the printable is used for review, especially when comparing a group, a period, and the displayed atomic information.",
+      "metaTitle": "Periodic Table Word Search | Hard Science Printable",
+      "metaDescription": "Find twenty periodic-table terms in a hard 18 × 18 science word search. Play online or print the PDF and matching answer key."
+    },
+    "unverifiedSourceReviewClaims": true,
+    "targetKind": "existing-draft"
+  },
+  {
+    "id": "OWNER-GENETICS",
+    "targetCanonicalPath": "/word-searches/science/genetics-word-search",
+    "title": "Genetics Word Search",
+    "sourceFile": "original-owner-worktree:content/curated-topics-growth.ts",
+    "sourceFileSha256": "b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c",
+    "provenance": "preserved-uncommitted-owner-work",
+    "originalReviewDateIgnored": true,
+    "publicationStatus": "draft",
+    "editorialStatus": "unreviewed",
+    "runtimeImportAllowed": false,
+    "newIndexableUrlAllowance": 0,
+    "puzzle": {
+      "puzzleTitle": "Genetics Word Search",
+      "words": [
+        "NUCLEOTIDE",
+        "GENE",
+        "ALLELE",
+        "DNA",
+        "CHROMOSOME",
+        "GENOME",
+        "GENOTYPE",
+        "PHENOTYPE",
+        "HEREDITY",
+        "TRAIT",
+        "DOMINANT",
+        "RECESSIVE",
+        "HOMOZYGOUS",
+        "HETEROZYGOUS",
+        "MUTATION",
+        "MEIOSIS",
+        "GAMETE",
+        "LOCUS",
+        "INHERITANCE",
+        "RECOMBINATION"
+      ],
+      "seed": "curated-genetics-word-search-v1-33",
+      "rows": 18,
+      "columns": 18,
+      "directions": [
+        "E",
+        "W",
+        "S",
+        "N",
+        "SE",
+        "SW",
+        "NE",
+        "NW"
+      ],
+      "difficulty": "hard",
+      "alphabetPack": "latin",
+      "allowOverlap": true,
+      "answerKeyAvailable": true,
+      "onlinePlayAvailable": true,
+      "printableAvailable": true,
+      "pdfAvailable": true,
+      "largePrintSuitable": false
+    },
+    "originalEditorialProposal": {
+      "introduction": "Search for standard genetics vocabulary about DNA, genes, chromosomes, inheritance, variation, and the formation of reproductive cells.",
+      "context": "The word list pairs foundational structures with terms used to describe allele combinations and observable traits, without making claims about health or individual outcomes.",
+      "audience": [
+        "Classroom",
+        "general"
+      ],
+      "difficultyNote": "This Hard puzzle uses an 18 by 18 grid with twenty words, overlap, reverse paths, and diagonal placements.",
+      "printNote": "Use the printable alongside definitions or a genetics reference so related terms such as genotype, phenotype, homozygous, and heterozygous remain distinct.",
+      "metaTitle": "Genetics Word Search | Challenging Science Printable",
+      "metaDescription": "Review twenty standard genetics terms in a challenging 18 × 18 word search with online play, printable PDF, and answer key."
+    },
+    "unverifiedSourceReviewClaims": true,
+    "targetKind": "proposed-new-path"
   }
 ];

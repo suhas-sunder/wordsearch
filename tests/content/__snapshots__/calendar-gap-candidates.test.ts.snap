@@ -72,3 +72,32 @@ exports[`calendar gap inventory remains an editorial draft > freezes complete re
   },
 ]
 `;
+
+exports[`calendar gap inventory remains an editorial draft > freezes the six additional original owner requests without changing the previous seventeen 1`] = `
+[
+  {
+    "hash": "a6a4a2c23cf770b514a0aaa741713be8c15973349a8229b9637d1bab5c4170e9",
+    "id": "OWNER-COUNTRIES",
+  },
+  {
+    "hash": "9f1ee40bb4a6fadea581dd3885bf3e2884ee00f437be72851751d15e0744be83",
+    "id": "OWNER-STATE-CAPITALS",
+  },
+  {
+    "hash": "a51b1e74ef40e46400c8fd245147eb197473b8dfc77db3e51d4b37f7944c14c2",
+    "id": "OWNER-AMERICAN-REVOLUTION",
+  },
+  {
+    "hash": "424df6cf888e57ba452e4be1b2c43ff087eba26e7e5862c1fa02bb2887b02a12",
+    "id": "OWNER-CIVIL-RIGHTS",
+  },
+  {
+    "hash": "95e334584bb70f69db1a14a787ebb31d987777bb1d49cbe6c00d6d0723b29a86",
+    "id": "OWNER-PERIODIC-TABLE",
+  },
+  {
+    "hash": "e3b6f0423b2304f9452342541f57490a43894c19f8f0c1d681a73729dc01c70b",
+    "id": "OWNER-GENETICS",
+  },
+]
+`;
