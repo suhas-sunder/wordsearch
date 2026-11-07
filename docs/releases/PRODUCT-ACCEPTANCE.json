@@ -330,6 +330,12 @@
       "sha": "e2154fa00f1093dc794952fef8cb77bfd5de52f8",
       "branch": "codex/advanced-puzzle-settings",
       "draft": true
+    },
+    "75": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/75",
+      "sha": "105eec46c1bfeff186baa72bf19cd8a9007ae1e2",
+      "branch": "codex/grid-export-formats",
+      "draft": true
     }
   },
   "features": [
@@ -778,18 +784,23 @@
     {
       "id": "F3.grid-exports",
       "title": "Standalone PNG/SVG and exact plain-text grid downloads",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         18
       ],
-      "prs": [],
+      "prs": [
+        75
+      ],
       "checks": [
-        "Real image/text downloads, font-fit, coordinates, failed/canceled async export, responsive and standalone rendering"
+        "Node22 lint/typecheck/450tests/build335/static217/35/6",
+        "npx tsx tests/e2e/grid-exports.ts",
+        "npx tsx tests/e2e/grid-export-compatibility.ts"
       ],
       "evidence": [
-        "ai-issues/README.md"
+        "docs/releases/BUILDOUT-GRID-EXPORTS.md",
+        "tests/unit/grid-export.test.ts"
       ],
-      "remaining": "Root isolated implementation passes18 Latin browser cases and unit/build checks. Independent review found Binary symbol overlap; an actionable image fit guard and final compatibility rebuild are pending.",
+      "remaining": "18 Latin width/theme/shape cases and6 coordinates/Morse/Braille/Binary cases pass, plus failure/edit/client-unmount cancellation. Binary image overlap is now rejected actionably while exact TXT works. Final combined04, physical/device/font acceptance remain separate.",
       "manualApproval": false
     },
     {
