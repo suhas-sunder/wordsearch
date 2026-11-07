@@ -2767,8 +2767,19 @@ input[type="checkbox"] {
 }
 
 .print-qr-unavailable { max-width: 170px; font-weight: 700; }
+.print-fit-status { display: none; }
+.print-fit-status[data-fit-state=error] { display: block; padding: 12px; border: 2px solid currentColor; font-weight: 700; }
 .utility-page > .print-sheet + .print-sheet { margin-top: 24px; }
-@media print { .utility-page > .print-sheet + .print-sheet { margin-top: 0; } }
+@media print {
+  .utility-page > .print-sheet + .print-sheet { margin-top: 0; }
+  .print-sheet:has(> .print-fit-status:not([data-fit-state=ready])) { display: block; height: auto; break-after: auto; }
+  .print-sheet:has(> .print-fit-status:not([data-fit-state=ready])) > :not(.print-fit-status) { display: none !important; }
+  .print-fit-status[data-fit-state=checking] { display: block; }
+  .utility-print-portal:has(.print-fit-status:not([data-fit-state=ready])) .print-sheet:has(> .print-fit-status[data-fit-state=ready]),
+  .utility-page:has(> .print-sheet > .print-fit-status:not([data-fit-state=ready])) > .print-sheet:has(> .print-fit-status[data-fit-state=ready]) { display: none; }
+  .utility-print-portal .print-sheet:has(> .print-fit-status:not([data-fit-state=ready])) ~ .print-sheet,
+  .utility-page > .print-sheet:has(> .print-fit-status:not([data-fit-state=ready])) ~ .print-sheet { display: none; }
+}
 
 /* Theme tokens affect site UI; puzzle paper and print keep their light palette. */
 :root { color-scheme: light; }
