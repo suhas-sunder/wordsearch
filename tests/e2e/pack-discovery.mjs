@@ -12,7 +12,8 @@ assert.equal(sitemap.includes("/pack-builder"), false, "a utility link does not 
 const browser = await chromium.launch({ headless: true });
 try {
   for (const width of [320, 390, 768, 1024, 1280, 1600]) {
-    const page = await browser.newPage({ viewport: { width, height: 1000 } });
+    const context = await browser.newContext({ viewport: { width, height: 1000 } });
+    const page = await context.newPage();
     await page.route("https://pagead2.googlesyndication.com/**", (route) => route.fulfill({ contentType: "application/javascript", body: "" }));
     for (const path of ["/word-searches-for-teachers", "/word-search-worksheets"]) {
       await page.goto(`${base}${path}`, { waitUntil: "networkidle" });
@@ -37,7 +38,7 @@ try {
         assert.deepEqual(result.violations.filter(({ impact }) => ["serious", "critical"].includes(impact)), []);
       }
     }
-    await page.close();
+    await context.close();
   }
   const noScript = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 900 } });
   await noScript.goto(`${base}/word-searches-for-teachers`);
