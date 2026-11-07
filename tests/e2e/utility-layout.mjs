@@ -8,6 +8,9 @@ const baseline = process.env.BASELINE_URL ?? "http://127.0.0.1:3394";
 const candidate = process.env.BASE_URL ?? "http://127.0.0.1:3272";
 const candidateSourceSha = process.env.UTILITY_SOURCE_SHA ?? null;
 const baselineSourceSha = process.env.UTILITY_BASELINE_SHA ?? null;
+const baselineMode = process.env.UTILITY_BASELINE_MODE ?? "historical-pre-pr64";
+assert.ok(["historical-pre-pr64", "preserved-b"].includes(baselineMode), "Use an explicit supported baseline contract");
+if (baselineMode === "preserved-b") assert.equal(baselineSourceSha, "f7849cddda2a7df5daff2425ba179b9af21f6272", "Preserved-B comparisons require its exact source pin");
 for (const sha of [candidateSourceSha, baselineSourceSha]) if (sha) assert.match(sha, /^[a-f0-9]{40}$/, "Source provenance must use a full commit SHA");
 const output = process.env.UTILITY_LAYOUT_OUTPUT;
 assert.ok(output, "UTILITY_LAYOUT_OUTPUT must identify an outside-repository evidence directory");
@@ -24,7 +27,7 @@ const cases = profiles.map(([name, rows, cols]) => {
   return { name, encoded: Buffer.from(json).toString("base64url"), requestSha256: createHash("sha256").update(json).digest("hex"), cells: rows * cols };
 });
 cases.push({ name: "invalid", encoded: "invalid-state", requestSha256: createHash("sha256").update("invalid-state").digest("hex"), cells: 0 });
-const report = { baseline, candidate, baselineSourceSha, candidateSourceSha, generatedAt: new Date().toISOString(), comparisons: [], loading: [], limitations: ["Desktop Chromium, no physical device/provider assertion", "Source SHAs are operator assertions, not automatic server attestation", "Footer reveal is scoped to the pending raw utility; ready and invalid states restore it without a timer", "Request and grid hashes are recorded separately from the existing published puzzle fingerprint suite"] };
+const report = { baseline, candidate, baselineMode, baselineSourceSha, candidateSourceSha, generatedAt: new Date().toISOString(), comparisons: [], loading: [], limitations: ["Desktop Chromium, no physical device/provider assertion", "Source SHAs are operator assertions, not automatic server attestation", "Footer reveal is scoped to the pending raw utility; ready and invalid states restore it without a timer", "Request and grid hashes are recorded separately from the existing published puzzle fingerprint suite"] };
 const save = () => writeFile(`${output}/measurements.json`, `${JSON.stringify(report, null, 2)}\n`);
 const browser = await chromium.launch({ headless: true });
 try {
@@ -72,7 +75,7 @@ try {
           assert.equal(after.longGridHints, expectedHint, "only actual long print grids receive the precise small-type disclosure");
           const expectedLargerLabel = fixture.cells && ["play", "custom"].includes(kind) ? 1 : 0;
           assert.equal(after.largerGridLabels, expectedLargerLabel, "ordinary preview label accurately describes larger grid type");
-          assert.equal(before.makerLinks.length, 0, "historical baseline has no PR64 maker action");
+          assert.equal(before.makerLinks.length, baselineMode === "preserved-b" ? expectedLargerLabel : 0, "baseline maker action matches its explicitly selected contract");
           assert.equal(after.makerLinks.length, expectedLargerLabel, "only valid solver modes gain the exact PR64 maker action");
           if (expectedLargerLabel) {
             const href = new URL(after.makerLinks[0], candidate);
@@ -86,7 +89,7 @@ try {
             after.makerRequestFieldsVerified = Object.keys(original);
           }
           const expectedQrStatus = fixture.cells && ["print", "pdf", "answer-key"].includes(kind) ? 1 : 0;
-          assert.equal(before.qrStatuses.length, 0, "historical baseline has no persistent QR readiness row");
+          assert.equal(before.qrStatuses.length, baselineMode === "preserved-b" ? expectedQrStatus : 0, "baseline QR readiness matches its explicitly selected contract");
           assert.equal(after.qrStatuses.length, expectedQrStatus, "only valid QR print modes gain one useful readiness/recovery row");
           let qrStatusText = "";
           if (expectedQrStatus) {
@@ -101,9 +104,31 @@ try {
             assert.deepEqual(Object.fromEntries(recovery.searchParams), { paper: "letter", orientation: "portrait", scale: "standard", answers: "0", nameDate: "1", instructions: "1", wordBank: "below", qr: "0", coordinates: "0", ink: "0" }, "No-QR recovery preserves every original output choice and changes only QR");
             qrStatusText = status.text;
           }
-          const normalizedBefore = before.text.replace(/\s+/g, " ").trim();
-          const normalizedAfter = after.text.replace(qrStatusText, "").replace(longGridHint, "").replace(makerLabel, "").replaceAll("Larger grid type", "Large print").replace(/\s+/g, " ").trim();
-          assert.equal(normalizedAfter, normalizedBefore, "all other visible utility words/order preserved after the four explicitly asserted amendments");
+          if (baselineMode === "preserved-b") {
+            assert.equal(before.longGridHints, expectedHint);
+            assert.equal(before.largerGridLabels, expectedLargerLabel);
+            const sameSitePath = (href, origin) => { const url = new URL(href, new URL(result.path, origin)); assert.equal(url.origin, new URL(origin).origin); return `${url.pathname}${url.search}${url.hash}`; };
+            assert.deepEqual(after.makerLinks.map((href) => sameSitePath(href, candidate)), before.makerLinks.map((href) => sameSitePath(href, baseline)), "existing maker destinations are exact");
+            assert.deepEqual(after.qrStatuses.map(({ href, ...fields }) => ({ ...fields, href: sameSitePath(href, candidate) })), before.qrStatuses.map(({ href, ...fields }) => ({ ...fields, href: sameSitePath(href, baseline) })), "existing QR labels/recovery choices are exact");
+            const copyChanges = [
+              { kinds: ["pdf"], before: "Download a real PDF generated entirely in this browser, or use browser print.", after: "Download a PDF in your browser, or print this worksheet." },
+              { kinds: ["answer-key"], before: "This answer key uses the same deterministic placements as the puzzle.", after: "This answer key matches your puzzle." },
+              { kinds: ["print"], before: "Use your browser print command. This page has print-only CSS and no ads.", after: "Print this worksheet without ads using the button below or your browser's print command." },
+              { kinds: ["play", "custom"], before: "Trace each hidden word from its first letter to its last. Print, PDF, answers, share, and QR all preserve this exact seed and placement set.", after: "Trace each hidden word from its first letter to its last. Printing, downloads, answers and share links use the same puzzle." }
+            ];
+            let expectedText = before.text;
+            for (const change of copyChanges) {
+              const count = fixture.cells && change.kinds.includes(kind) ? 1 : 0;
+              assert.equal(before.text.split(change.before).length - 1, count, "exact baseline help occurrence count");
+              assert.equal(after.text.split(change.after).length - 1, count, "exact reviewed candidate help occurrence count");
+              expectedText = expectedText.replace(change.before, change.after);
+            }
+            assert.equal(after.text.replace(/\s+/g, " ").trim(), expectedText.replace(/\s+/g, " ").trim(), "all utility words/order exact except four explicit task-help substitutions");
+          } else {
+            const normalizedBefore = before.text.replace(/\s+/g, " ").trim();
+            const normalizedAfter = after.text.replace(qrStatusText, "").replace(longGridHint, "").replace(makerLabel, "").replaceAll("Larger grid type", "Large print").replace(/\s+/g, " ").trim();
+            assert.equal(normalizedAfter, normalizedBefore, "all other visible utility words/order preserved after the four explicitly asserted amendments");
+          }
           assert.equal(after.footerVisibility, "visible", "ready/error footer is immediately restored");
           assert.equal(after.pendingMarker, null);
           assert.equal(after.overflow, false);

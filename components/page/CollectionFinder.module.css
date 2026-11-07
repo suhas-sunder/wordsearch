@@ -11,3 +11,6 @@
 .empty[hidden], .cards > [hidden] { display: none; }
 @media (max-width: 520px) { .fields { flex-direction: column; align-items: stretch; } .fields label { flex-basis: auto; } }
 @media print { .controls { display: none; } }
+.jumpTarget {
+  scroll-margin-top: 80px;
+}

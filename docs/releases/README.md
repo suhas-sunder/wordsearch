@@ -1,13 +1,20 @@
 # Controlled delivery: two independent tracks
 
-Current final review: [PR97](https://github.com/suhas-sunder/wordsearch/pull/97),
-[release candidate](PRODUCT-RELEASE-CANDIDATE-04.md),
-[roadmap scope](FINAL-SCOPE-CROSSWALK.md) and
-[44-feature acceptance ledger](PRODUCT-ACCEPTANCE.md). Feasible guest buildout and
-application QA are complete; ordinary Lighthouse77,3ad-eligibility findings and
-manual/independent approvals remain unwaived. Final operations checkpoint and
-exact review-head verification are recorded in the PR97 handoff. No production
-or editorial approval follows from a tested package or ready preview.
+Current review: [draft PR108](https://github.com/suhas-sunder/wordsearch/pull/108),
+[release evidence](PRODUCT-EXCELLENCE-RELEASE-CANDIDATE.md),
+[owner review handbook](PRODUCT-EXCELLENCE-OWNER-HANDBOOK.md) and
+[45-feature ledger](PRODUCT-ACCEPTANCE.md). Tested applicationC4 is `39c0d35`;
+PR103 retains the integration. Feasible implementation and combined correctness
+checks are complete:677unit/content/SEO,58functional,448visual,84utility and14hosted
+fixtures.38features are TESTED;3manual,3blocked and1owner-deferred remain.
+Ordinary Lighthouse77, internal ad eligibility and13indexed-copy fields are
+unwaived. No production, editorial or physical/manual approval is implied.
+
+Preserved review: [PR97](https://github.com/suhas-sunder/wordsearch/pull/97),
+[previous release candidate](PRODUCT-RELEASE-CANDIDATE-04.md) and
+[roadmap scope](FINAL-SCOPE-CROSSWALK.md). Ordinary Lighthouse77, the strict
+ad-eligibility findings, and manual/independent approvals remain unwaived.
+No production or editorial approval follows from a tested package or ready preview.
 
 ## Active buildout review queue
 

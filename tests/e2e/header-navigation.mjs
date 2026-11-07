@@ -12,7 +12,7 @@ try {
     const errors = []; page.on("pageerror", (error) => errors.push(error.message));
     await page.route("https://pagead2.googlesyndication.com/**", (route) => route.fulfill({ contentType: "application/javascript", body: "" }));
     await page.goto(base, { waitUntil: "networkidle" });
-    const trigger = page.locator('header summary[aria-label="Open navigation menu"]');
+    const trigger = page.locator('header summary[aria-label="More: open navigation menu"]');
     await trigger.focus(); await page.keyboard.press("Enter");
     const panel = page.getByRole("navigation", { name: "All site navigation" });
     await panel.waitFor();
@@ -54,7 +54,7 @@ try {
   }
   const noScript = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 900 } });
   await noScript.goto(base);
-  await noScript.locator('header summary[aria-label="Open navigation menu"]').click();
+  await noScript.locator('header summary[aria-label="More: open navigation menu"]').click();
   assert.equal(await noScript.getByRole("navigation", { name: "All site navigation" }).isVisible(), true);
   assert.equal(await noScript.getByRole("link", { name: "Search word searches", exact: true }).getAttribute("href"), "/search");
   await noScript.close();

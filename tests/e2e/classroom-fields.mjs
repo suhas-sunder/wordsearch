@@ -12,7 +12,7 @@ try {
   await page.goto(`${base}/pack-builder`, { waitUntil: "networkidle" });
   await page.getByLabel("Pack title").fill("Botany Review");
   await page.getByLabel("Words or phrases").fill("garden\nflower\nbird\nseed\nleaf\nplant");
-  await page.getByLabel("Base seed").fill("class-fields");
+  await page.getByLabel("Base seed", { exact: true }).fill("class-fields");
   await page.getByLabel("Worksheet instructions").fill(instructions);
   const classLine = page.getByRole("checkbox", { name: /Add a blank Class line/ });
   await classLine.check();

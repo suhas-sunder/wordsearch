@@ -87,14 +87,14 @@ export function SpecialtyGrid() {
     <section className="content-section site-shell">
       <div className="section-heading">
         <h2>Experimental specialty formats</h2>
-        <p>These draft formats include limited mappings and unfinished scaffolds. Read the current limitations before using them.</p>
+        <p>Some formats are experimental; others are not available yet. Read the limitations before choosing a format.</p>
       </div>
       <div className="link-grid compact">
         {specialtyRoutes.map((route) => (
           <Link key={route.slug} href={`/specialty/${route.slug}`} data-specialty-readiness={route.implementation}>
             <strong>{route.title}</strong>
-            <span>{route.implementation === "scaffold" ? "Scaffold — format not implemented" : "Experimental — review limitations"}</span>
-            <span>{route.status}</span>
+            <span>{route.implementation === "scaffold" ? "Format not available yet" : "Experimental — review limitations"}</span>
+            <span>{route.status.replace("This scaffold", "This preview")}</span>
           </Link>
         ))}
       </div>
@@ -107,7 +107,7 @@ export function GuideGrid() {
     <section className="content-section site-shell">
       <div className="section-heading">
         <h2>Practical Guides</h2>
-        <p>Short, useful guides support the generator workflow without bloating puzzle pages.</p>
+        <p>Get help with printing, answer keys and puzzle settings.</p>
       </div>
       <div className="link-grid compact">
         {guides.filter((guide) => guide.publicationStatus === "published").map((guide) => (

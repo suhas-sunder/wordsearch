@@ -22,17 +22,17 @@ interface LoadedPuzzleRoute {
 
 function outputHelp(kind: StaticPuzzleRouteKind) {
   return kind === "pdf"
-    ? "Download a real PDF generated entirely in this browser, or use browser print."
+    ? "Download a PDF in your browser, or print this worksheet."
     : kind === "answer-key"
-      ? "This answer key uses the same deterministic placements as the puzzle."
-      : "Use your browser print command. This page has print-only CSS and no ads.";
+      ? "This answer key matches your puzzle."
+      : "Print this worksheet without ads using the button below or your browser's print command.";
 }
 
 function LoadingPreview({ kind }: { kind: StaticPuzzleRouteKind }) {
   if (kind === "embed") return <div className={styles.embed}><h1 className="sr-only">Checking puzzle link…</h1><div className={styles.grid} aria-hidden="true" /></div>;
   if (kind === "play" || kind === "custom") return <>
     <h1>Checking puzzle link…</h1>
-    <p className="value-prop">Trace each hidden word from its first letter to its last. Print, PDF, answers, share, and QR all preserve this exact seed and placement set.</p>
+    <p className="value-prop">Trace each hidden word from its first letter to its last. Printing, downloads, answers and share links use the same puzzle.</p>
     <div className={styles.solver}><p role="status">The encoded definition is being checked before a playable grid is shown.</p><div className={styles.grid} aria-hidden="true" /></div>
   </>;
   return <>
@@ -207,7 +207,7 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
     return (
       <main className="utility-page site-shell" data-utility-state="ready">
         <h1>{puzzle.request.title}</h1>
-        <p className="value-prop">Trace each hidden word from its first letter to its last. Print, PDF, answers, share, and QR all preserve this exact seed and placement set.</p>
+        <p className="value-prop">Trace each hidden word from its first letter to its last. Printing, downloads, answers and share links use the same puzzle.</p>
         <OnlineSolver puzzle={puzzle} />
       </main>
     );

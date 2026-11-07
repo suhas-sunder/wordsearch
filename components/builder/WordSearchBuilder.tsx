@@ -30,7 +30,7 @@ const directionLabels: Array<[DirectionKey, string]> = [
   ["NW", "↖"]
 ];
 
-const packOptions: Array<[AlphabetPackId, string]> = (["latin", "morse", "braille", "binary", "hex", "greek", "kana", "asl"] as const).map((id) => [id, getAlphabetPack(id).label]);
+const packOptions: Array<[AlphabetPackId, string]> = (["latin", "morse", "braille", "binary", "hex", "greek", "kana", "asl"] as const).map((id) => [id, id === "asl" ? "ASL labels (not handshapes)" : getAlphabetPack(id).label]);
 
 function safeLocalStorage() {
   try {
@@ -59,6 +59,10 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   const [hasUserEdits, setHasUserEdits] = useState(false);
   const [gridExportMessage, setGridExportMessage] = useState("");
   const [pngWorking, setPngWorking] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState("");
+  const fileReadSequence = useRef(0);
+  const editRevision = useRef(0);
+  const controlsRef = useRef<HTMLDivElement | null>(null);
   const currentExportRequest = useRef(request);
   currentExportRequest.current = request;
   const exportMounted = useRef(true);
@@ -133,6 +137,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   }, [debouncedRequest, request, configurationError, stateLoaded]);
   const puzzle = generated.puzzle;
   const requestError = configurationError ?? generated.error;
+  const previewPending = !requestError && (isPending || !puzzle);
   useEffect(() => {
     if (puzzle) lastValidRequest.current = request;
   }, [request, puzzle]);
@@ -148,6 +153,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   }, [puzzle]);
 
   function patch(next: Partial<PuzzleRequest>) {
+    editRevision.current++;
     setHasUserEdits(true);
     setLoadError(null);
     setRequest((current) => ({ ...current, ...next }));
@@ -155,6 +161,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
 
   function setDifficulty(difficulty: Difficulty) {
     if (request.difficulty === difficulty) return;
+    editRevision.current++;
     setHasUserEdits(true);
     setLoadError(null);
     setRequest((current) => current.difficulty === difficulty
@@ -163,6 +170,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   }
 
   function toggleDirection(direction: DirectionKey) {
+    editRevision.current++;
     setHasUserEdits(true);
     setRequest((current) => {
       const directions = current.directions ?? directionsByDifficulty[current.difficulty ?? "medium"];
@@ -194,13 +202,29 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     } finally { if (exportMounted.current) setPngWorking(false); }
   }
 
-  function handleFile(file: File | undefined) {
+  async function handleFile(file: File | undefined) {
     if (!file) return;
+    const read = ++fileReadSequence.current;
+    const revision = editRevision.current;
+    const isLatest = () => exportMounted.current && fileReadSequence.current === read;
     if (file.size > 64_000) {
+      setUploadMessage("");
       setLoadError("The word-list file is too large. Use at most 16000 characters and 200 words.");
       return;
     }
-    file.text().then((text) => patch({ wordsText: text })).catch(() => setLoadError("The word-list file could not be read."));
+    setUploadMessage("Reading word list…");
+    try {
+      const text = await file.text();
+      if (!isLatest()) return;
+      if (editRevision.current !== revision) {
+        setUploadMessage("Your edits were kept. Upload the file again to replace the word list.");
+        return;
+      }
+      patch({ wordsText: text });
+      setUploadMessage("Word list loaded.");
+    } catch {
+      if (isLatest()) setUploadMessage("The word-list file could not be read. Your words were kept. Try uploading it again.");
+    }
   }
 
   if (!stateLoaded) {
@@ -246,12 +270,16 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
         </div>
       </div>
       {persistState && <LocalPuzzleLibrary request={puzzle?.request ?? null} onOpen={(saved) => {
+        editRevision.current++;
         setHasUserEdits(true);
         setLoadError(null);
         setRequest({ ...saved });
       }} />}
+      {persistState && <div className="builder-shortcuts" role="group" aria-label="Maker sections">
+        <button type="button" className="secondary-button" onClick={() => { controlsRef.current?.focus({ preventScroll: true }); controlsRef.current?.scrollIntoView({ block: "start" }); }}>Edit words and settings</button>
+      </div>}
       <div className="builder-grid">
-        <div className="builder-controls">
+        <div ref={controlsRef} className="builder-controls" tabIndex={-1} role="group" aria-label="Puzzle words and settings">
           <label>
             Puzzle title
             <input value={request.title ?? ""} onChange={(event) => patch({ title: event.target.value })} />
@@ -273,11 +301,13 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             <button type="button" className="secondary-button" onClick={() => fileInput.current?.click()}>
               <Upload size={16} aria-hidden="true" /> {request.wordBankMode === "clues" ? "Upload clue text" : "Upload TXT/CSV/TSV"}
             </button>
-            <input ref={fileInput} hidden type="file" accept={request.wordBankMode === "clues" ? ".txt,text/plain" : ".txt,.csv,.tsv,text/plain,text/csv"} onChange={(event) => handleFile(event.target.files?.[0])} />
+            <input ref={fileInput} hidden type="file" accept={request.wordBankMode === "clues" ? ".txt,text/plain" : ".txt,.csv,.tsv,text/plain,text/csv"} onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ""; void handleFile(file); }} />
             <button type="button" className="secondary-button" onClick={() => patch({ wordsText: initialRequest.wordsText ?? request.wordsText })}>
               <RefreshCw size={16} aria-hidden="true" /> Sample
             </button>
           </div>
+          <div className={uploadMessage ? undefined : "sr-only"} role="status" aria-live="polite" aria-atomic="true">{uploadMessage && <p className="control-help">{uploadMessage}</p>}</div>
+          {persistState && <button type="button" className="secondary-button builder-preview-shortcut" onClick={() => { previewRef.current?.focus({ preventScroll: true }); previewRef.current?.scrollIntoView({ block: "start" }); }}>Preview and print</button>}
           <fieldset>
             <legend>Difficulty</legend>
             <div className="segmented">
@@ -286,6 +316,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
                   type="button"
                   key={difficulty}
                   className={request.difficulty === difficulty ? "active" : ""}
+                  aria-pressed={request.difficulty === difficulty}
                   onClick={() => setDifficulty(difficulty)}
                 >
                   {difficulty}
@@ -395,7 +426,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             <p className="control-help">{customFillerSupported ? "Entering characters selects Custom filler. Choosing alphabet defaults clears custom filler." : "Custom filler is unavailable for this format. Choose alphabet defaults or placed-word tokens. Saved custom settings retain the original fallback."}</p>
           </details>
         </div>
-        <div ref={previewRef} className="builder-preview" aria-busy={isPending || !puzzle} style={puzzle ? undefined : { minHeight: previewHeight }}>
+        <div ref={previewRef} className="builder-preview" tabIndex={-1} role="group" aria-label="Puzzle preview and downloads" aria-busy={previewPending} style={previewPending ? { minHeight: previewHeight } : requestError ? { alignSelf: "start" } : undefined}>
           {outputPuzzle ? <PuzzleUtilities puzzle={outputPuzzle} outputsBlocked={!puzzle} leadingActions={<>
             <button type="button" className="primary-button" onClick={() => patch({ seed: nextSeed(String(request.seed ?? "seed")) })}>
               <Shuffle size={16} aria-hidden="true" /> Shuffle
