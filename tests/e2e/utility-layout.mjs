@@ -6,6 +6,9 @@ import { chromium } from "playwright";
 
 const baseline = process.env.BASELINE_URL ?? "http://127.0.0.1:3394";
 const candidate = process.env.BASE_URL ?? "http://127.0.0.1:3272";
+const candidateSourceSha = process.env.UTILITY_SOURCE_SHA ?? null;
+const baselineSourceSha = process.env.UTILITY_BASELINE_SHA ?? null;
+for (const sha of [candidateSourceSha, baselineSourceSha]) if (sha) assert.match(sha, /^[a-f0-9]{40}$/, "Source provenance must use a full commit SHA");
 const output = process.env.UTILITY_LAYOUT_OUTPUT;
 assert.ok(output, "UTILITY_LAYOUT_OUTPUT must identify an outside-repository evidence directory");
 const outputRelative = relative(process.cwd(), resolve(output));
@@ -13,13 +16,15 @@ assert.ok(outputRelative.startsWith("..") || isAbsolute(outputRelative), "Keep u
 await mkdir(output, { recursive: true });
 const kinds = ["play", "print", "pdf", "answer-key", "embed", "custom"];
 const profiles = [["square", 8, 8], ["rectangular", 8, 14], ["extreme-wide", 6, 40], ["extreme-tall", 40, 6]];
+const longGridHint = "This long grid fits one sheet using small letters. Choose fewer rows or columns for larger type.";
+const makerLabel = "Edit or save in maker";
 const cases = profiles.map(([name, rows, cols]) => {
   const request = { title: "UI review", wordsText: "CAT\nDOG", seed: "ui-review", alphabetPack: "latin", directions: ["E"], rows, cols, autoSize: false };
   const json = JSON.stringify(request);
   return { name, encoded: Buffer.from(json).toString("base64url"), requestSha256: createHash("sha256").update(json).digest("hex"), cells: rows * cols };
 });
 cases.push({ name: "invalid", encoded: "invalid-state", requestSha256: createHash("sha256").update("invalid-state").digest("hex"), cells: 0 });
-const report = { baseline, candidate, generatedAt: new Date().toISOString(), comparisons: [], loading: [], limitations: ["Desktop Chromium, no physical device/provider assertion", "Footer reveal is scoped to the pending raw utility; ready and invalid states restore it without a timer", "Request and grid hashes are recorded separately from the existing published puzzle fingerprint suite"] };
+const report = { baseline, candidate, baselineSourceSha, candidateSourceSha, generatedAt: new Date().toISOString(), comparisons: [], loading: [], limitations: ["Desktop Chromium, no physical device/provider assertion", "Source SHAs are operator assertions, not automatic server attestation", "Footer reveal is scoped to the pending raw utility; ready and invalid states restore it without a timer", "Request and grid hashes are recorded separately from the existing published puzzle fingerprint suite"] };
 const save = () => writeFile(`${output}/measurements.json`, `${JSON.stringify(report, null, 2)}\n`);
 const browser = await chromium.launch({ headless: true });
 try {
@@ -41,11 +46,17 @@ try {
             assert.ok((response.headers()["x-robots-tag"] ?? "").includes("noindex"));
             await page.locator(`[data-utility-state="${fixture.cells ? "ready" : "invalid"}"]`).waitFor();
             await page.evaluate(() => document.fonts.ready);
+            if (label === "after" && fixture.cells && ["print", "pdf", "answer-key"].includes(kind)) await page.waitForFunction(() => { const guards = [...document.querySelectorAll(".print-fit-status")]; return guards.length > 0 && guards.every((node) => node.dataset.fitState === "ready"); });
             const tokens = await page.locator(kind === "play" || kind === "custom" ? ".solver-grid [data-solver-cell]" : ".puzzle-svg .puzzle-token").allTextContents();
             assert.equal(tokens.length, fixture.cells);
             assert.equal(await page.locator("[data-ad-placement]").count(), 0);
             assert.deepEqual(errors, []);
-            const sample = await page.evaluate(() => ({ cls: window.__utilityCls, text: document.querySelector("main").innerText, footerVisibility: getComputedStyle(document.querySelector(".site-footer")).visibility, pendingMarker: document.documentElement.dataset.ilwsUtilityPending ?? null, overflow: document.documentElement.scrollWidth > innerWidth + 1 }));
+            const sample = await page.evaluate(({ hint, makerLabel }) => ({ cls: window.__utilityCls, text: document.querySelector("main").innerText, footerVisibility: getComputedStyle(document.querySelector(".site-footer")).visibility, pendingMarker: document.documentElement.dataset.ilwsUtilityPending ?? null, overflow: document.documentElement.scrollWidth > innerWidth + 1,
+              longGridHints: [...document.querySelectorAll("main .static-utility-controls p")].filter((node) => node.textContent.trim() === hint).length,
+              largerGridLabels: [...document.querySelectorAll("main .output-preview-toolbar label")].filter((node) => node.textContent.trim() === "Larger grid type").length,
+              printFitStates: [...document.querySelectorAll(".print-fit-status")].map((node) => node.dataset.fitState),
+              makerLinks: [...document.querySelectorAll("main a")].filter((node) => node.textContent.trim() === makerLabel).map((node) => node.getAttribute("href"))
+            }), { hint: longGridHint, makerLabel });
             sample.label = label;
             sample.gridSha256 = createHash("sha256").update(JSON.stringify(tokens)).digest("hex");
             result.samples.push(sample);
@@ -56,7 +67,26 @@ try {
           await save();
           const [before, after] = result.samples;
           assert.equal(after.gridSha256, before.gridSha256, "exact seeded grid preserved");
-          assert.equal(after.text, before.text, "final visible utility text preserved");
+          const expectedHint = fixture.cells && ["print", "pdf", "answer-key"].includes(kind) && fixture.name.startsWith("extreme-") ? 1 : 0;
+          assert.equal(after.longGridHints, expectedHint, "only actual long print grids receive the precise small-type disclosure");
+          const expectedLargerLabel = fixture.cells && ["play", "custom"].includes(kind) ? 1 : 0;
+          assert.equal(after.largerGridLabels, expectedLargerLabel, "ordinary preview label accurately describes larger grid type");
+          assert.equal(before.makerLinks.length, 0, "historical baseline has no PR64 maker action");
+          assert.equal(after.makerLinks.length, expectedLargerLabel, "only valid solver modes gain the exact PR64 maker action");
+          if (expectedLargerLabel) {
+            const href = new URL(after.makerLinks[0], candidate);
+            assert.equal(href.origin, new URL(candidate).origin);
+            assert.equal(href.pathname, "/word-search-generator");
+            assert.deepEqual([...href.searchParams.keys()], ["state"]);
+            assert.equal(href.hash, "");
+            const state = JSON.parse(Buffer.from(href.searchParams.get("state"), "base64url").toString("utf8"));
+            const original = JSON.parse(Buffer.from(fixture.encoded, "base64url").toString("utf8"));
+            for (const [key, value] of Object.entries(original)) assert.deepEqual(state[key], value, `maker action preserves original ${key}`);
+            after.makerRequestFieldsVerified = Object.keys(original);
+          }
+          const normalizedBefore = before.text.replace(/\s+/g, " ").trim();
+          const normalizedAfter = after.text.replace(longGridHint, "").replace(makerLabel, "").replaceAll("Larger grid type", "Large print").replace(/\s+/g, " ").trim();
+          assert.equal(normalizedAfter, normalizedBefore, "all other visible utility words/order preserved after the three explicitly asserted amendments");
           assert.equal(after.footerVisibility, "visible", "ready/error footer is immediately restored");
           assert.equal(after.pendingMarker, null);
           assert.equal(after.overflow, false);
