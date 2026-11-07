@@ -38,3 +38,35 @@ Initial live production-versus-R first-look16screenshots and task notes are pres
 Actual before/after files and hashes: external product-excellence/core-workflow-final/evidence-files.json. Original delayed-read failure is at maker-workflow-before/result.json, with the typed and overwritten screenshots. Current workflow outcomes are core-workflow-final/maker/result.json and collections/result.json. All36visuals plus manifest are under core-workflow-final/visual; preflight logs under core-workflow-final. Source SHA/PR will be pinned in the package conversation after commit; this avoids a self-referential hash. These are local durable artifacts with committed descriptions/hashes, not a claim every PNG is remotely stored in Git.
 
 Whole-program acceptance remains IN PROGRESS/BLOCKED. Independent specialty/copy, measured PDF/classroom, exact semantic guard and concurrent print-fit performance packages are being completed in isolated branches. Integrate and validate the combined changed application before claiming the new product candidate tested. Keep owner-held indexed editorial suggestions and all advertising/manual/editorial/production gates explicit.
+
+
+## Combined implementation checkpoint — awaiting fresh frozen acceptance
+
+All five review packages are now locally integrated on PR103: PR102 `48edce2`
+(specialty disclosures), PR104 `a13d82e` (semantic SEO guard and independent
+footer review), PR105 `2285bb7` (pending print-measurement coalescing), PR106
+`11fa962` (readable PDFs, classroom cancellation and explicit seed choice), and
+PR107 `6567196` (enlarged-text navigation and layout). The initial PR103 upload
+race and collection package is `3558bc5`; this integration also places the mobile
+return-to-preview action beside word editing, labels ASL as labels rather than
+handshapes, and applies the independently reviewed one-route guide sentence and
+specialty-directory display copy. No generator mappings, published source bank,
+existing metadata, new URL, advertising infrastructure or publication status is
+changed. The rejected Restore hypothesis remains rejected.
+
+The conflict was duplicate decorative `.mini-sheet` CSS; the responsive source
+and 44px contextual maker actions are both preserved. The committed 84-case
+text-resize fixture supersedes the original 48-case source, which remains
+archived with its failures. Root WIP is preserved outside Git with 12 file
+hashes and as named stash `bdfe33a6a4a4b88af6bb2856035dd46ee564092e`.
+The stash is retained as recovery until the final reconciliation verifies it.
+
+Supported Node22.23.4 combined pre-checkpoint lint/type, **677 tests /84 files**,
+335-page production build and static217/35/6 audit pass. Full and production
+dependency audits both report zero vulnerabilities. Fresh clean-install/frozen
+source, functional, 448-case visual, utility, hosted, actual PDF, ordinary
+Lighthouse and dual-baseline SEO acceptance are still pending. Individual package
+passes above are historical source-scoped records, not a final composite pass.
+The 13 owner-held indexed-copy fields across seven routes remain blocked. Manual
+physical devices, native zoom, printer/assistive-tech, genuine ad/consent and
+independent owner/editorial approval remain separate gates.

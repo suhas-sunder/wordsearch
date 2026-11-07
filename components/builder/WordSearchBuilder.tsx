@@ -30,7 +30,7 @@ const directionLabels: Array<[DirectionKey, string]> = [
   ["NW", "↖"]
 ];
 
-const packOptions: Array<[AlphabetPackId, string]> = (["latin", "morse", "braille", "binary", "hex", "greek", "kana", "asl"] as const).map((id) => [id, getAlphabetPack(id).label]);
+const packOptions: Array<[AlphabetPackId, string]> = (["latin", "morse", "braille", "binary", "hex", "greek", "kana", "asl"] as const).map((id) => [id, id === "asl" ? "ASL labels (not handshapes)" : getAlphabetPack(id).label]);
 
 function safeLocalStorage() {
   try {
@@ -274,9 +274,8 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
         setLoadError(null);
         setRequest({ ...saved });
       }} />}
-      {persistState && <div className="builder-shortcuts" aria-label="Maker sections">
+      {persistState && <div className="builder-shortcuts" role="group" aria-label="Maker sections">
         <button type="button" className="secondary-button" onClick={() => { controlsRef.current?.focus({ preventScroll: true }); controlsRef.current?.scrollIntoView({ block: "start" }); }}>Edit words and settings</button>
-        <button type="button" className="secondary-button" onClick={() => { previewRef.current?.focus({ preventScroll: true }); previewRef.current?.scrollIntoView({ block: "start" }); }}>Preview and print</button>
       </div>}
       <div className="builder-grid">
         <div ref={controlsRef} className="builder-controls" tabIndex={-1} role="group" aria-label="Puzzle words and settings">
@@ -307,6 +306,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
             </button>
           </div>
           <div className={uploadMessage ? undefined : "sr-only"} role="status" aria-live="polite" aria-atomic="true">{uploadMessage && <p className="control-help">{uploadMessage}</p>}</div>
+          {persistState && <button type="button" className="secondary-button builder-preview-shortcut" onClick={() => { previewRef.current?.focus({ preventScroll: true }); previewRef.current?.scrollIntoView({ block: "start" }); }}>Preview and print</button>}
           <fieldset>
             <legend>Difficulty</legend>
             <div className="segmented">

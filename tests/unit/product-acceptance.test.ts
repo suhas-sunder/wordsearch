@@ -21,6 +21,11 @@ describe("feature-by-feature acceptance ledger", () => {
     const falseApproval = data(); falseApproval.features[0].status = "DONE";
     expect(validateProductAcceptance(falseApproval).some((issue) => issue.includes("named approval evidence"))).toBe(true);
   });
+  test("requires the indexed-copy gate independently of static metadata checks", () => {
+    const missing = data();
+    missing.features = missing.features.filter((feature: { id: string }) => feature.id !== "F5.indexed-copy");
+    expect(validateProductAcceptance(missing)).toContain("Missing acceptance feature F5.indexed-copy.");
+  });
   test("rejects owner deferral of feasible guest work and unsupported bulk approval", () => {
     const deferred = data(); deferred.features[0].status = "OWNER-DEFERRED";
     expect(validateProductAcceptance(deferred).some((issue) => issue.includes("feasible guest"))).toBe(true);
