@@ -34,6 +34,9 @@ try {
     const records = await page.evaluate(() => Object.entries(localStorage).filter(([key]) => key.startsWith("ilws:solver-progress:v1:")));
     assert.equal(records.length, 1); assert.doesNotMatch(JSON.stringify(records), /PRIVATE|CLASSROOM|CAT|DOG|private-seed|\/play\//i);
     const record = JSON.parse(records[0][1]); assert.deepEqual(Object.keys(record).sort(), ["elapsedMs", "fingerprint", "indices", "v"]); assert.deepEqual(record.indices, [0]); assert.ok(record.elapsedMs >= 65_000);
+    await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: true })));
+    await page.clock.fastForward(120_000);
+    await page.evaluate(() => window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true })));
     await page.reload({ waitUntil: "networkidle" });
     await page.getByRole("button", { name: "Resume saved progress" }).waitFor();
     assert.equal(await page.getByTestId("solver-progress").innerText(), "0 of 2 words found");
