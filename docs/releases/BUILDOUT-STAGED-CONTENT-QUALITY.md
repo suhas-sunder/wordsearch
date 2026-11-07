@@ -34,6 +34,18 @@ answer fingerprints match the parent source exactly. All150 published puzzle
 fingerprints remain unchanged. Prior PR53 hashes remain historical evidence,
 not fingerprints of the corrected title versions.
 
+Current Christmas, seasonal-classroom and calendar-gap asset references point
+to PR80/content commit `bd6f2d12098968c094cdd05eba122fe5b59b2c46`, so the
+actual amended wording/title/path is reviewable at its pinned source file.
+Original creation/evidence remains in PR22/PR35/PR53 and Git history. All other
+batch provenance is unchanged. Owner parks/landmarks references still point to
+their original PR53 preservation; this quality pass does not relabel owner data.
+`npx tsx scripts/audit-editorial-source-links.ts` verifies every candidate file
+against its pinned Git object, normalizing line endings only. It fails visibly
+for stale contents or missing history, without fetching or exposing full source
+text. Historical owner/doc references have separate preservation/amendment rules
+and are deliberately excluded from this exact-current-file comparison.
+
 | Draft | Hash | Before | After |
 | --- | --- | --- | --- |
 | Y27-14 | Request | `97fcd9f194b32fd9c4ded52f7967eff319a4ed072c92607b82f77ff66e584b2c` | `521582dc011c2c07ed268686a830ffcf0232056f66ce650796f34c91f6fe39b9` |

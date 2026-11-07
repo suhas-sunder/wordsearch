@@ -25,13 +25,13 @@ export interface EditorialAssetReference {
 }
 
 const batches: Array<{ candidates: StagedPuzzleCandidate[]; sourceFile: string; pr: number; contentCommit: string }> = [
-  { candidates: christmasCandidates, sourceFile: "content/staged/christmas.ts", pr: 22, contentCommit: "3a60d11694e8a78cf60a46f08e3ad3d6cdf94b06" },
+  { candidates: christmasCandidates, sourceFile: "content/staged/christmas.ts", pr: 80, contentCommit: "bd6f2d12098968c094cdd05eba122fe5b59b2c46" },
   { candidates: evergreenPilotCandidates, sourceFile: "content/staged/evergreen-pilot.ts", pr: 26, contentCommit: "f34b75a7487ac67a87ef70a2316a099726bac727" },
   { candidates: winterSeasonalCandidates, sourceFile: "content/staged/winter-seasonal.ts", pr: 29, contentCommit: "245845f03d5c9ba32748df9fdc2cd119148406d6" },
-  { candidates: seasonalClassroomCandidates, sourceFile: "content/staged/seasonal-classroom.ts", pr: 35, contentCommit: "76c6862748938e8dc5d775439be0d4f6862a023c" },
+  { candidates: seasonalClassroomCandidates, sourceFile: "content/staged/seasonal-classroom.ts", pr: 80, contentCommit: "bd6f2d12098968c094cdd05eba122fe5b59b2c46" },
   { candidates: evergreenHardBatch, sourceFile: "content/staged/evergreen-hard-batch.ts", pr: 40, contentCommit: "7898813bb73fa8d2416cef8380aa0c613eea17a4" },
   { candidates: teacherSubjectCandidates, sourceFile: "content/staged/teacher-subjects.ts", pr: 41, contentCommit: "b687815c533b5805034045a127bc3a2d2ab75843" },
-  { candidates: calendarGapCandidates, sourceFile: "content/staged/calendar-gap-candidates.ts", pr: 53, contentCommit: "11e492098eaeeb9259ce98ed8b35c75558ba1760" }
+  { candidates: calendarGapCandidates, sourceFile: "content/staged/calendar-gap-candidates.ts", pr: 80, contentCommit: "bd6f2d12098968c094cdd05eba122fe5b59b2c46" }
 ];
 
 export const allEditorialPuzzleCandidates = batches.flatMap(({ candidates }) => candidates);
