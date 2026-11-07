@@ -16,9 +16,9 @@ try {
     await page.evaluate((value) => localStorage.setItem("ilws:puzzle-output-options", JSON.stringify(value)), output);
     await page.goto(`${base}/word-search-generator?state=${Buffer.from(JSON.stringify(request)).toString("base64url")}`, { waitUntil: "networkidle" });
     const controls = page.locator(".builder-controls");
-    await controls.getByRole("checkbox", { name: "Large print", exact: true }).waitFor();
+    await controls.getByRole("checkbox", { name: "Larger grid type", exact: true }).waitFor();
     const tokens = await page.locator(".builder-preview .puzzle-token").allTextContents();
-    await controls.getByRole("checkbox", { name: "Large print", exact: true }).check();
+    await controls.getByRole("checkbox", { name: "Larger grid type", exact: true }).check();
     await page.locator(".builder-preview .print-scale-large").waitFor();
     await controls.getByRole("checkbox", { name: "Coordinates", exact: true }).check();
     await page.waitForFunction(() => document.querySelectorAll(".builder-preview .grid-coordinate").length === 24);
@@ -33,9 +33,9 @@ try {
     assert.equal(await dialog.getByRole("combobox", { name: "Paper size", exact: true }).inputValue(), "a4");
     assert.equal(await dialog.getByRole("combobox", { name: "Orientation", exact: true }).inputValue(), "landscape");
     assert.equal(await dialog.getByRole("combobox", { name: "Word bank", exact: true }).inputValue(), "beside");
-    for (const [name, checked] of [["Large print", true], ["Answer key page", true], ["Name/date line", false], ["Coordinates", true], ["QR code", false], ["Ink-saving key", true]]) assert.equal(await dialog.getByRole("checkbox", { name, exact: true }).isChecked(), checked);
+    for (const [name, checked] of [["Larger grid type", true], ["Answer key page", true], ["Name/date line", false], ["Coordinates", true], ["QR code", false], ["Ink-saving key", true]]) assert.equal(await dialog.getByRole("checkbox", { name, exact: true }).isChecked(), checked);
     await dialog.getByRole("button", { name: "Cancel", exact: true }).click();
-    await controls.getByRole("checkbox", { name: "Large print", exact: true }).uncheck();
+    await controls.getByRole("checkbox", { name: "Larger grid type", exact: true }).uncheck();
     await page.waitForFunction(() => !!document.querySelector(".builder-preview .print-sheet") && !document.querySelector(".builder-preview .print-sheet")?.classList.contains("print-scale-large"));
     await page.getByRole("button", { name: "Download PDF", exact: true }).first().click();
     const pdfDialog = page.getByRole("dialog"); const event = page.waitForEvent("download");
