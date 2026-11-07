@@ -7,6 +7,7 @@ import { PuzzleSearch } from "@/components/search/PuzzleSearch";
 import { CategoryIcon } from "@/components/page/CategoryIcon";
 import { searchStaticCatalog } from "@/lib/search/browser-catalog";
 import type { SearchCatalogItem } from "@/lib/search/search";
+import { boundSearchQuery } from "@/lib/search/query";
 
 function BrowseCards() {
   return <div className="search-result-list">
@@ -37,7 +38,7 @@ function StartResults() {
 
 function SearchResults({ onQueryChange }: { onQueryChange: (query: string) => void }) {
   const searchParams = useSearchParams();
-  const query = (searchParams.get("q") ?? "").trim().slice(0, 160);
+  const query = boundSearchQuery((searchParams.get("q") ?? "").trim());
   const [results, setResults] = useState<SearchCatalogItem[]>([]);
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("loading");
   const [resultQuery, setResultQuery] = useState("");

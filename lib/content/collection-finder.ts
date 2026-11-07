@@ -1,4 +1,5 @@
 import type { Difficulty } from "@/lib/puzzle/types";
+import { boundSearchQuery } from "@/lib/search/query";
 
 export interface CollectionFinderItem {
   id: string;
@@ -13,7 +14,7 @@ const searchable = (value: string) => value.normalize("NFKD").replace(/[\u0300-\
 const titles = new Intl.Collator("en", { sensitivity: "base", numeric: true });
 
 export function findCollectionItems(items: readonly CollectionFinderItem[], query: string, difficulty: Difficulty | "all", order: CollectionOrder) {
-  const terms = searchable(query).trim().split(/\s+/).filter(Boolean);
+  const terms = searchable(boundSearchQuery(query)).trim().split(/\s+/).filter(Boolean);
   const results = items.map((item, editorialIndex) => ({ item, editorialIndex })).filter(({ item }) => {
     const text = searchable(`${item.title} ${item.subject}`);
     return (difficulty === "all" || item.difficulty === difficulty) && terms.every((term) => text.includes(term));

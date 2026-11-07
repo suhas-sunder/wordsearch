@@ -3,6 +3,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { findCollectionItems, type CollectionFinderItem, type CollectionOrder } from "@/lib/content/collection-finder";
 import type { Difficulty } from "@/lib/puzzle/types";
+import { boundSearchQuery, searchQueryMaxLength } from "@/lib/search/query";
 import styles from "./CollectionFinder.module.css";
 
 /** Enhances adjacent server-rendered cards; the listing is not a client component. */
@@ -57,7 +58,7 @@ export function CollectionFinder({ items, cardsId }: { items: CollectionFinderIt
       <legend>Find in this collection</legend>
       <div className={styles.fields}>
         <label htmlFor={`${identity}-query`}>Title or subject
-          <input ref={input} id={`${identity}-query`} type="search" value={query} onChange={(event) => setQuery(event.target.value)} aria-controls={cardsId} aria-describedby={`${identity}-hint`} autoComplete="off" />
+          <input ref={input} id={`${identity}-query`} type="search" maxLength={searchQueryMaxLength} value={query} onChange={(event) => setQuery(boundSearchQuery(event.target.value))} aria-controls={cardsId} aria-describedby={`${identity}-hint`} autoComplete="off" />
         </label>
         {availableDifficulties.length > 1 && <label htmlFor={`${identity}-difficulty`}>Difficulty
           <select id={`${identity}-difficulty`} value={difficulty} onChange={(event) => setDifficulty(event.target.value as Difficulty | "all")} aria-controls={cardsId}>
