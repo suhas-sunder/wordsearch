@@ -3,9 +3,11 @@ import { BelowHeaderAd, MonetizedPageShell, type AdTemplate } from "@/components
 import Link from "next/link";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { DeferredWordSearchBuilder } from "@/components/builder/DeferredWordSearchBuilder";
-import { EditorialModules, QuickLinks } from "@/components/page/PageSections";
+import { EditorialModules, QuickLinks, SearchTools } from "@/components/page/PageSections";
 import type { PuzzleRequest } from "@/lib/puzzle/types";
 import { breadcrumbJsonLd } from "@/lib/seo/structured-data";
+import { RelatedActivityTools } from "@/components/page/RelatedActivityTools";
+import styles from "./IndexablePage.module.css";
 
 interface IndexablePageProps {
   title: string;
@@ -24,6 +26,7 @@ interface IndexablePageProps {
   requestOverride?: Partial<PuzzleRequest> | null;
   persistBuilderState?: boolean;
   adTemplate?: AdTemplate;
+  toolStatus?: { label: string; description: string };
 }
 
 export function IndexablePage({
@@ -41,6 +44,7 @@ export function IndexablePage({
   hiddenMessage,
   requestOverride,
   persistBuilderState = false,
+  toolStatus,
   adTemplate = "major-hub"
 }: IndexablePageProps) {
   const request: Partial<PuzzleRequest> = {
@@ -70,6 +74,7 @@ export function IndexablePage({
             <div className="hero-copy">
               <h1>{h1}</h1>
               <p className="value-prop">{description}</p>
+              {toolStatus && <div className={styles.toolStatus} role="note" aria-label="Format readiness"><strong>{toolStatus.label}</strong><p>{toolStatus.description}</p></div>}
               <QuickLinks />
             </div>
             <div className="hero-visual" aria-hidden="true">
@@ -90,18 +95,11 @@ export function IndexablePage({
           </section>
           {children}
           <EditorialModules modules={modules} faq={faq} adTemplate={adTemplate} />
+          <RelatedActivityTools path={path} />
           <section className="content-section site-shell standards-link">
             <p>Learn about <Link href="/how-word-searches-are-made">how our puzzles are made</Link> and the site&apos;s <Link href="/editorial-policy">editorial and puzzle standards</Link>.</p>
           </section>
-          <section className="content-section site-shell tools-section">
-            <div className="section-heading"><h2>All tools</h2></div>
-            <div className="topic-list">
-              <Link href="/word-search-generator">Word Search Generator</Link>
-              <Link href="/free-printable-word-searches">Printable Word Searches</Link>
-              <Link href="/online-word-search">Online Word Search</Link>
-              <Link href="/word-search-pdf">Word Search PDFs</Link>
-            </div>
-          </section>
+          <SearchTools />
         </main>
       </MonetizedPageShell>
     </>

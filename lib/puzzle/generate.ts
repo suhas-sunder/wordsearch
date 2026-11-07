@@ -1,8 +1,11 @@
 import { fillerByMode, getAlphabetPack } from "@/lib/alphabet-packs";
 import { parseWordInput } from "@/lib/puzzle/parse";
+import { choosePuzzleSize } from "@/lib/puzzle/generation-limits";
 import { createPrng, shuffleSeeded } from "@/lib/puzzle/prng";
 import type { DirectionKey, ParsedWord, Placement, PuzzleRequest, PuzzleResult } from "@/lib/puzzle/types";
 import { encodeShareState } from "@/lib/share-state/state";
+import { assertPuzzleRequest, directionSelectionError, noPlacementsError } from "@/lib/puzzle/request-validation";
+export { directionSelectionError } from "@/lib/puzzle/request-validation";
 
 export const directionVectors: Record<DirectionKey, { dr: number; dc: number; label: string }> = {
   E: { dr: 0, dc: 1, label: "left to right" },
@@ -35,19 +38,6 @@ export const defaultPuzzleRequest: PuzzleRequest = {
   nameDateLine: true,
   wordBankOrder: "alphabetical"
 };
-
-function chooseSize(words: ParsedWord[], request: PuzzleRequest) {
-  if (!request.autoSize && request.rows && request.cols) {
-    return { rows: request.rows, cols: request.cols };
-  }
-  const longest = Math.max(8, ...words.map((word) => word.tokens.length));
-  const totalTokens = words.reduce((sum, word) => sum + word.tokens.length, 0);
-  const base = request.largePrint ? 12 : 10;
-  const density = request.allowOverlap ? 0.24 : 0.18;
-  const side = Math.ceil(Math.sqrt(Math.max(base * base, totalTokens / density)));
-  const size = Math.min(30, Math.max(longest, side));
-  return { rows: size, cols: size };
-}
 
 function emptyGrid(rows: number, cols: number): (string | null)[][] {
   return Array.from({ length: rows }, () => Array.from({ length: cols }, () => null));
@@ -91,22 +81,31 @@ function applyPlacement(grid: (string | null)[][], word: ParsedWord, cells: Plac
 }
 
 export function generatePuzzle(input: Partial<PuzzleRequest>): PuzzleResult {
+  assertPuzzleRequest(input);
+  const directions = input.directions === undefined
+    ? directionsByDifficulty[input.difficulty ?? defaultPuzzleRequest.difficulty]
+    : input.directions;
+  const directionError = directionSelectionError(directions);
+  if (directionError || directions === undefined) {
+    throw new Error(directionError ?? "No valid direction preset is available.");
+  }
   const request: PuzzleRequest = {
     ...defaultPuzzleRequest,
     ...input,
-    directions: input.directions?.length ? input.directions : directionsByDifficulty[input.difficulty ?? defaultPuzzleRequest.difficulty]
+    directions
   };
+  assertPuzzleRequest(request);
+  for (const key of ["title", "wordsText", "seed"] as const) {
+    if (typeof request[key] !== "string") throw new Error(`${key} must be text.`);
+  }
   const pack = getAlphabetPack(request.alphabetPack);
-  const { words, warnings } = parseWordInput(request.wordsText, request.alphabetPack);
+  const { words, warnings } = parseWordInput(request.wordsText, request.alphabetPack, request.wordBankMode === "clues");
   const uniqueWords = words.filter((word) => !word.duplicateOf);
   if (!uniqueWords.length) {
     warnings.push("Add at least one supported word to generate a puzzle.");
   }
-  if (!request.directions.length) {
-    warnings.push("At least one direction must be enabled.");
-  }
 
-  const { rows, cols } = chooseSize(uniqueWords, request);
+  const { rows, cols } = choosePuzzleSize(uniqueWords, request);
   const grid = emptyGrid(rows, cols);
   const random = createPrng(`${request.seed}:${request.title}:${request.difficulty}:${request.alphabetPack}`);
   const placed: Placement[] = [];
@@ -140,10 +139,15 @@ export function generatePuzzle(input: Partial<PuzzleRequest>): PuzzleResult {
     }
   }
 
+  if (!placed.length) throw new Error(noPlacementsError);
   const usedTokens = placed.flatMap((item) => item.tokens);
   const fillerTokens = fillerByMode(request.fillerMode, usedTokens, pack, request.customFiller);
+  const customFillerActive = request.fillerMode === "custom" || (request.fillerMode === "alphabet" && Boolean(request.customFiller?.trim()));
+  if (customFillerActive && !pack.supportsCustomFiller) warnings.push("Custom filler is not implemented for this alphabet pack; its original alphabet defaults are used.");
+  else if (customFillerActive && request.customFiller?.trim() && !pack.tokenize(request.customFiller).length) warnings.push("Custom filler has no supported tokens for this alphabet pack; alphabet defaults are used.");
   let hiddenMessageApplied = "";
   const hiddenTokens = request.hiddenMessage ? pack.tokenize(request.hiddenMessage) : [];
+  if (request.hiddenMessage?.trim() && !hiddenTokens.length) warnings.push("The hidden message has no supported tokens for this alphabet pack; no message was applied.");
   const emptyCells = grid.flatMap((row, rowIndex) =>
     row.map((value, colIndex) => ({ value, row: rowIndex, col: colIndex })).filter((cell) => cell.value === null)
   );

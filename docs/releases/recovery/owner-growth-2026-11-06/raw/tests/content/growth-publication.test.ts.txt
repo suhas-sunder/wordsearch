@@ -1,0 +1,215 @@
+import { describe, expect, test } from "vitest";
+import { collections } from "@/content/collections";
+import { curatedTopicsGrowth, GROWTH_REVIEW_DATE } from "@/content/curated-topics-growth";
+import { hardPicks } from "@/content/discovery";
+import type { HubContentRecord, PuzzleContentRecord } from "@/content/model";
+import { getSitemapRecords, routeInventory } from "@/content/registry";
+import { topics } from "@/content/topics";
+import { answerOverlayPaths } from "@/lib/puzzle/answer-state";
+import { generatedPuzzleFingerprints, normalizeWords, wordListJaccard } from "@/lib/content/fingerprint";
+import { validatePuzzleForPdf } from "@/lib/pdf/create-puzzle-pdf";
+import { generatePuzzle } from "@/lib/puzzle/generate";
+import { decodePuzzleShareState, puzzlePlayPath, puzzleShareState } from "@/lib/share-state/state";
+
+const expectedRoutes = [
+  "/word-searches/geography/countries-word-search",
+  "/word-searches/geography/state-capitals-word-search",
+  "/word-searches/geography/landmarks-word-search",
+  "/word-searches/geography/national-parks-word-search",
+  "/word-searches/history/american-revolution-word-search",
+  "/word-searches/history/civil-rights-word-search",
+  "/word-searches/science/periodic-table-word-search",
+  "/word-searches/science/genetics-word-search"
+] as const;
+
+const expectedSeeds = [
+  "curated-countries-word-search-v1-329",
+  "curated-state-capitals-word-search-v1-293",
+  "curated-landmarks-word-search-v1-221",
+  "curated-national-parks-word-search-v1-103",
+  "curated-american-revolution-word-search-v1-19",
+  "curated-civil-rights-word-search-v1-402",
+  "curated-periodic-table-word-search-v1-32",
+  "curated-genetics-word-search-v1-33"
+] as const;
+
+const expectedFingerprints: Record<(typeof expectedRoutes)[number], { grid: string; placements: string; complete: string }> = {
+  "/word-searches/geography/countries-word-search": { grid: "51186c67", placements: "82d17eb1", complete: "3c7a64d7" },
+  "/word-searches/geography/state-capitals-word-search": { grid: "4ed79412", placements: "9b7adea0", complete: "a29e726c" },
+  "/word-searches/geography/landmarks-word-search": { grid: "e952ebb9", placements: "f35e530f", complete: "006e95f6" },
+  "/word-searches/geography/national-parks-word-search": { grid: "bbf8b637", placements: "163433a4", complete: "de53de20" },
+  "/word-searches/history/american-revolution-word-search": { grid: "97ab268c", placements: "ddc4831a", complete: "7a179626" },
+  "/word-searches/history/civil-rights-word-search": { grid: "e6b78873", placements: "8552967e", complete: "fd2276d8" },
+  "/word-searches/science/periodic-table-word-search": { grid: "2aa7f204", placements: "c2ea8e86", complete: "0b53f3fc" },
+  "/word-searches/science/genetics-word-search": { grid: "8f128a96", placements: "8f7e37f9", complete: "8ba9bbdd" }
+};
+
+const puzzleRecords = routeInventory.filter(
+  (record): record is PuzzleContentRecord => record.contentType === "puzzle" && record.indexable
+);
+const recordsByPath = new Map(puzzleRecords.map((record) => [record.canonicalPath, record]));
+const growthRecords = expectedRoutes.map((path) => recordsByPath.get(path)!);
+
+function generate(record: PuzzleContentRecord) {
+  return generatePuzzle({
+    title: record.puzzle.puzzleTitle,
+    wordsText: record.puzzle.words.join("\n"),
+    seed: record.puzzle.seed,
+    difficulty: record.puzzle.difficulty,
+    alphabetPack: record.puzzle.alphabetPack,
+    rows: record.puzzle.rows,
+    cols: record.puzzle.columns,
+    autoSize: false,
+    directions: record.puzzle.directions,
+    allowOverlap: record.puzzle.allowOverlap,
+    fillerMode: "alphabet"
+  });
+}
+
+describe("reviewed Hard growth publication", () => {
+  test("publishes exactly the approved eight records on their canonical identities", () => {
+    expect(curatedTopicsGrowth).toHaveLength(8);
+    expect(growthRecords.every(Boolean)).toBe(true);
+    expect(curatedTopicsGrowth.map((topic) => `/word-searches/${topic.routeSlug}`)).toEqual(expectedRoutes);
+    expect(curatedTopicsGrowth.map((topic) => topic.seed)).toEqual(expectedSeeds);
+
+    for (const [index, source] of curatedTopicsGrowth.entries()) {
+      const record = growthRecords[index];
+      expect(record).toMatchObject({
+        canonicalPath: expectedRoutes[index],
+        publicationStatus: "published",
+        indexable: true,
+        editorialStatus: "reviewed",
+        lastReviewed: GROWTH_REVIEW_DATE,
+        title: source.title,
+        introduction: source.introduction,
+        description: source.context
+      });
+      expect(record.metadata).toMatchObject({
+        title: source.metaTitle,
+        description: source.metaDescription,
+        canonical: expectedRoutes[index],
+        noindex: false,
+        includeInSitemap: true
+      });
+      expect(record.puzzle.words).toEqual(source.words);
+    }
+
+    for (const reusedRoute of expectedRoutes.slice(0, 4)) {
+      expect(topics.filter((topic) => `/word-searches/${topic.slug}` === reusedRoute)).toHaveLength(1);
+    }
+    for (const reusedRoute of [expectedRoutes[5], expectedRoutes[6]]) {
+      expect(topics.filter((topic) => `/word-searches/${topic.slug}` === reusedRoute)).toHaveLength(1);
+    }
+  });
+
+  test("uses unique reviewed word lists, metadata, seeds, and the unchanged Hard contract", () => {
+    expect(new Set(growthRecords.map((record) => record.puzzle.seed)).size).toBe(8);
+    expect(new Set(growthRecords.map((record) => record.metadata.title)).size).toBe(8);
+    expect(new Set(growthRecords.map((record) => record.metadata.description)).size).toBe(8);
+
+    for (const record of growthRecords) {
+      const words = normalizeWords(record.puzzle.words);
+      expect(words, record.canonicalPath).toHaveLength(20);
+      expect(new Set(words).size, record.canonicalPath).toBe(20);
+      expect(record.puzzle).toMatchObject({
+        difficulty: "hard",
+        rows: 18,
+        columns: 18,
+        directions: ["E", "W", "S", "N", "SE", "SW", "NE", "NW"],
+        allowOverlap: true,
+        alphabetPack: "latin",
+        answerKeyAvailable: true,
+        onlinePlayAvailable: true,
+        printableAvailable: true,
+        pdfAvailable: true
+      });
+
+      for (const comparison of puzzleRecords) {
+        if (comparison.id === record.id) continue;
+        expect(wordListJaccard(record.puzzle.words, comparison.puzzle.words), `${record.canonicalPath} vs ${comparison.canonicalPath}`).toBeLessThan(0.8);
+      }
+    }
+  });
+
+  test("locks deterministic grids and preserves play, print, PDF, answer, and share parity", () => {
+    for (const record of growthRecords) {
+      const first = generate(record);
+      const second = generate(record);
+      expect(first.excluded, record.canonicalPath).toEqual([]);
+      expect(first.placed, record.canonicalPath).toHaveLength(20);
+      const directionCounts = record.puzzle.directions.map(
+        (direction) => first.placed.filter((placement) => placement.direction === direction).length
+      );
+      expect(directionCounts.every((count) => count > 0), record.canonicalPath).toBe(true);
+      expect(Math.max(...directionCounts), record.canonicalPath).toBeLessThanOrEqual(4);
+      expect(second.grid).toEqual(first.grid);
+      expect(second.placed).toEqual(first.placed);
+      expect(generatedPuzzleFingerprints(record)).toEqual(expectedFingerprints[record.canonicalPath as (typeof expectedRoutes)[number]]);
+      expect(validatePuzzleForPdf(first)).toBe(true);
+
+      const overlays = answerOverlayPaths(first.placed);
+      expect(overlays.map((overlay) => overlay.cells)).toEqual(
+        first.placed.map((placement) => placement.cells.map(({ row, col }) => ({ row, col })))
+      );
+      for (const placement of first.placed) {
+        expect(placement.cells.map((cell) => first.grid[cell.row]?.[cell.col]).join(""), placement.label).toBe(placement.tokens.join(""));
+      }
+
+      const playPath = puzzlePlayPath(first.request);
+      const encoded = playPath.slice("/play/".length);
+      const decoded = decodePuzzleShareState(encoded);
+      expect(decoded).toEqual(puzzleShareState(first.request));
+      expect(["play", "print", "pdf", "answer-key"].map((kind) => `/${kind}/${encoded}`)).toEqual([
+        playPath,
+        `/print/${encoded}`,
+        `/pdf/${encoded}`,
+        `/answer-key/${encoded}`
+      ]);
+      const roundTrip = generatePuzzle(decoded!);
+      expect(roundTrip.grid).toEqual(first.grid);
+      expect(roundTrip.placed).toEqual(first.placed);
+    }
+  });
+
+  test("includes every record in sitemap, category, and appropriate collections", () => {
+    const sitemapPaths = new Set(getSitemapRecords().map((record) => record.canonicalPath));
+    const hard = collections.find((collection) => collection.slug === "hard-printable-word-searches")!;
+    const answers = collections.find((collection) => collection.slug === "word-searches-with-answer-keys")!;
+    const subjectCollections = {
+      geography: collections.find((collection) => collection.slug === "geography-word-search-worksheets")!,
+      history: collections.find((collection) => collection.slug === "history-word-search-worksheets")!,
+      science: collections.find((collection) => collection.slug === "science-word-search-worksheets")!
+    };
+
+    for (const record of growthRecords) {
+      const source = curatedTopicsGrowth.find((topic) => `/word-searches/${topic.routeSlug}` === record.canonicalPath)!;
+      const category = routeInventory.find(
+        (candidate): candidate is HubContentRecord => candidate.contentType === "hub" && candidate.id === `category-${source.categorySlug}`
+      )!;
+      expect(sitemapPaths.has(record.canonicalPath), record.canonicalPath).toBe(true);
+      expect(category.childContentIds, record.id).toContain(record.id);
+      expect(hard.relatedTopics, record.slug).toContain(record.slug);
+      expect(answers.relatedTopics, record.slug).toContain(record.slug);
+      expect(subjectCollections[source.categorySegment as keyof typeof subjectCollections].relatedTopics, record.slug).toContain(record.slug);
+      expect(record.relatedContentIds?.length).toBeGreaterThanOrEqual(4);
+    }
+
+    expect(hard).toMatchObject({
+      slug: "hard-printable-word-searches",
+      title: "Hard Printable Word Searches",
+      metaTitle: "Hard Printable Word Searches | Challenging Free PDFs",
+      metaDescription: "Print challenging word searches with larger grids, twenty-word lists, reverse and diagonal placements, and answer keys."
+    });
+    expect(hard.categorySlugs).toEqual(["science-word-searches", "geography-word-searches", "history-word-searches"]);
+    expect(hardPicks.map((pick) => pick.href)).toEqual([
+      "/word-searches/science/biology-word-search",
+      "/word-searches/science/genetics-word-search",
+      "/word-searches/geography/us-states-word-search",
+      "/word-searches/geography/national-parks-word-search",
+      "/word-searches/history/civil-rights-word-search",
+      "/word-searches/history/industrial-revolution-word-search"
+    ]);
+    expect(hardPicks.every((pick) => pick.meta?.startsWith("hard ·"))).toBe(true);
+  });
+});

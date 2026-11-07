@@ -1,3 +1,4 @@
+import { SearchTools } from "@/components/page/PageSections";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -114,15 +115,7 @@ export default async function GuidePage({ params }: Props) {
           </section>
         </article>
 
-        <section className="content-section site-shell tools-section">
-          <div className="section-heading"><h2>All tools</h2></div>
-          <div className="topic-list">
-            <Link href="/word-search-generator">Word Search Generator</Link>
-            <Link href="/free-printable-word-searches">Printable Word Searches</Link>
-            <Link href="/online-word-search">Online Word Search</Link>
-            <Link href="/word-search-pdf">Word Search PDFs</Link>
-          </div>
-        </section>
+        <SearchTools />
         </main>
       </MonetizedPageShell>
     </>

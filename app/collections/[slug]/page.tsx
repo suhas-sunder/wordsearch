@@ -1,3 +1,4 @@
+import { SearchTools } from "@/components/page/PageSections";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -9,6 +10,10 @@ import type { PuzzleContentRecord } from "@/content/model";
 import { getRouteRecord, routeInventory } from "@/content/registry";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/seo/structured-data";
+import { RelatedActivityTools } from "@/components/page/RelatedActivityTools";
+import { CollectionFinder } from "@/components/page/CollectionFinder";
+import { collectionFinderSlugs } from "@/lib/content/collection-finder";
+import finderStyles from "@/components/page/CollectionFinder.module.css";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -49,6 +54,8 @@ export default async function CollectionPage({ params }: Props) {
     .map((categorySlug) => categories.find((item) => item.slug === categorySlug))
     .filter((item) => item?.publicationStatus === "published");
   const breadcrumbs = [{ label: "Categories", href: "/categories" }, { label: collection.title }];
+  const findingEnabled = collectionFinderSlugs.some((candidate) => candidate === slug);
+  const cardsId = `collection-${slug}-cards`;
 
   return (
     <>
@@ -78,9 +85,10 @@ export default async function CollectionPage({ params }: Props) {
             <h2>Included word searches</h2>
             <p>The count is derived from reviewed, published records in this collection.</p>
           </div>
-          <div className="link-grid">
+          {findingEnabled && <CollectionFinder cardsId={cardsId} items={puzzles.map((puzzle) => ({ id: puzzle.id, title: puzzle.title, subject: categories.find(({ slug }) => slug === puzzle.taxonomy.primaryCategory)?.title ?? puzzle.taxonomy.primaryCategory, difficulty: puzzle.puzzle.difficulty }))} />}
+          <div id={findingEnabled ? cardsId : undefined} className={`link-grid${findingEnabled ? ` ${finderStyles.cards}` : ""}`}>
             {puzzles.map((puzzle) => (
-              <Link key={puzzle.id} href={puzzle.canonicalPath}>
+              <Link key={puzzle.id} href={puzzle.canonicalPath} data-collection-id={findingEnabled ? puzzle.id : undefined}>
                 <strong>{puzzle.title}</strong>
                 <span>{puzzle.description}</span>
                 <small>{puzzle.puzzle.difficulty} · Online · Print · PDF · Answers</small>
@@ -106,15 +114,8 @@ export default async function CollectionPage({ params }: Props) {
           </div>
         </section>
 
-        <section className="content-section site-shell tools-section">
-          <div className="section-heading"><h2>All tools</h2><p>Keep the same puzzle definition across each output.</p></div>
-          <div className="topic-list">
-            <Link href="/free-printable-word-searches">Printable puzzles</Link>
-            <Link href="/online-word-search">Online play</Link>
-            <Link href="/word-search-pdf">PDF puzzles</Link>
-            <Link href="/word-search-generator">Custom generator</Link>
-          </div>
-        </section>
+        <SearchTools />
+        <RelatedActivityTools path={path} />
         </main>
       </MonetizedPageShell>
     </>
