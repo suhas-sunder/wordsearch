@@ -6,6 +6,40 @@ Every release needs its exact commit, independent review, test evidence and
 rollback reference. Main remains `471a118dd459f2181cd641ed0572ba6dd7005540`.
 See BUILDOUT-INTEGRATION-01.md for the frozen combined candidate and exclusions.
 
+## Extended autonomous pass — active state
+
+This section supersedes the historical table below. Production main was checked
+with `git ls-remote` and remains `471a118dd459f2181cd641ed0572ba6dd7005540`.
+
+| Work | Current evidence | Still required |
+| --- | --- | --- |
+| Integration02 | Draft PR37; PR25–27,29,31–34 combined; build/static/lint/typechecks/unit checks pass | Full browser matrix running; keep exact frozen candidate separate from03 |
+| Navigation/footer/headings/resume | Drafts31,32,33,34, including explicit local resume and privacy | Independent review; bfcache elapsed-time follow-up active |
+| Seasonal/classroom inventory | PR35 sixteen source-only candidates and5 real packs; PR29 winter sports/wildlife | Human editorial review, no publication authorization |
+| Hard evergreen/teacher subjects | PR40 ten hard drafts/3 packs; PR41 ten teacher drafts/3 packs | Cross-family combined QA and human semantics/facts review |
+| Classroom output | PR38 at37b4e526cffa15eb8ae7b4a0702127ab32c77b0a,5/10/20 assignments; student/teacher PDFs | Combined03 checks and physical printers |
+| Measured large print | PR43 ata7af19b14f0ffa2e29c505618a653acf2f622f94,16pt minimum grid/18pt bank | Broader utility inventory active; external print review |
+| Local classroom presets | PR44 at5b5f6f8a3b4ec346105ecbb8bfafeccce5e49c9b | Integrate theme/large-print preferences and verify together |
+| Dark mode | PR42, application5d7126bf174d6bfbd6304f85d4d2392aba468a25; later test evidence only | Combined03 responsive/print/ad checks |
+| Specialty | AuditPR30 and truthful capability/selectorPR36 | No activation; language/cultural and unsupported output gates remain |
+| Security | PR39 at67ae6e27f1b1cedbde08bdf5018c9d28d3f72509; production audit0 | Dev-tooling remediation separately active, combined install/checks pending |
+| Discovery | Useful shared search/tools and FAQ wiring active | Meaningful bespoke hub FAQs next; retain crawlable HTML and ad geometry |
+
+PR15 evidence was independently repeated: two of three CLS comparisons failed
+the unchanged+0.01 guard. `5730c2c` documents the measurements and supersedes the
+earlier unsupported universal-pass claim. No score or threshold was weakened.
+Three existing internal route/ad-eligibility failures remain reproduced; owner
+placement decisions are still required. Lighthouse best-practices77 remains a
+baseline failure. These findings are not waived by implementation passes.
+
+All newly authored assets remain source-only, technically validated drafts.
+There is zero human-approved new content and no production cohort to report.
+Original root growth/publication edits and detached copies remain untouched.
+Continue the next eligible implementation; this ledger does not mark the
+remaining library, operational and UI tasks complete.
+
+## Initial checkpoint state (historical)
+
 | Lane | Current evidence | Remaining bounded work / gate |
 | --- | --- | --- |
 | B00 existing technical release | PR 16 integrated regressions | Independent review; three route findings, Lighthouse/security risks |

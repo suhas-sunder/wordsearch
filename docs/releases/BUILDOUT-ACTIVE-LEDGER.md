@@ -58,3 +58,31 @@ An interrupted or failed command is never a pass.
   remain deferred by explicit scope, not assumed complete.
 
 This is an active recovery ledger, not proof that the remaining backlog is done.
+
+## Recovery checkpoint after the next completed packages
+
+- PR37 is integration02; source+tests at52f2a7a0c9b443d8a808cb1ea561d0a9973478d0.
+  Header/no-JS, completion, classroom pack and14-archetype accessibility pass.
+  Resume fixture's initial focus race was fixed upstream atc6553c8 and passed
+  three consecutive combined runs; no application assertion was relaxed.
+  Full53-route×9-width browser matrix still running when this entry was written.
+- PR38:20 worksheet assignments and student-only/teacher-only exports complete.
+- PR43: measured large print complete with real geometry and rendered visual QA.
+- PR44: explicit bounded local classroom preset storage complete.
+- PRs35/40/41:36 new source-only seasonal/hard/teacher candidates plus pack assets;
+  combined inventory needs the03 source-derived check, not merely separate passes.
+- PR42:system/explicit persisted themes with print isolation and light/dark axe.
+- PRs30/36:specialty audit and truthful draft-capability disclosures complete.
+- PR39:direct Zod4 migration, production dependency audit zero; tooling child
+  upgrades and exact combined03 installation remain pending.
+
+Root owns `codex/buildout-integration-03`: merges the above while retaining02's
+frozen export. Resolved privacy conflicts preserve both theme and solver
+disclosures; presets additionally retain their explicit-storage explanation.
+Integration adds compatible optional large-print preference storage and uses
+the theme surface token for preset buttons; these need combined verification.
+
+Workers continue: navigation_trust on shared search/tools, accurate local-PDF
+privacy wording and meaningful FAQs; resume_specialty on tooling, bfcache timer
+and named local puzzles; inventory on L01–16 short-list utility packs and a
+strict coalesced-label measurement fix. No worker owns main or deployment.
