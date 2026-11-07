@@ -23,6 +23,7 @@ import {
 } from "@/content/discovery";
 import type { SitePage } from "@/content/routes";
 import { topics } from "@/content/topics";
+import { RelatedActivityTools } from "@/components/page/RelatedActivityTools";
 
 const reviewedPuzzleCount = topics.filter((topic) => topic.publicationStatus === "published").length;
 
@@ -350,6 +351,7 @@ export function RouteHub({ page }: { page: SitePage }) {
         </div>
       </section>
       <SearchTools />
+      <RelatedActivityTools path={`/${page.slug}`} />
 </main>
     </MonetizedPageShell>
   );
