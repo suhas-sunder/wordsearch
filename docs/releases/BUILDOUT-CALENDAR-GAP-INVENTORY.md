@@ -11,12 +11,12 @@ No human editorial or owner production approval is recorded by this package.
 | --- | --- |
 | 09 / Y27-09 | Selected World Rivers |
 | 11 / Y27-11 | Food Web Relationships |
-| 14 / Y27-14 | Seed Germination Stages |
+| 14 / Y27-14 | Seed and Seedling Vocabulary (draft title/path corrected in later quality pass) |
 | 15 / Y27-15 | Selected World Deserts |
 | 22 / Y27-22 | Context Clue Language |
 | 29 / Y27-29 | Deep Sea Animal Groups |
 | 33 / Y27-33 | Short I CVC Families |
-| 36 / Y27-36 | Electric Circuit Components |
+| 36 / Y27-36 | Electric Circuit Vocabulary (draft title/path corrected in later quality pass) |
 | 40 / Y27-40 | Canadian Autumn Wildlife Selection |
 | 42 / Y27-42 | Halloween Night Challenge |
 | 43 / Y27-43 | Halloween Dress Up Words |

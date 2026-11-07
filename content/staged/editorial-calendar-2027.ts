@@ -289,7 +289,7 @@ export const editorialReviewWindows: EditorialReviewWindow[] = [
       "Y27-14"
     ],
     "initialMaxNewIndexableUrls": 1,
-    "scopeNote": "Use only independently reviewed work. If distinct value or approval is missing, choose the zero-publication fallback.",
+    "scopeNote": "The built bank covers seed and seedling structures/processes, not ordered lifecycle stages. Do not present it as a sequence lesson; human botanical review and the zero-publication fallback remain required.",
     "fallback": {
       "canonicalPath": "/word-searches/nature-and-weather/plants-word-search",
       "newIndexablePaths": [],
@@ -737,7 +737,7 @@ export const editorialReviewWindows: EditorialReviewWindow[] = [
       "Y27-36"
     ],
     "initialMaxNewIndexableUrls": 1,
-    "scopeNote": "Use only independently reviewed work. If distinct value or approval is missing, choose the zero-publication fallback.",
+    "scopeNote": "The bank mixes circuit components, materials, instruments and arrangements. It is not a component-identification or wiring lesson, and overlap with the published Electricity page needs a merge-or-differentiate decision before any new URL.",
     "fallback": {
       "canonicalPath": "/word-searches/science/electricity-word-search",
       "newIndexablePaths": [],

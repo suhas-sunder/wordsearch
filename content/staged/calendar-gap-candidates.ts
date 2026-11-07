@@ -20,7 +20,7 @@ const briefs: Brief[] = [
     sources: [{ title: "U.S. EPA — Food Chains and Food Webs", url: "https://www.epa.gov/sites/default/files/documents/foodchainsandfoodwebs.pdf", note: "Checked producer/consumer/decomposer and food-chain/web topic coverage. No worksheet directions, definitions or source lists are copied. Human review of all terms and classroom framing remains required." }, dictionary]
   },
   {
-    slot: 14, slug: "seed-germination-stages", title: "Seed Germination Stages", segment: "nature-and-weather", category: "nature-and-weather-word-searches", level: "medium",
+    slot: 14, slug: "seed-and-seedling-vocabulary", title: "Seed and Seedling Vocabulary", segment: "nature-and-weather", category: "nature-and-weather-word-searches", level: "medium",
     words: ["SEED COAT", "EMBRYO", "COTYLEDON", "RADICLE", "PLUMULE", "ENDOSPERM", "GERMINATION", "IMBIBITION", "DORMANCY", "SEEDLING", "ROOT", "SHOOT", "TRUE LEAF", "HYPOCOTYL", "EPICOTYL", "ROOT HAIR"],
     intent: "A seed and early-growth terminology candidate beyond the published broad Plants, Flowers and Garden banks.",
     context: "Terms describe structures and processes that vary among plants. The bank does not claim one universal sequence or provide planting instructions or educational-outcome promises.",
@@ -53,10 +53,10 @@ const briefs: Brief[] = [
     context: "The list groups IG, IN and ID endings. Teachers explain sounds and examples and assess learner suitability; no reading level, age bracket or phonics outcome is certified.", sources: [dictionary]
   },
   {
-    slot: 36, slug: "electric-circuit-components", title: "Electric Circuit Components", segment: "science", category: "science-word-searches", level: "medium",
+    slot: 36, slug: "electric-circuit-vocabulary", title: "Electric Circuit Vocabulary", segment: "science", category: "science-word-searches", level: "medium",
     words: ["BATTERY", "CELL", "WIRE", "BULB", "SWITCH", "RESISTOR", "CONDUCTOR", "INSULATOR", "TERMINAL", "CONTACT", "SERIES", "PARALLEL", "OPEN CIRCUIT", "CLOSED CIRCUIT", "VOLTMETER", "AMMETER"],
-    intent: "Circuit component and arrangement vocabulary beyond the published general Electricity bank.",
-    context: "The bank mixes physical components, materials, instruments and circuit arrangements. It provides no wiring, battery-handling or electrical-safety instructions.", sources: [dictionary]
+    intent: "Selected circuit vocabulary with seven answer words shared by the published Electricity bank. A separate page needs a human merge-or-differentiate decision rather than assuming narrower terminology establishes new intent.",
+    context: "The bank mixes physical components, materials, instruments and circuit arrangements. Seven of sixteen entries also occur in the published Electricity bank, so review reuse before proposing another URL. It provides no wiring, battery-handling or electrical-safety instructions.", sources: [dictionary]
   },
   {
     slot: 40, slug: "canadian-autumn-wildlife-selection", title: "Canadian Autumn Wildlife Selection", segment: "animals", category: "animals-word-searches", level: "hard",

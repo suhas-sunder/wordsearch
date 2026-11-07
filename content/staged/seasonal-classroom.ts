@@ -23,7 +23,7 @@ const briefs: Brief[] = [
   {
     id: "X08-A", slug: "christmas-classroom-actions", title: "Christmas Classroom Actions", season: "winter", easy: true,
     words: ["CUT", "FOLD", "PASTE", "DRAW", "COLOR", "WRITE", "READ", "SING", "SHARE", "HELP", "GIVE", "MAKE"],
-    intent: "An activity-verb worksheet for a Christmas classroom craft station, unlike the existing Christmas object lists. Teacher selection remains necessary for classroom context.",
+    intent: "An activity-verb worksheet for optional Christmas classroom packet use. These general verbs differ from Christmas object lists, but a seasonal classroom context alone does not justify a separate indexable URL. Teacher and editorial selection remain required.",
     context: "Search for twelve verbs that can be used while making cards or decorations. Teachers can select an action and supply their own activity instructions. The puzzle does not prescribe a lesson or certify a reading level."
   },
   {
