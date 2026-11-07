@@ -17,10 +17,10 @@
   flex-wrap: wrap;
   gap: 16px;
   padding-block: 20px;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid #485267;
 }
 .profiles > span { display: grid; gap: 5px; }
-.profiles > span > span { color: var(--muted); font-size: .9rem; }
+.profiles > span > span { color: inherit; font-size: .9rem; }
 .profiles > div { display: flex; flex-wrap: wrap; gap: 12px; }
 .profiles > div a {
   display: inline-flex;
@@ -28,8 +28,9 @@
   gap: 7px;
   min-height: 44px;
   padding: 8px 12px;
-  border: 1px solid var(--line);
+  border: 1px solid #64748b;
   border-radius: 7px;
-  color: var(--ink);
+  color: inherit;
 }
 .profiles > div a:hover { border-color: var(--accent); }
+.profiles > div a:focus-visible { outline-color: white; }

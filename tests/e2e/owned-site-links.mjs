@@ -3,7 +3,7 @@ import { mkdir } from "node:fs/promises";
 import { chromium } from "playwright";
 import AxeBuilder from "@axe-core/playwright";
 
-const base = process.env.BASE_URL ?? "http://localhost:3296";
+const base = process.env.BASE_URL ?? "http://localhost:3446";
 const expected = ["https://www.ilovetimers.com/classroom-timer/", "https://www.morsewords.com/morse-code-printable-worksheets", "https://www.ilovecoloringpage.com/"];
 for (const path of ["/word-searches-for-teachers", "/word-search-worksheets", "/free-printable-word-searches", "/word-searches-for-kids", "/homeschool-word-searches", "/collections/classroom-word-search-worksheets", "/pack-builder"]) {
   const html = await (await fetch(`${base}${path}`)).text();
@@ -49,8 +49,11 @@ try {
       const profiles = page.getByRole("navigation", { name: "Creator profiles" });
       assert.equal(await profiles.getByRole("link").count(), 2);
       if (width === 390 || width === 1280) {
-        const result = await new AxeBuilder({ page }).include("[data-related-activities]").include("nav[aria-label='Creator profiles']").analyze();
-        assert.deepEqual(result.violations.filter(({ impact }) => impact === "serious" || impact === "critical"), []);
+        for (const selector of ["[data-related-activities]", "nav[aria-label='Creator profiles']"]) {
+          await page.locator(selector).scrollIntoViewIfNeeded();
+          const result = await new AxeBuilder({ page }).include(selector).analyze();
+          assert.deepEqual(result.violations.filter(({ impact }) => impact === "serious" || impact === "critical"), []);
+        }
       }
       if (process.env.OWNED_LINK_VISUAL_OUTPUT && path === "/word-searches-for-teachers" && [390, 1280].includes(width)) {
         await mkdir(process.env.OWNED_LINK_VISUAL_OUTPUT, { recursive: true });

@@ -18,7 +18,7 @@ export function RelatedActivityTools({ path }: { path: string }) {
         {context.links.map((tool) => {
           const Icon = icons[tool.id];
           return <li key={tool.id}>
-            <a href={tool.href} rel="external" className={styles.link}>
+            <a href={tool.href} rel="external noreferrer" className={styles.link}>
               <Icon size={22} aria-hidden="true" />
               <span className={styles.copy}>
                 <strong>{tool.task}</strong>
