@@ -48,6 +48,10 @@ try {
       }
       const profiles = page.getByRole("navigation", { name: "Creator profiles" });
       assert.equal(await profiles.getByRole("link").count(), 2);
+      for (const link of await profiles.getByRole("link").all()) {
+        await link.focus();
+        assert.equal(await link.evaluate((element) => element === document.activeElement && getComputedStyle(element).outlineStyle !== "none"), true);
+      }
       if (width === 390 || width === 1280) {
         for (const selector of ["[data-related-activities]", "nav[aria-label='Creator profiles']"]) {
           await page.locator(selector).scrollIntoViewIfNeeded();
