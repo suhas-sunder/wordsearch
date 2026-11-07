@@ -269,7 +269,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
       if (!downloaded) return;
       setPdfStatus("idle");
       closeDialog();
-      announce(layout === "large-print" ? "Measured large-print PDF download started." : "PDF download started.");
+      announce(layout === "large-print" ? "Measured large-print PDF download started." : layout === "readable" ? "Readable PDF download started." : "PDF download started.");
     } catch (error) {
       if (!isCurrent()) return;
       setPdfStatus("error");
@@ -435,10 +435,13 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
               </div>
               <p className="control-help">Larger grid type keeps the ordinary layout; it does not guarantee a minimum word-bank size. Open Download PDF for the separate measured large-print choice.</p>
               {dialog === "pdf" && <div className="measured-pdf-choice">
-                <p id="measured-pdf-description">Measured large-print PDF uses at least 16-point grid letters and an 18-point word bank when the puzzle fits. It keeps this exact grid, your paper size, answer-page, name/date and instructions choices. Its portrait layout places words below the grid and omits QR codes and coordinates. Crowded or unsupported grids show a fit error instead of shrinking the type.</p>
-                <button type="button" className="secondary-button" disabled={pdfStatus === "working"} aria-describedby="measured-pdf-description" onClick={() => downloadPdf("large-print")}><FileDown size={17} aria-hidden="true" />Download measured large-print PDF</button>
+                <p id="alternate-pdf-description">Both layouts keep your exact puzzle, paper size, answer pages, name/date and instructions. They use portrait pages with words below the grid, without QR codes or coordinates. If the puzzle cannot fit, you get an error rather than smaller type. Sizes below are at 100% print scale.</p>
+                <p id="readable-pdf-description">Readable: at least 9-point grid letters and a 9.5-point word bank.</p>
+                <button type="button" className="secondary-button" disabled={pdfStatus === "working"} aria-describedby="alternate-pdf-description readable-pdf-description" onClick={() => downloadPdf("readable")}><FileDown size={17} aria-hidden="true" />Download readable PDF</button>
+                <p id="measured-pdf-description">Large print: at least 16-point grid letters and an 18-point word bank. Headers and footers stay smaller.</p>
+                <button type="button" className="secondary-button" disabled={pdfStatus === "working"} aria-describedby="alternate-pdf-description measured-pdf-description" onClick={() => downloadPdf("large-print")}><FileDown size={17} aria-hidden="true" />Download measured large-print PDF</button>
               </div>}
-              {pdfStatus === "error" && <div className="output-error" role="alert"><strong>{pdfAttempt === "large-print" ? "Measured large-print PDF failed." : "PDF failed."}</strong> {pdfError}</div>}
+              {pdfStatus === "error" && <div className="output-error" role="alert"><strong>{pdfAttempt === "large-print" ? "Measured large-print PDF failed." : pdfAttempt === "readable" ? "Readable PDF failed." : "PDF failed."}</strong> {pdfError}</div>}
               <footer>
                 <button ref={initialFocusRef} type="button" className="secondary-button" onClick={closeDialog}>Cancel</button>
                 {dialog === "pdf" ? (

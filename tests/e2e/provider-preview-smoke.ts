@@ -45,7 +45,7 @@ try {
   assert.equal(await page.locator(".ad-slot, ins.adsbygoogle").count(), 0);
   await page.getByLabel("Pack title").fill("Preview Check");
   await page.getByLabel("Words or phrases").fill("cat\ndog\nbird");
-  await page.getByLabel("Base seed").fill("provider-preview-check");
+  await page.getByLabel("Base seed", { exact: true }).fill("provider-preview-check");
   await page.getByLabel("Download pages").selectOption("students");
   const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Download PDF pack" }).click()]);
   const pdfPath = join(destination, "provider-student-pack.pdf"); await download.saveAs(pdfPath); report.artifacts.push(pdfPath);

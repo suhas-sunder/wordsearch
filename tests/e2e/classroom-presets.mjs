@@ -8,7 +8,7 @@ try {
   await page.goto(`${base}/pack-builder`, { waitUntil: "networkidle" });
   await page.getByLabel("Pack title").fill("Science Class");
   await page.getByLabel("Words or phrases").fill("planet\ncomet\nstar");
-  await page.getByLabel("Base seed").fill("assignment-1");
+  await page.getByLabel("Base seed", { exact: true }).fill("assignment-1");
   await page.getByLabel("Puzzles").selectOption("20");
   await page.getByLabel("Paper size").selectOption("a4");
   await page.getByLabel("Download pages").selectOption("answers");
@@ -19,7 +19,7 @@ try {
   await page.getByRole("button", { name: "Show saved presets" }).click();
   await page.getByRole("button", { name: "Load Science Class", exact: true }).click();
   assert.equal(await page.getByLabel("Words or phrases").inputValue(), "planet\ncomet\nstar");
-  assert.equal(await page.getByLabel("Base seed").inputValue(), "assignment-1");
+  assert.equal(await page.getByLabel("Base seed", { exact: true }).inputValue(), "assignment-1");
   assert.equal(await page.getByLabel("Puzzles").inputValue(), "20");
   assert.equal(await page.getByLabel("Paper size").inputValue(), "a4");
   assert.equal(await page.getByLabel("Download pages").inputValue(), "answers");
