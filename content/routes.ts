@@ -220,9 +220,16 @@ export const corePages: SitePage[] = [
   }
 ];
 
+// Preserve the existing general answers only where a page explicitly requests them.
+export const generalPuzzleFaq: NonNullable<SitePage["faq"]> = [
+  { question: "Are the puzzles free to print?", answer: "Yes. The core builder is designed for no-signup personal, classroom, homeschool, and casual puzzle use." },
+  { question: "Can I get an answer key?", answer: "Yes. The answer key uses the exact same seed and placements as the puzzle preview." },
+  { question: "Can the same puzzle be shared?", answer: "Yes. Share links encode the settings, words, seed, and alphabet pack needed to reproduce the puzzle." }
+];
+
 export const supportPages: SitePage[] = [
   { slug: "about", title: "About I Love Word Search", h1: "About I Love Word Search", description: "Learn about the I Love Word Search platform.", intro: "We build calm, useful word search tools for printing, play, teaching, and repeat use.", presetWords: ["about", "puzzle", "print", "share", "teacher"], difficulty: "easy", modules: ["support"] },
-  { slug: "faq", title: "Word Search FAQ", h1: "Word Search FAQ", description: "Answers to common word search generator, print, PDF, answer key, and sharing questions.", intro: "Common questions about making, printing, sharing, and solving word searches.", presetWords: ["question", "answer", "print", "share", "grid"], difficulty: "easy", modules: ["faq"] },
+  { slug: "faq", title: "Word Search FAQ", h1: "Word Search FAQ", description: "Answers to common word search generator, print, PDF, answer key, and sharing questions.", intro: "Common questions about making, printing, sharing, and solving word searches.", presetWords: ["question", "answer", "print", "share", "grid"], difficulty: "easy", modules: ["faq"], faq: generalPuzzleFaq },
   { slug: "contact", title: "Contact I Love Word Search", h1: "Contact", description: "Contact and support information for I Love Word Search.", intro: "For now, use this page as the support and feedback landing page for the project.", presetWords: ["contact", "support", "feedback", "help", "message"], difficulty: "easy", modules: ["support"] },
   { slug: "accessibility", title: "Accessibility", h1: "Accessibility", description: "Accessibility approach for I Love Word Search.", intro: "The generator prioritizes readable controls, keyboard operation, high contrast, and large-print output.", presetWords: ["access", "focus", "keyboard", "contrast", "print"], difficulty: "easy", modules: ["accessibility"] },
   { slug: "privacy", title: "Privacy Policy", h1: "Privacy Policy", description: "Privacy policy and local puzzle-state notes for I Love Word Search.", intro: "Generated puzzle state is encoded in links and recent puzzle state is stored locally in the browser.", presetWords: ["privacy", "local", "state", "browser", "share"], difficulty: "easy", modules: ["legal"] },
