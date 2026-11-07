@@ -41,6 +41,15 @@ try {
         assert.equal(await page.locator("body").evaluate((el) => getComputedStyle(el).color), "rgb(23, 32, 51)");
         assert.equal(await paper.evaluate((el) => getComputedStyle(el).backgroundColor), "rgb(255, 255, 255)");
         await page.emulateMedia({ media: "screen" });
+        if ([390, 1440].includes(width)) {
+          for (const [action, title] of [["Share", "Share this puzzle"], ["Print this puzzle", "Print puzzle"], ["Download PDF", "Download PDF"]]) {
+            await page.locator(".preview-toolbar-actions").getByRole("button", { name: action, exact: true }).click();
+            await page.getByRole("dialog", { name: title, exact: true }).waitFor();
+            const dialogAxe = await new AxeBuilder({ page }).include("dialog[open]").analyze();
+            assert.deepEqual(dialogAxe.violations.filter((issue) => ["serious", "critical"].includes(issue.impact)), [], `${title} dark accessibility at ${width}`);
+            await page.keyboard.press("Escape");
+          }
+        }
       }
     }
     await page.locator('header summary[aria-label="Open navigation menu"]').click();
