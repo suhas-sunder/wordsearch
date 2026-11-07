@@ -73,13 +73,64 @@ async function measureHtml(html: string, options: PuzzleOutputOptions, offline: 
   } finally { frame.remove(); }
 }
 
-// Multiple previews/answer sheets share a bounded serial measurement queue.
-let measurementQueue: Promise<unknown> = Promise.resolve();
-function serialMeasure(html: string, options: PuzzleOutputOptions, offline: boolean, signal?: AbortSignal): Promise<void> {
-  const next = measurementQueue.then(() => measureHtml(html, options, offline, signal));
-  measurementQueue = next.catch(() => undefined);
-  return next;
+/** Serial actual checks; only identical, still-pending requests share work. */
+export function createPrintMeasurementQueue(measure: typeof measureHtml) {
+  let queue: Promise<unknown> = Promise.resolve();
+  const pending = new Map<string, {
+    controller: AbortController;
+    consumers: Set<symbol>;
+    promise: Promise<void>;
+    settled: boolean;
+  }>();
+  return (html: string, options: PuzzleOutputOptions, offline: boolean, signal?: AbortSignal): Promise<void> => {
+    if (signal?.aborted) return Promise.reject(signal.reason);
+    const capturedOptions = { ...options };
+    // Keep every option and every HTML/CSS byte. No approximate hashes, ignored
+    // markers, shared font assumptions, or cross-offline/online equivalence.
+    const key = JSON.stringify([html, Object.entries(capturedOptions).sort(([a], [b]) => a.localeCompare(b)), offline]);
+    let job = pending.get(key);
+    if (!job) {
+      const controller = new AbortController();
+      const promise = queue.then(() => {
+        controller.signal.throwIfAborted();
+        return measure(html, capturedOptions, offline, controller.signal);
+      });
+      queue = promise.catch(() => undefined);
+      job = { controller, consumers: new Set(), promise, settled: false };
+      pending.set(key, job);
+      const current = job;
+      const clear = () => {
+        current.settled = true;
+        if (pending.get(key) === current) pending.delete(key);
+      };
+      promise.then(clear, clear);
+    }
+    const current = job;
+    return new Promise<void>((resolve, reject) => {
+      const consumer = Symbol();
+      current.consumers.add(consumer);
+      let finished = false;
+      const finish = (success: boolean, reason?: unknown) => {
+        if (finished) return;
+        finished = true;
+        signal?.removeEventListener("abort", abort);
+        current.consumers.delete(consumer);
+        if (!current.settled && !current.consumers.size) {
+          if (pending.get(key) === current) pending.delete(key);
+          current.controller.abort(reason);
+        }
+        if (success) resolve(); else reject(reason);
+      };
+      const abort = () => finish(false, signal?.reason);
+      signal?.addEventListener("abort", abort, { once: true });
+      // Also covers a caller canceled while its request was being registered.
+      if (signal?.aborted) abort();
+      current.promise.then(() => finish(true), (error: unknown) => finish(false, error));
+    });
+  };
 }
+
+const serialMeasure = createPrintMeasurementQueue(measureHtml);
 
 export function validateBrowserPrintSheet(article: HTMLElement, options: PuzzleOutputOptions, signal?: AbortSignal): Promise<void> {
   try {
