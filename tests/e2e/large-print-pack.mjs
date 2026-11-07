@@ -12,7 +12,7 @@ try {
   const page = await browser.newPage({ acceptDownloads: true, viewport: { width: 390, height: 844 } });
   await page.goto(`${base}/pack-builder`, { waitUntil: "networkidle" });
   await page.getByLabel("Pack title").fill("Family Activity");
-  await page.getByLabel("Base seed").fill("large-grid");
+  await page.getByLabel("Base seed", { exact: true }).fill("large-grid");
   await page.getByLabel("Words or phrases").fill(Array.from({ length: 20 }, (_, i) => `WORD${String.fromCharCode(65 + i)}`).join("\n"));
   await page.getByLabel("Print type").selectOption("large");
   await page.getByRole("button", { name: "Download PDF pack" }).click();

@@ -1,0 +1,390 @@
+{
+  "historicalManifestSha256": "80c5c79cec367c7a50e9eea5229c6c7c12d281b860d784c1ddb03cc2cd2444d2",
+  "cases": [
+    {
+      "path": "/word-searches/science/biology-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "c9e978bc67617eb21b3bbe0d74cfd62e8de3bcac0c59768436d73572dc8ecf37",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/science/biology-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "140709966b6369bad1c3ac8d82a4931e4e1027e86b9b2c87bf594cb3c2a6a0b1",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/science/biology-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "2d7ed4795a9ddd1cb85e7ceaba202c3c4d3ae7cec44932daf162068db3a7da79",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/science/chemistry-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "47bb479b1aaafaff23314e24f9cfb19af3ef025dce2b8ab675e47d659f3635d5",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/science/chemistry-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "6d987cc9354a0269785f89018ed72ede33581bdc8657ad6ca1571bb28dbb34c8",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/science/chemistry-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "69f7fa6fbfd20c1566463768be795c974cc982d03a4dd811b84a1f9992be6159",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/science/physics-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "77b8baa5182c5e22fb732f43304a11077e6ff287c09b656b41ac02b4c742f138",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/science/physics-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "724645659691d3b22ff5f59fec61747fc2387011d5d0fa29ae1d8a23c8e63185",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/science/physics-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "f4403f0cb4f4b066adbbea0b16a217b90b7951d1a939e36245e03f3dcfaa1670",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/geography/us-states-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "2ba26a60b5c449f606c232425a88083561cd6282d5dae529cb4ae18150d14730",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/geography/us-states-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "338964fa41ffaaac68b737130152290d8c597be2d59f8b7e5760a3414cde2375",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/geography/us-states-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "59616e8a6c31e19d2257103c4c61151fd32d67b71a629ada691dee5fe6d1edb7",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/science/earth-science-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "b75b79d70854ec412d5daaba562f9987113dc98876af17a7a2dcb2a6ec8a15be",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/science/earth-science-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "2985231b5b95fcfa8542e7c5775edb13777ed622500a7196e7985501f075ff4d",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/science/earth-science-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "312d33b5a327365cbbb26f0087ea7b48e65f6d73dc6ff6aca6bbcebdd1389d95",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/geography/europe-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "1dea223479ca27cf1b99b6ef5385fc0fd978a26c55ae3686774e1d6577642c55",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/geography/europe-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "e9027abf65dc3e110e54472775e700b823e3ee3f0c4b5b0ff41a58701db0bb7c",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/geography/europe-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "d16448eae59ae3faa6ee42f95abee6564f842bf1b6e3586aa8e5d3ad2137fef1",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/geography/asia-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "1cd6c6dd4089be0efedfcf2e72bb9ed9959f6862574422dcb3ee7d22a807addd",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/geography/asia-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "f34295ab3d39f65e4029093f15302ad2f35954ea0663a27ce00f60eab1a82bc3",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/geography/asia-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "87a2ad94b5ae66dfbbd09adf52822a5554584409171a1948bb7c96b07bd076d6",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/geography/africa-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "cdf2229ad0b17b0866e8b4a627aac6f4da1595e1a5e014c86bdcf13e45179ded",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/geography/africa-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "3e436bd0a414ae3690efed2f0dfa2c26d8e4293dac07f0a7171ea2265316688d",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/geography/africa-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "ee199f0b8df8dd8b055d8d1a300c78e02d8ca7a247244a7e875c279c19704da5",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/geography/north-america-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "1514bf3b21037d298d9abfa183902bb60bc303b77a0dd6faf8427033314e5597",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/geography/north-america-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "36e8caeae68db460bce6a0a28f4ee7b894418923916a77dcdfab72c56e996bf4",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/geography/north-america-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "8ca10e6660b3fd91efe99baed96ddeacd6be70b6af172d9099db984a4e30f077",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/geography/south-america-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "c459e0c5e09ec6dba0bc9163a651b2aaf152979d7573de02dfc599eb5d16debb",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/geography/south-america-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "14ec842db28a975921cb248a83173903fbda28ae8f0156c8b93137830ce4f9c9",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/geography/south-america-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "dd58fee2e27a05262b98a9313ea1a470a5539d884989e701bd1def6d14b66735",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/history/ancient-egypt-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "54f83050920e9ad702006c81511c3844d1a20d39ae1eb62518c1e4ffa6d5c53e",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/history/ancient-egypt-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "856d6236e1e46d0ff9b453c64537b605007fa7b6bd9ff0ca30d5f15ae1745e83",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/history/ancient-egypt-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "70faf8c2a10c10597334def3d0c0eba0cad32dc923f56b54a01f6f4a3bc51ebe",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/history/ancient-greece-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "9c5e7a219eca6cca43b67e38ba043e93d8e8f50924a64992dfc437e80f3ed636",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/history/ancient-greece-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "75163a64bc7fee9c31adb53a81b50d7655123f70446331e85bcbd7a09aa6110e",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/history/ancient-greece-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "ccaac85b0cf7ff097cd741917f08850afa0dfa0a047621823d3d976c23a17d31",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/history/ancient-rome-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "4e501eca67d2357bdf65399dcfeda2e1508dfe9b718b229c44a586d24f21ad3c",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/history/ancient-rome-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "81f1509a4c6ff569eef9788a3c9f755da8ed3346f869528d81418e68a5451186",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/history/ancient-rome-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "75faf313046924880908f95006a2456fc2fb53ea0f1d9e42d18c943dbec3ae54",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/history/industrial-revolution-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "16fca1387cd4eb2c2363154177ffd5e7e2e2c191fe745bf3b63e4aff5f7b5ba5",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/history/industrial-revolution-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "388aa99b37aaec55f2704fc92d92cae9a7ffcec6b0094273881b5202205cf39b",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/history/industrial-revolution-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "6653d02089fe55c530c6415a26c3b3413c4defd1b35ad9539e03fda12cbd4b34",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/music/orchestra-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "e3cec0ad6803a0a856bf48abeb232a92d01cdd8adee591f28ede0a46df2dedf7",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/music/orchestra-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "a661274a64bd01013e3ceb0a610557a02892bf2c261879bb63703571a7ac7a34",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/music/orchestra-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "40c0321663d94e5d25ebc4f1b4d13a17e98ec0a902ff56f8a5fabf3fac3641e5",
+      "minGridPt": 8.483466666666665
+    },
+    {
+      "path": "/word-searches/music/music-theory-word-search",
+      "paperSize": "letter",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "0259f6f1eb63b550412453676d547b59ea582bd9dd2ee2bb5e9a5326cd4c0160",
+      "minGridPt": 8.266666666666666
+    },
+    {
+      "path": "/word-searches/music/music-theory-word-search",
+      "paperSize": "a4",
+      "printScale": "standard",
+      "orientation": "landscape",
+      "pdfSha256": "5e96a2c0af57862f4260292946a988833cc37435fe180bcb9800b676d4d89ffe",
+      "minGridPt": 7.820799999999999
+    },
+    {
+      "path": "/word-searches/music/music-theory-word-search",
+      "paperSize": "a4",
+      "printScale": "large",
+      "orientation": "landscape",
+      "pdfSha256": "36fb60f8684ad92c2ea17246de8a74db3e98a03a1377d536e9b823d8ce7fdca4",
+      "minGridPt": 8.483466666666665
+    }
+  ],
+  "purpose": "Frozen published legacy landscape cases below9pt, retained as byte-preservation regression fixtures; not changed or approved as large print"
+}

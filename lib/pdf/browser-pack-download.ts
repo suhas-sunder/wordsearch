@@ -8,14 +8,14 @@ export async function createBrowserPuzzlePackPdf(pack: PuzzlePack, options: Puzz
   return { blob: new Blob([bytes.slice().buffer], { type: "application/pdf" }), filename: sanitizePuzzleFilename(pack.name).replace(/-word-search\.pdf$/, `-${suffix}.pdf`) };
 }
 
-export async function downloadBrowserPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackOptions) {
+export async function downloadBrowserPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackOptions, isCurrent: () => boolean = () => true) {
   const { blob, filename } = await createBrowserPuzzlePackPdf(pack, options);
+  if (!isCurrent()) return false;
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = filename;
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), 1_000);
+  try { document.body.appendChild(anchor); anchor.click(); }
+  finally { anchor.remove(); window.setTimeout(() => URL.revokeObjectURL(url), 1_000); }
+  return true;
 }
