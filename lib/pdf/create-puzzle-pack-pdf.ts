@@ -16,6 +16,7 @@ export interface PuzzlePackOptions {
   order: "answers-last" | "interleaved";
   layoutProfile?: "legacy" | "pack" | "large-print";
   pages?: "both" | "students" | "answers";
+  classLine?: boolean;
 }
 
 /** Verify seeded replay, then compose the existing single-puzzle pages. */
@@ -24,6 +25,7 @@ export async function createPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackO
   if (!pack || !validId(pack.id) || typeof pack.name !== "string" || !pack.name.trim() || pack.name.length > 100) throw new Error("Invalid pack identity.");
   if (!options || !["letter", "a4"].includes(options.paperSize) || !["answers-last", "interleaved"].includes(options.order) || (options.layoutProfile !== undefined && !["legacy", "pack", "large-print"].includes(options.layoutProfile))) throw new Error("Invalid pack options.");
   if (options.pages !== undefined && !["both", "students", "answers"].includes(options.pages)) throw new Error("Invalid page selection.");
+  if (options.classLine !== undefined && typeof options.classLine !== "boolean") throw new Error("Invalid class-line option.");
   if (!Array.isArray(pack.puzzles) || ![5, 10, 20].includes(pack.puzzles.length)) throw new Error("A pack must contain exactly 5, 10 or 20 puzzles.");
   const ids = new Set<string>();
   const grids = new Set<string>();
@@ -55,7 +57,8 @@ export async function createPuzzlePackPdf(pack: PuzzlePack, options: PuzzlePackO
       puzzle: entry.puzzle,
       options: { ...defaultPuzzleOutputOptions, paperSize: options.paperSize, orientation: "portrait", printScale: options.layoutProfile === "large-print" ? "large" : "standard", includeAnswerKey: true, qrCode: false, inkSaving: true },
       shareUrl: puzzlePlayUrl(entry.puzzle.request),
-      layoutProfile: options.layoutProfile
+      layoutProfile: options.layoutProfile,
+      classLine: options.classLine
     });
     const source = await PDFDocument.load(bytes);
     if (source.getPageCount() !== 2) throw new Error("Single-puzzle PDF must contain exactly one puzzle and one answer page.");

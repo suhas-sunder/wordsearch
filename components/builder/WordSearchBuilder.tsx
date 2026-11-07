@@ -4,11 +4,12 @@ import { useEffect, useId, useMemo, useRef, useState, useTransition } from "reac
 import { Download, FileCode2, Play, RefreshCw, Shuffle, Upload } from "lucide-react";
 import { defaultPuzzleRequest, generatePuzzle, directionsByDifficulty, directionSelectionError } from "@/lib/puzzle/generate";
 import { puzzleInputLimits, puzzleRequestError } from "@/lib/puzzle/request-validation";
-import type { AlphabetPackId, Difficulty, DirectionKey, PuzzleRequest, PuzzleResult } from "@/lib/puzzle/types";
+import type { AlphabetPackId, Difficulty, DirectionKey, FillerMode, PuzzleRequest, PuzzleResult, WordBankOrder } from "@/lib/puzzle/types";
 import { nextSeed } from "@/lib/puzzle/prng";
 import { decodeShareState, stateId } from "@/lib/share-state/state";
 import { PuzzleUtilities } from "@/components/puzzle/PuzzleUtilities";
 import { LocalPuzzleLibrary } from "@/components/builder/LocalPuzzleLibrary";
+import { getAlphabetPack } from "@/lib/alphabet-packs";
 
 export interface BuilderProps {
   initialRequest: Partial<PuzzleRequest>;
@@ -27,16 +28,7 @@ const directionLabels: Array<[DirectionKey, string]> = [
   ["NW", "↖"]
 ];
 
-const packOptions: Array<[AlphabetPackId, string]> = [
-  ["latin", "Latin"],
-  ["morse", "Morse"],
-  ["braille", "Braille"],
-  ["binary", "Binary"],
-  ["hex", "Hex"],
-  ["greek", "Greek"],
-  ["kana", "Kana"],
-  ["asl", "ASL labels"]
-];
+const packOptions: Array<[AlphabetPackId, string]> = (["latin", "morse", "braille", "binary", "hex", "greek", "kana", "asl"] as const).map((id) => [id, getAlphabetPack(id).label]);
 
 function safeLocalStorage() {
   try {
@@ -71,6 +63,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   const fileInput = useRef<HTMLInputElement | null>(null);
   const urlStateActive = useRef(false);
   const directionHelpId = useId();
+  const alphabetHelpId = useId();
 
   useEffect(() => {
     if (!persistState) return;
@@ -118,7 +111,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
     const handle = window.setTimeout(() => {
       startTransition(() => setDebouncedRequest(request));
       const storage = safeLocalStorage();
-      if (storage && !urlStateActive.current && !loadError && !puzzleRequestError(request)) {
+      if (storage && !urlStateActive.current && !loadError && !puzzleRequestError(request) && typeof request.seed === "string" && request.seed.trim()) {
         try { storage.setItem("ilws:last-builder-state", JSON.stringify(request)); } catch { /* Editing also works without storage. */ }
       }
     }, 220);
@@ -126,7 +119,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
   }, [persistState, request, loadError]);
 
   const directionError = directionSelectionError(request.directions);
-  const requestError = loadError ?? puzzleRequestError(request);
+  const requestError = loadError ?? puzzleRequestError(request) ?? (typeof request.seed !== "string" || !request.seed.trim() ? "Enter a nonblank puzzle seed before playing, sharing, or exporting." : null);
   useEffect(() => {
     if (!requestError) lastValidRequest.current = request;
   }, [request, requestError]);
@@ -275,10 +268,11 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
           </fieldset>
           <fieldset>
             <legend>Alphabet pack</legend>
-            <select aria-label="Alphabet pack" value={request.alphabetPack ?? "latin"} onChange={(event) => patch({ alphabetPack: event.target.value as AlphabetPackId })}>
+            <select aria-label="Alphabet pack" aria-describedby={alphabetHelpId} value={request.alphabetPack ?? "latin"} onChange={(event) => patch({ alphabetPack: event.target.value as AlphabetPackId })}>
               {request.alphabetPack && !packOptions.some(([id]) => id === request.alphabetPack) && <option value={request.alphabetPack}>{request.alphabetPack === "emoji" ? "Geometric symbols (legacy mapping)" : `${request.alphabetPack === "spanish" ? "Spanish" : "French"} (accent-normalized Latin)`}</option>}
               {packOptions.map(([id, label]) => <option key={id} value={id}>{label}</option>)}
             </select>
+            <p id={alphabetHelpId} className="control-help">{getAlphabetPack(request.alphabetPack ?? "latin").description}</p>
           </fieldset>
           <div className="size-grid">
             <label>
@@ -324,6 +318,32 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
           <details className="advanced-controls">
             <summary>Advanced print and fill controls</summary>
             <label>
+              Puzzle seed
+              <input value={request.seed ?? ""} maxLength={256} onChange={(event) => patch({ seed: event.target.value })} />
+            </label>
+            <p className="control-help">Keep the same title, words, seed, and settings to reproduce the same grid. Shuffle chooses another seed.</p>
+            <label>
+              Word bank order
+              <select aria-label="Word bank order" value={request.wordBankOrder ?? "alphabetical"} onChange={(event) => patch({ wordBankOrder: event.target.value as WordBankOrder })}>
+                <option value="alphabetical">Alphabetical</option>
+                <option value="length">Shortest to longest</option>
+                <option value="input">Input order</option>
+                {request.wordBankOrder === "custom" && <option value="custom">Placement order (legacy)</option>}
+              </select>
+            </label>
+            <label>
+              Filler mode
+              <select aria-label="Filler mode" value={request.fillerMode ?? "alphabet"} onChange={(event) => patch(event.target.value === "alphabet" ? { fillerMode: "alphabet", customFiller: "" } : { fillerMode: event.target.value as FillerMode })}>
+                <option value="alphabet">Alphabet pack defaults</option>
+                <option value="used">Letters or tokens in placed words</option>
+                <option value="custom">Custom characters</option>
+                <option value="rare" disabled={(request.alphabetPack ?? "latin") !== "latin"}>Rare-letter mix (Latin only)</option>
+              </select>
+            </label>
+            {request.fillerMode === "rare" && (request.alphabetPack ?? "latin") !== "latin" && <p className="control-help">Rare-letter filler is defined for Latin only. This saved definition uses the selected pack&apos;s existing filler behavior; choose another mode to change it.</p>}
+            {request.fillerMode === "custom" && !request.customFiller?.trim() && <p className="control-help">Custom filler is empty, so the pack&apos;s existing defaults are used. Enter characters below or select alphabet defaults.</p>}
+            {(!request.fillerMode || request.fillerMode === "alphabet") && request.customFiller?.trim() && <div className="control-help">This saved definition has a custom filler override. Its original behavior is preserved. <button type="button" className="secondary-button" onClick={() => patch({ fillerMode: "alphabet", customFiller: "" })}>Use alphabet defaults</button></div>}
+            <label>
               Instructions
               <textarea value={request.instructions ?? ""} rows={3} onChange={(event) => patch({ instructions: event.target.value })} />
             </label>
@@ -331,10 +351,12 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
               Hidden message
               <input value={request.hiddenMessage ?? ""} onChange={(event) => patch({ hiddenMessage: event.target.value })} placeholder="Optional leftover-cell message" />
             </label>
+            <p className="control-help">After crossing out placed words, read unused cells from left to right, top to bottom. The message starts there; later cells contain filler. A message that exceeds the remaining space is shortened with a warning.</p>
             <label>
               Custom filler alphabet
               <input value={request.customFiller ?? ""} onChange={(event) => patch({ customFiller: event.target.value, fillerMode: "custom" })} />
             </label>
+            <p className="control-help">Entering characters selects Custom filler. Choosing alphabet defaults clears custom filler.</p>
           </details>
         </div>
         <div ref={previewRef} className="builder-preview" aria-busy={isPending || !puzzle} style={puzzle ? undefined : { minHeight: previewHeight }}>
