@@ -918,10 +918,10 @@
     "field": "body.footer",
     "beforeSha256": "62f7a7a45d39e27544bf6309c47807885ea2ed9ee2c2600c9db63ed5c8e1d251",
     "afterSha256": "3034e84099b1a3ee38e07d4ee1f5793b07f1e1d985efe2447c4122e591e90c9d",
-    "category": "potentially-meaningful-indexed-content",
-    "reviewDisposition": "owner-review-required",
-    "reason": "Footer gained maintainer biography, creator-profile labels and copyright. Indexed shared copy affects all217routes; exact change retained for independent/owner biography acceptance, not declared approved.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/31 https://github.com/suhas-sunder/wordsearch/pull/60"
+    "category": "expected-ui-structure",
+    "reviewDisposition": "technical-intent-recorded",
+    "reason": "CategoryB independent review completed against exact217route/hash scope. Owner README9 explicitly requests Built and maintained by Suhas Sunder, a software engineer. Existing production About already describes the same maintainer/software-development and engineering background; unchanged authors.sameAs supplies the exact Portfolio/LinkedIn identities. Copyright2026 is a footer legal row, not an editorial review-date update. This records the exact requested shared-template intent, not whole-product, credential, external-availability or production approval.",
+    "reviewReference": "docs/releases/EXCELLENCE-FOOTER-B-REVIEW.md https://github.com/suhas-sunder/wordsearch/blob/471a118dd459f2181cd641ed0572ba6dd7005540/ai-issues/README.md#L28 https://github.com/suhas-sunder/wordsearch/blob/471a118dd459f2181cd641ed0572ba6dd7005540/app/about/page.tsx#L28"
   },
   {
     "paths": [
