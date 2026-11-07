@@ -217,7 +217,7 @@ await suggestions.first().waitFor({ state: "visible", timeout: 5_000 }).catch(()
 if (await suggestions.count() === 0) failures.push("homepage autocomplete returned no known animal results");
 await interactionPage.getByRole("combobox", { name: "Search puzzles and categories" }).press("ArrowDown");
 await interactionPage.getByRole("combobox", { name: "Search puzzles and categories" }).press("Escape");
-const mobileMenu = interactionPage.locator('summary[aria-label="Open navigation menu"]');
+const mobileMenu = interactionPage.locator('summary[aria-label="More: open navigation menu"]');
 if (!(await mobileMenu.isVisible())) failures.push("mobile navigation control is not visible");
 await mobileMenu.click();
 if (!(await interactionPage.getByRole("navigation", { name: "All site navigation" }).isVisible())) failures.push("mobile navigation panel did not open");

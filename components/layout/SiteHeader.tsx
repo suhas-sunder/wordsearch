@@ -24,6 +24,10 @@ function NavLink({ href, label, pathname }: { href: string; label: string; pathn
   );
 }
 
+function MenuLabel() {
+  return <><Menu size={20} aria-hidden="true" /><span>More</span><ChevronDown size={15} aria-hidden="true" /></>;
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const menu = useRef<HTMLDetailsElement>(null);
@@ -74,15 +78,19 @@ export function SiteHeader() {
         <nav className={`desktop-nav ${styles.primary}`} aria-label="Primary navigation">
           {primaryNavigation.slice(0, 5).map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}
         </nav>
-        <Link className={`header-search ${styles.search}`} href="/search" aria-label="Search word searches" onClick={openSearch}>
-          <Search size={18} aria-hidden="true" />
-        </Link>
-        <ThemeToggle />
-        <span className={styles.reserve} aria-hidden="true" />
+        <div className={styles.actions}>
+          <Link className={`header-search ${styles.search}`} href="/search" aria-label="Search word searches" onClick={openSearch}>
+            <Search size={18} aria-hidden="true" />
+          </Link>
+          <ThemeToggle />
+          {/* Inert intrinsic-size spacer for the real disclosure below. It
+              follows enlarged text without fixing or clipping its label. */}
+          <span className={styles.reserve} aria-hidden="true"><MenuLabel /></span>
+        </div>
       </div>
         <details className={styles.menu} ref={menu}>
-          <summary className={styles.trigger} aria-label="Open navigation menu" onClick={(event) => { returnFocus.current = event.currentTarget; }}>
-            <Menu size={20} aria-hidden="true" /><span>More</span><ChevronDown size={15} aria-hidden="true" />
+          <summary className={styles.trigger} aria-label="More: open navigation menu" onClick={(event) => { returnFocus.current = event.currentTarget; }}>
+            <MenuLabel />
           </summary>
           <div className={styles.panel}>
             <PuzzleSearch compact label="Search from the menu" />

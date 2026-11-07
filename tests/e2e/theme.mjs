@@ -52,7 +52,7 @@ try {
         }
       }
     }
-    await page.locator('header summary[aria-label="Open navigation menu"]').click();
+    await page.locator('header summary[aria-label="More: open navigation menu"]').click();
     const menuAxe = await new AxeBuilder({ page }).include("header").analyze();
     assert.deepEqual(menuAxe.violations.filter((issue) => ["serious", "critical"].includes(issue.impact)), []);
     assert.deepEqual(errors, []);

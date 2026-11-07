@@ -9,6 +9,9 @@
 .copyright {
   align-self: center;
   font-size: .9rem;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
 }
 
 .profiles {
@@ -19,10 +22,12 @@
   gap: 16px;
   padding-block: 20px;
   border-top: 1px solid #485267;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
-.profiles > span { display: grid; gap: 5px; }
+.profiles > span { display: grid; gap: 5px; min-width: 0; }
 .profiles > span > span { color: inherit; font-size: .9rem; }
-.profiles > div { display: flex; flex-wrap: wrap; gap: 12px; }
+.profiles > div { display: flex; flex-wrap: wrap; gap: 12px; min-width: 0; max-width: 100%; }
 .profiles > div a {
   display: inline-flex;
   align-items: center;
