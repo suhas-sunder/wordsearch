@@ -1,4 +1,4 @@
-import { orderWordBank } from "@/lib/puzzle/parse";
+import { puzzleWordBank } from "@/lib/puzzle/word-bank";
 import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import { shareUrl } from "@/lib/share-state/state";
@@ -24,16 +24,7 @@ export function PrintablePuzzle({
   options = outputOptionsForRequest(puzzle.request),
   shareTarget
 }: PrintablePuzzleProps) {
-  const words = orderWordBank(
-    puzzle.placed.map((placement) => ({
-      id: placement.wordId,
-      raw: placement.label,
-      label: placement.label,
-      normalized: placement.label,
-      tokens: placement.tokens
-    })),
-    puzzle.request.wordBankOrder
-  );
+  const words = puzzleWordBank(puzzle);
   const target = shareTarget ?? shareUrl(puzzle.sharePath);
   const Heading = headingLevel === 1 ? "h1" : "h2";
   const page = pdfPageSpec(options.paperSize, options.orientation);

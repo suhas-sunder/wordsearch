@@ -17,7 +17,7 @@ const enumValues = {
   difficulty: ["easy", "medium", "hard"],
   alphabetPack: Object.keys(alphabetPacks),
   fillerMode: ["alphabet", "used", "custom", "rare"],
-  wordBankOrder: ["custom", "alphabetical", "length"]
+  wordBankOrder: ["custom", "input", "alphabetical", "length"]
 } as const;
 const directionKeys = ["E", "W", "S", "N", "SE", "SW", "NE", "NW"];
 
