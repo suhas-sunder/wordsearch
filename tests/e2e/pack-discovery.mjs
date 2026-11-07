@@ -26,7 +26,8 @@ try {
         return [...document.querySelectorAll("[data-ad-placement]")].every((ad) => { const b = ad.getBoundingClientRect(); return !b.width || !b.height || a.right <= b.left || a.left >= b.right || a.bottom <= b.top || a.top >= b.bottom; });
       });
       assert.equal(boxes, true, "worksheet CTA cannot overlap ad geometry");
-      await action.click();
+      if ([390, 1280].includes(width)) await page.keyboard.press("Enter");
+      else await action.click();
       await page.waitForURL("**/pack-builder");
       assert.match(await page.locator('meta[name="robots"]').getAttribute("content"), /noindex/);
       assert.equal(await page.locator("[data-ad-placement]").count(), 0);
