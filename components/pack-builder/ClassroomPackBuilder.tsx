@@ -16,6 +16,7 @@ export function ClassroomPackBuilder() {
   const [paperSize, setPaperSize] = useState<PaperSize>("letter");
   const [order, setOrder] = useState<"answers-last" | "interleaved">("answers-last");
   const [pages, setPages] = useState<"both" | "students" | "answers">("both");
+  const [largePrint, setLargePrint] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [status, setStatus] = useState("");
@@ -35,7 +36,7 @@ export function ClassroomPackBuilder() {
       const pack = buildClassroomPack({ title, wordsText, seed, count });
       downloading = true;
       const { downloadBrowserPuzzlePackPdf } = await import("@/lib/pdf/browser-pack-download");
-      await downloadBrowserPuzzlePackPdf(pack, { paperSize, order, pages, layoutProfile: "pack" });
+      await downloadBrowserPuzzlePackPdf(pack, { paperSize, order, pages, layoutProfile: largePrint ? "large-print" : "pack" });
       setStatus(`Your ${count}-puzzle PDF download has started.`);
     } catch (cause) {
       setStatus("");
@@ -64,6 +65,7 @@ export function ClassroomPackBuilder() {
           <div><label className={label} htmlFor="pack-pages">Download pages</label><select className={control} id="pack-pages" value={pages} onChange={(event) => setPages(event.target.value as typeof pages)}><option value="both">Worksheets and answers</option><option value="students">Student worksheets only</option><option value="answers">Teacher answers only</option></select></div>
           <div><label className={label} htmlFor="pack-order">Answer pages</label><select className={control} id="pack-order" value={order} disabled={pages !== "both"} onChange={(event) => setOrder(event.target.value as "answers-last" | "interleaved")}><option value="answers-last">All at the end</option><option value="interleaved">After each puzzle</option></select></div>
         </div>
+        <div><label className={label} htmlFor="pack-type">Print type</label><select className={control} id="pack-type" value={largePrint ? "large" : "standard"} onChange={(event) => setLargePrint(event.target.value === "large")}><option value="standard">Standard</option><option value="large">Large grid and word bank</option></select><p className={styles.help}>Large output uses at least 16-point grid letters and an 18-point word bank at 100% scale. Header and footer text stays smaller. Dense lists may not fit; shorten the list if needed.</p></div>
         <p className={styles.help}>The PDF is created in your browser. It uses the existing ink-saving style, which includes some tinted gray elements.</p>
         {error && <p role="alert" className={styles.error}>{error}</p>}
         <p role="status" aria-live="polite" className={styles.status}>{status}</p>
