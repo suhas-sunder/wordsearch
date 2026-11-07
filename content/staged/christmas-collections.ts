@@ -8,6 +8,9 @@ export interface CollectionReviewChild {
   collectionFitApproved: boolean;
   audienceSuitabilityApproved: boolean;
   reuseApproved: boolean;
+  role?: "candidate-child" | "optional-companion";
+  newIndexableUrlAllowance?: 0;
+  standaloneIndexableIntentApproved?: false;
 }
 
 export interface StagedCollectionReview {
@@ -59,10 +62,15 @@ export const christmasCollectionReviews: StagedCollectionReview[] = [
   },
   {
     id: "X06", proposedPath: "/collections/christmas-word-searches-for-kids", title: "Christmas Word Searches for Kids — collection repair review", status: "draft", audience: "children-pending-review",
-    introduction: "This is a review of the existing unpublished kids collection, not a completed child index. Only the X02 forward-path candidate is currently proposed for suitability review; it has not received child-audience approval.",
-    selectionGuidance: ["Review X02's complete short-word list, two search directions and actual printed size with the intended audience. Do not infer a grade, age or learning outcome from its easy label.", "A collection needs multiple distinct, suitable, approved and published children. One promising draft is insufficient, even if the collection copy is complete.", "Do not add the existing medium or the hard Christmas puzzle to satisfy a numeric quota. A reviewer may choose a future independently justified child only after assessing its actual vocabulary and practical task."],
+    introduction: "This is a review of the existing unpublished kids collection, not a completed child index. Compare X02's Christmas object words with the exact X08-A action-word companion. Neither has child-audience approval; the companion is not an independently justified indexable child.",
+    selectionGuidance: ["Review X02's complete short-word list, two search directions and actual printed size with the intended audience. Do not infer a grade, age or learning outcome from its easy label.", "For a different task, inspect the optional X08-A action-word companion. Its twelve verbs can accompany teacher-selected card or decoration activities; no activity instructions or tool-safety assurance are supplied by the puzzle.", "A collection needs multiple distinct, suitable, approved and published children. X08-A's general verbs and seasonal context alone do not justify a separate indexable page, so this companion does not fill that publication quota.", "Do not add the existing medium or the hard Christmas puzzle to satisfy a numeric quota. A reviewer may choose a future independently justified child only after assessing its actual vocabulary and practical task."],
     classroomInstructions: ["An adult selecting material should check the seasonal context and vocabulary against the actual group before use.", "When a child is approved, keep its answer page separate and offer the exact same seeded worksheet; do not silently simplify its grid for this hub.", "Until multiple suitable children and this repair are separately approved, retain the current draft/noindex behavior and omit the proposed index from navigation and sitemap."],
-    children: [{ ...easy, reviewQuestions: [...easy.reviewQuestions] }],
+    children: [{ ...easy, reviewQuestions: [...easy.reviewQuestions] }, {
+      source: "staged", id: "X08-A", canonicalPath: "/word-searches/holidays/christmas-classroom-actions-word-search", ...pending,
+      role: "optional-companion", newIndexableUrlAllowance: 0, standaloneIndexableIntentApproved: false,
+      selectionGuidance: "Reuse the exact twelve-verb, 12×12, left-to-right/top-to-bottom worksheet as an optional making-action companion. It changes the task from finding Christmas objects to finding action words without inventing another seasonal object bank. General verbs do not establish a standalone Christmas search intent.",
+      reviewQuestions: ["Does the intended reader understand every action word, including paste, share and color?", "Does a teacher-selected card or decoration context fit this actual group without assuming Christmas participation?", "Is optional packet reuse appropriate? Keep all audience/reuse approvals pending and do not count this as an independently approved published child."]
+    }],
     excludedSelections: [{ id: "published:christmas-word-search", reason: "Published medium status and family/classroom metadata do not establish child-audience suitability for this collection." }, { id: "X01", reason: "No child-suitability evidence supports forcing this harder all-direction puzzle into the kids collection." }, { id: "X04", reason: "No child-suitability approval and an unresolved duplicate-intent decision." }, { id: "X15", reason: "No independent child-suitability approval; do not pad the index with another seasonal label." }],
     minimumApprovedPublishedChildren: 2, collectionEditorialApproved: false, ownerPublicationApproved: false, publicationAuthorized: false
   }
