@@ -55,7 +55,8 @@ try {
               longGridHints: [...document.querySelectorAll("main .static-utility-controls p")].filter((node) => node.textContent.trim() === hint).length,
               largerGridLabels: [...document.querySelectorAll("main .output-preview-toolbar label")].filter((node) => node.textContent.trim() === "Larger grid type").length,
               printFitStates: [...document.querySelectorAll(".print-fit-status")].map((node) => node.dataset.fitState),
-              makerLinks: [...document.querySelectorAll("main a")].filter((node) => node.textContent.trim() === makerLabel).map((node) => node.getAttribute("href"))
+              makerLinks: [...document.querySelectorAll("main a")].filter((node) => node.textContent.trim() === makerLabel).map((node) => node.getAttribute("href")),
+              qrStatuses: [...document.querySelectorAll("main .static-utility-controls [data-qr-readiness]")].map((node) => ({ state: node.dataset.qrReadiness, text: node.innerText, label: node.querySelector("span")?.textContent, href: node.querySelector("a")?.getAttribute("href") }))
             }), { hint: longGridHint, makerLabel });
             sample.label = label;
             sample.gridSha256 = createHash("sha256").update(JSON.stringify(tokens)).digest("hex");
@@ -84,9 +85,25 @@ try {
             for (const [key, value] of Object.entries(original)) assert.deepEqual(state[key], value, `maker action preserves original ${key}`);
             after.makerRequestFieldsVerified = Object.keys(original);
           }
+          const expectedQrStatus = fixture.cells && ["print", "pdf", "answer-key"].includes(kind) ? 1 : 0;
+          assert.equal(before.qrStatuses.length, 0, "historical baseline has no persistent QR readiness row");
+          assert.equal(after.qrStatuses.length, expectedQrStatus, "only valid QR print modes gain one useful readiness/recovery row");
+          let qrStatusText = "";
+          if (expectedQrStatus) {
+            const status = after.qrStatuses[0];
+            assert.equal(status.state, "ready");
+            assert.equal(status.label, "QR code ready.");
+            assert.equal(status.text.replace(/\s+/g, " ").trim(), "QR code ready. Print without a QR code");
+            const recovery = new URL(status.href, candidate);
+            assert.equal(recovery.origin, new URL(candidate).origin);
+            assert.equal(recovery.pathname, result.path);
+            assert.equal(recovery.hash, "");
+            assert.deepEqual(Object.fromEntries(recovery.searchParams), { paper: "letter", orientation: "portrait", scale: "standard", answers: "0", nameDate: "1", instructions: "1", wordBank: "below", qr: "0", coordinates: "0", ink: "0" }, "No-QR recovery preserves every original output choice and changes only QR");
+            qrStatusText = status.text;
+          }
           const normalizedBefore = before.text.replace(/\s+/g, " ").trim();
-          const normalizedAfter = after.text.replace(longGridHint, "").replace(makerLabel, "").replaceAll("Larger grid type", "Large print").replace(/\s+/g, " ").trim();
-          assert.equal(normalizedAfter, normalizedBefore, "all other visible utility words/order preserved after the three explicitly asserted amendments");
+          const normalizedAfter = after.text.replace(qrStatusText, "").replace(longGridHint, "").replace(makerLabel, "").replaceAll("Larger grid type", "Large print").replace(/\s+/g, " ").trim();
+          assert.equal(normalizedAfter, normalizedBefore, "all other visible utility words/order preserved after the four explicitly asserted amendments");
           assert.equal(after.footerVisibility, "visible", "ready/error footer is immediately restored");
           assert.equal(after.pendingMarker, null);
           assert.equal(after.overflow, false);

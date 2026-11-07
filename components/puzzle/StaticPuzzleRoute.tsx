@@ -237,7 +237,10 @@ export function StaticPuzzleRoute({ kind }: { kind: StaticPuzzleRouteKind }) {
             </button>
           )}
         </div>
-        {options.qrCode && !qrDataUrl && <p role="status">{qrFailed ? "The QR code could not be prepared." : "Preparing the QR code before printing."} <a href={`?${serializePuzzleOutputOptions({ ...options, qrCode: false })}`}>Print without a QR code</a>.</p>}
+        {options.qrCode && <p className={styles.qrStatus} role="status" aria-live="polite" aria-atomic="true" data-qr-readiness={qrFailed ? "error" : qrDataUrl ? "ready" : "preparing"}>
+          <span>{qrFailed ? "The QR code could not be prepared." : qrDataUrl ? "QR code ready." : "Preparing QR code."}</span>
+          <a href={`?${serializePuzzleOutputOptions({ ...options, qrCode: false })}`}>Print without a QR code</a>
+        </p>}
         {pdfStatus === "error" && <div className="output-error" role="alert"><strong>PDF failed.</strong> {pdfError}</div>}
         {printMessage && <p role="status">{printMessage}</p>}
       </div>

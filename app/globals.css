@@ -737,7 +737,8 @@ input[type="checkbox"] {
 }
 
 .print-footer img,
-.qr-placeholder {
+.qr-placeholder,
+.print-qr-unavailable {
   width: 72px;
   height: 72px;
   border: 1px solid var(--line);
@@ -2689,7 +2690,8 @@ input[type="checkbox"] {
   }
 
   .print-footer img,
-  .qr-placeholder {
+  .qr-placeholder,
+  .print-qr-unavailable {
     width: 72px;
     height: 72px;
   }
@@ -2721,7 +2723,9 @@ input[type="checkbox"] {
   .print-page-letter-landscape .print-footer img,
   .print-page-a4-landscape .print-footer img,
   .print-page-letter-landscape .qr-placeholder,
-  .print-page-a4-landscape .qr-placeholder {
+  .print-page-a4-landscape .qr-placeholder,
+  .print-page-letter-landscape .print-qr-unavailable,
+  .print-page-a4-landscape .print-qr-unavailable {
     width: 68px;
     height: 68px;
   }
@@ -2775,7 +2779,7 @@ input[type="checkbox"] {
   .print-sheet .print-subtitle { overflow-wrap: anywhere; }
 }
 
-.print-qr-unavailable { max-width: 170px; font-weight: 700; }
+.print-qr-unavailable { display: grid; place-items: center; flex: none; padding: 4px; font-weight: 700; font-size: .7rem; line-height: 1.2; text-align: center; }
 .print-fit-status { display: none; }
 .print-fit-status[data-fit-state=error] { display: block; padding: 12px; border: 2px solid currentColor; font-weight: 700; }
 .utility-page > .print-sheet + .print-sheet { margin-top: 24px; }
