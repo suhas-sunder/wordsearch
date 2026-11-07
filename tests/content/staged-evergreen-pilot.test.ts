@@ -6,6 +6,7 @@ import { evergreenPilotCandidates, evergreenPilotStatus } from "@/content/staged
 import { readSourceInventory } from "@/lib/content/inventory";
 import { validateStaged } from "@/lib/content/staged-validation";
 import { createPuzzlePdf } from "@/lib/pdf/create-puzzle-pdf";
+import { measurePdfBytes } from "@/lib/pdf/measure-pdf";
 import { generatePuzzle } from "@/lib/puzzle/generate";
 import { defaultPuzzleOutputOptions, pdfPageSpec } from "@/lib/puzzle/output-options";
 
@@ -85,13 +86,17 @@ describe("staged evergreen hard pilot", () => {
         const bytes = await createPuzzlePdf({
           puzzle: first,
           options: { ...defaultPuzzleOutputOptions, paperSize, orientation: "portrait", includeAnswerKey: true, qrCode: false },
-          shareUrl: "https://www.ilovewordsearch.com/"
+          shareUrl: "https://www.ilovewordsearch.com/",
+          layoutProfile: "pack"
         });
         expect(Buffer.from(bytes.subarray(0, 5)).toString("ascii"), `${candidate.id} ${paperSize}`).toBe("%PDF-");
         const document = await PDFDocument.load(bytes);
         expect(document.getPageCount(), `${candidate.id} ${paperSize}`).toBe(2);
         expect(document.getPage(0).getWidth(), `${candidate.id} ${paperSize} width`).toBeCloseTo(pdfPageSpec(paperSize, "portrait").width, 1);
         expect(document.getPage(0).getHeight(), `${candidate.id} ${paperSize} height`).toBeCloseTo(pdfPageSpec(paperSize, "portrait").height, 1);
+        const measurement = await measurePdfBytes(bytes, first, { ...defaultPuzzleOutputOptions, paperSize, qrCode: false });
+        expect(measurement.findings, `${candidate.id} ${paperSize} geometry`).toEqual([]);
+        expect(measurement.grid.minFontPt).toBeGreaterThanOrEqual(9);
       }
     }
   });

@@ -40,10 +40,9 @@ describe("rendered PDF measurements", () => {
     const result = await measurePuzzlePdf(similar, options);
     expect(result.unmeasuredWords).toEqual([]);
   });
-  test("reports overflow or footer collision for an oversized word bank", async () => {
+  test("rejects an oversized legacy word bank before returning a broken PDF", async () => {
     const many = generatePuzzle({ ...puzzle.request, title: "Crowded Bank", wordsText: Array.from({ length: 40 }, (_, index) => `VOCABULARY${String(index).padStart(2, "0")}`).join("\n"), rows: 40, cols: 40 });
-    const result = await measurePuzzlePdf(many, options);
-    expect(result.findings.some((finding) => ["outside-page", "word-bank-footer-overlap", "words-not-measured"].includes(finding.code))).toBe(true);
+    await expect(measurePuzzlePdf(many, options)).rejects.toThrow("word bank cannot fit above the footer");
   });
   test("includes a short final line of a wrapped title", async () => {
     const titled = generatePuzzle({ ...puzzle.request, title: "Wrapped Title 01" });
@@ -57,9 +56,23 @@ describe("rendered PDF measurements", () => {
     expect(result.titleLines.map((line) => line.text)).toEqual(["Wrapped Title", "01"]);
     expect(result.findings.map((finding) => finding.code)).not.toContain("title-text-clipped");
   });
-  test("detects a long title colliding with name and date", async () => {
+  test("rejects a long legacy title before it overlaps name and date", async () => {
     const long = generatePuzzle({ ...puzzle.request, title: "A Very Long Descriptive Word Search Worksheet Title For Classroom Use" });
-    const result = await measurePuzzlePdf(long, options);
-    expect(result.findings.map((finding) => finding.code)).toContain("title-name-date-overlap");
+    await expect(measurePuzzlePdf(long, options)).rejects.toThrow("title is too long");
+  });
+  test("still diagnoses actual title and footer collisions in independently constructed PDFs", async () => {
+    const long = generatePuzzle({ ...puzzle.request, title: "A Very Long Descriptive Word Search Worksheet Title For Classroom Use" });
+    const doc = await PDFDocument.create();
+    const font = await doc.embedFont(StandardFonts.HelveticaBold);
+    const page = doc.addPage([612, 792]);
+    page.drawText(long.request.title, { x: 36, y: 730, size: 18, font });
+    page.drawText("Name", { x: 460, y: 730, size: 8, font });
+    long.grid.forEach((row, r) => row.forEach((token, c) => page.drawText(token, { x: 40 + c * 25, y: 650 - r * 25, size: 12, font })));
+    long.placed.forEach(({ label }, i) => page.drawText(label, { x: 40 + i * 110, y: 50, size: 9.5, font }));
+    page.drawText("Exact seeded word search", { x: 36, y: 50, size: 8, font });
+    const result = await measurePdfBytes(await doc.save(), long, options);
+    expect(result.findings.map(({ code }) => code)).toContain("title-name-date-overlap");
+    expect(result.findings.map(({ code }) => code)).toContain("word-bank-footer-overlap");
+    expect(result.unmeasuredWords).toEqual([]);
   });
 });

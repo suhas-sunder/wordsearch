@@ -6,7 +6,7 @@ import { describe, expect, test } from "vitest";
 import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
 import { specialtyRoutes } from "@/content/specialty";
 import { getAlphabetPack } from "@/lib/alphabet-packs";
-import { createPuzzlePdf, UnsupportedPdfTextError } from "@/lib/pdf/create-puzzle-pdf";
+import { createPuzzlePdf, PdfLayoutError, UnsupportedPdfTextError } from "@/lib/pdf/create-puzzle-pdf";
 import { generatePuzzle } from "@/lib/puzzle/generate";
 import { defaultPuzzleOutputOptions } from "@/lib/puzzle/output-options";
 import { parseWordInput } from "@/lib/puzzle/parse";
@@ -40,10 +40,11 @@ describe("specialty route baseline integrity", () => {
     expect((answer.match(/<line /g) ?? []).length).toBe(puzzle.placed.length);
     expect(student).toContain('aria-label="Word bank"');
   });
-  test.each(specialtyRoutes.map((route) => [route.slug, route] as const))("%s: PDF renders or explicitly rejects unsupported glyphs", async (_slug, route) => {
+  test.each(specialtyRoutes.map((route) => [route.slug, route] as const))("%s: PDF renders or explicitly rejects unsupported glyphs/layout", async (_slug, route) => {
     const puzzle = routePuzzle(route);
     const output = createPuzzlePdf({ puzzle, options: { ...defaultPuzzleOutputOptions, qrCode: false, includeAnswerKey: true }, shareUrl: puzzlePlayUrl(puzzle.request) });
     if (unsupportedPdf.has(route.alphabetPack)) await expect(output).rejects.toBeInstanceOf(UnsupportedPdfTextError);
+    else if (route.alphabetPack === "binary") await expect(output).rejects.toBeInstanceOf(PdfLayoutError);
     else expect((await PDFDocument.load(await output)).getPageCount()).toBe(2);
   });
 });
