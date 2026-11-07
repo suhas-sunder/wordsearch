@@ -2580,6 +2580,7 @@ input[type="checkbox"] {
   .hero,
   .builder-controls,
   .builder-head,
+  .local-puzzle-library,
   .preview-toolbar,
   .validation-panel,
   .export-row,
@@ -2751,4 +2752,41 @@ input, textarea, select { color: inherit; }
   --selected: #eef8f2;
   --focus: #257b54;
   }
+}
+
+.local-puzzle-library {
+  margin-block: 16px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.local-puzzle-library summary {
+  cursor: pointer;
+  font-weight: 700;
+  min-height: 44px;
+}
+
+.local-puzzle-library p {
+  max-width: 80ch;
+  margin-block: 10px;
+}
+
+.local-puzzle-library input {
+  display: block;
+  width: 100%;
+  max-width: 32rem;
+  margin-block: 6px 10px;
+}
+
+.local-puzzle-library li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-block: 10px;
+}
+
+.local-puzzle-library li span {
+  overflow-wrap: anywhere;
 }
