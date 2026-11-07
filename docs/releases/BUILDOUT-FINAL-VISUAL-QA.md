@@ -91,6 +91,24 @@ settings/PDF dialogs. The outside-repository `manual-visual-review.json` records
 the exact filenames and findings. Reserved advertising space in the mocked-loader
 captures is preserved rather than treated as a reason to change ad placement.
 
+## Isolated repair regression
+
+The isolated repaired export on 3494 is accurately identified as base
+`a3988b546eedf44c772691dbe65a139b1a74a523` plus the three-file application patch
+SHA-256 `1b5bad2dd84dc6732b6788b2eae9d61062a8388840b4d5d2ae68dcf57fb01125`,
+not relabeled as the unchanged base. The same eight previously failing/regression
+rows pass with zero failures/notices. A separate 16-row online-play matrix covers
+all eight profiles in both themes, also with zero failures/notices; every measured
+start title now uses ink `rgb(23,32,51)` on white. Four additional 390-wide export
+success/error rows pass and provide readable detail captures for manual comparison.
+The light success and dark PNG-error detail screenshots and repaired dark-320
+start card were inspected individually: text remains separated and readable.
+
+Artifacts are under
+`C:/Users/Suhas/.codex/tmp/product-candidate-04-repaired-patch/` in
+`visual-focused`, `visual-play` and `visual-spacing-390`. This bounded patch
+evidence does not replace the pending final committed-SHA 432-case run.
+
 ## Remaining acceptance boundaries
 
 Manual review is a recorded sample of generated screenshots, not an assertion
