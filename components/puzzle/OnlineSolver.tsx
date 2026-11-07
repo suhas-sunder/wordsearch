@@ -200,14 +200,14 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   }
 
   function submitSelection(path: Coordinate[]) {
-    if (path.length < 2) {
+    if (path.length === 0) {
       clearPendingSelection();
       return;
     }
     const currentFound = foundPlacementIdsRef.current;
     const placement = findMatchingPlacement(puzzle.placed, path, currentFound);
     if (!placement) {
-      clearPendingSelection("That path is not an unfound word. Try another line.");
+      clearPendingSelection(path.length === 1 ? undefined : "That path is not an unfound word. Try another line.");
       return;
     }
     const next = new Set(currentFound);
@@ -321,6 +321,10 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
       return;
     }
     if (sameCoordinate(activeSelection.start, coordinate)) {
+      if (findMatchingPlacement(puzzle.placed, [coordinate], foundPlacementIdsRef.current)) {
+        submitSelection([coordinate]);
+        return;
+      }
       clearPendingSelection("Endpoint selection canceled.");
       return;
     }
