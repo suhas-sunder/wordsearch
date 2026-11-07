@@ -364,6 +364,7 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
           <div className="export-row">
             <button type="button" onClick={downloadSvg}><Download size={16} aria-hidden="true" /> SVG</button>
             <span>Print, PDF, answer key, play, share, and QR all use this exact seeded state.</span>
+            {!persistState && <a href={puzzle.sharePath}>Open in maker to save</a>}
           </div>
           <div className="sr-only" aria-live="polite">
             {puzzle.placed.length} words placed. {puzzle.excluded.length} words excluded. {Array.from(placedLabels).length} unique placed answers.

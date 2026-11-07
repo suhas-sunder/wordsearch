@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, KeyRound, RefreshCw, Settings } from "lucide-react";
+import { Check, KeyRound, Pencil, RefreshCw, Settings } from "lucide-react";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import {
   coordinateKey,
@@ -459,6 +459,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
           <button type="button" className="secondary-button" onClick={openSettings}><Settings size={17} aria-hidden="true" /> Settings</button>
           <button type="button" className="secondary-button" onClick={resetPuzzle}><RefreshCw size={17} aria-hidden="true" /> Reset puzzle</button>
           {compactToolbar}
+          <a className="secondary-button" href={puzzle.sharePath}><Pencil size={17} aria-hidden="true" /> Edit or save in maker</a>
         </div>
       </div>
 
