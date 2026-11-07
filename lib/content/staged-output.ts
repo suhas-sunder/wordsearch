@@ -13,7 +13,7 @@ export async function inspectCandidatePdfs(freeze: Freeze): Promise<{ issues: Va
   for (const paperSize of ["letter", "a4"] as const) {
     try {
       const options = { ...defaultPuzzleOutputOptions, paperSize, includeAnswerKey: true, qrCode: false };
-      const bytes = await createPuzzlePdf({ puzzle: freeze.result, options, shareUrl: "https://www.ilovewordsearch.com/" });
+      const bytes = await createPuzzlePdf({ puzzle: freeze.result, options, shareUrl: "https://www.ilovewordsearch.com/", layoutProfile: "pack" });
       const standardFontDataUrl = `${fileURLToPath(new URL("../../node_modules/pdfjs-dist/standard_fonts/", import.meta.url))}/`;
       const loadingTask = getDocument({ data: bytes.slice(), standardFontDataUrl });
       const pdf = await loadingTask.promise;
