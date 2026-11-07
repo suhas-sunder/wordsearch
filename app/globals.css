@@ -2093,14 +2093,19 @@ input[type="checkbox"] {
 }
 
 .footer-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) repeat(4, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 36px;
 }
 
 .footer-grid > div {
+  flex: 1 1 9rem;
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.footer-grid > div:first-child {
+  flex: 1.5 1 14rem;
 }
 
 .footer-brand {
@@ -2427,13 +2432,17 @@ input[type="checkbox"] {
   .hero,
   .builder-grid,
   .two-col,
-  .footer-grid,
   .home-hero,
   .hub-hero,
   .split-feature,
   .editorial-home,
   .editorial-copy {
     grid-template-columns: 1fr;
+  }
+
+  .footer-grid > div,
+  .footer-grid > div:first-child {
+    flex-basis: 100%;
   }
 
   .hero,
