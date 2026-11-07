@@ -4,7 +4,7 @@ import { choosePuzzleSize } from "@/lib/puzzle/generation-limits";
 import { createPrng, shuffleSeeded } from "@/lib/puzzle/prng";
 import type { DirectionKey, ParsedWord, Placement, PuzzleRequest, PuzzleResult } from "@/lib/puzzle/types";
 import { encodeShareState } from "@/lib/share-state/state";
-import { assertPuzzleRequest, directionSelectionError } from "@/lib/puzzle/request-validation";
+import { assertPuzzleRequest, directionSelectionError, noPlacementsError } from "@/lib/puzzle/request-validation";
 export { directionSelectionError } from "@/lib/puzzle/request-validation";
 
 export const directionVectors: Record<DirectionKey, { dr: number; dc: number; label: string }> = {
@@ -139,6 +139,7 @@ export function generatePuzzle(input: Partial<PuzzleRequest>): PuzzleResult {
     }
   }
 
+  if (!placed.length) throw new Error(noPlacementsError);
   const usedTokens = placed.flatMap((item) => item.tokens);
   const fillerTokens = fillerByMode(request.fillerMode, usedTokens, pack, request.customFiller);
   let hiddenMessageApplied = "";

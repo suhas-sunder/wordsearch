@@ -54,7 +54,7 @@ describe("content audit safeguards", () => {
       puzzle: { ...puzzle("source").puzzle, seed: "", words: [] },
       editorial: {}
     });
-    expect(codes([record])).toEqual(expect.arrayContaining(["missing-content", "missing-seed", "empty-word-list", "broken-related-id", "thin-indexable-puzzle"]));
+    expect(codes([record])).toEqual(expect.arrayContaining(["missing-content", "missing-seed", "empty-word-list", "broken-related-id", "thin-indexable-puzzle", "puzzle-generation-failed"]));
   });
 
   test("requires real, non-future review dates for published puzzle records", () => {
