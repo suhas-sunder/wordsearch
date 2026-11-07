@@ -4,6 +4,7 @@ import { useRef, useState, type FormEvent } from "react";
 import styles from "./ClassroomPackBuilder.module.css";
 import { buildClassroomPack } from "@/lib/pack/classroom-pack";
 import type { PaperSize } from "@/lib/puzzle/output-options";
+import { classroomPresetsKey, readClassroomPresets, saveClassroomPreset, type ClassroomPreset } from "@/lib/pack/presets";
 
 const control = styles.control;
 const label = styles.label;
@@ -20,7 +21,36 @@ export function ClassroomPackBuilder() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [status, setStatus] = useState("");
+  const [presets, setPresets] = useState<ClassroomPreset[]>([]);
   const active = useRef(false);
+
+  function presetAction(action: "show" | "save" | "clear") {
+    setError("");
+    setStatus("");
+    try {
+      const storage = window.localStorage;
+      if (action === "clear") {
+        storage.removeItem(classroomPresetsKey);
+        setPresets([]);
+        setStatus("Saved classroom presets deleted from this browser.");
+      } else if (action === "show") {
+        const saved = readClassroomPresets(storage);
+        setPresets(saved);
+        setStatus(saved.length ? `${saved.length} saved presets available.` : "No classroom presets saved in this browser.");
+      } else {
+        setPresets(saveClassroomPreset(storage, { input: { title, wordsText, seed, count }, paperSize, order, pages }));
+        setStatus(`Saved ${title} in this browser. Saving the same title replaces that preset.`);
+      }
+    } catch {
+      setError("Presets could not be read or saved. Storage may be blocked, full, invalid or at the five-preset limit. Your form entries are unchanged. Delete saved presets to clear incompatible data.");
+    }
+  }
+
+  function loadPreset(preset: ClassroomPreset) {
+    setTitle(preset.input.title); setWordsText(preset.input.wordsText); setSeed(preset.input.seed); setCount(preset.input.count);
+    setPaperSize(preset.paperSize); setOrder(preset.order); setPages(preset.pages);
+    setError(""); setStatus(`Loaded ${preset.input.title}. Review the entries before downloading.`);
+  }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,6 +97,16 @@ export function ClassroomPackBuilder() {
         </div>
         <div><label className={label} htmlFor="pack-type">Print type</label><select className={control} id="pack-type" value={largePrint ? "large" : "standard"} onChange={(event) => setLargePrint(event.target.value === "large")}><option value="standard">Standard</option><option value="large">Large grid and word bank</option></select><p className={styles.help}>Large output uses at least 16-point grid letters and an 18-point word bank at 100% scale. Header and footer text stays smaller. Dense lists may not fit; shorten the list if needed.</p></div>
         <p className={styles.help}>The PDF is created in your browser. It uses the existing ink-saving style, which includes some tinted gray elements.</p>
+        <fieldset className={styles.presets} disabled={busy}>
+          <legend>Local classroom presets</legend>
+          <p className={styles.help}>Save stores the exact title, word list, seed and output choices on this device. Up to five titles; saving an existing title replaces it. Other people using this browser can read them. Nothing is uploaded or saved automatically.</p>
+          <div className={styles.presetActions}>
+            <button type="button" onClick={() => presetAction("save")}>Save preset on this device</button>
+            <button type="button" onClick={() => presetAction("show")}>Show saved presets</button>
+            <button type="button" onClick={() => presetAction("clear")}>Delete saved presets</button>
+          </div>
+          {presets.length > 0 && <ul>{presets.map((preset) => <li key={preset.input.title}><button type="button" onClick={() => loadPreset(preset)}>Load {preset.input.title}</button></li>)}</ul>}
+        </fieldset>
         {error && <p role="alert" className={styles.error}>{error}</p>}
         <p role="status" aria-live="polite" className={styles.status}>{status}</p>
         <button type="submit" disabled={busy} className={styles.button}>{busy ? "Preparing PDF…" : "Download PDF pack"}</button>

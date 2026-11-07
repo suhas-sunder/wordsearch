@@ -10,7 +10,7 @@ export interface ClassroomPackInput {
 }
 
 /** Stable assignment numbers and exact user seed define each reproducible grid. */
-export function buildClassroomPack(input: ClassroomPackInput): PuzzlePack {
+export function validateClassroomPackInput(input: ClassroomPackInput): number {
   if (!input || typeof input.title !== "string" || !/^[A-Za-z0-9][A-Za-z0-9 ' -]{0,79}$/.test(input.title) || input.title.trim() !== input.title || input.title.includes("  ")) throw new Error("Enter a title of 1–80 letters, numbers, spaces, apostrophes or hyphens, with single spaces and no spaces at either end.");
   if (typeof input.seed !== "string" || !/^[A-Za-z0-9_-]{1,64}$/.test(input.seed)) throw new Error("Enter a seed of 1–64 letters, numbers, underscores or hyphens.");
   if (input.count !== 5 && input.count !== 10 && input.count !== 20) throw new Error("Choose 5, 10 or 20 puzzles.");
@@ -20,6 +20,12 @@ export function buildClassroomPack(input: ClassroomPackInput): PuzzlePack {
   const parsed = parseWordInput(input.wordsText, "latin");
   if (parsed.words.some((word) => word.duplicateOf) || new Set(parsed.words.map((word) => word.tokens.join(""))).size !== parsed.words.length) throw new Error("Remove duplicate words or phrases, ignoring letter case.");
   if (parsed.warnings.length || parsed.words.length !== lines.length || parsed.words.some((word) => word.tokens.length < 2 || word.tokens.length > 14)) throw new Error("Each word or phrase must contain 2–14 letters.");
+  return parsed.words.length;
+}
+
+export function buildClassroomPack(input: ClassroomPackInput): PuzzlePack {
+  const wordCount = validateClassroomPackInput(input);
+  const lines = input.wordsText.split(/\r?\n/);
   const puzzles = Array.from({ length: input.count }, (_, index) => {
     const assignment = String(index + 1).padStart(2, "0");
     const puzzle = generatePuzzle({
@@ -35,7 +41,7 @@ export function buildClassroomPack(input: ClassroomPackInput): PuzzlePack {
       allowOverlap: true,
       fillerMode: "alphabet"
     });
-    if (puzzle.excluded.length || puzzle.placed.length !== parsed.words.length || puzzle.warnings.length) throw new Error(`Assignment ${assignment} could not place every word. Shorten the list or use shorter words; your entries are unchanged.`);
+    if (puzzle.excluded.length || puzzle.placed.length !== wordCount || puzzle.warnings.length) throw new Error(`Assignment ${assignment} could not place every word. Shorten the list or use shorter words; your entries are unchanged.`);
     return { id: `assignment-${assignment}`, puzzle };
   });
   if (new Set(puzzles.map(({ puzzle }) => JSON.stringify(puzzle.grid))).size !== puzzles.length) throw new Error("Two assignments produced the same grid. Choose another seed and try again.");
