@@ -38,7 +38,7 @@ export function ClassroomPackBuilder() {
         setPresets(saved);
         setStatus(saved.length ? `${saved.length} saved presets available.` : "No classroom presets saved in this browser.");
       } else {
-        setPresets(saveClassroomPreset(storage, { input: { title, wordsText, seed, count }, paperSize, order, pages }));
+        setPresets(saveClassroomPreset(storage, { input: { title, wordsText, seed, count }, paperSize, order, pages, largePrint }));
         setStatus(`Saved ${title} in this browser. Saving the same title replaces that preset.`);
       }
     } catch {
@@ -48,7 +48,7 @@ export function ClassroomPackBuilder() {
 
   function loadPreset(preset: ClassroomPreset) {
     setTitle(preset.input.title); setWordsText(preset.input.wordsText); setSeed(preset.input.seed); setCount(preset.input.count);
-    setPaperSize(preset.paperSize); setOrder(preset.order); setPages(preset.pages);
+    setPaperSize(preset.paperSize); setOrder(preset.order); setPages(preset.pages); setLargePrint(preset.largePrint === true);
     setError(""); setStatus(`Loaded ${preset.input.title}. Review the entries before downloading.`);
   }
 
