@@ -81,7 +81,7 @@ try {
   await page.goto(`${base}/word-search-generator?state=${state}`, { waitUntil: "networkidle" });
   let downloads = 0; page.on("download", () => { downloads++; });
   await page.getByRole("button", { name: "HTML worksheet", exact: true }).click();
-  await page.locator('p.control-help[role="status"]').filter({ hasText: "This worksheet does not fit the selected paper" }).waitFor();
+  await page.getByRole("status").filter({ hasText: "This worksheet does not fit the selected paper" }).waitFor();
   assert.equal(downloads, 0, "unsupported offline layout produces no file");
   await page.getByRole("textbox", { name: "Words and clues", exact: true }).fill(words.split("\n").slice(0, 40).join("\n"));
   await page.getByRole("button", { name: "Print this puzzle", exact: true }).click();
