@@ -1741,6 +1741,26 @@ input[type="checkbox"] {
   gap: 9px;
 }
 
+.search-result-skeleton {
+  min-height: 108px;
+  display: grid;
+  align-content: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+}
+
+.search-result-skeleton span {
+  display: block;
+  height: 16px;
+  width: 65%;
+  border-radius: 4px;
+  background: var(--subtle);
+}
+
+.search-result-skeleton span:last-child { width: 85%; }
+
 .search-result-list > a {
   min-height: 108px;
   display: grid;

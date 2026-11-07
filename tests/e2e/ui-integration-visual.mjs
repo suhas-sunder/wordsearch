@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { chromium } from "playwright";
 
 const baseline = process.env.BASELINE_URL ?? "http://localhost:3252";
@@ -7,6 +7,8 @@ const candidate = process.env.BASE_URL ?? "http://localhost:3250";
 const output = process.env.VISUAL_OUTPUT;
 if (!output) throw new Error("VISUAL_OUTPUT must point outside the repository.");
 await mkdir(output, { recursive: true });
+const runId = process.env.VISUAL_RUN_ID ?? new Date().toISOString().replaceAll(":", "-");
+const measurements = [];
 const state = Buffer.from(JSON.stringify({ title: "UI review", wordsText: "CAT\nDOG", seed: "ui-review", alphabetPack: "latin", directions: ["E"], rows: 8, cols: 8, autoSize: false })).toString("base64url");
 const routes = [{ name: "home", path: "/" }, { name: "categories", path: "/categories" }, { name: "search", path: "/search?q=food" }, { name: "utility", path: `/pdf/${state}` }];
 const browser = await chromium.launch({ headless: true });
@@ -40,8 +42,11 @@ try {
       assert.deepEqual(results[1].links, results[0].links, "crawlable links preserved");
       assert.deepEqual(results[1].seo, results[0].seo, "canonical, metadata and JSON-LD preserved");
       assert.deepEqual(results[1].adTop, results[0].adTop, "top ad geometry preserved");
-      assert.ok(results[1].cls <= results[0].cls + 0.01, `new layout shift: before=${results[0].cls}, after=${results[1].cls}`);
-      console.log(JSON.stringify({ route: route.name, width, beforeCls: results[0].cls, afterCls: results[1].cls, contentLinksSeoAdGeometry: "unchanged" }));
+      const measurement = { runId, route: route.name, width, beforeCls: results[0].cls, afterCls: results[1].cls, deltaCls: results[1].cls - results[0].cls, threshold: 0.01, contentLinksSeoAdGeometry: "unchanged" };
+      measurements.push(measurement);
+      await writeFile(`${output}/measurements.json`, `${JSON.stringify({ runId, baseline, candidate, measurements }, null, 2)}\n`);
+      console.log(JSON.stringify(measurement));
+      assert.ok(results[1].cls <= results[0].cls + 0.01, `new layout shift (${runId} ${route.name} ${width}): before=${results[0].cls}, after=${results[1].cls}`);
     }
   }
 } finally { await browser.close(); }
