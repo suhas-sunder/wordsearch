@@ -106,13 +106,14 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
         if (!wrapper.current?.contains(event.relatedTarget as Node | null)) setOpen(false);
       }}
     >
-      <form role="search" onSubmit={submit}>
+      <form role="search" action="/search" method="get" onSubmit={submit}>
         <label htmlFor={`${listboxId}-input`}>{label}</label>
         <div className="search-control">
           <Search size={20} aria-hidden="true" />
           <input
             id={`${listboxId}-input`}
             type="search"
+            name="q"
             maxLength={searchQueryMaxLength}
             value={query}
             placeholder="Try animals, planets, summer, or spelling"
