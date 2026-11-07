@@ -371,7 +371,7 @@
     {
       "id": "F1.author-footer",
       "title": "Truthful author/About and professional legal footer",
-      "status": "TESTED",
+      "status": "IN PROGRESS",
       "ownerIssues": [
         8,
         9
@@ -385,7 +385,7 @@
       "evidence": [
         "docs/releases/BUILDOUT-U08.md"
       ],
-      "remaining": "Owner biography/manual visual review; no invented credentials or review dates.",
+      "remaining": "Manual review found the footer maintainer link rendered as a block by the global cascade; scoped fix underway. Owner biography review remains separate; no invented credentials or review dates.",
       "manualApproval": false
     },
     {
