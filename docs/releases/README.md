@@ -1,5 +1,11 @@
 # Controlled delivery: two independent tracks
 
+Current autonomous development: [candidate04 draft record](BUILDOUT-INTEGRATION-04.md)
+and [definitive feature acceptance ledger](PRODUCT-ACCEPTANCE.md). The older
+dated candidate/track sections below remain historical evidence. Candidate04
+is still being implemented and tested; no product, production or editorial
+approval follows from a completed package or ready preview.
+
 ## Active buildout review queue
 
 The November 6 full-buildout authorization continues development immediately,
