@@ -1,0 +1,63 @@
+.paper {
+  --ink: #172033;
+  --muted: #5d687a;
+  --line: #d9dee7;
+  --accent: #1f7a4d;
+  color: var(--ink);
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 28px;
+}
+
+.grid {
+  width: min(100%, 640px);
+  aspect-ratio: 1;
+  margin-inline: auto;
+  border: 1px solid #d9dee7;
+  border-radius: 4px;
+  background: #eef1f4;
+}
+
+.bank span {
+  width: 52px;
+  height: 18px;
+  border-radius: 4px;
+  background: #eef1f4;
+}
+
+.qr {
+  width: 72px;
+  height: 72px;
+  flex: none;
+  border: 1px solid #d9dee7;
+  background: #eef1f4;
+}
+
+.checking button { opacity: .55; cursor: wait; }
+.solver { width: min(100%, 760px); margin-top: 20px; }
+.solver .grid { width: 100%; }
+.embed .grid { width: 100%; }
+.printChecking { display: none; }
+
+.invalid h1,
+.checking > noscript h1 {
+  margin: .5rem 0 1rem;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+}
+
+/* A pending raw utility has no final output geometry yet. Do not expose moving
+   unrelated footer links until the valid preview or explicit error is ready.
+   The inline marker only runs with JavaScript; no-JS keeps normal navigation. */
+:global(html).pending :global(.site-footer) { visibility: hidden; }
+
+@media (max-width: 560px) {
+  .paper { padding: 14px; }
+}
+
+@media print {
+  .paper, .grid { display: none; }
+  .printChecking { display: block; }
+}
