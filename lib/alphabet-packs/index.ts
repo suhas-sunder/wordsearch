@@ -27,6 +27,7 @@ function basicPack(id: AlphabetPackId, label: string, description: string): Alph
     label,
     description,
     supportsPlainText: true,
+    supportsCustomFiller: true,
     normalizeInput: cleanLatin,
     tokenize: latinTokens,
     encodeWord(input) {
@@ -87,6 +88,7 @@ function mappedPack(id: AlphabetPackId, label: string, description: string, map:
     label,
     description,
     supportsPlainText: true,
+    supportsCustomFiller: true,
     normalizeInput: cleanLatin,
     tokenize(input) {
       return latinTokens(input).map((token) => map[token] ?? token);
@@ -115,13 +117,14 @@ function mappedPack(id: AlphabetPackId, label: string, description: string, map:
 
 export const alphabetPacks: Record<AlphabetPackId, AlphabetPack> = {
   latin: basicPack("latin", "Latin letters", "Standard A-Z word search output with diacritic normalization."),
-  spanish: basicPack("spanish", "Spanish", "Spanish-friendly input with accents normalized for puzzle placement."),
-  french: basicPack("french", "French", "French-friendly input with accents normalized for puzzle placement."),
+  spanish: basicPack("spanish", "Spanish (normalized Latin)", "Accents and the tilde in ñ are removed, so distinct Spanish words can collapse. This is not full Spanish spelling support."),
+  french: basicPack("french", "French (normalized Latin)", "Accents are removed and letters such as œ are discarded. Check the grid against the words before using it."),
   morse: {
     id: "morse",
-    label: "Morse code",
-    description: "Encodes plain text as Morse tokens and accepts dot/dash Morse input.",
+    label: "Morse tokens",
+    description: "Latin letters and digits become dot/dash cells. Raw groups are accepted without checking that they are valid Morse characters; very long groups may not fit.",
     supportsPlainText: true,
+    supportsCustomFiller: false,
     normalizeInput(input) {
       return input
         .replace(/[–—−]/g, "-")
@@ -155,9 +158,10 @@ export const alphabetPacks: Record<AlphabetPackId, AlphabetPack> = {
       return `Morse ${token.replace(/\./g, "dot ").replace(/-/g, "dash ").trim()}`;
     }
   },
-  braille: mappedPack("braille", "Braille", "Uses real Unicode braille cells for plain-text input.", brailleMap),
+  braille: mappedPack("braille", "Braille glyphs (visual only)", "Visual letter-pattern mapping, not tactile or complete Braille transcription. Digits stay Latin; the standard PDF font rejects Braille glyphs.", brailleMap),
   binary: {
-    ...basicPack("binary", "Binary", "Encodes each letter as fixed-width 8-bit binary."),
+    ...basicPack("binary", "Binary tokens (experimental)", "Uppercase Latin letters and digits become eight-bit character codes in each cell. Dense cells can be unreadable; PDF rejects characters that do not fit."),
+    supportsCustomFiller: false,
     tokenize(input) {
       return latinTokens(input).map((token) => token.charCodeAt(0).toString(2).padStart(8, "0"));
     },
@@ -174,7 +178,8 @@ export const alphabetPacks: Record<AlphabetPackId, AlphabetPack> = {
     }
   },
   hex: {
-    ...basicPack("hex", "Hexadecimal", "Encodes each letter as two-digit hexadecimal for CS classrooms."),
+    ...basicPack("hex", "Hex character codes", "Uppercase Latin letters and digits become two-digit hexadecimal character codes in each cell."),
+    supportsCustomFiller: false,
     tokenize(input) {
       return latinTokens(input).map((token) => token.charCodeAt(0).toString(16).toUpperCase());
     },
@@ -190,10 +195,10 @@ export const alphabetPacks: Record<AlphabetPackId, AlphabetPack> = {
       return ["41", "45", "49", "4F", "55", "53", "54", "52"];
     }
   },
-  greek: mappedPack("greek", "Greek alphabet", "Maps Latin classroom lists into Greek display tokens.", greekMap),
-  kana: mappedPack("kana", "Japanese kana", "Maps plain classroom lists into simple kana display tokens.", kanaMap),
-  emoji: mappedPack("emoji", "Symbol", "Uses simple geometric symbols while keeping accessible labels.", emojiMap),
-  asl: mappedPack("asl", "ASL fingerspelling", "Uses accessible ASL-labeled letter cells with SVG-friendly labels.", Object.fromEntries(latinAlphabet.map((letter) => [letter, `ASL-${letter}`])))
+  greek: mappedPack("greek", "Greek-looking symbols (experimental)", "Experimental Latin-letter mapping with symbol collisions. Native Greek input is unsupported, and the standard PDF font rejects Greek glyphs.", greekMap),
+  kana: mappedPack("kana", "Kana-looking symbols (experimental)", "Experimental Latin-letter mapping, not Japanese romanization or native kana input. The standard PDF font rejects kana glyphs.", kanaMap),
+  emoji: mappedPack("emoji", "Geometric symbols (experimental)", "Experimental Latin-letter mapping with symbol collisions. Direct emoji input is unsupported; the standard PDF font rejects these symbols.", emojiMap),
+  asl: mappedPack("asl", "ASL text labels (scaffold)", "Text labels such as ASL-A only. Handshapes, motion and ASL fingerspelling graphics are not implemented.", Object.fromEntries(latinAlphabet.map((letter) => [letter, `ASL-${letter}`])))
 };
 
 export function getAlphabetPack(id: AlphabetPackId | string): AlphabetPack {

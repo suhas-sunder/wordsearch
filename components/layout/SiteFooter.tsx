@@ -1,15 +1,19 @@
 import Link from "next/link";
-import { BookOpen, FileDown, Grid3X3, Printer, ZoomIn } from "lucide-react";
+import { BookOpen, ExternalLink, FileDown, Grid3X3, Printer, ZoomIn } from "lucide-react";
 import { categories } from "@/content/categories";
+import { authors } from "@/content/model";
 import { BrandIdentity } from "@/components/layout/BrandIdentity";
+import styles from "./SiteFooter.module.css";
 
 export function SiteFooter() {
+  const maintainer = authors.find((author) => author.id === "suhas-sunder");
   return (
     <footer className="site-footer">
       <div className="site-shell footer-grid">
         <div>
           <p className="footer-brand brand"><BrandIdentity /><span className="sr-only">I Love Word Search</span></p>
           <p>Find, print, play, and create clean word search puzzles for home, classrooms, and casual solving.</p>
+          {maintainer && <p className={styles.maintainer}>Built and maintained by <Link href={maintainer.profilePath}>{maintainer.name}</Link>, a software engineer.</p>}
         </div>
         <div>
           <h2>Find puzzles</h2>
@@ -45,7 +49,15 @@ export function SiteFooter() {
           <Link href="/accessibility">Accessibility</Link>
         </div>
       </div>
+      {maintainer && <nav className={`site-shell ${styles.profiles}`} aria-label="Creator profiles">
+        <span><strong>Connect with the creator</strong><span>{maintainer.name}&apos;s portfolio and professional profile</span></span>
+        <div>
+          {maintainer.sameAs.includes("https://www.suhassunder.com/") && <a href="https://www.suhassunder.com/" rel="external noreferrer">Portfolio<ExternalLink size={15} aria-hidden="true" /></a>}
+          {maintainer.sameAs.includes("https://www.linkedin.com/in/s-sunder/") && <a href="https://www.linkedin.com/in/s-sunder/" rel="external noreferrer">LinkedIn<ExternalLink size={15} aria-hidden="true" /></a>}
+        </div>
+      </nav>}
       <nav className="site-shell footer-legal" aria-label="Legal information">
+        <span className={styles.copyright}>© {new Date().getUTCFullYear()} I Love Word Search</span>
         <Link href="/privacy">Privacy</Link>
         <Link href="/terms">Terms</Link>
         <Link href="/copyright">Copyright</Link>

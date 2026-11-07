@@ -11,6 +11,7 @@ export interface SolverPreferences {
   gridLines: boolean;
   highContrastSelection: boolean;
   showProgress: boolean;
+  soundOnFound: boolean;
 }
 
 export const defaultSolverPreferences: SolverPreferences = {
@@ -20,7 +21,8 @@ export const defaultSolverPreferences: SolverPreferences = {
   letterCase: "uppercase",
   gridLines: true,
   highContrastSelection: false,
-  showProgress: true
+  showProgress: true,
+  soundOnFound: false
 };
 
 export function normalizeSolverPreferences(value: unknown): SolverPreferences {
@@ -33,7 +35,8 @@ export function normalizeSolverPreferences(value: unknown): SolverPreferences {
     letterCase: saved.letterCase === "lowercase" ? "lowercase" : "uppercase",
     gridLines: saved.gridLines !== false,
     highContrastSelection: saved.highContrastSelection === true,
-    showProgress: saved.showProgress !== false
+    showProgress: saved.showProgress !== false,
+    soundOnFound: saved.soundOnFound === true
   };
 }
 
@@ -140,7 +143,9 @@ export function SolverPreferencesDialog({ open, preferences, onChange, onClose }
           <label><input type="checkbox" checked={preferences.gridLines} onChange={(event) => patch({ gridLines: event.target.checked })} /> Show grid lines</label>
           <label><input type="checkbox" checked={preferences.highContrastSelection} onChange={(event) => patch({ highContrastSelection: event.target.checked })} /> High-contrast selection</label>
           <label><input type="checkbox" checked={preferences.showProgress} onChange={(event) => patch({ showProgress: event.target.checked })} /> Show progress count</label>
+          <label><input type="checkbox" checked={preferences.soundOnFound} onChange={(event) => patch({ soundOnFound: event.target.checked })} aria-describedby="solver-sound-help" /> Sound when a word is found</label>
         </div>
+        <p id="solver-sound-help" className="control-help">Off by default. A brief local tone plays for each newly found word. Browser or device audio settings may keep it silent.</p>
 
         <p className="solver-motion-note">Selection feedback follows your device’s reduced-motion setting. Visual preferences never change the puzzle seed or placements.</p>
         <footer>

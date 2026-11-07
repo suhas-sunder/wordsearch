@@ -1,0 +1,1389 @@
+{
+  "schemaVersion": 1,
+  "updatedOn": "2026-11-06",
+  "productStatus": "IN PROGRESS",
+  "productionSha": "471a118dd459f2181cd641ed0572ba6dd7005540",
+  "productionAccepted": false,
+  "contentEditorialApproved": false,
+  "initialNewUrlLimitPerApprovedWeeklyRelease": 1,
+  "sourceRefs": {
+    "8": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/8",
+      "sha": "9b8e64d2f211460a01c3143272fe70e22d14f185",
+      "branch": "release/2026-W46-baseline-audit-investigation",
+      "draft": true
+    },
+    "14": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/14",
+      "sha": "d297f7b71b336029e7d151d4e3e5ca6330438f52",
+      "branch": "planning/2026-11-06-christmas-growth",
+      "draft": true
+    },
+    "15": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/15",
+      "sha": "5730c2cff95a177d375ad4c33901d389aeb41e89",
+      "branch": "fasttrack/2026-11-06-ui-integration",
+      "draft": true
+    },
+    "16": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/16",
+      "sha": "74b8ff95024b60a7f299175cd153b3c4fb974835",
+      "branch": "release/2026-W46-integrated-candidate",
+      "draft": true
+    },
+    "17": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/17",
+      "sha": "6ed1b0434d82a9bb4e73c4f8964fd7d84b131f7d",
+      "branch": "release/2026-W46-buildout-foundation",
+      "draft": true
+    },
+    "18": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/18",
+      "sha": "5b4d857f910571e6f17a69a18f9f9a333e512416",
+      "branch": "release/2026-W46-growth-monitoring",
+      "draft": true
+    },
+    "20": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/20",
+      "sha": "1e904061f3b61ce3264df8c9d4886dafe60bc27d",
+      "branch": "release/2026-W46-staged-validation",
+      "draft": true
+    },
+    "21": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/21",
+      "sha": "790292e46db7d852a1d82e6d246de4c9c1ed5e7c",
+      "branch": "release/2026-W46-completion-card",
+      "draft": true
+    },
+    "24": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/24",
+      "sha": "ef02bec1e6afa60317ff29107d59d8cea9cc657d",
+      "branch": "release/2026-W46-identity-discovery",
+      "draft": true
+    },
+    "25": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/25",
+      "sha": "39316a0f4efd214365a9fa94f7d378f06e4f0191",
+      "branch": "release/2026-W46-print-measurement",
+      "draft": true
+    },
+    "27": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/27",
+      "sha": "86338303e81cc14d8c20d9eb91dd6aa431f06659",
+      "branch": "release/2026-W46-pack-layout",
+      "draft": true
+    },
+    "31": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/31",
+      "sha": "e6f73822d1e7467c9c57778ee5d10e10d9107c52",
+      "branch": "release/2026-W46-author-trust",
+      "draft": true
+    },
+    "32": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/32",
+      "sha": "3c2676908ea719f45c583cbf005bea9c0efc5cf7",
+      "branch": "release/2026-W46-hub-label",
+      "draft": true
+    },
+    "33": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/33",
+      "sha": "2cc4c20885b3d956badd077a92086429470853d5",
+      "branch": "release/2026-W46-navigation",
+      "draft": true
+    },
+    "34": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/34",
+      "sha": "c6553c8b7b5608730dcbb94b22223ddb552c16ec",
+      "branch": "release/2026-W46-solver-progress",
+      "draft": true
+    },
+    "35": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/35",
+      "sha": "76c6862748938e8dc5d775439be0d4f6862a023c",
+      "branch": "codex/seasonal-classroom-inventory",
+      "draft": true
+    },
+    "37": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/37",
+      "sha": "9e8b5b9325f757605d0c0eac3d9697093ebcb2f2",
+      "branch": "codex/buildout-integration-02",
+      "draft": true
+    },
+    "38": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/38",
+      "sha": "37b4e526cffa15eb8ae7b4a0702127ab32c77b0a",
+      "branch": "codex/classroom-export-options",
+      "draft": true
+    },
+    "39": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/39",
+      "sha": "67ae6e27f1b1cedbde08bdf5018c9d28d3f72509",
+      "branch": "codex/zod-security",
+      "draft": true
+    },
+    "40": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/40",
+      "sha": "7898813bb73fa8d2416cef8380aa0c613eea17a4",
+      "branch": "codex/evergreen-hard-inventory",
+      "draft": true
+    },
+    "41": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/41",
+      "sha": "b687815c533b5805034045a127bc3a2d2ab75843",
+      "branch": "codex/classroom-subject-inventory",
+      "draft": true
+    },
+    "42": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/42",
+      "sha": "cd4def1fdc26d4587d867a7dbc670212f3d823fa",
+      "branch": "codex/buildout-dark-mode",
+      "draft": true
+    },
+    "43": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/43",
+      "sha": "a7af19b14f0ffa2e29c505618a653acf2f622f94",
+      "branch": "codex/measured-large-print",
+      "draft": true
+    },
+    "44": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/44",
+      "sha": "5b5f6f8a3b4ec346105ecbb8bfafeccce5e49c9b",
+      "branch": "codex/classroom-local-presets",
+      "draft": true
+    },
+    "45": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/45",
+      "sha": "7909b541e61230efa144c4e19284b30e69a6fe9e",
+      "branch": "codex/tooling-security",
+      "draft": true
+    },
+    "46": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/46",
+      "sha": "bd4832c706e8e4220b465805d8f366dc9e315db7",
+      "branch": "codex/largeprint-catalog",
+      "draft": true
+    },
+    "47": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/47",
+      "sha": "cbf3e092c7d79f2b956781578d98cfb1378c31e3",
+      "branch": "codex/resume-navigation-clock",
+      "draft": true
+    },
+    "48": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/48",
+      "sha": "1748237db3ebd96cc54abe7ce92a46bc1ba0b862",
+      "branch": "codex/buildout-contextual-discovery",
+      "draft": true
+    },
+    "49": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/49",
+      "sha": "6ca81e11b45e1fe8591334dd241f6af54287eebd",
+      "branch": "codex/annual-review-packs",
+      "draft": true
+    },
+    "50": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "sha": "86987dbf2638f5deabee53ec8be3c694f754c49d",
+      "branch": "codex/buildout-hub-faqs",
+      "draft": true
+    },
+    "51": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/51",
+      "sha": "08ffcd2ea97aa43fd73ce79904a86623d7752f84",
+      "branch": "codex/buildout-integration-03",
+      "draft": true
+    },
+    "52": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/52",
+      "sha": "14414d9b47e0a192052d53f2786155df7f2009cf",
+      "branch": "codex/buildout-search-layout",
+      "draft": true
+    },
+    "53": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/53",
+      "sha": "11e492098eaeeb9259ce98ed8b35c75558ba1760",
+      "branch": "codex/calendar-inventory-gaps",
+      "draft": true
+    },
+    "54": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/54",
+      "sha": "be4b4c852c46c400100d735618dd64ce808ed215",
+      "branch": "codex/classroom-worksheet-fields",
+      "draft": true
+    },
+    "55": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/55",
+      "sha": "4b47bf23ffb1d6be0014ad428a1057495ff42244",
+      "branch": "codex/local-puzzle-library",
+      "draft": true
+    },
+    "56": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/56",
+      "sha": "1e6d6cc69c455e7bba89d7a21175c67a1ca34474",
+      "branch": "codex/editorial-calendar-2027",
+      "draft": true
+    },
+    "57": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/57",
+      "sha": "d55e7937ae60d03a8aae536d354558a8164ba623",
+      "branch": "codex/buildout-f1-visual",
+      "draft": true
+    },
+    "58": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/58",
+      "sha": "ea27212e7ced9003c6b69100f1efa1c8156b07f7",
+      "branch": "codex/full-calendar-inventory-audit",
+      "draft": true
+    },
+    "59": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/59",
+      "sha": "0b8e03681ad69c8aa0839c8082074e38240d6cfa",
+      "branch": "codex/offline-html-worksheet",
+      "draft": true
+    },
+    "60": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/60",
+      "sha": "6a862b7cf28950d6291e9c4cf720b1b19ad56262",
+      "branch": "codex/contextual-owned-sites",
+      "draft": true
+    },
+    "61": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/61",
+      "sha": "57813648edbb9daa1f2ff1ef4665adc176cb53cc",
+      "branch": "codex/classroom-pack-discovery",
+      "draft": true
+    },
+    "62": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/62",
+      "sha": "d0002b03421505c8e20a828206b192ba1911d5d2",
+      "branch": "codex/context-tools-validation",
+      "draft": true
+    },
+    "63": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/63",
+      "sha": "1780019a4a748cbd084c3705610956b5bdaeb96c",
+      "branch": "codex/solver-single-cell",
+      "draft": true
+    },
+    "64": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/64",
+      "sha": "c80ffe2d0e6f23b392d05897bec6a33bea239e00",
+      "branch": "codex/saved-puzzle-reachability",
+      "draft": true
+    },
+    "65": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/65",
+      "sha": "587442cdda85d98eeddaa05e612ecfdad05843a5",
+      "branch": "codex/request-print-settings",
+      "draft": true
+    },
+    "66": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/66",
+      "sha": "8019e4b441403c81cb4372ef145bd12e410a11af",
+      "branch": "codex/f2-guest-validation",
+      "draft": true
+    },
+    "67": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/67",
+      "sha": "b3677920d7c28dc91ce5f41ba52ad8456060494e",
+      "branch": "codex/buildout-utility-layout",
+      "draft": true
+    },
+    "68": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/68",
+      "sha": "28cb5f72659e5567d6052acfe085cf90d31d81d9",
+      "branch": "codex/pdf-fit-errors",
+      "draft": true
+    },
+    "69": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/69",
+      "sha": "7c8a617b910921667bc6b102aa3349af9a8fce21",
+      "branch": "codex/theme-progressive-control",
+      "draft": true
+    },
+    "70": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/70",
+      "sha": "203d2d83b9ef5ee9b9c4779b31effc888a934bc9",
+      "branch": "codex/product-candidate-04",
+      "draft": true
+    },
+    "71": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/71",
+      "sha": "fc6c471acb5d26149c7ed6a04db2a3567d576707",
+      "branch": "codex/lighthouse-provider-diagnosis",
+      "draft": true
+    },
+    "72": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/72",
+      "sha": "160d8b46925799a75f75a5ef4afca26967f9e0a3",
+      "branch": "codex/browser-print-layout",
+      "draft": true
+    },
+    "73": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/73",
+      "sha": "737bcdd0d2adddad7cb2bcf763913cc41015bf78",
+      "branch": "codex/accessible-share-destinations",
+      "draft": true
+    },
+    "74": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/74",
+      "sha": "e2154fa00f1093dc794952fef8cb77bfd5de52f8",
+      "branch": "codex/advanced-puzzle-settings",
+      "draft": true
+    },
+    "75": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/75",
+      "sha": "105eec46c1bfeff186baa72bf19cd8a9007ae1e2",
+      "branch": "codex/grid-export-formats",
+      "draft": true
+    },
+    "76": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/76",
+      "sha": "446e15344f263655c8d97f6290e985fde2bf10d4",
+      "branch": "codex/single-measured-large-print",
+      "draft": true
+    },
+    "77": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/77",
+      "sha": "0e546929514867328e228dd03a4de65e99ab6b89",
+      "branch": "codex/browser-print-preflight",
+      "draft": true
+    },
+    "78": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/78",
+      "sha": "a73301168096c601cb521f44c70027f75d349264",
+      "branch": "codex/clue-worksheets",
+      "draft": true
+    },
+    "79": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/79",
+      "sha": "41aa3e0a79e411bbd9407ca22106ac35d01a1d0b",
+      "branch": "codex/preserved-owner-inventory",
+      "draft": true
+    },
+    "80": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/80",
+      "sha": "4d863d47a2de1df2e40b693b126d4437404c368f",
+      "branch": "codex/staged-editorial-quality",
+      "draft": true
+    },
+    "81": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/81",
+      "sha": "7cb3dbbd1315b6737825f1793d5a7fb03b105475",
+      "branch": "codex/optional-solver-sound",
+      "draft": true
+    },
+    "82": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/82",
+      "sha": "f1413b27a4a2bfac4bc10b04c34c5d2ab55db63e",
+      "branch": "codex/printable-letter-case",
+      "draft": true
+    },
+    "83": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/83",
+      "sha": "58c284b492a03288cc1031b0282914ead9c076f9",
+      "branch": "codex/empty-puzzle-recovery",
+      "draft": true
+    },
+    "84": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/84",
+      "sha": "0fa79b452c2262482026df1e53002eb9e6e38717",
+      "branch": "codex/advertising-copy-accuracy",
+      "draft": true
+    },
+    "85": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/85",
+      "sha": "09d47e5187819f7cd90f05cedc7ac79d8f2b666e",
+      "branch": "codex/cancel-stale-html-exports",
+      "draft": true
+    },
+    "86": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/86",
+      "sha": "8478f1c5744b1e5f215342200d7040ad51caf8a8",
+      "branch": "codex/f2-settings-matrix",
+      "draft": true
+    },
+    "87": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/87",
+      "sha": "dbd26874841e256ae7615134c2d7ac7ff6ebc6d1",
+      "branch": "codex/final-visual-qa",
+      "draft": true
+    },
+    "88": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/88",
+      "sha": "25feeb9b427a1f7d990063e1c3bc6c8137ef9bbb",
+      "branch": "codex/export-help-spacing",
+      "draft": true
+    },
+    "89": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/89",
+      "sha": "50ccc6d7f45b78cad52d2706a9f7064ceec488d8",
+      "branch": "codex/christmas-measured-format",
+      "draft": true
+    }
+  },
+  "features": [
+    {
+      "id": "F0.integration",
+      "title": "Combine independent branches without losing work",
+      "status": "IN PROGRESS",
+      "ownerIssues": [],
+      "prs": [
+        37,
+        51,
+        70
+      ],
+      "checks": [
+        "npm run lint",
+        "npm run typecheck",
+        "npm test",
+        "npm run build",
+        "npm run test:e2e"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-INTEGRATION-02.md",
+        "docs/releases/BUILDOUT-INTEGRATION-03.md"
+      ],
+      "remaining": "All implementation through89 is integrated locally, including expanded visual acceptance, verified CSS/help repairs and strict source-only X03 measured Christmas format. Frozen a3988 independent1200PDF hashes and static150 definitions/217URLs/35 redirects pass. Replacement combined exact-SHA functional/visual/CLS/provider checks remain pending.",
+      "manualApproval": false
+    },
+    {
+      "id": "F0.integrity",
+      "title": "Preserve150 published grids, canonicals and redirects",
+      "status": "TESTED",
+      "ownerIssues": [
+        11
+      ],
+      "prs": [
+        37,
+        51
+      ],
+      "checks": [
+        "npm test",
+        "npm run audit:static-host"
+      ],
+      "evidence": [
+        "tests/unit/direction-validation.test.ts",
+        "tests/seo/routes.test.ts"
+      ],
+      "remaining": "At frozen a3988, all150 independently generated production definitions/results,217 sitemap metadata/JSON-LD and35 redirects match;1200 actual published PDFs are byte-identical. Replacement CSS/help-only candidate requires explicit source carry-forward and final browser verification.",
+      "manualApproval": false
+    },
+    {
+      "id": "F0.cls",
+      "title": "Reconcile UI15 evidence and fix search hydration layout shifts",
+      "status": "TESTED",
+      "ownerIssues": [
+        11
+      ],
+      "prs": [
+        15,
+        52,
+        67
+      ],
+      "checks": [
+        "Repeated before/after visual/CLS comparisons"
+      ],
+      "evidence": [
+        "docs/releases/fast-track-2026-11-06-ui-integration.md",
+        "docs/releases/BUILDOUT-UTILITY-LAYOUT.md"
+      ],
+      "remaining": "Search three repeated paired runs and84 utility pairs pass unchanged guards; rerun final combined candidate. Historical failed comparisons remain recorded.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.brand-icons",
+      "title": "Consistent brand, action/category icons and readable labels",
+      "status": "TESTED",
+      "ownerIssues": [
+        1,
+        2,
+        3
+      ],
+      "prs": [
+        15,
+        32
+      ],
+      "checks": [
+        "Category/utility icons browser tests"
+      ],
+      "evidence": [
+        "tests/e2e/category-icons.mjs",
+        "tests/e2e/static-utility-icons.mjs"
+      ],
+      "remaining": "Combined full visual acceptance pending.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.navigation",
+      "title": "Responsive right-aligned navigation, More and keyboard search",
+      "status": "TESTED",
+      "ownerIssues": [
+        5
+      ],
+      "prs": [
+        33
+      ],
+      "checks": [
+        "npm run test:navigation"
+      ],
+      "evidence": [
+        "tests/e2e/header-navigation.mjs"
+      ],
+      "remaining": "Physical keyboard/screen-reader/browser acceptance pending.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.discovery",
+      "title": "Shared search and All Tools on useful templates",
+      "status": "TESTED",
+      "ownerIssues": [
+        6
+      ],
+      "prs": [
+        48
+      ],
+      "checks": [
+        "node tests/e2e/contextual-discovery.mjs"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-U05-SEARCH.md"
+      ],
+      "remaining": "Final template/print/ad geometry review pending.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.faq",
+      "title": "Useful context-specific FAQs with server-rendered answers",
+      "status": "TESTED",
+      "ownerIssues": [
+        6
+      ],
+      "prs": [
+        48,
+        50,
+        62
+      ],
+      "checks": [
+        "FAQ SSR and exact hub HTML checks"
+      ],
+      "evidence": [
+        "tests/unit/page-faq.test.ts",
+        "docs/releases/BUILDOUT-U05-HUB-FAQ.md"
+      ],
+      "remaining": "Authored SSR hub answers and combined context checks pass; independent editorial usefulness acceptance remains.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.internal-links",
+      "title": "Meaningful related-topic/category/collection pathways",
+      "status": "TESTED",
+      "ownerIssues": [
+        12
+      ],
+      "prs": [
+        48,
+        61,
+        62
+      ],
+      "checks": [
+        "Content/reference/crawlable link checks"
+      ],
+      "evidence": [
+        "components/page/CuratedPuzzlePage.tsx",
+        "tests/seo/discovery.test.ts",
+        "docs/releases/BUILDOUT-PACK-DISCOVERY.md"
+      ],
+      "remaining": "Pack paths now discoverable. Read-only217-URL main-link audit found all150 puzzles have at least six peer links and no indexable main-content dead ends; exact final export review remains.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.cross-sites",
+      "title": "Selective relevant owned-site suggestions",
+      "status": "TESTED",
+      "ownerIssues": [
+        7
+      ],
+      "prs": [
+        60,
+        62
+      ],
+      "checks": [
+        "Contextual owned-site SSR, six-width/light-dark, keyboard, axe, print, no-JS and ad-geometry browser suite"
+      ],
+      "evidence": [
+        "ai-issues/README.md",
+        "docs/releases/BUILDOUT-CONTEXTUAL-OWNED-SITES.md"
+      ],
+      "remaining": "Three relevant tools on seven explicit contexts passed SSR, keyboard, axe, print and ad-geometry checks. Independent final manual acceptance remains.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.author-footer",
+      "title": "Truthful author/About and professional legal footer",
+      "status": "TESTED",
+      "ownerIssues": [
+        8,
+        9
+      ],
+      "prs": [
+        31,
+        57,
+        60,
+        62
+      ],
+      "checks": [
+        "Trust metadata, browser and accessibility tests"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-U08.md",
+        "docs/releases/BUILDOUT-F1-VISUAL.md"
+      ],
+      "remaining": "Scoped footer cascade/contrast repairs pass. Owner biography accuracy and final manual review remain separate.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.social",
+      "title": "Appropriate verified social/profile links",
+      "status": "TESTED",
+      "ownerIssues": [
+        17
+      ],
+      "prs": [
+        60,
+        62
+      ],
+      "checks": [
+        "Contextual owned-site SSR, six-width/light-dark, keyboard, axe, print, no-JS and ad-geometry browser suite"
+      ],
+      "evidence": [
+        "ai-issues/README.md",
+        "docs/releases/BUILDOUT-CONTEXTUAL-OWNED-SITES.md"
+      ],
+      "remaining": "Verified existing portfolio/LinkedIn references only; automated LinkedIn retrieval returned999, external availability remains manual.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.theme",
+      "title": "System-aware persisted light/dark with print isolation",
+      "status": "TESTED",
+      "ownerIssues": [
+        10
+      ],
+      "prs": [
+        42,
+        69
+      ],
+      "checks": [
+        "node tests/e2e/theme.mjs"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-U09.md",
+        "tests/unit/theme.test.ts",
+        "docs/releases/BUILDOUT-THEME-CONTROL.md"
+      ],
+      "remaining": "Seven widths and seven routes plus persistence, blocked storage, dialogs, no-JS and print pass. Physical/manual acceptance and final combined rerun remain.",
+      "manualApproval": false
+    },
+    {
+      "id": "F1.visual",
+      "title": "Every archetype across required widths, zoom and landscape",
+      "status": "IN PROGRESS",
+      "ownerIssues": [
+        11,
+        13
+      ],
+      "prs": [
+        42,
+        51,
+        57,
+        67,
+        69,
+        87,
+        88
+      ],
+      "checks": [
+        "320/390/768/1024/1280/1600 light/dark screenshot and axe matrix"
+      ],
+      "evidence": [
+        "tests/e2e/theme.mjs",
+        "tests/e2e/accessibility.mjs",
+        "docs/releases/BUILDOUT-F1-VISUAL.md",
+        "docs/releases/BUILDOUT-FINAL-VISUAL-QA.md",
+        "docs/releases/BUILDOUT-VISUAL-ACCEPTANCE-REPAIRS.md"
+      ],
+      "remaining": "Original frozen432 matrix completed with eight dark solver-start contrast failures and manual export-text overlap. Both defects repaired; focused28 cases pass with rendered text-bounds/axe and reviewed screenshots. Final committed432-case matrix remains pending; original failures are retained.",
+      "manualApproval": false
+    },
+    {
+      "id": "F2.clues",
+      "title": "Actual opt-in clue banks and teacher answer alignment",
+      "status": "TESTED",
+      "ownerIssues": [
+        13,
+        18
+      ],
+      "prs": [
+        78
+      ],
+      "checks": [
+        "Exact parsed-ID alignment, punctuation-safe input, excluded/duplicate entries, preview/PDF/HTML and old-request parity"
+      ],
+      "evidence": [
+        "ai-issues/2026-11-06-buildout-catalog-and-release-queue.md",
+        "docs/releases/BUILDOUT-T02-CLUE-WORKSHEETS.md"
+      ],
+      "remaining": "Actual numbered student clues/teacher mappings, punctuation-safe input, solver and real PDF/HTML checks pass.1200 historical PDF hashes unchanged. Final combined and user-written clue review remain separate.",
+      "manualApproval": false
+    },
+    {
+      "id": "F2.feedback",
+      "title": "Optional default-off local word-found sound and reduced-motion feedback",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        81
+      ],
+      "checks": [
+        "Node22 lint/typecheck/475tests/build335/static",
+        "Native muted WebAudio lifecycle, default silence, opt-in, duplicate/reveal/replay, blocked APIs and saved-progress regression"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-SOLVER-SOUND.md"
+      ],
+      "remaining": "Actual browser lifecycle tests pass; no external assets/network or default sound. Physical sound/device quality remains manual; final combined regression pending.",
+      "manualApproval": false
+    },
+    {
+      "id": "F2.settings",
+      "title": "All supported generator settings and editable recovery",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        16,
+        51,
+        65,
+        66,
+        74,
+        78,
+        82,
+        83,
+        86
+      ],
+      "checks": [
+        "Settings matrix, input/direction/preview regression"
+      ],
+      "evidence": [
+        "tests/e2e/request-validation.mjs",
+        "tests/e2e/direction-validation.mjs",
+        "docs/releases/BUILDOUT-F2-PRINT-SETTINGS.md",
+        "docs/releases/BUILDOUT-ADVANCED-SETTINGS.md",
+        "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md",
+        "docs/releases/BUILDOUT-F2-SETTINGS-MATRIX.md"
+      ],
+      "remaining": "Actual overlap, auto/manual size, difficulty/directions, files, seed, instructions, eight packs, filler/hidden-message fallbacks, clues, case and recovery workflows pass; unsupported controls are explained/disabled, accepted legacy behavior retained. Final combined43-feature validation and physical/device acceptance remain separate.",
+      "manualApproval": false
+    },
+    {
+      "id": "F2.input-safety",
+      "title": "Bound external/state input without stale outputs or browser freezes",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        16,
+        83
+      ],
+      "checks": [
+        "npm run test:inputs",
+        "npm run test:workload"
+      ],
+      "evidence": [
+        "docs/releases/WORKLOAD-2026-11-06.md",
+        "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md"
+      ],
+      "remaining": "Empty/unsupported/all-too-long and actual seed-dependent zero-placement states now fail closed with editable recovery; malformed states stay generic. Central post-placement guard and500tests/browser/cache regressions pass; valid150/1200 fingerprints unchanged. Final combined rerun remains.",
+      "manualApproval": false
+    },
+    {
+      "id": "F2.solver",
+      "title": "Mouse, touch, keyboard, replay and accurate solved state",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        37,
+        47,
+        63,
+        66
+      ],
+      "checks": [
+        "Full browser pointer/touch/tap/keyboard solver matrix"
+      ],
+      "evidence": [
+        "tests/e2e/browser-smoke.mjs",
+        "docs/releases/BUILDOUT-F2-SINGLE-CELL.md"
+      ],
+      "remaining": "One-cell regression repaired across keyboard/pointer/tap. Physical Safari/Android and assistive-technology checks remain manual.",
+      "manualApproval": false
+    },
+    {
+      "id": "F2.sharing",
+      "title": "Reliable native/copy/QR sharing and private completion stats",
+      "status": "TESTED",
+      "ownerIssues": [
+        15
+      ],
+      "prs": [
+        21,
+        37,
+        73
+      ],
+      "checks": [
+        "npm run test:completion",
+        "npm run test:parity",
+        "node tests/e2e/share-destinations.mjs"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-B09-COMPLETION.md",
+        "docs/releases/BUILDOUT-SHARE-DESTINATIONS.md"
+      ],
+      "remaining": "Explicit WhatsApp/email links, pre-action word-list privacy disclosure, copy recovery and native cancellation pass16 responsive light/dark cases. Real provider delivery/native devices/QR scanning and final combined acceptance remain manual.",
+      "manualApproval": false
+    },
+    {
+      "id": "F2.resume",
+      "title": "Opt-in versioned progress, corruption/privacy and navigation timing",
+      "status": "TESTED",
+      "ownerIssues": [
+        13,
+        14
+      ],
+      "prs": [
+        34,
+        47
+      ],
+      "checks": [
+        "npm run test:solver-progress"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-U13-NAVIGATION.md"
+      ],
+      "remaining": "Actual bfcache/device lifecycle acceptance pending.",
+      "manualApproval": false
+    },
+    {
+      "id": "F2.library",
+      "title": "Explicit named local saved-puzzle library",
+      "status": "TESTED",
+      "ownerIssues": [
+        14
+      ],
+      "prs": [
+        55,
+        64,
+        66
+      ],
+      "checks": [
+        "Named-library browser/storage/print checks"
+      ],
+      "evidence": [
+        "components/builder/WordSearchBuilder.tsx",
+        "docs/releases/BUILDOUT-F2-GUEST-VALIDATION.md"
+      ],
+      "remaining": "Explicit20-item local library, corruption recovery, exact curated/shared maker reachability and combined workflows pass; no cloud claim. Final combined/manual acceptance remains.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.grid-exports",
+      "title": "Standalone PNG/SVG and exact plain-text grid downloads",
+      "status": "TESTED",
+      "ownerIssues": [
+        18
+      ],
+      "prs": [
+        75,
+        85
+      ],
+      "checks": [
+        "Node22 lint/typecheck/450tests/build335/static217/35/6",
+        "npx tsx tests/e2e/grid-exports.ts",
+        "npx tsx tests/e2e/grid-export-compatibility.ts"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-GRID-EXPORTS.md",
+        "tests/unit/grid-export.test.ts",
+        "docs/releases/BUILDOUT-OUTPUT-CANCELLATION.md"
+      ],
+      "remaining": "Confirmed stale HTML/static PDF downloads and stale PNG errors are repaired with current-job/request/style/unmount guards. Six HTML, two static PDF and PNG rejection/retry cases plus normal export regressions pass. Final combined and physical/device acceptance remain separate.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.single-pdf",
+      "title": "Deterministic single-puzzle print/PDF/answer output",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        25,
+        37,
+        68,
+        72,
+        76,
+        77,
+        82,
+        85
+      ],
+      "checks": [
+        "npm run audit:pdf",
+        "npm run test:preview",
+        "npm run test:parity"
+      ],
+      "evidence": [
+        "tests/unit/pdf.test.ts",
+        "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
+        "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md",
+        "docs/releases/BUILDOUT-SINGLE-LARGE-PRINT.md",
+        "docs/releases/BUILDOUT-OUTPUT-CANCELLATION.md"
+      ],
+      "remaining": "Confirmed stale HTML/static PDF downloads and stale PNG errors are repaired with current-job/request/style/unmount guards. Six HTML, two static PDF and PNG rejection/retry cases plus normal export regressions pass. Final combined and physical/device acceptance remain separate.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.layout-fit",
+      "title": "Robust measured titles/banks and actionable fit failures",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        27,
+        43,
+        68,
+        72,
+        77,
+        78
+      ],
+      "checks": [
+        "PDF geometry, old byte hashes and measured-layout tests"
+      ],
+      "evidence": [
+        "tests/unit/print-measure.test.ts",
+        "tests/unit/pdf-pack-layout.test.ts",
+        "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
+        "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md",
+        "docs/releases/BUILDOUT-BROWSER-PRINT-PREFLIGHT.md"
+      ],
+      "remaining": "Actual paper/font/QR preflight rejects dense banks, oversized content and within-cell glyph collisions; normal/long-grid and recovery PDFs pass. Final84-pair CLS/combined regression and physical printers remain.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.large-print",
+      "title": "Measured readable grid and word bank on Letter/A4",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        43,
+        46,
+        76,
+        89
+      ],
+      "checks": [
+        "node tests/e2e/large-print-pack.mjs",
+        "Large-print inventory PDF geometry"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-MEASURED-LARGE-PRINT.md",
+        "docs/releases/BUILDOUT-SINGLE-LARGE-PRINT.md",
+        "docs/releases/BUILDOUT-X03-MEASURED-FORMAT.md"
+      ],
+      "remaining": "Explicit measured single-puzzle and classroom PDFs enforce16pt grid/18pt bank or fail actionably; eight real single outputs and visual review pass. Legacy flags truthfully say Larger grid type; old default PDF bytes remain unchanged. Physical printing remains manual.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.print-case",
+      "title": "ASCII Latin printed case across preview and document exports",
+      "status": "TESTED",
+      "ownerIssues": [
+        13,
+        18
+      ],
+      "prs": [
+        82
+      ],
+      "checks": [
+        "Node22 lint/typecheck/486tests/build335/static",
+        "Real PDF/HTML/SVG/PNG/TXT case parity, preferences, clue prose and1200 historical PDF hashes"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-PRINTABLE-CASE.md"
+      ],
+      "remaining": "Lowercase A-Z is presentation-only, preserving canonical definitions and non-Latin tokens/clue prose. Actual browser/output tests pass; final combined/manual font and printer acceptance remains.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.packets",
+      "title": "5/10/20 stable worksheets, student/teacher PDFs and ordering",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        38
+      ],
+      "checks": [
+        "node tests/e2e/classroom-pack.mjs"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-CLASSROOM-EXPORTS.md"
+      ],
+      "remaining": "Combined final visual/physical print checks pending.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.presets",
+      "title": "Explicit local classroom save/load/delete and privacy",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        44
+      ],
+      "checks": [
+        "node tests/e2e/classroom-presets.mjs"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-CLASSROOM-PRESETS.md"
+      ],
+      "remaining": "Combined theme/large-print preference acceptance pending.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.worksheet-fields",
+      "title": "Name/date/class and custom instructions without collisions",
+      "status": "TESTED",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        54
+      ],
+      "checks": [
+        "Real PDF field, geometry and saved-setting tests"
+      ],
+      "evidence": [
+        "components/pack-builder/ClassroomPackBuilder.tsx",
+        "docs/releases/BUILDOUT-CLASSROOM-FIELDS.md"
+      ],
+      "remaining": "Optional blank Class line and bounded custom directions pass real Letter/A4 standard/large output and old-preset compatibility. Physical/manual acceptance remains.",
+      "manualApproval": false
+    },
+    {
+      "id": "F3.html-export",
+      "title": "Useful safe offline HTML worksheet export",
+      "status": "TESTED",
+      "ownerIssues": [
+        18
+      ],
+      "prs": [
+        59,
+        66,
+        77,
+        78,
+        82,
+        85
+      ],
+      "checks": [
+        "Real-file offline/no-network/XSS/grid/answer/print tests"
+      ],
+      "evidence": [
+        "components/puzzle/PuzzleSvg.tsx",
+        "docs/releases/BUILDOUT-F3-OFFLINE-HTML.md",
+        "docs/releases/BUILDOUT-BROWSER-PRINT-PREFLIGHT.md",
+        "docs/releases/BUILDOUT-OUTPUT-CANCELLATION.md"
+      ],
+      "remaining": "Confirmed stale HTML/static PDF downloads and stale PNG errors are repaired with current-job/request/style/unmount guards. Six HTML, two static PDF and PNG rejection/retry cases plus normal export regressions pass. Final combined and physical/device acceptance remain separate.",
+      "manualApproval": false
+    },
+    {
+      "id": "F4.inventory",
+      "title": "Distinct source-only seasonal/evergreen/teacher/large-print assets",
+      "status": "TESTED",
+      "ownerIssues": [],
+      "prs": [
+        35,
+        40,
+        41,
+        46,
+        49,
+        53,
+        58,
+        79,
+        80,
+        89
+      ],
+      "checks": [
+        "npm run audit:staged-inventory -- --pdf --export"
+      ],
+      "evidence": [
+        "scripts/audit-staged-inventory.ts",
+        "docs/releases/BUILDOUT-CALENDAR-CATALOG-AUDIT.md",
+        "docs/releases/BUILDOUT-PRESERVED-OWNER-INVENTORY.md",
+        "docs/releases/BUILDOUT-X03-MEASURED-FORMAT.md"
+      ],
+      "remaining": "60 main candidates,16 utility selections and8 preserved owner proposals (6 existing drafts/2 proposed paths) remain source-only. Two unpublished titles/request fingerprints migrated explicitly after semantic review; all150 published unchanged. Original raw owner source unchanged. Human facts/rights/audience/editorial approval absent.",
+      "manualApproval": false
+    },
+    {
+      "id": "F4.calendar",
+      "title": "53 optional2027 windows and35 conditional candidate mappings",
+      "status": "TESTED",
+      "ownerIssues": [],
+      "prs": [
+        14,
+        56,
+        58,
+        79,
+        80
+      ],
+      "checks": [
+        "Typed dates/kinds/candidate/reference/zero-fallback tests"
+      ],
+      "evidence": [
+        "ai-issues/2026-11-06-2027-WEEKLY-EDITORIAL-CALENDAR.md",
+        "docs/releases/BUILDOUT-2027-EDITORIAL-CALENDAR.md",
+        "docs/releases/BUILDOUT-STAGED-CONTENT-QUALITY.md"
+      ],
+      "remaining": "53 windows/35 opportunities still default zero/cap1. Only original2 PR53 owner assets are mapped; recovered6 are not automatically scheduled. Current seven candidate files match exact pinned Git sources; no publication approval.",
+      "manualApproval": false
+    },
+    {
+      "id": "F4.publication",
+      "title": "Draft isolation, canonical ownership and explicit release decisions",
+      "status": "TESTED",
+      "ownerIssues": [
+        11
+      ],
+      "prs": [
+        17,
+        20
+      ],
+      "checks": [
+        "Candidate export and sitemap/canonical/reference tests"
+      ],
+      "evidence": [
+        "tests/content/staged-inventory.test.ts"
+      ],
+      "remaining": "No draft has human approval; initial maximum one new indexable URL per approved weekly release.",
+      "manualApproval": false
+    },
+    {
+      "id": "F4.cohorts",
+      "title": "Offline Google/Bing cohorts with honest denominators",
+      "status": "TESTED",
+      "ownerIssues": [],
+      "prs": [
+        18
+      ],
+      "checks": [
+        "npm run report:cohorts"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-B10.md"
+      ],
+      "remaining": "Requires operator-provided real aggregates and actual released cohorts.",
+      "manualApproval": false
+    },
+    {
+      "id": "F5.accessibility",
+      "title": "Focus, keyboard, contrast, labels, reduced motion and zoom",
+      "status": "MANUAL ACCEPTANCE PENDING",
+      "ownerIssues": [
+        13
+      ],
+      "prs": [
+        37,
+        42
+      ],
+      "checks": [
+        "npm run test:a11y",
+        "Theme/dialog axe"
+      ],
+      "evidence": [
+        "tests/e2e/accessibility.mjs"
+      ],
+      "remaining": "Automated checks pass; physical screen-reader/Safari/Android/manual accessibility not executed.",
+      "manualApproval": false
+    },
+    {
+      "id": "F5.performance",
+      "title": "Resolve hydration CLS and prevent Lighthouse/CWV regressions",
+      "status": "IN PROGRESS",
+      "ownerIssues": [
+        11
+      ],
+      "prs": [
+        15,
+        45,
+        52,
+        67,
+        71
+      ],
+      "checks": [
+        "Repeated CLS and Lighthouse measurements"
+      ],
+      "evidence": [
+        "tests/e2e/lighthouse-audit.mjs",
+        "docs/releases/BUILDOUT-LIGHTHOUSE-PROVIDER-DIAGNOSIS.md"
+      ],
+      "remaining": "Search/utility CLS repairs pass. Five frozen03 Lighthouse diagnostics attribute repeated enabled-home BP77 to Google third-party cookie/Inspector warnings; ad-free controls BP100. Blocked-provider control is not a release pass or waiver. Final04 performance checks remain.",
+      "manualApproval": false
+    },
+    {
+      "id": "F5.security",
+      "title": "Production and development dependency security",
+      "status": "TESTED",
+      "ownerIssues": [],
+      "prs": [
+        39,
+        45
+      ],
+      "checks": [
+        "npm audit",
+        "npm audit --omit=dev",
+        "Node22 lint/typecheck/unit/build"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-TOOLING-SECURITY.md"
+      ],
+      "remaining": "Independent candidate-owned clean npm ci completed; full and production npm audit scopes zero. Final frozen-code install/lockfile provenance is recorded in integration04; no production security approval is inferred.",
+      "manualApproval": false
+    },
+    {
+      "id": "F5.ads-lifecycle",
+      "title": "Preserve first-filled-ad global placeholder suppression",
+      "status": "TESTED",
+      "ownerIssues": [],
+      "prs": [
+        37,
+        42,
+        84
+      ],
+      "checks": [
+        "npm run test:ads"
+      ],
+      "evidence": [
+        "ai-issues/AD-PLACEHOLDER-SAFETY.md",
+        "docs/releases/BUILDOUT-ADVERTISING-COPY.md"
+      ],
+      "remaining": "Advertising code/lifecycle/placement unchanged. A factual one-paragraph policy correction is prepared as an independent draft requiring owner editorial acceptance. Genuine ad fill/consent and final combined regression remain manual/unexecuted.",
+      "manualApproval": false
+    },
+    {
+      "id": "F5.ad-eligibility",
+      "title": "Resolve three internal noindex/ad-eligibility findings",
+      "status": "BLOCKED",
+      "ownerIssues": [],
+      "prs": [
+        8,
+        37
+      ],
+      "checks": [
+        "npm run audit:routes"
+      ],
+      "evidence": [
+        "docs/releases/AD-ELIGIBILITY-2026-11-06.md"
+      ],
+      "remaining": "Owner placement decision required; no authorized lifecycle or ad-placement change.",
+      "manualApproval": false
+    },
+    {
+      "id": "F5.seo-static",
+      "title": "Crawlable HTML, sitemap, metadata, redirects and static hosting",
+      "status": "TESTED",
+      "ownerIssues": [
+        11
+      ],
+      "prs": [
+        37,
+        51
+      ],
+      "checks": [
+        "npm run audit:static-host",
+        "SEO/content tests"
+      ],
+      "evidence": [
+        "tests/seo/seo-architecture.test.ts"
+      ],
+      "remaining": "Repeat sitemap/public URL zero-diff and provider preview verification at final candidate.",
+      "manualApproval": false
+    },
+    {
+      "id": "F5.preview",
+      "title": "Independent exact-SHA preview/product acceptance",
+      "status": "IN PROGRESS",
+      "ownerIssues": [],
+      "prs": [
+        51,
+        70
+      ],
+      "checks": [
+        "NETLIFY_PREVIEW_URL=preview EXPECTED_PREVIEW_COMMIT=sha PREVIEW_AUDIT_OUTPUT=outside-repo npx tsx tests/e2e/provider-preview-smoke.ts"
+      ],
+      "evidence": [
+        "docs/releases/README.md"
+      ],
+      "remaining": "Real hosted03 at08ffcd2 passed canonical/noindex/217sitemap/60draft404, six-route parity and real5-page PDF tests. Candidate04 exact-SHA hosted validation and independent approval remain.",
+      "manualApproval": false
+    },
+    {
+      "id": "F5.rollback",
+      "title": "Document known-good rollback and production signoff",
+      "status": "MANUAL ACCEPTANCE PENDING",
+      "ownerIssues": [],
+      "prs": [
+        37,
+        51,
+        70
+      ],
+      "checks": [
+        "Release record and remote main SHA verification"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-INTEGRATION-02.md"
+      ],
+      "remaining": "Ready production deploy6aedd79021e0a4d96f61990a matches recorded main471a118. Revert/fix-forward through reviewed Git delivery documented; independent candidate approval and authorized production operation remain.",
+      "manualApproval": false
+    },
+    {
+      "id": "F6.optional",
+      "title": "Accounts, paid/co-op/OCR/community infrastructure",
+      "status": "OWNER-DEFERRED",
+      "ownerIssues": [
+        14,
+        18
+      ],
+      "prs": [
+        24
+      ],
+      "checks": [
+        "Bounded discovery specification"
+      ],
+      "evidence": [
+        "docs/releases/BUILDOUT-B13.md"
+      ],
+      "remaining": "Explicit provider/privacy/cost/security/moderation go/no-go before implementation.",
+      "manualApproval": false
+    }
+  ]
+}

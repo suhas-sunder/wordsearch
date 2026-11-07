@@ -30,6 +30,7 @@ export default async function SpecialtyPage({ params }: Props) {
       h1={route.title}
       description={route.description}
       intro={`${route.status} The word bank remains readable while the grid uses the selected token pack.`}
+      toolStatus={{ label: route.implementation === "scaffold" ? "Scaffold — this format is not implemented" : "Experimental format — review limitations", description: route.status }}
       path={`/specialty/${route.slug}`}
       words={route.words}
       alphabetPack={route.alphabetPack}

@@ -220,7 +220,7 @@ await interactionPage.getByRole("combobox", { name: "Search puzzles and categori
 const mobileMenu = interactionPage.locator('summary[aria-label="Open navigation menu"]');
 if (!(await mobileMenu.isVisible())) failures.push("mobile navigation control is not visible");
 await mobileMenu.click();
-if (!(await interactionPage.getByRole("navigation", { name: "Mobile primary navigation" }).isVisible())) failures.push("mobile navigation panel did not open");
+if (!(await interactionPage.getByRole("navigation", { name: "All site navigation" }).isVisible())) failures.push("mobile navigation panel did not open");
 await interactionPage.close();
 
 const searchPage = await browser.newPage({ viewport: { width: 1024, height: 900 } });
@@ -505,4 +505,6 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Browser smoke passed ${routes.length} routes x ${widths.length} viewports plus search, navigation, utility, print, and pointer/touch/tap/keyboard solver checks.`);
+console.log(process.env.SOLVER_ONLY
+  ? "Solver-only smoke passed pointer/touch/tap/keyboard interactions; route/search/utility matrix was not run."
+  : `Browser smoke passed ${routes.length} routes x ${widths.length} viewports plus search, navigation, utility, print, and pointer/touch/tap/keyboard solver checks.`);
