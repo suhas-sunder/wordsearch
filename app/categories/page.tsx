@@ -1,3 +1,4 @@
+import { SearchTools } from "@/components/page/PageSections";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -27,7 +28,8 @@ export default function CategoriesPage() {
       <section className="content-section site-shell soft-section"><div className="section-heading"><h2>Featured puzzle topics</h2><p>Start with a real curated puzzle rather than an empty filter page.</p></div><DiscoveryCards items={featuredPuzzles} /></section>
       <SeoSectionAd template="category" />
       <TopicStrip />
-      </main>
+      <SearchTools />
+</main>
     </MonetizedPageShell>
   );
 }
