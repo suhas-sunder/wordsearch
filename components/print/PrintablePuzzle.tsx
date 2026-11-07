@@ -1,4 +1,5 @@
 import { orderWordBank } from "@/lib/puzzle/parse";
+import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import { shareUrl } from "@/lib/share-state/state";
 import { PuzzleSvg } from "@/components/puzzle/PuzzleSvg";
@@ -53,7 +54,7 @@ export function PrintablePuzzle({
           <Heading>{puzzle.request.title}</Heading>
           {puzzle.request.subtitle && <p className="print-subtitle">{puzzle.request.subtitle}</p>}
           {options.instructions && <p className="print-instructions">
-            {answerKey ? "Answer key. Keep this page separate from student copies." : puzzle.request.instructions}
+            {answerKey ? "Answer key. Keep this page separate from student copies." : printableInstructions(puzzle.request)}
           </p>}
         </div>
         {options.nameDateLine && !answerKey && (

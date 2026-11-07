@@ -1,3 +1,4 @@
+import { SearchTools } from "@/components/page/PageSections";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -99,15 +100,7 @@ export default async function CategoryPage({ params }: Props) {
           </div>
         </section>
 
-        <section className="content-section site-shell tools-section">
-          <div className="section-heading"><h2>All tools</h2></div>
-          <div className="topic-list">
-            <Link href="/free-printable-word-searches">Printable puzzles</Link>
-            <Link href="/online-word-search">Online play</Link>
-            <Link href="/word-search-pdf">PDF puzzles</Link>
-            <Link href="/word-search-generator">Custom generator</Link>
-          </div>
-        </section>
+        <SearchTools />
         </main>
       </MonetizedPageShell>
     </>

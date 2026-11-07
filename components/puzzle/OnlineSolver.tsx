@@ -18,6 +18,8 @@ import {
   type SolverPreferences
 } from "@/components/puzzle/SolverPreferencesDialog";
 import { PuzzleUtilities } from "@/components/puzzle/PuzzleUtilities";
+import { CompletionResult } from "@/components/puzzle/CompletionResult";
+import { clearProgress, fingerprintPuzzle, readProgress, writeProgress, type ProgressRead } from "@/lib/puzzle/progress";
 
 const preferencesStorageKey = "ilws:solver-preferences";
 
@@ -62,6 +64,36 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   const pointerFrameRef = useRef<number | null>(null);
   const pointerPositionRef = useRef<{ x: number; y: number } | null>(null);
   const foundPlacementIdsRef = useRef(foundPlacementIds);
+  const startedAt = useRef<number | null>(null);
+  const [completionElapsed, setCompletionElapsed] = useState<number | null>(null);
+  const accumulatedMs = useRef(0);
+  const pausedForNavigation = useRef(false);
+  const completionElapsedRef = useRef<number | null>(null);
+  const fingerprintRef = useRef<string | null>(null);
+  const rememberRef = useRef(false);
+  const [remember, setRemember] = useState(false);
+  const [progressRead, setProgressRead] = useState<ProgressRead | { kind: "loading" }>({ kind: "loading" });
+  const [storageMessage, setStorageMessage] = useState("");
+
+  function elapsedNow() {
+    return completionElapsedRef.current ?? Math.max(0, accumulatedMs.current + (startedAt.current === null ? 0 : performance.now() - startedAt.current));
+  }
+
+  function saveSnapshot(ids: ReadonlySet<string>) {
+    const fingerprint = fingerprintRef.current;
+    if (!rememberRef.current || !fingerprint || (startedAt.current === null && completionElapsedRef.current === null)) return;
+    const indices = puzzle.placed.flatMap((placement, index) => ids.has(placement.wordId) ? [index] : []);
+    let result: ReturnType<typeof writeProgress>;
+    try { result = writeProgress(window.localStorage, { v: 1, fingerprint, indices, elapsedMs: Math.floor(elapsedNow()) }, puzzle.placed.length); }
+    catch { result = "unavailable"; }
+    if (result === "conflict") {
+      rememberRef.current = false;
+      setRemember(false);
+      setProgressRead({ kind: "invalid" });
+      setStorageMessage("Saved progress changed or became invalid. Clear it before saving again; you can keep solving.");
+    } else if (result !== "saved") setStorageMessage(result === "limit" ? "Device progress storage is full. Clear a saved puzzle before saving another." : result === "invalid" ? "Progress could not be saved because its size or elapsed time exceeds the supported limit." : "Device storage is unavailable. You can keep solving, but progress may not be saved.");
+    else setStorageMessage("");
+  }
 
   const activePath = useMemo(
     () => activeSelection ? createCoordinatePath(activeSelection.start, activeSelection.end) : [],
@@ -80,15 +112,59 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   const progressText = `${foundPlacementIds.size} of ${puzzle.placed.length} words found`;
 
   useEffect(() => {
-    foundPlacementIdsRef.current = foundPlacementIds;
-  }, [foundPlacementIds]);
+    let active = true;
+    const empty = new Set<string>();
+    foundPlacementIdsRef.current = empty;
+    setFoundPlacementIds(empty);
+    setGameStarted(false);
+    setActiveSelection(null);
+    setFocusedCell({ row: 0, col: 0 });
+    startedAt.current = null;
+    pausedForNavigation.current = false;
+    accumulatedMs.current = 0;
+    completionElapsedRef.current = null;
+    setCompletionElapsed(null);
+    fingerprintRef.current = null;
+    rememberRef.current = false;
+    setRemember(false);
+    setProgressRead({ kind: "loading" });
+    fingerprintPuzzle(puzzle).then((fingerprint) => {
+      if (!active) return;
+      fingerprintRef.current = fingerprint;
+      try { setProgressRead(readProgress(window.localStorage, fingerprint, puzzle.placed.length)); }
+      catch { setProgressRead({ kind: "unavailable" }); }
+    }).catch(() => { if (active) setProgressRead({ kind: "unavailable" }); });
+    return () => { active = false; };
+  }, [puzzle]);
+
+  useEffect(() => {
+    const pause = () => {
+      saveSnapshot(foundPlacementIdsRef.current);
+      if (startedAt.current !== null && completionElapsedRef.current === null) {
+        accumulatedMs.current = elapsedNow();
+        startedAt.current = null;
+        pausedForNavigation.current = true;
+      }
+    };
+    const restore = () => {
+      if (!pausedForNavigation.current) return;
+      pausedForNavigation.current = false;
+      if (completionElapsedRef.current === null) startedAt.current = performance.now();
+    };
+    window.addEventListener("pagehide", pause);
+    window.addEventListener("pageshow", restore);
+    return () => {
+      window.removeEventListener("pagehide", pause);
+      window.removeEventListener("pageshow", restore);
+    };
+  });
 
   useEffect(() => {
     try {
       const saved = window.localStorage.getItem(preferencesStorageKey);
       if (saved) setPreferences(normalizeSolverPreferences(JSON.parse(saved)));
     } catch {
-      window.localStorage.removeItem(preferencesStorageKey);
+      try { window.localStorage.removeItem(preferencesStorageKey); } catch { /* Storage may be blocked. */ }
     } finally {
       setPreferencesLoaded(true);
     }
@@ -136,8 +212,14 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
     }
     const next = new Set(currentFound);
     next.add(placement.wordId);
+    if (next.size === puzzle.placed.length) {
+      const elapsed = startedAt.current === null ? null : elapsedNow();
+      completionElapsedRef.current = elapsed;
+      setCompletionElapsed(elapsed);
+    }
     foundPlacementIdsRef.current = next;
     setFoundPlacementIds(next);
+    saveSnapshot(next);
     setActiveSelection(null);
     const nextProgress = `${next.size} of ${puzzle.placed.length} words found`;
     setAnnouncement(
@@ -284,16 +366,73 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
   }
 
   function beginPuzzle() {
+    pausedForNavigation.current = false;
+    accumulatedMs.current = 0;
+    completionElapsedRef.current = null;
+    startedAt.current = performance.now();
+    setCompletionElapsed(null);
+    saveSnapshot(foundPlacementIdsRef.current);
     setGameStarted(true);
     setAnnouncement(`Puzzle started. ${progressText}.`);
     focusGridCell(focusedCell);
   }
 
+  function discardSavedProgress() {
+    const fingerprint = fingerprintRef.current;
+    if (!fingerprint) return;
+    let cleared = false;
+    try { cleared = clearProgress(window.localStorage, fingerprint); } catch { /* Storage can be blocked. */ }
+    if (cleared) {
+      setProgressRead({ kind: "none" });
+      setStorageMessage("Saved progress for this puzzle was cleared.");
+    } else setStorageMessage("Saved progress could not be cleared from device storage.");
+  }
+
+  function setRememberProgress(enabled: boolean) {
+    rememberRef.current = enabled;
+    setRemember(enabled);
+    if (enabled) {
+      setStorageMessage("");
+      if (gameStarted) saveSnapshot(foundPlacementIdsRef.current);
+    } else {
+      discardSavedProgress();
+    }
+  }
+
+  function resumeProgress() {
+    if (progressRead.kind !== "saved") return;
+    const saved = progressRead.value;
+    pausedForNavigation.current = false;
+    const ids = new Set(saved.indices.map((index) => puzzle.placed[index].wordId));
+    foundPlacementIdsRef.current = ids;
+    setFoundPlacementIds(ids);
+    accumulatedMs.current = saved.elapsedMs;
+    const complete = ids.size === puzzle.placed.length && puzzle.placed.length > 0;
+    completionElapsedRef.current = complete ? saved.elapsedMs : null;
+    setCompletionElapsed(complete ? saved.elapsedMs : null);
+    startedAt.current = complete ? null : performance.now();
+    rememberRef.current = true;
+    setRemember(true);
+    setProgressRead({ kind: "none" });
+    setGameStarted(true);
+    setAnnouncement(`Saved progress restored. ${ids.size} of ${puzzle.placed.length} words found.`);
+    focusGridCell(focusedCell);
+  }
+
   function resetPuzzle() {
     if (foundPlacementIdsRef.current.size > 0 && !window.confirm("Reset your found-word progress and return to the start screen?")) return;
+    if (rememberRef.current && fingerprintRef.current) {
+      try { if (!clearProgress(window.localStorage, fingerprintRef.current)) setStorageMessage("Saved progress could not be cleared from device storage."); }
+      catch { setStorageMessage("Saved progress could not be cleared from device storage."); }
+    }
     const empty = new Set<string>();
     foundPlacementIdsRef.current = empty;
     setFoundPlacementIds(empty);
+    startedAt.current = null;
+    pausedForNavigation.current = false;
+    accumulatedMs.current = 0;
+    completionElapsedRef.current = null;
+    setCompletionElapsed(null);
     cancelPointerSelection();
     setActiveSelection(null);
     setFocusedCell({ row: 0, col: 0 });
@@ -342,6 +481,16 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
           <button type="button" className="secondary-button" onClick={resetPuzzle}><RefreshCw size={17} aria-hidden="true" /> Reset puzzle</button>
           {compactToolbar}
         </div>
+      </div>
+
+      <div className="solver-save-progress">
+        <label><input type="checkbox" checked={remember} disabled={progressRead.kind !== "none"} onChange={(event) => setRememberProgress(event.target.checked)} /> Remember progress on this device</label>
+        <p className="control-help">An opaque puzzle identifier, found-word indexes, and elapsed time are saved on this device. Time continues while this page is open and pauses when you close or navigate away. It continues when the browser restores this page, or when you choose Resume after reloading. Closing a tab may lose time since the last save.</p>
+        {progressRead.kind === "saved" && <p>Saved progress is available for this puzzle. Resume it or clear it before enabling a new save.</p>}
+        {progressRead.kind === "invalid" && <p>Saved progress for this puzzle is invalid or unsupported. Clear it to start saving again.</p>}
+        {progressRead.kind === "unavailable" && <p>Device storage or secure puzzle identification is unavailable. You can still solve without saving.</p>}
+        {(progressRead.kind === "saved" || progressRead.kind === "invalid") && <button type="button" className="secondary-button" onClick={discardSavedProgress}>Clear saved progress</button>}
+        {storageMessage && <p role="status">{storageMessage}</p>}
       </div>
 
       <div className="solver-grid-wrap">
@@ -432,6 +581,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
                 <h2 id="solver-start-title">{puzzle.request.title}</h2>
                 <p>{puzzle.rows} × {puzzle.cols} grid · {puzzle.request.difficulty} · {puzzle.placed.length} words</p>
                 <div className="solver-start-actions">
+                  {progressRead.kind === "saved" && <button type="button" className="primary-button" onClick={resumeProgress}>Resume saved progress</button>}
                   <button ref={startButtonRef} type="button" className="primary-button" onClick={beginPuzzle}>Begin puzzle</button>
                   <button type="button" className="secondary-button" onClick={openSettings}>Accessibility and controls</button>
                 </div>
@@ -466,6 +616,7 @@ export function OnlineSolver({ puzzle }: { puzzle: PuzzleResult }) {
             <div>
               <h2 id="solver-complete-title">Puzzle complete</h2>
               <p>You found all {puzzle.placed.length} words. Your completed highlights remain on the grid.</p>
+              <CompletionResult stats={{ wordsFound: puzzle.placed.length, rows: puzzle.rows, cols: puzzle.cols, elapsedMs: completionElapsed }} />
             </div>
             <button type="button" className="secondary-button" onClick={resetPuzzle}>Replay this puzzle</button>
           </section>

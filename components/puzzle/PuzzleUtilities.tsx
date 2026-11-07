@@ -31,6 +31,7 @@ export interface PuzzleUtilitiesContext {
 
 interface PuzzleUtilitiesProps {
   puzzle: PuzzleResult;
+  outputsBlocked?: boolean;
   unfinished?: boolean;
   leadingActions?: ReactNode;
   onAnnouncement?: (message: string) => void;
@@ -50,7 +51,7 @@ function optionCheckbox(
   );
 }
 
-export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, onAnnouncement, children }: PuzzleUtilitiesProps) {
+export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = false, leadingActions, onAnnouncement, children }: PuzzleUtilitiesProps) {
   const [options, setOptions] = useState(() => outputOptionsForRequest(puzzle.request));
   const [answersVisible, setAnswersVisible] = useState(false);
   const [previewMode, setPreviewMode] = useState<PreviewMode>("puzzle");
@@ -95,7 +96,14 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
   }, [mounted, options]);
 
   useEffect(() => {
-    if (!options.qrCode && dialog !== "share") {
+    if (outputsBlocked) {
+      document.body.classList.remove("utility-print-enabled");
+      setDialog(null);
+    } else if (mounted) document.body.classList.add("utility-print-enabled");
+  }, [outputsBlocked, mounted]);
+
+  useEffect(() => {
+    if (outputsBlocked || (!options.qrCode && dialog !== "share")) {
       setQrDataUrl("");
       setQrStatus("idle");
       return;
@@ -108,7 +116,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
       .then((url) => { if (active) { qrTargetRef.current = playUrl; setQrDataUrl(url); setQrStatus("ready"); } })
       .catch(() => { if (active) { setQrDataUrl(""); setQrStatus("error"); } });
     return () => { active = false; };
-  }, [dialog, options.qrCode, playUrl, qrDataUrl]);
+  }, [dialog, options.qrCode, playUrl, qrDataUrl, outputsBlocked]);
 
   useEffect(() => {
     const element = dialogRef.current;
@@ -273,7 +281,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
     </div>
   );
 
-  const printPortal = mounted ? createPortal(
+  const printPortal = mounted && !outputsBlocked ? createPortal(
     <div className="utility-print-portal" aria-hidden="true">
       <PrintablePuzzle puzzle={puzzle} qrDataUrl={qrDataUrl} options={options} shareTarget={playUrl} headingLevel={2} />
       {options.includeAnswerKey && <PrintablePuzzle puzzle={puzzle} answerKey qrDataUrl={qrDataUrl} options={options} shareTarget={playUrl} headingLevel={2} />}
@@ -286,7 +294,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
       {children({ answersVisible, previewMode, options, compactToolbar, previewToolbar, printablePreview })}
       {printPortal}
       <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{utilityAnnouncement}</p>
-      <dialog
+      {!outputsBlocked && <dialog
         ref={dialogRef}
         className="solver-settings-dialog output-dialog"
         aria-labelledby="output-dialog-title"
@@ -353,7 +361,7 @@ export function PuzzleUtilities({ puzzle, unfinished = false, leadingActions, on
             </div>
           )}
         </div>
-      </dialog>
+      </dialog>}
     </>
   );
 }

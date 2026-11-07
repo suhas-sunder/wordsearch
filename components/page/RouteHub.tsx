@@ -1,3 +1,4 @@
+import { SearchTools } from "@/components/page/PageSections";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -304,7 +305,7 @@ export function RouteHub({ page }: { page: SitePage }) {
           </div>
         </div>
         <aside className="intent-panel" aria-label={`${page.h1} features`}>
-          <strong>Start here when you want</strong>
+          <strong>Puzzle features</strong>
           <ul>{config.points.map((point) => <li key={point}>{point}</li>)}</ul>
         </aside>
         </section>
@@ -348,7 +349,8 @@ export function RouteHub({ page }: { page: SitePage }) {
           <Link className="secondary-button" href="/word-search-generator">Open the generator</Link>
         </div>
       </section>
-      </main>
+      <SearchTools />
+</main>
     </MonetizedPageShell>
   );
 }

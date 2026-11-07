@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type MouseEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Search } from "lucide-react";
-import { primaryNavigation, secondaryNavigation } from "@/content/navigation";
+import { ChevronDown, Menu, Search } from "lucide-react";
+import { helpNavigation, primaryNavigation, secondaryNavigation } from "@/content/navigation";
 import { BrandIdentity } from "@/components/layout/BrandIdentity";
+import { PuzzleSearch } from "@/components/search/PuzzleSearch";
+import styles from "./SiteHeader.module.css";
+import { ThemeToggle } from "./ThemeToggle";
 
 function isCurrent(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -23,31 +26,71 @@ function NavLink({ href, label, pathname }: { href: string; label: string; pathn
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const mobileMenu = useRef<HTMLDetailsElement>(null);
+  const menu = useRef<HTMLDetailsElement>(null);
+  const header = useRef<HTMLElement>(null);
+  const returnFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    mobileMenu.current?.removeAttribute("open");
+    menu.current?.removeAttribute("open");
   }, [pathname]);
 
+  useEffect(() => {
+    function outside(event: globalThis.MouseEvent) {
+      if (event.target instanceof Node && !header.current?.contains(event.target)) menu.current?.removeAttribute("open");
+    }
+    document.addEventListener("click", outside);
+    return () => document.removeEventListener("click", outside);
+  }, []);
+
+  function openSearch(event: MouseEvent<HTMLAnchorElement>) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault();
+    returnFocus.current = event.currentTarget;
+    if (menu.current) menu.current.open = true;
+    window.requestAnimationFrame(() => header.current?.querySelector<HTMLInputElement>('input[role="combobox"]')?.focus());
+  }
+
   return (
-    <header className="site-header">
-      <div className="site-shell header-inner">
+    <header className={`site-header ${styles.header}`} ref={header}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && menu.current?.open) {
+          event.preventDefault();
+          menu.current.open = false;
+          (returnFocus.current ?? menu.current.querySelector("summary"))?.focus();
+        }
+      }}
+      onSubmitCapture={(event) => {
+        if ((event.target as HTMLFormElement).querySelector<HTMLInputElement>('input[type="search"]')?.value.trim()) menu.current?.removeAttribute("open");
+      }}
+      onClickCapture={(event) => {
+        const link = (event.target as Element).closest("a");
+        if (link && menu.current?.contains(link)) menu.current.removeAttribute("open");
+      }}>
+      <div className={`site-shell ${styles.content}`}>
+      <div className={`header-inner ${styles.row}`}>
         <Link className="brand" href="/" aria-label="I Love Word Search home">
           <BrandIdentity />
         </Link>
-        <nav className="desktop-nav" aria-label="Primary navigation">
-          {primaryNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}
+        <nav className={`desktop-nav ${styles.primary}`} aria-label="Primary navigation">
+          {primaryNavigation.slice(0, 5).map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}
         </nav>
-        <Link className="header-search" href="/search" aria-label="Search word searches">
+        <Link className={`header-search ${styles.search}`} href="/search" aria-label="Search word searches" onClick={openSearch}>
           <Search size={18} aria-hidden="true" />
         </Link>
-        <details className="mobile-nav" ref={mobileMenu}>
-          <summary aria-label="Open navigation menu"><Menu size={20} aria-hidden="true" /></summary>
-          <div className="mobile-nav-panel">
-            <nav aria-label="Mobile primary navigation">
-              {[...primaryNavigation, ...secondaryNavigation].map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}
+        <ThemeToggle />
+        <span className={styles.reserve} aria-hidden="true" />
+      </div>
+        <details className={styles.menu} ref={menu}>
+          <summary className={styles.trigger} aria-label="Open navigation menu" onClick={(event) => { returnFocus.current = event.currentTarget; }}>
+            <Menu size={20} aria-hidden="true" /><span>More</span><ChevronDown size={15} aria-hidden="true" />
+          </summary>
+          <div className={styles.panel}>
+            <PuzzleSearch compact label="Search from the menu" />
+            <nav className={styles.groups} aria-label="All site navigation">
+              <div><strong>Find a puzzle</strong>{primaryNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}</div>
+              <div><strong>Formats and audiences</strong>{secondaryNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}<NavLink href="/topics" label="All topics" pathname={pathname} /></div>
+              <div><strong>About and help</strong>{helpNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}</div>
             </nav>
-            <Link className="mobile-search-link" href="/search"><Search size={17} aria-hidden="true" /> Search puzzles</Link>
           </div>
         </details>
       </div>
