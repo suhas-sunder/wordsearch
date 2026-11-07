@@ -10,10 +10,14 @@ const output = process.env.SEO_CAPTURE_OUTPUT;
 assert.ok(output && !resolve(output).startsWith(process.cwd()), "Use an outside-repository output directory");
 await assert.rejects(access(resolve(output, "capture.json")), "Use a new output folder; preserve previous observations");
 const endpoints = [
-  { name: "production", origin: process.env.SEO_BASELINE_URL ?? "https://www.ilovewordsearch.com", sha: process.env.SEO_BASELINE_SHA ?? "471a118dd459f2181cd641ed0572ba6dd7005540" },
-  { name: "review-r", origin: process.env.SEO_CANDIDATE_URL ?? "https://6aeecf5d87e1713c8c60f2f2--ilovewordsearch.netlify.app", sha: process.env.SEO_CANDIDATE_SHA ?? "ada6b6e89a67ca5c1c31a4cc927453994ba9d3d4" }
+  { name: process.env.SEO_BASELINE_NAME ?? "production", origin: process.env.SEO_BASELINE_URL ?? "https://www.ilovewordsearch.com", sha: process.env.SEO_BASELINE_SHA ?? "471a118dd459f2181cd641ed0572ba6dd7005540" },
+  { name: process.env.SEO_CANDIDATE_NAME ?? "review-r", origin: process.env.SEO_CANDIDATE_URL ?? "https://6aeecf5d87e1713c8c60f2f2--ilovewordsearch.netlify.app", sha: process.env.SEO_CANDIDATE_SHA ?? "ada6b6e89a67ca5c1c31a4cc927453994ba9d3d4" }
 ];
-for (const endpoint of endpoints) assert.match(endpoint.sha, /^[a-f0-9]{40}$/u, "Supply an exact operator-verified source SHA");
+for (const endpoint of endpoints) {
+  assert.match(endpoint.name, /^[a-z0-9][a-z0-9-]*$/u, "Use a plain endpoint label");
+  assert.match(endpoint.sha, /^[a-f0-9]{40}$/u, "Supply an exact operator-verified source SHA");
+}
+assert.notEqual(endpoints[0].name, endpoints[1].name, "Endpoint artifact directories must differ");
 const canonicalOrigin = "https://www.ilovewordsearch.com";
 const existing = process.env.SEO_CAPTURE_REPARSE_FROM ? JSON.parse(await readFile(resolve(process.env.SEO_CAPTURE_REPARSE_FROM, "capture.json"), "utf8")) : null;
 const sha256 = (value) => createHash("sha256").update(value).digest("hex");

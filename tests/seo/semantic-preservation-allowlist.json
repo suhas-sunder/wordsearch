@@ -458,6 +458,8 @@
   {
     "paths": [
       "/",
+      "/about",
+      "/accessibility",
       "/categories",
       "/categories/animals-word-searches",
       "/categories/art-word-searches",
@@ -487,14 +489,33 @@
       "/collections/seasonal-word-searches",
       "/collections/travel-word-search-printables",
       "/collections/word-searches-with-answer-keys",
+      "/contact",
+      "/copyright",
       "/easy-word-searches",
+      "/editorial-policy",
       "/esl-word-searches",
       "/free-printable-word-searches",
       "/guides",
+      "/guides/classroom-word-search-ideas",
+      "/guides/custom-word-lists-for-word-searches",
+      "/guides/esl-word-search-activities",
+      "/guides/homeschool-word-search-ideas",
+      "/guides/how-to-make-a-word-search",
+      "/guides/how-to-make-a-word-search-with-answer-key",
+      "/guides/how-to-print-a-word-search",
+      "/guides/large-print-word-searches",
+      "/guides/vocabulary-practice-with-word-searches",
+      "/guides/word-search-difficulty-guide",
+      "/guides/word-search-rules",
+      "/guides/word-search-solving-tips",
       "/hard-word-searches",
       "/homeschool-word-searches",
+      "/how-word-searches-are-made",
       "/large-print-word-searches",
       "/online-word-search",
+      "/privacy",
+      "/terms",
+      "/topics",
       "/word-search-generator",
       "/word-search-pdf",
       "/word-search-with-answer-key",
@@ -897,10 +918,10 @@
     "field": "body.footer",
     "beforeSha256": "62f7a7a45d39e27544bf6309c47807885ea2ed9ee2c2600c9db63ed5c8e1d251",
     "afterSha256": "3034e84099b1a3ee38e07d4ee1f5793b07f1e1d985efe2447c4122e591e90c9d",
-    "category": "potentially-meaningful-indexed-content",
-    "reviewDisposition": "owner-review-required",
-    "reason": "Footer gained maintainer biography, creator-profile labels and copyright. Indexed shared copy affects all217routes; exact change retained for independent/owner biography acceptance, not declared approved.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/31 https://github.com/suhas-sunder/wordsearch/pull/60"
+    "category": "expected-ui-structure",
+    "reviewDisposition": "technical-intent-recorded",
+    "reason": "CategoryB independent review completed against exact217route/hash scope. Owner README9 explicitly requests Built and maintained by Suhas Sunder, a software engineer. Existing production About already describes the same maintainer/software-development and engineering background; unchanged authors.sameAs supplies the exact Portfolio/LinkedIn identities. Copyright2026 is a footer legal row, not an editorial review-date update. This records the exact requested shared-template intent, not whole-product, credential, external-availability or production approval.",
+    "reviewReference": "docs/releases/EXCELLENCE-FOOTER-B-REVIEW.md https://github.com/suhas-sunder/wordsearch/blob/471a118dd459f2181cd641ed0572ba6dd7005540/ai-issues/README.md#L28 https://github.com/suhas-sunder/wordsearch/blob/471a118dd459f2181cd641ed0572ba6dd7005540/app/about/page.tsx#L28"
   },
   {
     "paths": [
@@ -943,6 +964,18 @@
       "/esl-word-searches",
       "/free-printable-word-searches",
       "/guides",
+      "/guides/classroom-word-search-ideas",
+      "/guides/custom-word-lists-for-word-searches",
+      "/guides/esl-word-search-activities",
+      "/guides/homeschool-word-search-ideas",
+      "/guides/how-to-make-a-word-search",
+      "/guides/how-to-make-a-word-search-with-answer-key",
+      "/guides/how-to-print-a-word-search",
+      "/guides/large-print-word-searches",
+      "/guides/vocabulary-practice-with-word-searches",
+      "/guides/word-search-difficulty-guide",
+      "/guides/word-search-rules",
+      "/guides/word-search-solving-tips",
       "/hard-word-searches",
       "/homeschool-word-searches",
       "/how-word-searches-are-made",
@@ -1348,30 +1381,6 @@
   },
   {
     "paths": [
-      "/about"
-    ],
-    "field": "body.header",
-    "beforeSha256": "80333b3337347131a68076fff31a74a74cbacbd623ab8ea674900fba5075ee1b",
-    "afterSha256": "a2c716fd762ada283a1771f10def6925403676a8a3970f954d7d65861d2d2f2c",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/accessibility"
-    ],
-    "field": "body.header",
-    "beforeSha256": "d318bf3f351399de7f6b0bd0c98380dfed0ebefa70868ee4ec1438f07ed2ec43",
-    "afterSha256": "1299cbbbc0ca4e12a86b2223121747cf7ece4f9e497a463de1be3d443b7ba764",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
       "/categories",
       "/easy-word-searches",
       "/esl-word-searches",
@@ -1612,30 +1621,6 @@
   },
   {
     "paths": [
-      "/contact"
-    ],
-    "field": "body.header",
-    "beforeSha256": "8c49235eedd6466d7f83c418bf7378b13a6a7a12278dd8ec9d9e671217881f6e",
-    "afterSha256": "47d61590400ee61f4080a65adfd80ec8703814f2f9582e63604a7c474654ad6b",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/copyright"
-    ],
-    "field": "body.header",
-    "beforeSha256": "b04d6ca0e8d8979eb0ee0b9397cc631a8b4e0456f434b80fe771becfe3d310d6",
-    "afterSha256": "edbae84f42ae151852618501545519c793fb3d45d9f03fe88d25e924d913ad63",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
       "/easy-word-searches"
     ],
     "field": "body.editorial",
@@ -1650,21 +1635,9 @@
     "paths": [
       "/editorial-policy"
     ],
-    "field": "body.header",
-    "beforeSha256": "f10f86993e973edb2d0f04a937d8b4bf1b0338015276397bcea4080169814bf1",
-    "afterSha256": "4ad8bb4a0c96f7e1e9555f54498237ca1fb032d07863389cd70ebcc5be4881fd",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/editorial-policy"
-    ],
     "field": "body.editorial",
-    "beforeSha256": "1d6a7bd15f275f9d3367edcb36d0e838bc448be1fd20b84b0f96d1819b8709af",
-    "afterSha256": "09a3ee5658abfc7d33fc6f8c44a744f9eeed1a33d7c3c210af39f8720fd95698",
+    "beforeSha256": "56930f25aadd4562d5d14af1094b169493b0912ea2dcd6ed587357289a721d8c",
+    "afterSha256": "ca22270468ee9e848b13b9bdb4bcc65bb2a6599058ed9c417fe03c3e4e1a4599",
     "category": "potentially-meaningful-indexed-content",
     "reviewDisposition": "owner-review-required",
     "reason": "Corrects inaccurate inactive-advertising policy claim. One indexed legal/trust amendment requires owner acceptance; no advertising source or lifecycle change.",
@@ -1747,18 +1720,6 @@
     "reviewDisposition": "technical-intent-recorded",
     "reason": "Previously implemented optional six-context teacher/print activity suggestions to verified owned tools. Technical feature intent only; no human editorial or owner approval is inferred.",
     "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/60"
-  },
-  {
-    "paths": [
-      "/guides/classroom-word-search-ideas"
-    ],
-    "field": "body.header",
-    "beforeSha256": "f6e81e3dedb07cefe0c713203b659932a5fb31e0f4e1a4ca50d75f7e917b2655",
-    "afterSha256": "8d5245aa5f89900d20ab1cba6a32cebd5a3e46551e346b18728562e0768015d4",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
   },
   {
     "paths": [
@@ -1947,29 +1908,6 @@
       "/guides/vocabulary-practice-with-word-searches",
       "/guides/word-search-difficulty-guide",
       "/guides/word-search-rules",
-      "/guides/word-search-solving-tips"
-    ],
-    "field": "links.header",
-    "beforeSha256": "29eb64220099be0b6fee8ab47ff3c8af1645f198b304da06aaaa647155b8bbe2",
-    "afterSha256": "f024b05accb05880b62bf678949fc3cce82ba67fa72f601f9119d6a9ab55ea5c",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/classroom-word-search-ideas",
-      "/guides/custom-word-lists-for-word-searches",
-      "/guides/esl-word-search-activities",
-      "/guides/homeschool-word-search-ideas",
-      "/guides/how-to-make-a-word-search",
-      "/guides/how-to-make-a-word-search-with-answer-key",
-      "/guides/how-to-print-a-word-search",
-      "/guides/large-print-word-searches",
-      "/guides/vocabulary-practice-with-word-searches",
-      "/guides/word-search-difficulty-guide",
-      "/guides/word-search-rules",
       "/guides/word-search-solving-tips",
       "/word-search-generator",
       "/word-searches/animals/arctic-animals-word-search",
@@ -2133,138 +2071,6 @@
   },
   {
     "paths": [
-      "/guides/custom-word-lists-for-word-searches"
-    ],
-    "field": "body.header",
-    "beforeSha256": "60fc3c429160ff0929e350344e06c4099d33bf831e1e88b13c5e48caaeda4344",
-    "afterSha256": "56d6d102927f6d026451207f482d7e9a6afc75bb6a38677f3c51162f2d65f43b",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/esl-word-search-activities"
-    ],
-    "field": "body.header",
-    "beforeSha256": "2fb2c4744d38a64b186f6ff21d52550b1a5bd95cf7ef98af221ba3e286133d57",
-    "afterSha256": "8d9c04f7e1eb59cc14cc6924fe65cbbbdd61f043efa89ea2575f96f12bdc434c",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/homeschool-word-search-ideas"
-    ],
-    "field": "body.header",
-    "beforeSha256": "1e37b448f8cd02a345c2409d6a08393abb1bd7054b4bdaaaf230a7e900bd9667",
-    "afterSha256": "ef9692904fa6c41f3500cf716a4a279583e22823b20fbd1ad013ac73570a24b0",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/how-to-make-a-word-search"
-    ],
-    "field": "body.header",
-    "beforeSha256": "1e1ac8a921aa45208a0230ba28abb9801d147ae0ce05db8a70fbf0e05a9ae6a3",
-    "afterSha256": "f402685c0abf885fe22a34e572b066ba14517365eddf86ac5bf74aef93343f99",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/how-to-make-a-word-search-with-answer-key"
-    ],
-    "field": "body.header",
-    "beforeSha256": "a9b94d0a9280194e7a0ba908606c9f5d6d8d5583e3f046c53228f028c6384cb6",
-    "afterSha256": "8bc67e80153a2ba68d2e957fef4a3c61037a31c512f55d9a9fa86029092543f0",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/how-to-print-a-word-search"
-    ],
-    "field": "body.header",
-    "beforeSha256": "2e6da691e3f319939a6ec2ee0a7555a9a0850274ec606b8179d1502513c95165",
-    "afterSha256": "8aa25290b1c6ebc977bc4c356fac5a0409462a94035c5ff26306daeb59c53a02",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/large-print-word-searches"
-    ],
-    "field": "body.header",
-    "beforeSha256": "61e997fb2d1b6d2bc60554d7affd4a51877cd158d3c7ade076d5b1d2f77d55f6",
-    "afterSha256": "6f67e185672ceb5e92249c9b8c2051157784bd5c165179f1cee40fe705fdd0e7",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/vocabulary-practice-with-word-searches"
-    ],
-    "field": "body.header",
-    "beforeSha256": "f70ead011127c089a4503736e906d823c7832d348434174287da638febeb704b",
-    "afterSha256": "9be3433ef927fb87273ca3d13d65449f5f58a2f148eae2fe73c2d2fe82f378bd",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/word-search-difficulty-guide"
-    ],
-    "field": "body.header",
-    "beforeSha256": "ca79ab801a957cf32a42c3b8548ead382f26e6f8cb77801a3fc3c4e57b40dfd5",
-    "afterSha256": "6b8f91cf0ef32ccc914a2374282a146966006a5b87f5b526eea518c9914ef59a",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/word-search-rules"
-    ],
-    "field": "body.header",
-    "beforeSha256": "fe104bda343355d3ea87ab081716c2961861d59f12aec3962d2a9dac25581841",
-    "afterSha256": "43b5d772adc9d6b20992de3c9ec879bf1255ae71702912edd92b8b95e909fa02",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/guides/word-search-solving-tips"
-    ],
-    "field": "body.header",
-    "beforeSha256": "695f0ab3d66528497c71ea68fe6b88f8bed17bcabf6b2150fb140740b3f8db38",
-    "afterSha256": "72c9483107e3a6e153023d2caa3c32bc82019b3d8f37324d8ae27f0e0a17c1f1",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
       "/hard-word-searches"
     ],
     "field": "body.editorial",
@@ -2286,18 +2092,6 @@
     "reviewDisposition": "technical-intent-recorded",
     "reason": "Owner explicitly identified incomplete interface phrase Start here when you want; it became Puzzle features. Teacher/worksheet hubs also expose the tested pack. Complete exact body hashes pin all remaining established prose.",
     "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/32 https://github.com/suhas-sunder/wordsearch/pull/61"
-  },
-  {
-    "paths": [
-      "/how-word-searches-are-made"
-    ],
-    "field": "body.header",
-    "beforeSha256": "649bfad46bdc352de326e65f42472115ebfd9b69aba697d0f7951dd140016b9c",
-    "afterSha256": "60ba82cba17f43f12147031f72bfeab544c7fb1dfa070175d6bcabcbef602c47",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
   },
   {
     "paths": [
@@ -2351,21 +2145,9 @@
     "paths": [
       "/privacy"
     ],
-    "field": "body.header",
-    "beforeSha256": "b9cf3aeb8b6de7c4a4d17fe4656f64cb1962bf3a0cb4e01069f8347b84a58759",
-    "afterSha256": "a6891e04bea3fd56f585d7a211f8a3137b2961d3b2f28d7b0e6669fd28a68f79",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/privacy"
-    ],
     "field": "body.editorial",
-    "beforeSha256": "f530a24019b89052a089fd145ff6660b27990bbb18b6e8ceb43169574c952631",
-    "afterSha256": "467b6f50816b8a641ca2b382c47b4d8b78243e15f619ae6c920f44c1c5c17f94",
+    "beforeSha256": "fea58ac4a74207fc855e85ba78c90a2097f79bb221ad3342ec0046e339a60788",
+    "afterSha256": "93b5730bfe38c7773bb2c5affcc7f24d5e4d3ef06841efe566f6cd27199792b9",
     "category": "potentially-meaningful-indexed-content",
     "reviewDisposition": "owner-review-required",
     "reason": "Actual local named library/presets/progress/theme/sound and browser-PDF disclosures. Material legal/trust text/headings require owner/legal acceptance despite technical evidence.",
@@ -2376,36 +2158,12 @@
       "/privacy"
     ],
     "field": "headings.editorial",
-    "beforeSha256": "2bc446b296c3223340ad7d9c5cfed8d381e3cb2c8989ec9fda4223f6f05ccce1",
-    "afterSha256": "6cae2433a2f00314b57399a47a32942ec040dc83edcca837a7a9aaeb540f9200",
+    "beforeSha256": "a0941fcca0502113a426435f33a79e232602c9fd9755137205285e37fa1f5d02",
+    "afterSha256": "e4aa0002b94e0ffe35c63340e09fd4d4969daea6f732322b09539c2a516951dc",
     "category": "potentially-meaningful-indexed-content",
     "reviewDisposition": "owner-review-required",
     "reason": "Actual local named library/presets/progress/theme/sound and browser-PDF disclosures. Material legal/trust text/headings require owner/legal acceptance despite technical evidence.",
     "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/34 https://github.com/suhas-sunder/wordsearch/pull/44 https://github.com/suhas-sunder/wordsearch/pull/55"
-  },
-  {
-    "paths": [
-      "/terms"
-    ],
-    "field": "body.header",
-    "beforeSha256": "0315915646abe38aac690a67cbde30480c62f23bf8feee27248e4cb315e95338",
-    "afterSha256": "861e4cb3000b079e97e07842200b8ef23e554e54e59ecd5407aa677232869a33",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
-  },
-  {
-    "paths": [
-      "/topics"
-    ],
-    "field": "body.header",
-    "beforeSha256": "1f718305dab13936d6c8fb8ab0bdd38d7c3c62da679a83706dafe0603a948532",
-    "afterSha256": "b07af2c7144832bbdf79c92ec8f1f75af9d20921f1af0b4175da5a25146ab496",
-    "category": "expected-ui-structure",
-    "reviewDisposition": "technical-intent-recorded",
-    "reason": "Previously implemented More navigation, integrated catalog search and system/light/dark control. Exact captured header text/link scope only.",
-    "reviewReference": "https://github.com/suhas-sunder/wordsearch/pull/33"
   },
   {
     "paths": [
