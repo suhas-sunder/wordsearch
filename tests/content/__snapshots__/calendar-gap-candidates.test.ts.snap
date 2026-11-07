@@ -1,0 +1,74 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`calendar gap inventory remains an editorial draft > freezes complete requests, grids and answer cells for all seventeen review assets 1`] = `
+[
+  {
+    "hash": "82d585d22518e8d2baceae480c13af764cdd64ac9cfa96d1c0bc1e5ff1dcda17",
+    "id": "Y27-09",
+  },
+  {
+    "hash": "de0e4cfc66ff5b50f478103268fc6f4fa57f01216a789c9cc1ce3f41b889a047",
+    "id": "Y27-11",
+  },
+  {
+    "hash": "ba990a1d149ad53c44a5ef809913ddf09e7b801cc8d31800391dec4637cd0152",
+    "id": "Y27-14",
+  },
+  {
+    "hash": "d6f91f32aa13651161a0f99153efaae0e8282f8ef9bb60ea162fadd56c3a7946",
+    "id": "Y27-15",
+  },
+  {
+    "hash": "b96c783f6d65c796f009db48b9679918aefd9c0effaa72b9fcdf6780c180d991",
+    "id": "Y27-22",
+  },
+  {
+    "hash": "b32cbb0286521743f1c14208608a99b1ea4bf3b199349977dcbf030675e4dd93",
+    "id": "Y27-29",
+  },
+  {
+    "hash": "3fd2bb50526ed88d0523f2852be4e0b6339b8acc2e38f6463351a4801b180e50",
+    "id": "Y27-33",
+  },
+  {
+    "hash": "9f56152377a22afca613d82a6bac574a6a47aafaa5c403531ad381a176213db5",
+    "id": "Y27-36",
+  },
+  {
+    "hash": "35fdbdb15d6525c089ff6ac61041bd44f30849706a2132a564e838102a531783",
+    "id": "Y27-40",
+  },
+  {
+    "hash": "9be150e89d6e9db19ab3bf29ccd08276d1a5d11d4e0861c37aeb46cd8a8ebb82",
+    "id": "Y27-42",
+  },
+  {
+    "hash": "01f8a7395aff8d524376f391459e6bd0eeb68bb6460b2d1a2b5a006cc8490a49",
+    "id": "Y27-43",
+  },
+  {
+    "hash": "f4be8141a1e175fd69055b112de48ab3a25670bb9557182d138ab40a790af1f4",
+    "id": "Y27-45",
+  },
+  {
+    "hash": "402903bc1eae55d422db54a0930d9427db0bc6cb3c8f3879dc2184509aaa6b62",
+    "id": "Y27-46",
+  },
+  {
+    "hash": "683d68111cdfcb86fdc21cbcdda9df7b5b33ddb3aabd1ff026b265839375c3f0",
+    "id": "Y27-48",
+  },
+  {
+    "hash": "9e9df9361cdf76c5cc08f631bbdf4ec2003a5209a675ae04daa3b896cd48d0b2",
+    "id": "Y27-49",
+  },
+  {
+    "hash": "47a7cb8188ae5b174d79716ae07c69d644dc7cd2852f4f663a03f42ea5e7cf66",
+    "id": "OWNER-LANDMARKS",
+  },
+  {
+    "hash": "6b0f1d9c00eefc1bd2a00e7cb838f5c831eb7b3c68ae18cdfee584f015332c18",
+    "id": "OWNER-PARKS",
+  },
+]
+`;
