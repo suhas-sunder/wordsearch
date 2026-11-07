@@ -5,6 +5,7 @@ import { seasonalClassroomCandidates } from "@/content/staged/seasonal-classroom
 import { evergreenHardBatch } from "@/content/staged/evergreen-hard-batch";
 import { teacherSubjectCandidates } from "@/content/staged/teacher-subjects";
 import { calendarGapCandidates } from "@/content/staged/calendar-gap-candidates";
+import { christianNativityCandidates } from "@/content/staged/christian-nativity";
 
 /** Offline review catalog only. Never import this from a public runtime registry. */
 export const stagedCandidateGroups = [
@@ -14,6 +15,7 @@ export const stagedCandidateGroups = [
   { id: "seasonal-classroom", candidates: seasonalClassroomCandidates },
   { id: "evergreen-hard", candidates: evergreenHardBatch },
   { id: "teacher-subjects", candidates: teacherSubjectCandidates },
-  { id: "calendar-gaps", candidates: calendarGapCandidates }
+  { id: "calendar-gaps", candidates: calendarGapCandidates },
+  { id: "christian-nativity", candidates: christianNativityCandidates }
 ];
 export const allStagedCandidates = stagedCandidateGroups.flatMap(({ candidates }) => candidates);
