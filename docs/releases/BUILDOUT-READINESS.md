@@ -5,7 +5,7 @@
 Use [PRODUCT-ACCEPTANCE.md](PRODUCT-ACCEPTANCE.md) and its validated JSON for the
 definitive feature-by-feature status; older recovery tables below are historical.
 Draft PR70 combines the later packages on tested03, with no main merge or
-production deployment. The43-feature ledger currently records32 TESTED,7 IN PROGRESS,
+production deployment. The43-feature ledger currently records35 TESTED,4 IN PROGRESS,
 2 MANUAL ACCEPTANCE PENDING,1 BLOCKED and1 OWNER-DEFERRED; zero DONE approvals.
 TESTED refers to recorded package evidence, not automatic combined acceptance.
 
@@ -23,9 +23,11 @@ independently approved weekly release; zero remains valid. This supersedes older
 Advanced74, measured single large print76, print preflight77, actual clues78,
 owner preservation79, editorial quality80, optional default-off sound81,
 printed ASCII case82 and zero-answer recovery83 are now merged. Independent
-review caught stale HTML/static-PDF downloads after invalid edits/navigation;
-their focused cancellation fix is active. Final settings/combined04 build/browser/visual/PDF
-and exact provider-preview validation follow these repairs. Real03 provider
+review caught stale HTML/static-PDF downloads and PNG errors; cancellation85
+fixes these, and settings/fallback matrix86 is complete. Combined04 lint/typecheck,
+514 tests and335-page build/static checks pass after a clean supported-runtime
+install. Final browser/visual/CLS/PDF and exact provider-preview validation follow.
+Real03 provider
 verification is recorded in PROVIDER-VERIFICATION-2026-11-06.md.
 PNG/SVG/TXT package75 is implemented and independently checked; final combined
 coverage remains separate. Image tokens that overlap cells fail actionably.

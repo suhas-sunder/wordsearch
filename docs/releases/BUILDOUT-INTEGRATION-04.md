@@ -39,13 +39,30 @@ No new candidate has entered runtime content, sitemap, search or public links.
 
 The dense-bank/within-cell failures now reject actionably, clues and measured
 single-puzzle large print are implemented, and document grid formats are tested.
-The remaining confirmed code defect is stale HTML/static-utility PDF download
-after invalid edits or navigation while asynchronous output work completes.
-A focused cancellation package is active. Final supported-settings and combined
-source/build/browser/PDF/visual/provider validation remain pending; individual
-packages retain their actual scoped validation evidence.
+Cancellation85 repairs the confirmed stale HTML/static-PDF downloads and old PNG
+errors after edits/navigation; settings/fallback matrix86 is implemented and
+validated. Product feature work is frozen for combined acceptance. Final
+browser/PDF/visual/CLS/provider validation remains pending; individual packages
+retain their actual scoped validation evidence.
 
 ## Evidence already available, with limits
+
+Combined implementation freeze preflight includes every package through86:
+the candidate now owns its own real dependency directory. Clean `npm ci` was
+explicitly run with Node22.23.4/npm10.9.0 and reports zero vulnerabilities;
+full and production audits also report zero. Lint/typecheck, all514 tests in71
+files,335-page production build and217/35/6 static-host checks pass. No lockfile
+change or dependency upgrade occurs in this integration.
+
+The final small UI pass makes clue uploads explicitly line-based TXT with
+mode-specific help and names lowercase accurately as A–Z. Its actual valid/invalid
+file-upload regression is included in the pending combined browser suite.
+The recurring Next lint-plugin warning was traced to Next evaluating the config
+file outside its TypeScript scope. Global registration retains the identical
+effective TypeScript/Next rule map (before/after print-config artifacts saved
+outside the repository); framework rules were not weakened. The final build
+verifies detection. No remaining known product implementation defect is waived;
+new concrete failures during acceptance must be fixed and affected checks rerun.
 
 Package records include actual browser PDFs, extracted glyph bounds, rendered
 visual inspection, protected advertising regression and responsive/axe checks.

@@ -266,12 +266,14 @@ export function WordSearchBuilder({ initialRequest, compact = false, persistStat
               aria-describedby="word-input-help"
             />
           </label>
-          <p id="word-input-help" className="control-help">One per line, comma-separated, TSV/TXT upload, or `answer | clue`.</p>
+          <p id="word-input-help" className="control-help">{request.wordBankMode === "clues"
+            ? <>One <code>ANSWER | clue</code> per line. Commas and tabs remain inside the clue. TXT uploads use this same format.</>
+            : <>One word per line, comma-separated, or TXT/CSV/TSV upload. Choose Numbered clues under Student bank to print clues instead of answers.</>}</p>
           <div className="control-row">
             <button type="button" className="secondary-button" onClick={() => fileInput.current?.click()}>
-              <Upload size={16} aria-hidden="true" /> Upload TXT/CSV/TSV
+              <Upload size={16} aria-hidden="true" /> {request.wordBankMode === "clues" ? "Upload clue text" : "Upload TXT/CSV/TSV"}
             </button>
-            <input ref={fileInput} hidden type="file" accept=".txt,.csv,.tsv,text/plain,text/csv" onChange={(event) => handleFile(event.target.files?.[0])} />
+            <input ref={fileInput} hidden type="file" accept={request.wordBankMode === "clues" ? ".txt,text/plain" : ".txt,.csv,.tsv,text/plain,text/csv"} onChange={(event) => handleFile(event.target.files?.[0])} />
             <button type="button" className="secondary-button" onClick={() => patch({ wordsText: initialRequest.wordsText ?? request.wordsText })}>
               <RefreshCw size={16} aria-hidden="true" /> Sample
             </button>

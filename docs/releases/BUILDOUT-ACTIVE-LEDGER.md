@@ -8,10 +8,13 @@ proposals preserved;80 authored-topic alignment and exact pinned-file checks;
 81 default-off local sound;82 printable ASCII case;83 zero-answer/seed-miss
 recovery;84 factual advertising-policy copy correction for owner review.
 All are in current04. The remaining confirmed code defect is stale HTML/static
-PDF completion after invalid edits/navigation; cancellation repair is active.
-Final settings matrix,432-case visual matrix,84-pair utility CLS, combined
+PDF completion after invalid edits/navigation; cancellation85 now repairs it
+alongside stale PNG errors. Settings/fallback acceptance86 is also complete.
+Combined clean-install/lint/typecheck/514tests/build335/static217/35/6 passes.
+Final432-case visual matrix,84-pair utility CLS, combined browser/PDF checks and
 regressions and exact provider preview are still pending. The machine ledger
-now covers43 features; no production/editorial approval is recorded.
+now covers43 features; no production/editorial approval is recorded. Feature
+implementation is frozen for acceptance; any new concrete defect reopens work.
 
 Draft PR70 (`codex/product-candidate-04`) is the active combined candidate on
 frozen03. All previous branches, PRs, dirty root growth proposals and superseded

@@ -390,6 +390,18 @@
       "sha": "0fa79b452c2262482026df1e53002eb9e6e38717",
       "branch": "codex/advertising-copy-accuracy",
       "draft": true
+    },
+    "85": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/85",
+      "sha": "09d47e5187819f7cd90f05cedc7ac79d8f2b666e",
+      "branch": "codex/cancel-stale-html-exports",
+      "draft": true
+    },
+    "86": {
+      "url": "https://github.com/suhas-sunder/wordsearch/pull/86",
+      "sha": "8478f1c5744b1e5f215342200d7040ad51caf8a8",
+      "branch": "codex/f2-settings-matrix",
+      "draft": true
     }
   },
   "features": [
@@ -414,7 +426,7 @@
         "docs/releases/BUILDOUT-INTEGRATION-02.md",
         "docs/releases/BUILDOUT-INTEGRATION-03.md"
       ],
-      "remaining": "Checkpoint03 passed combined regression. Candidate04 source is combined; new browser-print and supported-settings packages and final exact-head validation remain.",
+      "remaining": "All intended implementation packages through86 are combined. Clean-install/lint/typecheck/514tests/build335/static pass. Final exact-SHA browser/PDF/visual/CLS/provider validation remains pending.",
       "manualApproval": false
     },
     {
@@ -725,7 +737,7 @@
     {
       "id": "F2.settings",
       "title": "All supported generator settings and editable recovery",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         13
       ],
@@ -737,7 +749,8 @@
         74,
         78,
         82,
-        83
+        83,
+        86
       ],
       "checks": [
         "Settings matrix, input/direction/preview regression"
@@ -747,9 +760,10 @@
         "tests/e2e/direction-validation.mjs",
         "docs/releases/BUILDOUT-F2-PRINT-SETTINGS.md",
         "docs/releases/BUILDOUT-ADVANCED-SETTINGS.md",
-        "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md"
+        "docs/releases/BUILDOUT-EMPTY-PUZZLE-RECOVERY.md",
+        "docs/releases/BUILDOUT-F2-SETTINGS-MATRIX.md"
       ],
-      "remaining": "Advanced filler/order/seed, actual clues, printable ASCII case and empty/seed-miss recovery are implemented. Final full supported-settings combination matrix and combined04 validation remain.",
+      "remaining": "Actual overlap, auto/manual size, difficulty/directions, files, seed, instructions, eight packs, filler/hidden-message fallbacks, clues, case and recovery workflows pass; unsupported controls are explained/disabled, accepted legacy behavior retained. Final combined43-feature validation and physical/device acceptance remain separate.",
       "manualApproval": false
     },
     {
@@ -872,7 +886,8 @@
         18
       ],
       "prs": [
-        75
+        75,
+        85
       ],
       "checks": [
         "Node22 lint/typecheck/450tests/build335/static217/35/6",
@@ -881,15 +896,16 @@
       ],
       "evidence": [
         "docs/releases/BUILDOUT-GRID-EXPORTS.md",
-        "tests/unit/grid-export.test.ts"
+        "tests/unit/grid-export.test.ts",
+        "docs/releases/BUILDOUT-OUTPUT-CANCELLATION.md"
       ],
-      "remaining": "18 Latin width/theme/shape cases and6 coordinates/Morse/Braille/Binary cases pass, plus failure/edit/client-unmount cancellation. Binary image overlap is now rejected actionably while exact TXT works. Final combined04, physical/device/font acceptance remain separate.",
+      "remaining": "Confirmed stale HTML/static PDF downloads and stale PNG errors are repaired with current-job/request/style/unmount guards. Six HTML, two static PDF and PNG rejection/retry cases plus normal export regressions pass. Final combined and physical/device acceptance remain separate.",
       "manualApproval": false
     },
     {
       "id": "F3.single-pdf",
       "title": "Deterministic single-puzzle print/PDF/answer output",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         13
       ],
@@ -900,7 +916,8 @@
         72,
         76,
         77,
-        82
+        82,
+        85
       ],
       "checks": [
         "npm run audit:pdf",
@@ -911,9 +928,10 @@
         "tests/unit/pdf.test.ts",
         "docs/releases/BUILDOUT-PDF-FIT-ERRORS.md",
         "docs/releases/BUILDOUT-BROWSER-PRINT-LAYOUT.md",
-        "docs/releases/BUILDOUT-SINGLE-LARGE-PRINT.md"
+        "docs/releases/BUILDOUT-SINGLE-LARGE-PRINT.md",
+        "docs/releases/BUILDOUT-OUTPUT-CANCELLATION.md"
       ],
-      "remaining": "Real PDF geometry/parity and measured single-puzzle output pass. Independent review confirmed static utility PDF can finish after navigation; focused stale-export cancellation fix is active before final acceptance.",
+      "remaining": "Confirmed stale HTML/static PDF downloads and stale PNG errors are repaired with current-job/request/style/unmount guards. Six HTML, two static PDF and PNG rejection/retry cases plus normal export regressions pass. Final combined and physical/device acceptance remain separate.",
       "manualApproval": false
     },
     {
@@ -1049,7 +1067,7 @@
     {
       "id": "F3.html-export",
       "title": "Useful safe offline HTML worksheet export",
-      "status": "IN PROGRESS",
+      "status": "TESTED",
       "ownerIssues": [
         18
       ],
@@ -1058,7 +1076,8 @@
         66,
         77,
         78,
-        82
+        82,
+        85
       ],
       "checks": [
         "Real-file offline/no-network/XSS/grid/answer/print tests"
@@ -1066,9 +1085,10 @@
       "evidence": [
         "components/puzzle/PuzzleSvg.tsx",
         "docs/releases/BUILDOUT-F3-OFFLINE-HTML.md",
-        "docs/releases/BUILDOUT-BROWSER-PRINT-PREFLIGHT.md"
+        "docs/releases/BUILDOUT-BROWSER-PRINT-PREFLIGHT.md",
+        "docs/releases/BUILDOUT-OUTPUT-CANCELLATION.md"
       ],
-      "remaining": "Supported offline files and real print/clue/case/XSS checks pass, but held validation can still download old HTML after invalid edits or navigation. Confirmed bug is under focused cancellation/one-job repair; do not treat prior valid-file passes as a fix.",
+      "remaining": "Confirmed stale HTML/static PDF downloads and stale PNG errors are repaired with current-job/request/style/unmount guards. Six HTML, two static PDF and PNG rejection/retry cases plus normal export regressions pass. Final combined and physical/device acceptance remain separate.",
       "manualApproval": false
     },
     {
@@ -1220,7 +1240,7 @@
       "evidence": [
         "docs/releases/BUILDOUT-TOOLING-SECURITY.md"
       ],
-      "remaining": "Both audit scopes zero in integration03 install; repeat exact final candidate.",
+      "remaining": "Independent candidate-owned clean npm ci completed; full and production npm audit scopes zero. Final frozen-code install/lockfile provenance is recorded in integration04; no production security approval is inferred.",
       "manualApproval": false
     },
     {

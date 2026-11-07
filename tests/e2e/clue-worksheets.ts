@@ -24,15 +24,19 @@ try {
     await page.locator(".builder-preview .print-clue-bank").waitFor();
     if (width === 390 && paper === "letter") {
       const controls = page.locator(".builder-controls");
+      assert.ok((await page.locator("#word-input-help").innerText()).includes("Commas and tabs remain inside the clue"));
+      assert.equal(await controls.locator('input[type="file"]').getAttribute("accept"), ".txt,text/plain");
+      assert.ok(await controls.getByRole("button", { name: "Upload clue text", exact: true }).isVisible());
       await controls.getByText("Advanced print and fill controls", { exact: true }).click();
       await controls.getByRole("combobox", { name: "Student bank", exact: true }).selectOption("words");
       await page.waitForFunction(() => !!document.querySelector(".builder-preview .print-word-bank") && !document.querySelector(".builder-preview .print-clue-bank"));
+      assert.ok(await controls.getByRole("button", { name: "Upload TXT/CSV/TSV", exact: true }).isVisible());
       await controls.getByRole("combobox", { name: "Student bank", exact: true }).selectOption("clues");
       await page.locator(".builder-preview .print-clue-bank").waitFor();
-      await controls.getByLabel("Words and clues").fill("CAT |");
+      await controls.locator('input[type="file"]').setInputFiles({ name: "invalid-clues.txt", mimeType: "text/plain", buffer: Buffer.from("CAT |") });
       await page.getByRole("alert").filter({ hasText: "Clue mode needs" }).first().waitFor();
       assert.equal(await page.getByRole("link", { name: "Play", exact: true }).count(), 0);
-      await controls.getByLabel("Words and clues").fill(request.wordsText);
+      await controls.locator('input[type="file"]').setInputFiles({ name: "clues.txt", mimeType: "text/plain", buffer: Buffer.from(request.wordsText) });
       await page.locator(".builder-preview .print-clue-bank").waitFor();
     }
     assert.deepEqual(await page.locator(".builder-preview .print-clue-bank span").allTextContents(), puzzleBankLabels(puzzle));
