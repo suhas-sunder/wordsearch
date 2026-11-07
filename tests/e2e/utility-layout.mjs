@@ -1,0 +1,103 @@
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { mkdir, writeFile } from "node:fs/promises";
+import { isAbsolute, relative, resolve } from "node:path";
+import { chromium } from "playwright";
+
+const baseline = process.env.BASELINE_URL ?? "http://127.0.0.1:3394";
+const candidate = process.env.BASE_URL ?? "http://127.0.0.1:3272";
+const output = process.env.UTILITY_LAYOUT_OUTPUT;
+assert.ok(output, "UTILITY_LAYOUT_OUTPUT must identify an outside-repository evidence directory");
+const outputRelative = relative(process.cwd(), resolve(output));
+assert.ok(outputRelative.startsWith("..") || isAbsolute(outputRelative), "Keep utility evidence outside the repository");
+await mkdir(output, { recursive: true });
+const kinds = ["play", "print", "pdf", "answer-key", "embed", "custom"];
+const profiles = [["square", 8, 8], ["rectangular", 8, 14], ["extreme-wide", 6, 40], ["extreme-tall", 40, 6]];
+const cases = profiles.map(([name, rows, cols]) => {
+  const request = { title: "UI review", wordsText: "CAT\nDOG", seed: "ui-review", alphabetPack: "latin", directions: ["E"], rows, cols, autoSize: false };
+  const json = JSON.stringify(request);
+  return { name, encoded: Buffer.from(json).toString("base64url"), requestSha256: createHash("sha256").update(json).digest("hex"), cells: rows * cols };
+});
+cases.push({ name: "invalid", encoded: "invalid-state", requestSha256: createHash("sha256").update("invalid-state").digest("hex"), cells: 0 });
+const report = { baseline, candidate, generatedAt: new Date().toISOString(), comparisons: [], loading: [], limitations: ["Desktop Chromium, no physical device/provider assertion", "Footer reveal is scoped to the pending raw utility; ready and invalid states restore it without a timer", "Request and grid hashes are recorded separately from the existing published puzzle fingerprint suite"] };
+const save = () => writeFile(`${output}/measurements.json`, `${JSON.stringify(report, null, 2)}\n`);
+const browser = await chromium.launch({ headless: true });
+try {
+  for (const width of [390, 1440]) {
+    for (const kind of kinds) {
+      for (const fixture of cases) {
+        const repeats = fixture.name === "square" ? 3 : 1;
+        for (let trial = 1; trial <= repeats; trial++) {
+          const result = { width, kind, profile: fixture.name, requestSha256: fixture.requestSha256, path: `/${kind}/${fixture.encoded}`, trial, samples: [] };
+          for (const [label, base] of [["before", baseline], ["after", candidate]]) {
+            const context = await browser.newContext({ viewport: { width, height: 900 } });
+            const page = await context.newPage();
+            const errors = []; page.on("pageerror", (error) => errors.push(error.message));
+            await page.addInitScript(() => {
+              window.__utilityCls = 0;
+              new PerformanceObserver((list) => list.getEntries().forEach((entry) => { if (!entry.hadRecentInput) window.__utilityCls += entry.value; })).observe({ type: "layout-shift", buffered: true });
+            });
+            const response = await page.goto(`${base}${result.path}`, { waitUntil: "networkidle" });
+            assert.ok((response.headers()["x-robots-tag"] ?? "").includes("noindex"));
+            await page.locator(`[data-utility-state="${fixture.cells ? "ready" : "invalid"}"]`).waitFor();
+            await page.evaluate(() => document.fonts.ready);
+            const tokens = await page.locator(kind === "play" || kind === "custom" ? ".solver-grid [data-solver-cell]" : ".puzzle-svg .puzzle-token").allTextContents();
+            assert.equal(tokens.length, fixture.cells);
+            assert.equal(await page.locator("[data-ad-placement]").count(), 0);
+            assert.deepEqual(errors, []);
+            const sample = await page.evaluate(() => ({ cls: window.__utilityCls, text: document.querySelector("main").innerText, footerVisibility: getComputedStyle(document.querySelector(".site-footer")).visibility, pendingMarker: document.documentElement.dataset.ilwsUtilityPending ?? null, overflow: document.documentElement.scrollWidth > innerWidth + 1 }));
+            sample.label = label;
+            sample.gridSha256 = createHash("sha256").update(JSON.stringify(tokens)).digest("hex");
+            result.samples.push(sample);
+            if (trial === 1 && ["square", "extreme-wide", "invalid"].includes(fixture.name)) await page.screenshot({ path: `${output}/${label}-${kind}-${fixture.name}-${width}.png` });
+            await context.close();
+          }
+          report.comparisons.push(result);
+          await save();
+          const [before, after] = result.samples;
+          assert.equal(after.gridSha256, before.gridSha256, "exact seeded grid preserved");
+          assert.equal(after.text, before.text, "final visible utility text preserved");
+          assert.equal(after.footerVisibility, "visible", "ready/error footer is immediately restored");
+          assert.equal(after.pendingMarker, null);
+          assert.equal(after.overflow, false);
+          assert.ok(after.cls <= before.cls + 0.01, `new CLS ${kind}/${fixture.name}/${width}: ${before.cls} -> ${after.cls}`);
+          console.log(JSON.stringify({ kind, profile: fixture.name, width, trial, beforeCls: before.cls, afterCls: after.cls }));
+        }
+      }
+    }
+  }
+  for (const invalid of [false, true]) {
+    const context = await browser.newContext({ viewport: { width: 390, height: 900 } });
+    const page = await context.newPage();
+    let release;
+    const gate = new Promise((resolve) => { release = resolve; });
+    await page.route(/\/_next\/static\/.*\.js(?:\?.*)?$/, async (route) => { await gate; await route.continue(); });
+    await page.goto(`${candidate}/pdf/${invalid ? "invalid-state" : cases[0].encoded}`, { waitUntil: "commit" });
+    await page.locator('[data-utility-state="loading"]').waitFor();
+    await page.locator(".site-footer").waitFor({ state: "attached" });
+    assert.equal(await page.locator(".site-footer").evaluate((el) => getComputedStyle(el).visibility), "hidden");
+    assert.equal(await page.locator("main .static-utility-controls button:not(:disabled)").count(), 0);
+    assert.equal(await page.locator(".puzzle-svg, .solver-grid, .print-sheet, [data-utility-state=ready]").count(), 0, "neutral pending preview is never a fallback puzzle");
+    await page.screenshot({ path: `${output}/pending-${invalid ? "invalid" : "valid"}-390.png` });
+    await page.emulateMedia({ media: "print" });
+    assert.equal(await page.getByText("Please wait for the puzzle link to be checked before printing.", { exact: true }).isVisible(), true);
+    await page.emulateMedia({ media: "screen" });
+    release();
+    await page.locator(`[data-utility-state="${invalid ? "invalid" : "ready"}"]`).waitFor();
+    assert.equal(await page.locator(".site-footer").evaluate((el) => getComputedStyle(el).visibility), "visible");
+    report.loading.push({ invalid, withheldOnlyPending: true, activeOutputWhilePending: false, fallbackGridWhilePending: false });
+    await save();
+    await context.close();
+  }
+  const noScript = await browser.newPage({ javaScriptEnabled: false });
+  await noScript.goto(`${candidate}/pdf/${cases[0].encoded}`);
+  const warning = noScript.getByRole("heading", { name: "JavaScript is required for a shared puzzle", exact: true });
+  assert.equal(await warning.isVisible(), true);
+  assert.ok((await warning.boundingBox()).y < 400, "no-JS requirement and recovery are not buried below a permanent loading preview");
+  assert.equal(await noScript.locator(".site-footer").evaluate((el) => getComputedStyle(el).visibility), "visible");
+  assert.ok(await noScript.locator('main a[href="/topics"]').count() > 0);
+  assert.equal(await noScript.locator("main button:not(:disabled)").count(), 0);
+  await noScript.close();
+} finally { await browser.close(); }
+await save();
+console.log(`PASS ${report.comparisons.length} paired utility measurements, exact request/grid hashes, all six kinds, square/rectangular/extremes/invalid, pending fail-closed output and no-JS recovery`);
