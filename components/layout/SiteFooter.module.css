@@ -1,5 +1,6 @@
-.maintainer a {
+:global(.site-footer) .maintainer a {
   display: inline;
+  margin: 0;
   font-size: inherit;
   text-decoration: underline;
   text-underline-offset: .2em;
