@@ -18,6 +18,8 @@ export function ClassroomPackBuilder() {
   const [order, setOrder] = useState<"answers-last" | "interleaved">("answers-last");
   const [pages, setPages] = useState<"both" | "students" | "answers">("both");
   const [largePrint, setLargePrint] = useState(false);
+  const [classLine, setClassLine] = useState(false);
+  const [instructions, setInstructions] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [status, setStatus] = useState("");
@@ -38,7 +40,7 @@ export function ClassroomPackBuilder() {
         setPresets(saved);
         setStatus(saved.length ? `${saved.length} saved presets available.` : "No classroom presets saved in this browser.");
       } else {
-        setPresets(saveClassroomPreset(storage, { input: { title, wordsText, seed, count }, paperSize, order, pages, largePrint }));
+        setPresets(saveClassroomPreset(storage, { input: { title, wordsText, seed, count, ...(instructions ? { instructions } : {}) }, paperSize, order, pages, largePrint, classLine }));
         setStatus(`Saved ${title} in this browser. Saving the same title replaces that preset.`);
       }
     } catch {
@@ -49,6 +51,7 @@ export function ClassroomPackBuilder() {
   function loadPreset(preset: ClassroomPreset) {
     setTitle(preset.input.title); setWordsText(preset.input.wordsText); setSeed(preset.input.seed); setCount(preset.input.count);
     setPaperSize(preset.paperSize); setOrder(preset.order); setPages(preset.pages); setLargePrint(preset.largePrint === true);
+    setClassLine(preset.classLine === true); setInstructions(preset.input.instructions ?? "");
     setError(""); setStatus(`Loaded ${preset.input.title}. Review the entries before downloading.`);
   }
 
@@ -63,10 +66,10 @@ export function ClassroomPackBuilder() {
     try {
       // Allow the busy state to paint before the bounded synchronous work starts.
       await new Promise<void>((resolve) => requestAnimationFrame(() => setTimeout(resolve, 0)));
-      const pack = buildClassroomPack({ title, wordsText, seed, count });
+      const pack = buildClassroomPack({ title, wordsText, seed, count, ...(instructions ? { instructions } : {}) });
       downloading = true;
       const { downloadBrowserPuzzlePackPdf } = await import("@/lib/pdf/browser-pack-download");
-      await downloadBrowserPuzzlePackPdf(pack, { paperSize, order, pages, layoutProfile: largePrint ? "large-print" : "pack" });
+      await downloadBrowserPuzzlePackPdf(pack, { paperSize, order, pages, classLine, layoutProfile: largePrint ? "large-print" : "pack" });
       setStatus(`Your ${count}-puzzle PDF download has started.`);
     } catch (cause) {
       setStatus("");
@@ -96,6 +99,8 @@ export function ClassroomPackBuilder() {
           <div><label className={label} htmlFor="pack-order">Answer pages</label><select className={control} id="pack-order" value={order} disabled={pages !== "both"} onChange={(event) => setOrder(event.target.value as "answers-last" | "interleaved")}><option value="answers-last">All at the end</option><option value="interleaved">After each puzzle</option></select></div>
         </div>
         <div><label className={label} htmlFor="pack-type">Print type</label><select className={control} id="pack-type" value={largePrint ? "large" : "standard"} onChange={(event) => setLargePrint(event.target.value === "large")}><option value="standard">Standard</option><option value="large">Large grid and word bank</option></select><p className={styles.help}>Large output uses at least 16-point grid letters and an 18-point word bank at 100% scale. Header and footer text stays smaller. Dense lists may not fit; shorten the list if needed.</p></div>
+        <div><label className={label} htmlFor="pack-instructions">Worksheet instructions</label><input className={control} id="pack-instructions" value={instructions} onChange={(event) => setInstructions(event.target.value)} maxLength={180} aria-describedby="instructions-help" /><p id="instructions-help" className={styles.help}>Optional, up to 180 English letters, numbers or ordinary punctuation. Leave blank to show the permitted search directions. Custom text replaces those directions; include any directions your class needs.</p></div>
+        <label className={styles.checkbox}><input type="checkbox" checked={classLine} onChange={(event) => setClassLine(event.target.checked)} />Add a blank Class line beside Name and Date on student worksheets</label>
         <p className={styles.help}>The PDF is created in your browser. It uses the existing ink-saving style, which includes some tinted gray elements.</p>
         <fieldset className={styles.presets} disabled={busy}>
           <legend>Local classroom presets</legend>
