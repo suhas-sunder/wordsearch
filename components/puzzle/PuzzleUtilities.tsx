@@ -2,7 +2,7 @@
 
 import { createPortal } from "react-dom";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { Check, FileDown, KeyRound, Printer, Share2, X } from "lucide-react";
+import { Check, FileDown, KeyRound, Mail, MessageCircle, Printer, Share2, X } from "lucide-react";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import {
   normalizePuzzleOutputOptions,
@@ -14,6 +14,7 @@ import {
 } from "@/lib/puzzle/output-options";
 import { downloadBrowserPuzzlePdf } from "@/lib/pdf/browser-download";
 import { puzzlePlayUrl } from "@/lib/share-state/state";
+import { puzzleShareDestinations } from "@/lib/share-state/destinations";
 import { PrintablePuzzle } from "@/components/print/PrintablePuzzle";
 import { downloadOfflineWorksheet } from "@/lib/print/offline-html";
 
@@ -76,6 +77,7 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
   const printPortalRef = useRef<HTMLDivElement>(null);
   const previousPrintRequest = useRef(puzzle.request);
   const playUrl = useMemo(() => puzzlePlayUrl(puzzle.request), [puzzle.request]);
+  const shareDestinations = useMemo(() => puzzleShareDestinations(playUrl), [playUrl]);
 
   useEffect(() => {
     setMounted(true);
@@ -354,6 +356,11 @@ export function PuzzleUtilities({ puzzle, outputsBlocked = false, unfinished = f
               <div className="utility-actions">
                 <button ref={initialFocusRef} type="button" className="primary-button" onClick={copyShareLink}>{shareCopied ? <Check size={17} aria-hidden="true" /> : <Share2 size={17} aria-hidden="true" />}{shareCopied ? "Copied" : "Copy link"}</button>
                 {mounted && typeof navigator.share === "function" && <button type="button" className="secondary-button" onClick={nativeShare}>Share with an app</button>}
+              </div>
+              <p id="share-destination-notice" className="control-help">WhatsApp and email open a draft for you to send. Opening either passes that service a link containing the word list and settings, with no solving progress. Very long links may need copy and paste.</p>
+              <div className="utility-actions" role="group" aria-label="Share destinations" aria-describedby="share-destination-notice">
+                <a className="secondary-button" href={shareDestinations.whatsapp} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer"><MessageCircle size={17} aria-hidden="true" />WhatsApp (new tab)</a>
+                <a className="secondary-button" href={shareDestinations.email}><Mail size={17} aria-hidden="true" />Email</a>
               </div>
               <p className="share-status" role="status" aria-live="polite">{shareMessage}</p>
             </div>
