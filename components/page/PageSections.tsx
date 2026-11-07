@@ -164,6 +164,7 @@ export function SearchTools() {
       <Link href="/free-printable-word-searches">Printable Word Searches</Link>
       <Link href="/online-word-search">Online Word Search</Link>
       <Link href="/word-search-pdf">Word Search PDFs</Link>
+      <Link href="/pack-builder">Worksheet pack builder</Link>
     </div>
   </section>;
 }
