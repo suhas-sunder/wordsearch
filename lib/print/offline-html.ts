@@ -44,6 +44,7 @@ h1,h2{font-size:20pt;line-height:1.15;margin:0 0 10px}p{margin:8px 0}.print-bran
 .puzzle-token{font-family:Arial,Helvetica,sans-serif;fill:#111}.grid-coordinate{font-family:Arial,Helvetica,sans-serif;fill:#333;font-size:11px}
 .print-word-bank{display:grid;grid-template-columns:repeat(auto-fit,minmax(8em,1fr));gap:8px 18px;font-size:12pt;line-height:1.4}
 .print-word-bank span{break-inside:avoid;overflow-wrap:anywhere}.print-scale-large .print-word-bank{font-size:17pt}
+.print-word-bank.print-clue-bank{grid-template-columns:1fr}
 .print-bank-beside .print-puzzle-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(7em,.35fr);gap:18px;align-items:center}
 .print-bank-beside .print-word-bank{grid-template-columns:1fr}
 @page{size:${safe.paperSize === "a4" ? "A4" : "letter"} ${safe.orientation};margin:.45in}
@@ -53,8 +54,8 @@ h1,h2{font-size:20pt;line-height:1.15;margin:0 0 10px}p{margin:8px 0}.print-bran
 .print-sheet{height:calc(${height} - .9in - 1px);display:grid;grid-template-rows:auto minmax(0,1fr);break-inside:avoid}
 .print-header{flex-wrap:nowrap}.print-header>div{min-width:0}
 .print-sheet .print-puzzle-body{min-height:0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
-.print-sheet.print-bank-beside:not(.print-answer-sheet) .print-puzzle-body{grid-template-columns:minmax(0,1fr) minmax(7em,.35fr);grid-template-rows:minmax(0,1fr);align-items:stretch}
-.print-sheet.print-answer-sheet .print-puzzle-body{grid-template-columns:minmax(0,1fr)}
+.print-sheet.print-bank-beside:not(.print-answer-sheet) .print-puzzle-body,.print-sheet.print-bank-beside.print-clue-sheet .print-puzzle-body{grid-template-columns:minmax(0,1fr) minmax(7em,.35fr);grid-template-rows:minmax(0,1fr);align-items:stretch}
+.print-sheet.print-answer-sheet:not(.print-clue-sheet) .print-puzzle-body{grid-template-columns:minmax(0,1fr)}
 .print-sheet .print-grid-wrap{width:100%;height:100%;min-height:0;min-width:0;margin:0}
 .print-sheet .puzzle-svg{width:100%;height:100%;max-height:none;overflow:hidden}
 .print-word-bank{align-content:start}

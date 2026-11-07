@@ -10,5 +10,5 @@ const directionText: Record<DirectionKey, string> = {
 export function printableInstructions(request: PuzzleRequest): string {
   if (request.instructions !== defaultPuzzleRequest.instructions) return request.instructions ?? "";
   const directions = [...new Set(request.directions)].map((direction) => directionText[direction]);
-  return `Find each word in the grid. Words may run: ${directions.join(", ")}.`;
+  return `${request.wordBankMode === "clues" ? "Solve each numbered clue, then find its answer in the grid." : "Find each word in the grid."} Words may run: ${directions.join(", ")}.`;
 }

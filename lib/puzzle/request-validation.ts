@@ -1,5 +1,5 @@
 import { alphabetPacks } from "@/lib/alphabet-packs";
-import { parseWordInput } from "@/lib/puzzle/parse";
+import { parseWordInput, splitWordInput } from "@/lib/puzzle/parse";
 import { choosePuzzleSize, maxPlacementTokenChecks, placementTokenCheckBound } from "@/lib/puzzle/generation-limits";
 import type { AlphabetPackId, PuzzleRequest } from "@/lib/puzzle/types";
 
@@ -17,7 +17,8 @@ const enumValues = {
   difficulty: ["easy", "medium", "hard"],
   alphabetPack: Object.keys(alphabetPacks),
   fillerMode: ["alphabet", "used", "custom", "rare"],
-  wordBankOrder: ["custom", "input", "alphabetical", "length"]
+  wordBankOrder: ["custom", "input", "alphabetical", "length"],
+  wordBankMode: ["words", "clues"]
 } as const;
 const directionKeys = ["E", "W", "S", "N", "SE", "SW", "NE", "NW"];
 
@@ -58,7 +59,7 @@ export function puzzleRequestError(input: unknown): string | null {
   }
   if (request.autoSize === false && (request.rows === undefined || request.cols === undefined)) return "Manual grid dimensions require both rows and cols.";
   if (typeof request.wordsText === "string") {
-    const chunks = request.wordsText.split(/\r?\n|,|\t/).map((part) => part.trim()).filter(Boolean);
+    const chunks = request.wordBankMode === "clues" ? splitWordInput(request.wordsText, true) : request.wordsText.split(/\r?\n|,|\t/).map((part) => part.trim()).filter(Boolean);
     if (chunks.length > puzzleInputLimits.maxWords) return "wordsText must contain at most 200 words or clues.";
     const pack = alphabetPacks[(request.alphabetPack ?? "latin") as keyof typeof alphabetPacks];
     let total = 0;
@@ -75,7 +76,9 @@ export function puzzleRequestError(input: unknown): string | null {
     return "Puzzle configuration must be serializable JSON.";
   }
   if (typeof request.wordsText === "string") {
-    const words = parseWordInput(request.wordsText, (request.alphabetPack ?? "latin") as AlphabetPackId).words.filter((word) => !word.duplicateOf);
+    const parsed = parseWordInput(request.wordsText, (request.alphabetPack ?? "latin") as AlphabetPackId, request.wordBankMode === "clues");
+    if (request.wordBankMode === "clues" && (!parsed.words.length || parsed.words.length !== splitWordInput(request.wordsText, true).length || parsed.words.some((word) => !word.clue?.trim() || word.clue.length > 500))) return "Clue mode needs a supported answer and a clue of 1–500 characters on every line: ANSWER | clue. Commas belong inside that line.";
+    const words = parsed.words.filter((word) => !word.duplicateOf);
     const effective = { autoSize: true, allowOverlap: true, ...request } as Partial<PuzzleRequest>;
     const { rows, cols } = choosePuzzleSize(words, effective);
     const count = Array.isArray(request.directions) ? request.directions.length : request.difficulty === "easy" ? 2 : request.difficulty === "hard" ? 8 : 4;

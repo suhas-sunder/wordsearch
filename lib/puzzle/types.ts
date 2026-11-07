@@ -57,6 +57,8 @@ export interface PuzzleRequest {
   hiddenMessage?: string;
   largePrint?: boolean;
   wordBankOrder?: WordBankOrder;
+  /** Opt-in line-based answer | clue input; omitted definitions keep legacy parsing. */
+  wordBankMode?: "words" | "clues";
   showCoordinates?: boolean;
   nameDateLine?: boolean;
   answerKey?: boolean;
