@@ -1,0 +1,102 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`unpublished seasonal classroom inventory > freezes request, grid and ordered answer fingerprints for review 1`] = `
+[
+  {
+    "answerSha256": "8e641ddac9f3093bc7ac0768a74a2894a74df3cf130ddb943448812a258ad529",
+    "gridSha256": "0a6e78335172493e0ccd9bb371abd0cb667f4cebb4b993fe400599beb664c8ba",
+    "id": "X08-A",
+    "requestSha256": "ae98583444bbb132e92da183eb5dc963dd6df5cd8f5c4226af4bdecc42f331f7",
+  },
+  {
+    "answerSha256": "b822c99196aacd6bafd79ac2748804f0e9f47eee7765ffaef4c7a9298d3db63d",
+    "gridSha256": "12bac9a49a1a8fa093a925e9557b351a6129fe81053146fc1c2d177f0c7cb6fc",
+    "id": "X14-A",
+    "requestSha256": "bc912c2bf706b944f533780e68d12e46d9a76f410c42c9ae5a74c04a403fa243",
+  },
+  {
+    "answerSha256": "8c0146fb626e3efb1b025c8d13480475e57a3b59c8d0821e5f0c9d0ad0e3a442",
+    "gridSha256": "297f827e4184bec7b6178dd2b547ac947d94ff8225f848b17d452d7a4d903312",
+    "id": "X14-B",
+    "requestSha256": "3342472c07d99d1cefa3c1f5e8a6d5a0743e3394c276bcca2f7e99cdbc0b1857",
+  },
+  {
+    "answerSha256": "d81a177bf47ae018894b98cc9332b0a5cf3a736ca8f22cb126b904ec9ccef563",
+    "gridSha256": "731649f9321ba9b4ae621b91379dd71e51fcf263afc55a6378eade1d32f05f0a",
+    "id": "X14-C",
+    "requestSha256": "9f219b3e4fad8e63a2d5208266bee6b17293a3157428ed5834106f35dd170e14",
+  },
+  {
+    "answerSha256": "4274bff67ba76b9bd495d8159d3aa40149aa576657c500e02307f455764842d3",
+    "gridSha256": "db45a8aa5a4e276c0124ec4edba5402d6d57e2e193ef7e74e0d075ae3aeab8c2",
+    "id": "X14-D",
+    "requestSha256": "309e7b108aa6e55a669a6f3c1531de7ca776bb001ece52b77d9365ffccbec3ae",
+  },
+  {
+    "answerSha256": "8de6172b75b3e4e66ed0fdff53c8c9d107470e510b9313545a4b7a53ac9fee47",
+    "gridSha256": "85ec5336583fe5640cac72f46e200c8663eee03a70c2e657592fd8c6df852a8a",
+    "id": "S27-VAL",
+    "requestSha256": "1c7f9e417c776bd69642540ccb6dda25ff110dd916833e0931c982cdbbc80621",
+  },
+  {
+    "answerSha256": "da090c4d23cf8c1acdd1d3eaf0210cf542d9cead872c0f3e431cb778b8a24ca1",
+    "gridSha256": "9f253d08ecf92f5b5f083d543bceb1b6e0f8750a99c73f39bc53d45f12b45502",
+    "id": "S27-SPR",
+    "requestSha256": "bba6bf246cf1e44dce5ea7d14c5d5442343b02f678c0bd88217b48d516e63571",
+  },
+  {
+    "answerSha256": "1241ca280e4f2407afcf4b1b6dcc21788a67da05be4b3f22f585c515a8c8dfaf",
+    "gridSha256": "a26f9d0386b8d07984b88305610bb582c2c5e2482534600d688f0e4914202010",
+    "id": "S27-EGG",
+    "requestSha256": "0e2f20180bc6d6ae95bd8a1f722e27b87914a81c4b3dafaf034bbaba3220b7d5",
+  },
+  {
+    "answerSha256": "d23b5cc6898d868517856cd2c0fa049ddc2f6bd1df5c17a87469c56c42ef16cc",
+    "gridSha256": "5a190cd3acbc2b4c90e1648cb07e79a5add7480d0e0971d9ebb658a1b1fb5d3d",
+    "id": "S27-MOM",
+    "requestSha256": "4f31d25f0bdc566769bb82870254b23d3fc31094f85ed97527b7573b833109c9",
+  },
+  {
+    "answerSha256": "488019a134cf1ce01c2e9442d9e6f413ea5e36bc2a1d23316bca7a7c9cd862f5",
+    "gridSha256": "1ee83b6ed4a48d0e96c56cd38164d29e0a9a4be99eb2d7c1966ccdc8299f1bb4",
+    "id": "S27-DAD",
+    "requestSha256": "245f366729d9879108b813e2f0cb06346957aa1379bcf2f4e8c1553e5ca0b6e7",
+  },
+  {
+    "answerSha256": "130b15856ec5bc404a91aeb9d608319debf33d4d7ba1a5578f193f9a0d4b984f",
+    "gridSha256": "9ba4344ec026f4c63241596c795e4b33b86f845b5455d78ac04dc86ec5bd5e06",
+    "id": "S27-GRAD",
+    "requestSha256": "ac65693d9b9e39aeff6b9e11f680a658150d0cec6d65338c38f64d899e7f2203",
+  },
+  {
+    "answerSha256": "c82f74a143274f7bbee659dd2006f03c2cf14d8f4cb70d424007b0f6a9f13d83",
+    "gridSha256": "240e6ba55a67356d5ddd6aa13febf10887b6d33e568fd94837369bb7ddc199b5",
+    "id": "S27-CAMP",
+    "requestSha256": "0cf762461643d0b8ce0f6f746b1332d88b2b892a70ba748e569348182fc0b21e",
+  },
+  {
+    "answerSha256": "64749bec5fefe166184fe801bdbd7b171b508a82a2b3ca13ffb18dc5a27b6180",
+    "gridSha256": "f7c37e311f09750bd50f52c37a40557754d4892a71017fe79599306d50acf426",
+    "id": "S27-SCHOOL",
+    "requestSha256": "8e506bc684a710162ef4968daf546b4d13f1bfc71c7bd02b778c7a52a8e5a995",
+  },
+  {
+    "answerSha256": "66e1a805a18e9ac77b1ef243931aa2370ca6d097d5304e9dd19352338ed6107d",
+    "gridSha256": "1775c68f446b776262d4dc22d2ee7f5166272b22a08736665f63801ef120d80a",
+    "id": "S27-HARV",
+    "requestSha256": "508858a4bc53913c653bda4ba17f5778e673875743bddcac3cab99d41d6b1d47",
+  },
+  {
+    "answerSha256": "b619edd168c73db3dd1f21994e785cc0e4c3f722e637718329d0dbf9533fad0f",
+    "gridSha256": "64d441cd1a6b34436d3790624083e7013594dd1c8bfd744e91bab3aae845d17b",
+    "id": "S27-HALLOW",
+    "requestSha256": "b5cc61c4bff443667790083bf84336bcdc27a2c5db0d453c773577234355c0f7",
+  },
+  {
+    "answerSha256": "cba3eb7353a5d0d3f95ac1ff71a8cfab93e39e29436f48e0ce8ef8a54736b329",
+    "gridSha256": "a7bfc8d924ade6db54e887a527e061a6667b6557b1f8b5a521a1c8e777bf8a39",
+    "id": "S27-THANK",
+    "requestSha256": "732ebb879858a88a526143aed4401c9700c4b627aacfc11e003f694825104d61",
+  },
+]
+`;

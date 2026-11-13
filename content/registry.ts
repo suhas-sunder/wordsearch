@@ -235,7 +235,7 @@ const guideRecords: ContentRecord[] = guides.map((guide) => ({
 const specialtyRecords: ContentRecord[] = specialtyRoutes.map((route) => ({
   id: `tool-specialty-${route.slug}`, slug: route.slug, canonicalPath: `/specialty/${route.slug}`, contentType: "tool" as const, publicationStatus: "draft" as const, indexable: false,
   title: route.title, h1: route.title, introduction: route.status, description: route.description, metadata: metadata(route.title, route.description, `/specialty/${route.slug}`, false),
-  breadcrumbs: [{ label: "Specialty", href: "/specialty-word-search-generators" }, { label: route.title }], editorialStatus: "unreviewed" as const, capabilities: ["specialty alphabet-pack puzzle generation"]
+  breadcrumbs: [{ label: "Specialty", href: "/specialty-word-search-generators" }, { label: route.title }], editorialStatus: "unreviewed" as const, capabilities: [route.implementation === "scaffold" ? "experimental token-grid scaffold" : "experimental alphabet-pack token mapping"]
 }));
 
 const redirectDefinitions = [

@@ -1,8 +1,10 @@
-import { orderWordBank } from "@/lib/puzzle/parse";
+import { puzzleWordBank, puzzleBankLabels } from "@/lib/puzzle/word-bank";
+import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import type { PuzzleResult } from "@/lib/puzzle/types";
-import { shareUrl } from "@/lib/share-state/state";
+import { encodeShareState, shareUrl } from "@/lib/share-state/state";
 import { PuzzleSvg } from "@/components/puzzle/PuzzleSvg";
 import { outputOptionsForRequest, pdfPageSpec, type PuzzleOutputOptions } from "@/lib/puzzle/output-options";
+import { PrintFitGuard } from "@/components/print/PrintFitGuard";
 
 interface PrintablePuzzleProps {
   puzzle: PuzzleResult;
@@ -23,16 +25,9 @@ export function PrintablePuzzle({
   options = outputOptionsForRequest(puzzle.request),
   shareTarget
 }: PrintablePuzzleProps) {
-  const words = orderWordBank(
-    puzzle.placed.map((placement) => ({
-      id: placement.wordId,
-      raw: placement.label,
-      label: placement.label,
-      normalized: placement.label,
-      tokens: placement.tokens
-    })),
-    puzzle.request.wordBankOrder
-  );
+  const words = puzzleWordBank(puzzle);
+  const labels = puzzleBankLabels(puzzle, answerKey, options.letterCase);
+  const clueMode = puzzle.request.wordBankMode === "clues";
   const target = shareTarget ?? shareUrl(puzzle.sharePath);
   const Heading = headingLevel === 1 ? "h1" : "h2";
   const page = pdfPageSpec(options.paperSize, options.orientation);
@@ -42,18 +37,20 @@ export function PrintablePuzzle({
     options.printScale === "large" ? "print-scale-large" : "",
     options.wordBankPlacement === "beside" ? "print-bank-beside" : "",
     options.inkSaving ? "print-ink-saving" : "",
-    answerKey ? "print-answer-sheet" : ""
+    answerKey ? "print-answer-sheet" : "",
+    clueMode ? "print-clue-sheet" : ""
   ].filter(Boolean).join(" ");
 
   return (
     <article className={sheetClassName} aria-label={answerKey ? "Answer key" : "Printable word search"}>
+      <PrintFitGuard signature={`${puzzle.sharePath}:${answerKey}:${JSON.stringify(options)}:${qrDataUrl ?? ""}`} options={options} editHref={`/word-search-generator?state=${encodeShareState(puzzle.request)}`} />
       <header className="print-header">
         <div>
           <p className="print-brand">www.iLoveWordSearch.com</p>
           <Heading>{puzzle.request.title}</Heading>
           {puzzle.request.subtitle && <p className="print-subtitle">{puzzle.request.subtitle}</p>}
           {options.instructions && <p className="print-instructions">
-            {answerKey ? "Answer key. Keep this page separate from student copies." : puzzle.request.instructions}
+            {answerKey ? "Answer key. Keep this page separate from student copies." : printableInstructions(puzzle.request)}
           </p>}
         </div>
         {options.nameDateLine && !answerKey && (
@@ -71,11 +68,12 @@ export function PrintablePuzzle({
             largePrint={options.printScale === "large"}
             showCoordinates={options.coordinates}
             inkSaving={options.inkSaving}
+            letterCase={options.letterCase}
           />
         </div>
-        {!answerKey && (
-          <section className="print-word-bank" aria-label="Word bank">
-            {words.map((word) => <span key={word.id}>{word.label}</span>)}
+        {(!answerKey || clueMode) && (
+          <section className={`print-word-bank${clueMode ? " print-clue-bank" : ""}`} aria-label={clueMode ? answerKey ? "Clue answer mappings" : "Clues to solve" : "Word bank"}>
+            {words.map((word, index) => <span key={word.id}>{labels[index]}</span>)}
           </section>
         )}
       </div>
@@ -85,7 +83,7 @@ export function PrintablePuzzle({
             <strong>{utilityLabel ?? (answerKey ? "Answer key" : "Open this exact puzzle")}</strong>
             <span>{target.length > 96 ? "Scan the QR code to open the exact seeded puzzle." : target}</span>
           </div>
-          {qrDataUrl ? <img src={qrDataUrl} alt="QR code for this puzzle state" /> : <div className="qr-placeholder" aria-label="QR code placeholder" />}
+          {qrDataUrl ? <img src={qrDataUrl} alt="QR code for this puzzle state" /> : <span className="print-qr-unavailable" role="status">QR code not ready</span>}
         </footer>
       )}
     </article>

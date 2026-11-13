@@ -1,0 +1,61 @@
+import assert from "node:assert/strict";
+import { chromium } from "playwright";
+
+const base = process.env.BASE_URL ?? "http://127.0.0.1:3308";
+const originalCache = JSON.stringify({ title: "UNRELATED LOCAL EDITS", wordsText: "STATIC\nLOCAL\nCACHE", seed: "unrelated-seed", autoSize: true, directions: ["E", "S"] });
+const libraryKey = "ilws:puzzle-library:v1";
+const decode = (encoded) => JSON.parse(Buffer.from(encoded, "base64url").toString("utf8"));
+const browser = await chromium.launch({ headless: true });
+try {
+  for (const width of [390, 1280]) {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    await context.route("https://pagead2.googlesyndication.com/**", (route) => route.abort());
+    const page = await context.newPage(); const errors = [], makerNavigations = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    page.on("request", (request) => { const url = new URL(request.url()); if (request.isNavigationRequest() && url.pathname === "/word-search-generator" && url.searchParams.has("state")) makerNavigations.push(url.href); });
+    await page.goto(`${base}/privacy`, { waitUntil: "networkidle" });
+    await page.evaluate((raw) => localStorage.setItem("ilws:last-builder-state", raw), originalCache);
+    await page.goto(`${base}/word-searches/animals/dog-word-search`, { waitUntil: "networkidle" });
+    await page.locator(".builder-controls").getByLabel("Words and clues").waitFor();
+    assert.equal(await page.locator('link[rel="canonical"]').getAttribute("href"), "https://www.ilovewordsearch.com/word-searches/animals/dog-word-search");
+    const playHref = await page.getByRole("link", { name: "Play", exact: true }).getAttribute("href");
+    const original = decode(playHref.split("/").at(-1));
+    const grid = await page.locator(".builder-preview .puzzle-token").allTextContents();
+    assert.equal(await page.getByLabel("Words and clues").inputValue(), original.wordsText);
+    assert.equal(await page.evaluate(() => localStorage.getItem("ilws:last-builder-state")), originalCache);
+    const maker = page.getByRole("link", { name: "Open in maker to save", exact: true });
+    const makerState = new URL(await maker.getAttribute("href"), base).searchParams.get("state");
+    assert.deepEqual(decode(makerState), original);
+    assert.deepEqual(makerNavigations, []);
+    await maker.click(); await page.waitForURL(/\/word-search-generator\?state=/);
+    await page.getByText("Saved puzzles on this device", { exact: true }).click();
+    assert.equal(await page.getByLabel("Words and clues").inputValue(), original.wordsText);
+    assert.deepEqual(await page.locator(".builder-preview .puzzle-token").allTextContents(), grid);
+    assert.equal(await page.evaluate((key) => localStorage.getItem(key), libraryKey), null);
+    await page.getByLabel("Saved puzzle name", { exact: true }).fill("Curated dog");
+    await page.getByRole("button", { name: "Save puzzle on this device", exact: true }).click();
+    await page.getByText("Puzzle saved on this device.", { exact: true }).waitFor();
+    const shared = { title: "Shared exact assignment", wordsText: "PLANET\nCOMET\nSTAR\nMOON\nEARTH\nMARS", seed: "shared-exact-seed", autoSize: true, directions: ["E", "S"] };
+    await page.goto(`${base}/play/${Buffer.from(JSON.stringify(shared)).toString("base64url")}`, { waitUntil: "networkidle" });
+    const edit = page.getByRole("link", { name: "Edit or save in maker", exact: true });
+    const restored = decode(new URL(await edit.getAttribute("href"), base).searchParams.get("state"));
+    for (const key of ["title", "wordsText", "seed", "directions"]) assert.deepEqual(restored[key], shared[key]);
+    assert.equal(makerNavigations.length, 1);
+    await edit.click(); await page.waitForURL(/\/word-search-generator\?state=/);
+    await page.getByText("Saved puzzles on this device", { exact: true }).click();
+    assert.equal(await page.getByLabel("Puzzle title", { exact: true }).inputValue(), shared.title);
+    assert.equal(await page.getByLabel("Words and clues").inputValue(), shared.wordsText);
+    await page.getByLabel("Saved puzzle name", { exact: true }).fill("Shared assignment");
+    await page.getByRole("button", { name: "Save puzzle on this device", exact: true }).click();
+    await page.getByText("Puzzle saved on this device.", { exact: true }).waitFor();
+    const saved = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)), libraryKey);
+    assert.equal(saved.entries.length, 2);
+    const state = decode(saved.entries[1].state); assert.equal(state.seed, shared.seed); assert.equal(state.wordsText, shared.wordsText);
+    assert.equal(await page.evaluate(() => localStorage.getItem("ilws:last-builder-state")), originalCache);
+    assert.equal(makerNavigations.length, 2);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1), false);
+    assert.deepEqual(errors, []);
+    await context.close();
+  }
+} finally { await browser.close(); }
+console.log("PASS exact curated/shared maker-save paths, no unrelated automatic restore/write, explicit-only navigation, canonical preservation and mobile/desktop");

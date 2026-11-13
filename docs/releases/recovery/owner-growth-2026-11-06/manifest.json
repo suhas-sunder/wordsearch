@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Durable verbatim recovery checkpoint only; not runtime content or editorial approval",
+  "capturedAt": "2026-11-07T04:28:17.4973996Z",
+  "originalBase": "6d72c821101c72d5fc405cad6315fcf0fa001e93",
+  "originalBranch": "review/adsense-placeholder-layout-20261008",
+  "originalWorktree": "E:/PROJECTS-and-WORK/work-projects/all_projects/wordsearch",
+  "originalStatus": [
+    " M content/collections.ts",
+    " M content/discovery.ts",
+    " M content/topics.ts",
+    " M tests/content/curated-publication.test.ts",
+    " M tests/e2e/accessibility.mjs",
+    " M tests/e2e/browser-smoke.mjs",
+    " M tests/e2e/route-audit-manifest.json",
+    " M tests/e2e/static-export-audit.mjs",
+    " M tests/seo/routes.test.ts",
+    " M tests/seo/seo-architecture.test.ts",
+    " M tests/unit/launch-readiness.test.ts",
+    "?? content/curated-topics-growth.ts",
+    "?? tests/content/growth-publication.test.ts"
+  ],
+  "fileCount": 13,
+  "records": [
+    {
+      "originalPath": "content/collections.ts",
+      "archivePath": "raw/content/collections.ts.txt",
+      "sha256": "b0a737bb726eb47a8fe739706bb1347ff54914e9b1fc9e4d1ae7ce69dc46cb9c",
+      "bytes": 18306,
+      "originalStatus": " M content/collections.ts"
+    },
+    {
+      "originalPath": "content/discovery.ts",
+      "archivePath": "raw/content/discovery.ts.txt",
+      "sha256": "a96ed32eb223717f05b69d5c6de2fdba9b39a08e75e25408c8589b081ec68120",
+      "bytes": 6442,
+      "originalStatus": " M content/discovery.ts"
+    },
+    {
+      "originalPath": "content/topics.ts",
+      "archivePath": "raw/content/topics.ts.txt",
+      "sha256": "7fb8d3997230b712cf0e03b2284a8ee37ef2b14f74fe1d1de070739f3496a75d",
+      "bytes": 10631,
+      "originalStatus": " M content/topics.ts"
+    },
+    {
+      "originalPath": "tests/content/curated-publication.test.ts",
+      "archivePath": "raw/tests/content/curated-publication.test.ts.txt",
+      "sha256": "bbca32a53bd0bcbb848eb16952a74cbafe0e7270c7f4143e63dae6ee49eaec06",
+      "bytes": 13077,
+      "originalStatus": " M tests/content/curated-publication.test.ts"
+    },
+    {
+      "originalPath": "tests/e2e/accessibility.mjs",
+      "archivePath": "raw/tests/e2e/accessibility.mjs.txt",
+      "sha256": "01d9fbc838afc711a28f4700a8898d2ff2cdd4cba40d88dacce12422b0d2e023",
+      "bytes": 5306,
+      "originalStatus": " M tests/e2e/accessibility.mjs"
+    },
+    {
+      "originalPath": "tests/e2e/browser-smoke.mjs",
+      "archivePath": "raw/tests/e2e/browser-smoke.mjs.txt",
+      "sha256": "d2d77f0f7615a1a260a5dce786c6ff62a08b3b08d86548f39ae450fb8b191863",
+      "bytes": 32442,
+      "originalStatus": " M tests/e2e/browser-smoke.mjs"
+    },
+    {
+      "originalPath": "tests/e2e/route-audit-manifest.json",
+      "archivePath": "raw/tests/e2e/route-audit-manifest.json.txt",
+      "sha256": "ed0cd47b71114d3e6380eb14bee51838c6344552c58701e986e3af19ece57f94",
+      "bytes": 3999,
+      "originalStatus": " M tests/e2e/route-audit-manifest.json"
+    },
+    {
+      "originalPath": "tests/e2e/static-export-audit.mjs",
+      "archivePath": "raw/tests/e2e/static-export-audit.mjs.txt",
+      "sha256": "01c8d6907ed9bb2e1f83b82111b1df41b08d716410eac0014338787afdf3105b",
+      "bytes": 6958,
+      "originalStatus": " M tests/e2e/static-export-audit.mjs"
+    },
+    {
+      "originalPath": "tests/seo/routes.test.ts",
+      "archivePath": "raw/tests/seo/routes.test.ts.txt",
+      "sha256": "6344cbe667565a28dfa9ddf5c0740b9d732d27bf643f0870539b70445dad1022",
+      "bytes": 1597,
+      "originalStatus": " M tests/seo/routes.test.ts"
+    },
+    {
+      "originalPath": "tests/seo/seo-architecture.test.ts",
+      "archivePath": "raw/tests/seo/seo-architecture.test.ts.txt",
+      "sha256": "8eb5f16ffaef413188a1a132cbb0e61af5dd29921186324e65cbe6de12e2fa42",
+      "bytes": 3515,
+      "originalStatus": " M tests/seo/seo-architecture.test.ts"
+    },
+    {
+      "originalPath": "tests/unit/launch-readiness.test.ts",
+      "archivePath": "raw/tests/unit/launch-readiness.test.ts.txt",
+      "sha256": "0ef04b51156567288edac19a8c21cff94521b832fca6f8d226c15e4d2fb8ab7d",
+      "bytes": 6829,
+      "originalStatus": " M tests/unit/launch-readiness.test.ts"
+    },
+    {
+      "originalPath": "content/curated-topics-growth.ts",
+      "archivePath": "raw/content/curated-topics-growth.ts.txt",
+      "sha256": "b5af328ea612dde28083fa86beedde9aeda370a988a30b730398325ecf17047c",
+      "bytes": 14185,
+      "originalStatus": "?? content/curated-topics-growth.ts"
+    },
+    {
+      "originalPath": "tests/content/growth-publication.test.ts",
+      "archivePath": "raw/tests/content/growth-publication.test.ts.txt",
+      "sha256": "908b41c7340c81592194d9f14cefa7caf21e35ee24de2b2d182465ffd01da1b0",
+      "bytes": 11035,
+      "originalStatus": "?? tests/content/growth-publication.test.ts"
+    }
+  ],
+  "patchSha256": "6b802a32eb70fb3fcb47d55f50fb644e3b29ff3d8bb01f5fb3ae14a604f92f3c",
+  "publicationAuthorized": false,
+  "applyToReleaseCandidate": false
+}

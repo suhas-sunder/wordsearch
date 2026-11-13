@@ -24,12 +24,14 @@ export default async function SpecialtyPage({ params }: Props) {
   const { slug } = await params;
   const route = getSpecialty(slug);
   if (!route) notFound();
+  const limitations = route.status.replace("This scaffold", "This preview");
   return (
     <IndexablePage
       title={route.title}
       h1={route.title}
       description={route.description}
-      intro={`${route.status} The word bank remains readable while the grid uses the selected token pack.`}
+      intro="The word bank remains readable while the grid uses the selected token pack."
+      toolStatus={{ label: route.implementation === "scaffold" ? "Format not available yet" : "Experimental format — review limitations", description: limitations }}
       path={`/specialty/${route.slug}`}
       words={route.words}
       alphabetPack={route.alphabetPack}
