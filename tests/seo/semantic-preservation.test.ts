@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 // Test-only JS deliberately shares the exact comparator used by the CLI.
 // @ts-expect-error Browser/Node audit scripts do not emit TypeScript declarations.
 import { compareSnapshots, semanticHash } from "../e2e/seo-semantic-compare.mjs";
@@ -6,6 +7,19 @@ import { compareSnapshots, semanticHash } from "../e2e/seo-semantic-compare.mjs"
 const snapshot = () => ({ origin: "https://www.ilovewordsearch.com", sitemap: { status: 200, paths: ["/puzzle"] }, sourceVocabularyFiles: [{ path: "authored-bank", sha256: "original" }], redirects: [{ source: "/old", expectedTarget: "/puzzle", status: 301, location: "/puzzle" }], pages: [{ path: "/puzzle", status: 200, location: null, robotsHeader: null, semantic: { title: "Published title", description: ["Useful description"], canonical: ["https://www.ilovewordsearch.com/puzzle"], robotsHtml: ["index, follow"], h1: [{ level: "h1", text: "Published puzzle", partition: "editorial" }], headings: [{ level: "h2", text: "Using this puzzle", partition: "editorial" }], body: { editorial: "Original useful copy", header: "Main navigation", "shared-tools": "All tools" }, links: { editorial: [{ href: "/other", label: "Other puzzle", rel: "" }] }, vocabulary: ["CAT DOG"], schema: [{ "@type": "CreativeWork", name: "Published puzzle" }], noscript: ["Use printed page"] } }] });
 
 describe("exact indexed semantic preservation", () => {
+  it("keeps the reviewed C4 fixture's thirteen owner holds and protects metadata", () => {
+    const allowlist = JSON.parse(readFileSync("tests/seo/semantic-preservation-allowlist.json", "utf8")) as Array<{ path?: string; paths?: string[]; field: string; beforeSha256: string; afterSha256: string; reviewDisposition: string }>;
+    const decisions = JSON.parse(readFileSync("docs/releases/QUALITY-INDEXED-HOLDS.json", "utf8")) as { ownerApprovalRecorded: boolean; fields: Array<{ path: string; field: string; originalSha256: string; candidateSha256: string; approvalRecorded: boolean }> };
+    const held = allowlist.filter(entry => entry.reviewDisposition === "owner-review-required").flatMap(entry => (entry.paths ?? [entry.path!]).map(path => ({ path, field: entry.field, before: entry.beforeSha256, after: entry.afterSha256 })));
+    const sort = <T extends { path: string; field: string }>(rows: T[]) => rows.sort((a, b) => `${a.path}:${a.field}`.localeCompare(`${b.path}:${b.field}`));
+    expect(held).toHaveLength(13);
+    expect(new Set(held.map(entry => entry.path)).size).toBe(7);
+    expect(sort(held)).toEqual(sort(decisions.fields.map(entry => ({ path: entry.path, field: entry.field, before: entry.originalSha256, after: entry.candidateSha256 }))));
+    expect(decisions.ownerApprovalRecorded).toBe(false);
+    expect(decisions.fields.every(entry => !entry.approvalRecorded)).toBe(true);
+    const protectedFields = new Set(["title", "description", "canonical", "robotsHtml", "h1", "vocabulary", "schema", "sourceVocabularyFiles", "sitemap.paths", "sitemap.entries"]);
+    expect(allowlist.filter(entry => protectedFields.has(entry.field))).toEqual([]);
+  });
   it("ignores harmless object-key order, preserving array order and all text", () => {
     const before = snapshot(), after = snapshot();
     after.pages[0].semantic.schema = [{ name: "Published puzzle", "@type": "CreativeWork" }];
