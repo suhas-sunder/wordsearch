@@ -40,6 +40,7 @@ try {
       await dialog.getByLabel("Coordinates", { exact: true }).check();
       await dialog.getByLabel("QR code", { exact: true }).check();
       const action = dialog.getByRole("button", { name: "Download measured large-print PDF", exact: true });
+      assert.ok((await dialog.innerText()).includes(`Choose ${await action.innerText()} below for the separate measured layout.`), "Help must name the available measured-print action exactly");
       await action.scrollIntoViewIfNeeded();
       assert.equal(await dialog.evaluate(el => el.scrollWidth > el.clientWidth + 1), false, "large-print dialog overflows horizontally");
       assert.ok((await action.boundingBox())!.height >= 40);
