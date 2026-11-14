@@ -220,8 +220,9 @@ const guideRecords: ContentRecord[] = guides.map((guide) => ({
   indexable: guide.publicationStatus === "published",
   title: guide.title, h1: guide.title, introduction: guide.introduction ?? guide.description, description: guide.description,
   metadata: {
-    ...metadata(guide.metaTitle ?? guide.title, guide.metaDescription ?? guide.description, `/guides/${guide.slug}`, guide.publicationStatus === "published"),
-    ...(guide.reviewedOn ? { lastModified: guide.reviewedOn } : {})
+    // The stored reviewedOn value does not establish a verified update event.
+    // Keep it internally below; do not emit it as sitemap lastmod.
+    ...metadata(guide.metaTitle ?? guide.title, guide.metaDescription ?? guide.description, `/guides/${guide.slug}`, guide.publicationStatus === "published")
   },
   breadcrumbs: [{ label: "Guides", href: "/guides" }, { label: guide.title }],
   editorialStatus: guide.publicationStatus === "published" ? "reviewed" as const : "unreviewed" as const,

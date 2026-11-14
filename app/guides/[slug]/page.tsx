@@ -50,14 +50,13 @@ export default async function GuidePage({ params }: Props) {
   return (
     <>
       <JsonLd data={breadcrumbJsonLd(breadcrumbs, path)} />
-      {record?.indexable && author && guide.reviewedOn ? (
+      {record?.indexable && author ? (
         <JsonLd data={articleJsonLd({
           headline: guide.title,
           description: guide.description,
           path,
           authorName: author.name,
-          authorPath: author.profilePath,
-          dateModified: guide.reviewedOn
+          authorPath: author.profilePath
         })} />
       ) : null}
       <MonetizedPageShell template={adTemplate}>
@@ -69,10 +68,9 @@ export default async function GuidePage({ params }: Props) {
               <span className="eyebrow">Word search guide</span>
               <h1>{guide.title}</h1>
               <p className="value-prop">{guide.introduction ?? guide.description}</p>
-              {author && guide.reviewedOn ? (
+              {author ? (
                 <p className="guide-attribution">
                   Written by <Link href={author.profilePath}>{author.name}</Link>
-                  {" · "}Reviewed on <time dateTime={guide.reviewedOn}>{guide.reviewedOn}</time>
                 </p>
               ) : null}
             </div>
