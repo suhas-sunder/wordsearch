@@ -1,5 +1,11 @@
 # Product quality and editorial decision ledger
 
+**Current implementation:** [Issue117 release handoff](ISSUE117-RELEASE.md) and
+[draft PR118](https://github.com/suhas-sunder/wordsearch/pull/118) implement the
+subsequent owner decisions. They resolve the exact copy holds and draft-ad
+conflicts described here; remaining performance/manual/release gates are explicit.
+This earlier audit and its staged-content recommendations remain historical evidence.
+
 Review date: 2026-11-12 (America/New_York). This ledger supersedes the earlier
 claim that all feasible editorial work was complete. It does not supersede
 historical test evidence, approve publication, or change issue #113's schedule.

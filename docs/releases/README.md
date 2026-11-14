@@ -1,5 +1,12 @@
 # Controlled delivery: two independent tracks
 
+Current candidate: [draft PR118](https://github.com/suhas-sunder/wordsearch/pull/118),
+the [issue117 implementation and release handoff](ISSUE117-RELEASE.md).
+The owner-directed copy decisions and twelve draft-ad eligibility conflicts are
+resolved with fresh exact verification. Ordinary Lighthouse and genuine manual,
+consent and release acceptance remain unwaived. No production action is authorized
+by this evidence. The candidate descriptions below are retained historical records.
+
 Current review: [draft PR108](https://github.com/suhas-sunder/wordsearch/pull/108),
 [release evidence](PRODUCT-EXCELLENCE-RELEASE-CANDIDATE.md),
 [owner review handbook](PRODUCT-EXCELLENCE-OWNER-HANDBOOK.md) and

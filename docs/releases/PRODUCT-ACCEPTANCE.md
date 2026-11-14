@@ -1,6 +1,14 @@
 # Product acceptance ledger
 
-Updated 2026-11-07. Status: **BLOCKED**.
+Updated 2026-11-07. Historical C4 status: **BLOCKED**.
+
+**Issue117 update, 2026-11-13:** [PR118 and current handoff](ISSUE117-RELEASE.md)
+supersede the indexed-copy and draft-ad findings below. All13 exact copy decisions
+are resolved under owner issue117; all12 draft ad conflicts are corrected and
+tested. The historical evidence and counts below remain intact. Production release
+is still blocked by the ordinary performance disposition and applicable genuine
+manual/CMP/legal/exact-artifact acceptance gates; technical ad tests do not certify
+those gates. The new exact semantic fixtures preserve the historical fixture.
 
 Generated from PRODUCT-ACCEPTANCE.json. Run audit:product-acceptance to verify coverage; --markdown reproduces this view. Tests and manual approval are independent. No production or new-content approval is recorded.
 
