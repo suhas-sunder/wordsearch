@@ -37,7 +37,8 @@ export function compareSnapshots(baseline, candidate, allowlist = []) {
   const used = new Set();
   const seen = new Set();
   for (const entry of allowlist) {
-    if (!entry.path?.startsWith("/") || /[*]/u.test(entry.path) || !entry.field || !differenceCategories.includes(entry.category) || !["technical-intent-recorded", "owner-review-required"].includes(entry.reviewDisposition) || !entry.reason?.trim() || !entry.reviewReference?.trim() || !/^[a-f0-9]{64}$/u.test(entry.beforeSha256) || !/^[a-f0-9]{64}$/u.test(entry.afterSha256)) throw new Error("Allowlist requires exact route, field, hashes, category, explanation, pending/technical disposition and review reference");
+    if (!entry.path?.startsWith("/") || /[*]/u.test(entry.path) || !entry.field || !differenceCategories.includes(entry.category) || !["technical-intent-recorded", "owner-review-required", "owner-decision-verified"].includes(entry.reviewDisposition) || !entry.reason?.trim() || !entry.reviewReference?.trim() || !/^[a-f0-9]{64}$/u.test(entry.beforeSha256) || !/^[a-f0-9]{64}$/u.test(entry.afterSha256)) throw new Error("Allowlist requires exact route, field, hashes, category, explanation, disposition and review reference");
+    if (entry.reviewDisposition === "owner-decision-verified" && (!/^https:\/\/github\.com\/suhas-sunder\/wordsearch\/issues\/\d+(?:#issuecomment-\d+)?$/.test(entry.ownerDecisionReference ?? "") || !entry.verificationReference?.trim())) throw new Error("Verified owner decisions require the exact owner issue and executed verification reference");
     const key = `${entry.path}\n${entry.field}`;
     if (seen.has(key)) throw new Error(`Duplicate allowlist scope: ${key}`);
     seen.add(key);
@@ -48,7 +49,8 @@ export function compareSnapshots(baseline, candidate, allowlist = []) {
     const index = allowlist.findIndex((entry) => entry.path === path && entry.field === field && entry.beforeSha256 === beforeSha256 && entry.afterSha256 === afterSha256);
     const permission = index >= 0 ? allowlist[index] : null;
     if (permission) used.add(index);
-    differences.push({ path, field, beforeSha256, afterSha256, before: before ?? null, after: after ?? null, category: permission?.category ?? defaultCategory(field), disposition: permission ? permission.reviewDisposition === "owner-review-required" ? "explained-owner-review-required" : "explained-technical-intent" : "review-required", ownerApprovalRecorded: false, reason: permission?.reason ?? null, reviewReference: permission?.reviewReference ?? null });
+    const ownerDecisionVerified = permission?.reviewDisposition === "owner-decision-verified";
+    differences.push({ path, field, beforeSha256, afterSha256, before: before ?? null, after: after ?? null, category: permission?.category ?? defaultCategory(field), disposition: ownerDecisionVerified ? "explained-owner-decision" : permission ? permission.reviewDisposition === "owner-review-required" ? "explained-owner-review-required" : "explained-technical-intent" : "review-required", ownerApprovalRecorded: ownerDecisionVerified, ownerDecisionReference: permission?.ownerDecisionReference ?? null, verificationReference: permission?.verificationReference ?? null, reason: permission?.reason ?? null, reviewReference: permission?.reviewReference ?? null });
   }
   inspect("/sitemap.xml", "sitemap.paths", baseline.sitemap.paths, candidate.sitemap.paths);
   inspect("/sitemap.xml", "sitemap.locations", baseline.sitemap.locations, candidate.sitemap.locations);
@@ -80,5 +82,5 @@ export function compareSnapshots(baseline, candidate, allowlist = []) {
   });
   inspect("/@redirects", "redirects", redirects(baseline), redirects(candidate));
   allowlist.forEach((entry, index) => { if (!used.has(index)) staleAllowlist.push(entry); });
-  return { pathsCompared: paths.length, differences, staleAllowlist, unexplained: differences.filter((entry) => entry.disposition === "review-required").length, ownerReviewRequired: differences.filter((entry) => entry.disposition === "explained-owner-review-required").length, ownerApprovalRecorded: false, passed: differences.every((entry) => entry.disposition === "explained-technical-intent") && staleAllowlist.length === 0 };
+  return { pathsCompared: paths.length, differences, staleAllowlist, unexplained: differences.filter((entry) => entry.disposition === "review-required").length, ownerReviewRequired: differences.filter((entry) => entry.disposition === "explained-owner-review-required").length, verifiedOwnerDecisions: differences.filter((entry) => entry.disposition === "explained-owner-decision").length, ownerApprovalRecorded: false, releaseApproved: false, passed: differences.every((entry) => ["explained-technical-intent", "explained-owner-decision"].includes(entry.disposition)) && staleAllowlist.length === 0 };
 }

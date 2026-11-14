@@ -7,6 +7,21 @@ import { compareSnapshots, semanticHash } from "../e2e/seo-semantic-compare.mjs"
 const snapshot = () => ({ origin: "https://www.ilovewordsearch.com", sitemap: { status: 200, paths: ["/puzzle"] }, sourceVocabularyFiles: [{ path: "authored-bank", sha256: "original" }], redirects: [{ source: "/old", expectedTarget: "/puzzle", status: 301, location: "/puzzle" }], pages: [{ path: "/puzzle", status: 200, location: null, robotsHeader: null, semantic: { title: "Published title", description: ["Useful description"], canonical: ["https://www.ilovewordsearch.com/puzzle"], robotsHtml: ["index, follow"], h1: [{ level: "h1", text: "Published puzzle", partition: "editorial" }], headings: [{ level: "h2", text: "Using this puzzle", partition: "editorial" }], body: { editorial: "Original useful copy", header: "Main navigation", "shared-tools": "All tools" }, links: { editorial: [{ href: "/other", label: "Other puzzle", rel: "" }] }, vocabulary: ["CAT DOG"], schema: [{ "@type": "CreativeWork", name: "Published puzzle" }], noscript: ["Use printed page"] } }] });
 
 describe("exact indexed semantic preservation", () => {
+  it("accepts a scoped verified owner decision without granting release approval", () => {
+    const before = snapshot(), after = snapshot();
+    after.pages[0].semantic.body.editorial = "Approved useful correction";
+    const entry = { path: "/puzzle", field: "body.editorial", beforeSha256: semanticHash("Original useful copy"), afterSha256: semanticHash("Approved useful correction"), category: "potentially-meaningful-indexed-content", reviewDisposition: "owner-decision-verified", reason: "Exact owner-directed correction with executed factual checks", reviewReference: "docs/releases/ISSUE117-TRUTH-REVIEW.md", ownerDecisionReference: "https://github.com/suhas-sunder/wordsearch/issues/117", verificationReference: "Executed source and rendered comparisons in issue117 acceptance record" };
+    const verified = compareSnapshots(before, after, [entry]);
+    expect(verified.passed).toBe(true);
+    expect(verified.verifiedOwnerDecisions).toBe(1);
+    expect(verified.differences[0].ownerApprovalRecorded).toBe(true);
+    expect(verified.releaseApproved).toBe(false);
+    expect(verified.ownerApprovalRecorded).toBe(false);
+    for (const invalid of [{ ...entry, ownerDecisionReference: "" }, { ...entry, ownerDecisionReference: "https://example.test/approval" }, { ...entry, verificationReference: "" }]) expect(() => compareSnapshots(before, after, [invalid])).toThrow();
+    after.pages[0].semantic.body.editorial += " Unreviewed change";
+    expect(compareSnapshots(before, after, [entry]).passed).toBe(false);
+    expect(compareSnapshots(before, after, [{ ...entry, reviewDisposition: "owner-review-required" }]).passed).toBe(false);
+  });
   it("keeps the reviewed C4 fixture's thirteen owner holds and protects metadata", () => {
     const allowlist = JSON.parse(readFileSync("tests/seo/semantic-preservation-allowlist.json", "utf8")) as Array<{ path?: string; paths?: string[]; field: string; beforeSha256: string; afterSha256: string; reviewDisposition: string }>;
     const decisions = JSON.parse(readFileSync("docs/releases/QUALITY-INDEXED-HOLDS.json", "utf8")) as { ownerApprovalRecorded: boolean; fields: Array<{ path: string; field: string; originalSha256: string; candidateSha256: string; approvalRecorded: boolean }> };
