@@ -261,7 +261,7 @@ const contextChanges = [
   ...issue117ExpandedContexts.changes
 ];
 const changedContexts = new Map(contextChanges.map((change) => [change.recordId, change]));
-const proposals = [
+const proposals: { recordId: string; before: string; after: string; affectedPaths: readonly string[] }[] = [
   ...issue117Pilot.changes.map((change) => ({ ...change, recordId: change.target.recordId })),
   ...issue117FollowUp.changes,
   ...issue117ExpandedContexts.changes,
