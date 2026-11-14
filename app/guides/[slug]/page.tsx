@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getGuide, guides } from "@/content/guides";
 import { authors } from "@/content/model";
 import { getRouteRecord } from "@/content/registry";
+import { editorialAdTemplate } from "@/lib/monetization/editorial-template";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo/structured-data";
 
@@ -39,6 +40,7 @@ export default async function GuidePage({ params }: Props) {
   if (!guide) notFound();
   const path = `/guides/${guide.slug}`;
   const record = getRouteRecord(path);
+  const adTemplate = editorialAdTemplate(record, "guide");
   const author = authors.find((item) => item.id === guide.authorId);
   const relatedGuides = (guide.relatedGuides ?? [])
     .map((relatedSlug) => guides.find((item) => item.slug === relatedSlug))
@@ -58,7 +60,7 @@ export default async function GuidePage({ params }: Props) {
           dateModified: guide.reviewedOn
         })} />
       ) : null}
-      <MonetizedPageShell template="guide">
+      <MonetizedPageShell template={adTemplate}>
         <main>
           <Breadcrumbs items={breadcrumbs} />
         <article>
@@ -81,7 +83,7 @@ export default async function GuidePage({ params }: Props) {
             </aside>
           </header>
 
-          <BelowHeaderAd template="guide" />
+          <BelowHeaderAd template={adTemplate} />
 
           <section className="content-section site-shell guide-body">
             <ol className="steps">
@@ -103,7 +105,7 @@ export default async function GuidePage({ params }: Props) {
                 ))}
               </div>
             </div>
-            <SeoSectionAd template="guide" />
+            <SeoSectionAd template={adTemplate} />
           </section>
 
           <section className="content-section site-shell">

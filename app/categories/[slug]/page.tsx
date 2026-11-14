@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { categories, getCategoryBySlug } from "@/content/categories";
 import { getRouteRecord } from "@/content/registry";
 import { getTopicsForCategory } from "@/content/topics";
+import { editorialAdTemplate } from "@/lib/monetization/editorial-template";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/seo/structured-data";
 
@@ -38,6 +39,7 @@ export default async function CategoryPage({ params }: Props) {
   const category = getCategoryBySlug(slug);
   if (!category) notFound();
   const path = `/categories/${category.slug}`;
+  const adTemplate = editorialAdTemplate(getRouteRecord(path), "category");
   const topics = getTopicsForCategory(category.pathSegment).filter((topic) => topic.publicationStatus === "published");
   const related = category.related
     .map((relatedSlug) => categories.find((item) => item.slug === relatedSlug))
@@ -48,7 +50,7 @@ export default async function CategoryPage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbJsonLd(breadcrumbs, path)} />
       {topics.length ? <JsonLd data={itemListJsonLd(category.title, path, topics.map((topic) => ({ name: topic.title, path: `/word-searches/${topic.slug}` })))} /> : null}
-      <MonetizedPageShell template="category">
+      <MonetizedPageShell template={adTemplate}>
         <main>
           <Breadcrumbs items={breadcrumbs} />
         <section className="hub-hero site-shell">
@@ -64,7 +66,7 @@ export default async function CategoryPage({ params }: Props) {
           </aside>
         </section>
 
-        <BelowHeaderAd template="category" />
+        <BelowHeaderAd template={adTemplate} />
 
         <section className="content-section site-shell">
           <div className="section-heading">
@@ -88,7 +90,7 @@ export default async function CategoryPage({ params }: Props) {
             <p>{category.notes[0]} {category.notes[1]}</p>
             <p>Open a topic to see its exact word list and difficulty before printing or sharing it.</p>
           </div>
-          <SeoSectionAd template="category" />
+          <SeoSectionAd template={adTemplate} />
         </section>
 
         <section className="content-section site-shell">

@@ -8,6 +8,7 @@ import { categories } from "@/content/categories";
 import { collections, getCollection } from "@/content/collections";
 import type { PuzzleContentRecord } from "@/content/model";
 import { getRouteRecord, routeInventory } from "@/content/registry";
+import { editorialAdTemplate } from "@/lib/monetization/editorial-template";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/seo/structured-data";
 import { RelatedActivityTools } from "@/components/page/RelatedActivityTools";
@@ -44,6 +45,7 @@ export default async function CollectionPage({ params }: Props) {
   if (!collection) notFound();
   const path = `/collections/${collection.slug}`;
   const record = getRouteRecord(path);
+  const adTemplate = editorialAdTemplate(record, "collection");
   const puzzles = (record?.contentType === "collection" ? record.childContentIds ?? [] : [])
     .map((id) => routeInventory.find((item) => item.id === id))
     .filter((item): item is PuzzleContentRecord => item?.contentType === "puzzle" && item.indexable);
@@ -62,7 +64,7 @@ export default async function CollectionPage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbJsonLd(breadcrumbs, path)} />
       <JsonLd data={itemListJsonLd(collection.title, path, puzzles.map((puzzle) => ({ name: puzzle.title, path: puzzle.canonicalPath })))} />
-      <MonetizedPageShell template="collection">
+      <MonetizedPageShell template={adTemplate}>
         <main>
           <Breadcrumbs items={breadcrumbs} />
         <section className="hub-hero site-shell">
@@ -82,12 +84,12 @@ export default async function CollectionPage({ params }: Props) {
           </aside>
         </section>
 
-        <BelowHeaderAd template="collection" />
+        <BelowHeaderAd template={adTemplate} />
 
         <section className="content-section site-shell">
           <div className="section-heading">
             <h2 id={findingEnabled ? headingId : undefined} tabIndex={findingEnabled ? -1 : undefined} className={findingEnabled ? finderStyles.jumpTarget : undefined}>Included word searches</h2>
-            <p>The count is derived from reviewed, published records in this collection.</p>
+            {puzzles.length > 0 && <p>Check the difficulty on each card to find a puzzle that suits you.</p>}
           </div>
           {findingEnabled && <CollectionFinder cardsId={cardsId} items={puzzles.map((puzzle) => ({ id: puzzle.id, title: puzzle.title, subject: categories.find(({ slug }) => slug === puzzle.taxonomy.primaryCategory)?.title ?? puzzle.taxonomy.primaryCategory, difficulty: puzzle.puzzle.difficulty }))} />}
           <div id={findingEnabled ? cardsId : undefined} className={`link-grid${findingEnabled ? ` ${finderStyles.cards}` : ""}`}>
@@ -106,7 +108,7 @@ export default async function CollectionPage({ params }: Props) {
             <h2>How to choose</h2>
             <p>{collection.selectionGuidance}</p>
           </div>
-          <SeoSectionAd template="collection" />
+          <SeoSectionAd template={adTemplate} />
         </section>
 
         <section className="content-section site-shell">
