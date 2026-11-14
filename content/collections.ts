@@ -82,7 +82,7 @@ const publishedCollections = [
     publicationStatus: "published",
     metaTitle: "Printable Word Searches with Answer Keys | Free PDFs",
     metaDescription: "Browse printable word searches with matching solution pages. Choose a puzzle, print it, or download a PDF with the answer key included.",
-    selectionGuidance: "Every listing opens one canonical puzzle page. Answer views are utilities rather than separate sitemap entries, so the unsolved grid and its solution remain one reproducible puzzle.",
+    selectionGuidance: "Open a puzzle from the list and choose Show Answers to see the solution for that grid.",
     relatedCollections: ["easy-printable-word-searches", "medium-word-searches", "hard-printable-word-searches"],
     categorySlugs: ["animals-word-searches", "science-word-searches", "language-arts-word-searches"],
     reviewedOn
@@ -204,7 +204,7 @@ const publishedCollections = [
     publicationStatus: "published",
     metaTitle: "History Word Search Worksheets | Free Printable Puzzles",
     metaDescription: "Browse printable history word searches about ancient Egypt, Greece, Rome, medieval times, the Renaissance, and industrialization.",
-    selectionGuidance: "The six pages cover Ancient Egypt, Ancient Greece, Ancient Rome, Medieval Times, the Renaissance, and the Industrial Revolution without relying on fictional franchises.",
+    selectionGuidance: "The six pages cover Ancient Egypt, Ancient Greece, Ancient Rome, Medieval Times, the Renaissance, and the Industrial Revolution.",
     relatedCollections: ["classroom-word-search-worksheets", "geography-word-search-worksheets"],
     categorySlugs: ["history-word-searches"],
     reviewedOn
