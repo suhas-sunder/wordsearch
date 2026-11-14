@@ -10,6 +10,20 @@ export interface SpecialtyRoute {
   implementation: "experimental" | "scaffold";
 }
 
+/** Visitor labels for unavailable formats; route titles/metadata remain stable. */
+export function specialtyPresentation(route: SpecialtyRoute) {
+  if (route.implementation !== "scaffold") return { title: route.title, description: route.description };
+  const descriptions: Record<string, string> = {
+    "asl-fingerspelling-word-search-generator": "Preview ASL-prefixed text labels. This format does not show fingerspelling handshapes or movement.",
+    "semaphore-word-search-generator": "Preview geometric symbols. Semaphore flag positions are not available.",
+    "roman-numeral-word-search-generator": "Preview an ordinary Latin-letter puzzle. Number-to-Roman-numeral conversion is not available."
+  };
+  return {
+    title: `${route.title.replace(/ Word Search Generator$/, "")} — not available yet`,
+    description: descriptions[route.slug] ?? route.status.replace("This scaffold", "This preview")
+  };
+}
+
 export const specialtyRoutes: SpecialtyRoute[] = [
   { slug: "morse-code-word-search-generator", implementation: "experimental", title: "Morse Code Word Search Generator", description: "Create dot-and-dash token puzzles from Latin text or raw code groups.", alphabetPack: "morse", words: ["signal", "radio", "sos", "dash", "dot", "code", "beacon", "message"], status: "Latin letters and digits map to dot/dash cells. Raw groups are not validated as Morse characters, and a printable conversion legend is not included." },
   { slug: "braille-word-search-generator", implementation: "experimental", title: "Braille Word Search Generator", description: "Preview visual Unicode Braille letter patterns in a word-search grid.", alphabetPack: "braille", words: ["braille", "cells", "label", "reader", "touch", "dots", "letter", "access"], status: "This visual letter-pattern mapping is not tactile Braille or full Braille transcription. Digits remain ordinary digits; PDF export does not support these glyphs." },

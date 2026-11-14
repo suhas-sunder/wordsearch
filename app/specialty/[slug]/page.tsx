@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { IndexablePage } from "@/components/page/IndexablePage";
-import { getSpecialty, specialtyRoutes } from "@/content/specialty";
+import { getSpecialty, specialtyPresentation, specialtyRoutes } from "@/content/specialty";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 interface Props {
@@ -29,7 +29,7 @@ export default async function SpecialtyPage({ params }: Props) {
     <IndexablePage
       title={route.title}
       h1={route.title}
-      description={route.description}
+      description={specialtyPresentation(route).description}
       intro="The word bank remains readable while the grid uses the selected token pack."
       toolStatus={{ label: route.implementation === "scaffold" ? "Format not available yet" : "Experimental format — review limitations", description: limitations }}
       path={`/specialty/${route.slug}`}

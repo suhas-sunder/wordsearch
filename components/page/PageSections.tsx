@@ -2,7 +2,7 @@ import Link from "next/link";
 import { categories } from "@/content/categories";
 import { collections } from "@/content/collections";
 import { guides } from "@/content/guides";
-import { specialtyRoutes } from "@/content/specialty";
+import { specialtyPresentation, specialtyRoutes } from "@/content/specialty";
 import { topics } from "@/content/topics";
 import { SeoSectionAd, type AdTemplate } from "@/components/layout/AdSlot";
 import { CategoryIcon } from "@/components/page/CategoryIcon";
@@ -92,7 +92,7 @@ export function SpecialtyGrid() {
       <div className="link-grid compact">
         {specialtyRoutes.map((route) => (
           <Link key={route.slug} href={`/specialty/${route.slug}`} data-specialty-readiness={route.implementation}>
-            <strong>{route.title}</strong>
+            <strong>{specialtyPresentation(route).title}</strong>
             <span>{route.implementation === "scaffold" ? "Format not available yet" : "Experimental — review limitations"}</span>
             <span>{route.status.replace("This scaffold", "This preview")}</span>
           </Link>

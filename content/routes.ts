@@ -54,7 +54,7 @@ export const corePages: SitePage[] = [
     modules: ["play", "mobile", "daily", "faq"],
     faq: [
       { question: "How can I select words with a keyboard?", answer: "Start a puzzle and focus a grid cell. Arrow keys move between cells. Enter or Space sets the start and submits the end of a straight path; Escape cancels an unfinished selection." },
-      { question: "Can I tap the first and last letter instead of dragging?", answer: "Open the solver Settings and choose tap selection. Tap the first cell, then the last cell of a straight word. The word bank marks words that have been found." },
+      { question: "Can I tap the first and last letter instead of dragging?", answer: "Open Accessibility and controls and choose Tap endpoints. Tap the first cell, then the last cell of a straight word. The word bank marks words that have been found." },
       { question: "Can I print the same puzzle after playing online?", answer: "Yes. Use that puzzle’s print or PDF controls. Its existing seed and configuration determine the grid and answers; switching between play and output does not require generating a different puzzle." }
     ]
   },
