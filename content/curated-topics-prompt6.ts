@@ -930,7 +930,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "NIGHT",
       "KNIGHT"
     ],
-    "introduction": "Search for eight sets or pairs of words that sound alike while differing in spelling or meaning.",
+    "introduction": "Search for seven sets or pairs of words that sound alike while differing in spelling or meaning.",
     "context": "The word bank works best with a follow-up matching or sentence activity that distinguishes the homophones."
   },
   {
@@ -1651,7 +1651,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "OBELISK"
     ],
     "introduction": "Find names, places, objects, writing systems, and religious vocabulary associated with ancient Egypt.",
-    "context": "The page is a general historical vocabulary review and should avoid unsupported dates, sensational claims, or fictional portrayals."
+    "context": "This general historical vocabulary review includes the Nile, pyramids, hieroglyphs, scribes, and ancient Egyptian religious vocabulary."
   },
   {
     "order": 62,
