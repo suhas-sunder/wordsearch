@@ -89,7 +89,7 @@ const categoryDrafts: Category[] = [
     slug: "sports-word-searches",
     pathSegment: "sports",
     title: "Sports Word Searches",
-    description: "Sports, fitness, Olympics, and movement vocabulary for teams, PE, camps, and hobby solvers.",
+    description: "Sports, fitness, and movement vocabulary for teams, PE, camps, and hobby solvers.",
     accent: "Games and movement",
     notes: ["Hard mode fits older sports fans.", "Easy mode works for camp and PE warm-ups."],
     related: ["word-searches-for-kids", "word-searches-for-adults", "wellness-word-searches"]
@@ -116,7 +116,7 @@ const categoryDrafts: Category[] = [
     slug: "music-word-searches",
     pathSegment: "music",
     title: "Music Word Searches",
-    description: "Music vocabulary puzzles for instruments, terms, artists, rhythm, listening, and hobby themes.",
+    description: "Music vocabulary puzzles for instruments, music theory, rhythm, listening, and singing.",
     accent: "Music terms",
     notes: ["Clue mode is useful for definitions of terms.", "Adult collections can use richer music vocabulary."],
     related: ["art-word-searches", "books-and-reading-word-searches", "word-searches-for-adults"]
@@ -125,7 +125,7 @@ const categoryDrafts: Category[] = [
     slug: "books-and-reading-word-searches",
     pathSegment: "books-and-reading",
     title: "Books and Reading Word Searches",
-    description: "Book, reading, library, genre, and author-themed word searches for reading corners and calm breaks.",
+    description: "Word searches about reading, libraries, book genres, and book parts for reading corners and calm breaks.",
     accent: "Reading corners",
     notes: ["Add classroom book titles with the custom generator.", "Use printable mode for library activities."],
     related: ["language-arts-word-searches", "word-searches-for-kids", "word-searches-for-adults"]
@@ -163,7 +163,7 @@ const categoryDrafts: Category[] = [
     title: "Classroom and Values Word Searches",
     description: "Printable and online school, spelling, kindness, and friendship vocabulary puzzles.",
     accent: "School and community vocabulary",
-    notes: ["Choose school themes for routines and supplies.", "Use values topics as discussion starters rather than outcome claims."],
+    notes: ["Choose school themes for routines and supplies.", "Use kindness and friendship puzzles as discussion starters."],
     related: ["language-arts-word-searches", "math-word-searches", "science-word-searches"]
   }
 ];
@@ -215,7 +215,7 @@ const publishedDetails: Record<string, Pick<Category, "introduction" | "metaTitl
     metaDescription: "Find school supplies, classroom, spelling, kindness, and friendship word searches for parents and teachers."
   },
   "holiday-word-searches": {
-    introduction: "Browse seasonal word searches for spring, summer, fall, winter, Halloween, and Christmas. The topics use generic seasonal vocabulary without copyrighted characters or commercial franchises.",
+    introduction: "Browse seasonal word searches for spring, summer, fall, winter, Halloween, and Christmas.",
     metaTitle: "Seasonal and Holiday Word Searches | Free Printables",
     metaDescription: "Browse spring, summer, fall, winter, Halloween, and Christmas word searches to print, download as PDFs, or play online."
   },
@@ -235,7 +235,7 @@ const publishedDetails: Record<string, Pick<Category, "introduction" | "metaTitl
     metaDescription: "Explore music word searches for instruments, orchestras, piano, guitar, theory, and singing without performer or song topics."
   },
   "books-and-reading-word-searches": {
-    introduction: "Browse word searches about reading, libraries, book genres, book parts, nonfiction text features, and storytelling. These puzzles are designed as general reading and language resources without using copyrighted books or characters.",
+    introduction: "Browse word searches about reading, libraries, book genres, book parts, nonfiction text features, and storytelling.",
     metaTitle: "Reading Word Searches | Free Printable Worksheets",
     metaDescription: "Browse reading word searches about libraries, genres, book parts, nonfiction text features, and storytelling with answers."
   },

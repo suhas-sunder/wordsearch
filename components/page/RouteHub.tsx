@@ -91,7 +91,7 @@ const hubConfigs: Record<string, HubConfig> = {
     editorialHeading: "How the PDF route works",
     editorial: [
       "The PDF tool prepares the same SVG puzzle grid used in preview and print. Your browser's print dialog can save that page as a PDF without placing advertisements on the worksheet.",
-      "Answer keys remain a separate noindex utility view, which makes it easier to save or print student and solution pages independently."
+      "Select Answer key page in Download PDF or Print to include the matching solution on a second page. Clear it for a puzzle-only copy."
     ]
   },
   "large-print-word-searches": {
@@ -134,7 +134,7 @@ const hubConfigs: Record<string, HubConfig> = {
     secondary: { href: "/large-print-word-searches", label: "Browse large print" },
     points: ["Adult-oriented themes", "Easy through hard options", "Online and printable"],
     firstHeading: "Word searches for adults",
-    firstDescription: "Browse richer themes without childish styling or unsupported wellness claims.",
+    firstDescription: "Try puzzles about world capitals, biology, soccer, weather, or desserts.",
     firstItems: adultPicks,
     secondHeading: "Explore more adult-friendly topics",
     secondDescription: "These categories include travel, history, nature, books, music, and other established puzzle pages.",
@@ -151,7 +151,7 @@ const hubConfigs: Record<string, HubConfig> = {
     secondary: { href: "/word-search-generator", label: "Build from a vocabulary list" },
     points: ["Subject collections", "Name and date line", "Separate answer keys"],
     firstHeading: "Teacher-ready collections",
-    firstDescription: "Use existing classroom, science, and substitute-teacher collections when you need a quick handout.",
+    firstDescription: "Browse classroom worksheets, science puzzles, or word searches with answer keys for a quick handout.",
     firstItems: teacherCollections,
     secondHeading: "Browse by classroom subject",
     secondDescription: "Subject directories provide real topic pages for vocabulary previews, review, and early-finisher work.",
@@ -188,7 +188,7 @@ const hubConfigs: Record<string, HubConfig> = {
     firstDescription: "Browse easy topics across animals, food, math, classroom values, reading, and more.",
     firstItems: easyPicks,
     secondHeading: "Explore easy-friendly categories",
-    secondDescription: "This hub explains the Easy preset; the collection is the print-first inventory.",
+    secondDescription: "Choose a familiar subject, such as animals, food, math, or books.",
     secondItems: [categoryPicks[0], categoryPicks[1], categoryPicks[6], categoryPicks[13]],
     editorialHeading: "What Easy means here",
     editorial: [
@@ -210,7 +210,7 @@ const hubConfigs: Record<string, HubConfig> = {
     editorialHeading: "How the Hard preset differs",
     editorial: [
       "Hard puzzles use an 18 by 18 grid, twenty terms, overlap, reverse paths, and diagonals. Vocabulary familiarity can still make one Hard topic feel different from another.",
-      "This hub explains and browses the difficulty. The Hard Printable collection is the print-first route to the same reviewed pages."
+      "Open the printable collection to compare Hard puzzles by subject before choosing one to print."
     ]
   },
   "word-search-with-answer-key": {
@@ -227,7 +227,7 @@ const hubConfigs: Record<string, HubConfig> = {
     editorialHeading: "Why the answer key stays matched",
     editorial: [
       "The answer view reads coordinates from the generated puzzle instead of placing the words again. Online, print, PDF, and solution output therefore remain aligned.",
-      "This page explains the workflow. The Printable Word Searches with Answer Keys collection is the browse-first inventory."
+      "Open the Printable Word Searches with Answer Keys collection to choose a topic. Use Show Answers on the puzzle page to see its matching solution."
     ]
   },
   "word-searches-for-seniors": {
@@ -243,8 +243,8 @@ const hubConfigs: Record<string, HubConfig> = {
     secondItems: [categoryPicks[2], categoryPicks[10], categoryPicks[12], categoryPicks[13]],
     editorialHeading: "Audience page versus large-print page",
     editorial: [
-      "This hub emphasizes adult themes and straightforward browsing. The Large Print hub focuses on layout, cell size, contrast, paper, and custom settings.",
-      "Neither page makes medical, therapeutic, vision, memory, or cognitive claims. Preview the actual grid and bank before printing."
+      "Choose a topic above, then use the large-print guide to compare cell size, contrast, and paper options.",
+      "Preview the grid and word bank before printing."
     ]
   },
   "homeschool-word-searches": {
@@ -278,7 +278,7 @@ const hubConfigs: Record<string, HubConfig> = {
     editorialHeading: "Keep the puzzle's role specific",
     editorial: [
       "A word search provides one encounter with written forms. Definitions, images, pronunciation, sentence use, conversation, and feedback remain separate activities.",
-      "The guide covers shorter lists, spelling checks, cultural clarity, and answer keys without promising language outcomes."
+      "Use the ESL activity guide to choose a short, familiar word list, check spelling and context, and prepare an answer key."
     ]
   }
 };
