@@ -39,7 +39,7 @@ const publishedGuides: Guide[] = [
       { heading: "Decide whether backwards words are appropriate", body: "Reverse spelling adds challenge because the word bank shows the opposite reading order. Use it deliberately, especially when a group needs a straightforward activity." },
       { heading: "Generate with a stable seed", body: "A stable seed makes the same words and settings produce the same placements. Keep it unchanged when printouts, PDFs, online play, and shared copies must match." },
       { heading: "Review excluded words", body: "Check the generator report before publishing or printing. If a word did not fit, enlarge the grid within the intended difficulty or revise the list openly instead of silently omitting it." },
-      { heading: "Test the answer key", body: "Confirm that every listed word has one exact coordinate path and that the highlighted solution matches the visible letters. The key should be derived from the generated placements, not rebuilt independently." },
+      { heading: "Test the answer key", body: "Choose Show Answers and check that each highlighted line spells a listed word in the grid." },
       { heading: "Print, download, or share", body: "Review the page preview before choosing browser print or PDF. Share the unsolved puzzle state so another solver receives the same grid without inheriting your progress." },
       { heading: "Use the I Love Word Search generator", body: "Paste one word per line, choose difficulty and output options, then generate the puzzle. The generator carries the same stable definition into play, print, PDF, answer, share, and QR workflows." }
     ]
@@ -74,7 +74,7 @@ const publishedGuides: Guide[] = [
     slug: "how-to-make-a-word-search-with-answer-key",
     title: "How to Make a Word Search with an Answer Key",
     description: "A deterministic workflow for creating one puzzle and a matching solution across online play, print, PDF, sharing, and QR links.",
-    introduction: "The safest answer key is not a second puzzle. It is a view of the exact placements stored by the one generated puzzle definition.",
+    introduction: "Use Show Answers or include an answer-key page when you print or download the puzzle to get the solution for the same grid.",
     metaTitle: "How to Make a Word Search with an Answer Key",
     metaDescription: "Create a deterministic word search and matching answer key that stays consistent across online play, printing, PDF downloads, and sharing.",
     words: ["words", "seed", "settings", "coordinates", "preview", "answer", "pdf", "share", "regenerate"],
@@ -85,14 +85,14 @@ const publishedGuides: Guide[] = [
     relatedTools: ["/word-search-generator", "/word-search-pdf"],
     sections: [
       { heading: "Enter and review words", body: "Add the final displayed list and correct duplicates or unsupported characters first. A key can only be accurate when it is based on the same accepted words the solver sees." },
-      { heading: "Generate one stable puzzle", body: "Create the grid once using a stable seed. Treat that generated result as the source for every output instead of making separate print and solution grids." },
+      { heading: "Generate one stable puzzle", body: "Generate the puzzle with a fixed seed. Use Print, Download PDF, or Show Answers for copies and solutions that match that grid." },
       { heading: "Preserve the seed and settings", body: "Keep rows, columns, difficulty, directions, overlap, alphabet pack, and seed together. Changing any of these can change placements even when the visible word list is unchanged." },
-      { heading: "Verify each placed coordinate path", body: "For every word, confirm the recorded start cell, direction, and ordered cells spell the normalized term. Excluded words must be reported rather than shown as if they have an answer." },
-      { heading: "Preview answers without marking progress as solved", body: "An answer reveal may overlay solution paths, but it should not write those paths into the player's found-word progress. Closing the preview should restore the unsolved interaction state." },
+      { heading: "Verify each placed coordinate path", body: "Choose Show Answers and check that each highlighted line spells a listed word. If the builder reports excluded words, review them before printing; adjust the word list or grid settings if you need every original word included." },
+      { heading: "Preview answers without marking progress as solved", body: "Choose Show Answers to check a word. Choose Hide Answers to continue solving from where you left off." },
       { heading: "Print an answer-key second page", body: "Keep the student puzzle clean on the first page and place the highlighted solution on a separate page. Both pages must render the same letters in the same coordinates." },
       { heading: "Download a combined PDF", body: "When answers are enabled, export the puzzle and key from the same result in one document. This avoids mismatched files with similar titles." },
       { heading: "Share the unsolved puzzle", body: "A share or QR link should preserve the definition without carrying found words or an open answer overlay. The recipient gets the same grid in a fresh solving state." },
-      { heading: "Avoid regenerating the key separately", body: "Do not ask the generator to place the words again for the answer page. Even a small seed or setting difference could produce a valid but unrelated solution." }
+      { heading: "Avoid regenerating the key separately", body: "Use the key from the puzzle you plan to share or print. If you change the seed, words, or settings, use the key from the updated puzzle." }
     ]
   },
   {
@@ -136,9 +136,9 @@ const publishedGuides: Guide[] = [
     relatedTools: ["/online-word-search", "/word-search-generator"],
     sections: [
       { heading: "Find listed words in the grid", body: "Use the word bank as the set of targets. A displayed word is complete only when its normalized letters match one placed path in order." },
-      { heading: "Words must follow a straight line", body: "A valid path cannot turn a corner, skip a cell, or jump between rows. Every selected cell must be adjacent along one constant direction vector." },
+      { heading: "Words must follow a straight line", body: "Follow one straight line through adjacent cells in the grid. Keep going in the same direction without skipping any letters." },
       { heading: "Horizontal, vertical, and diagonal placement", body: "Depending on the puzzle, words may run along rows, columns, or 45-degree diagonals. The instructions and difficulty indicate which orientations are possible." },
-      { heading: "Forward and backward placement", body: "Easy puzzles in this batch use forward paths only. Medium and Hard puzzles may begin at either end, so a listed word can appear reversed in the grid." },
+      { heading: "Forward and backward placement", body: "Curated Easy puzzles use forward paths only. Medium and Hard puzzles may begin at either end, so a listed word can appear reversed in the grid." },
       { heading: "Overlapping words", body: "Two or more words may share a cell when the required letter is identical. Finding one word does not automatically solve another path that crosses it." },
       { heading: "Selecting words online", body: "Start on one endpoint and finish on the other endpoint. The solver resolves the exact straight coordinate path between those cells rather than accepting any loose group of matching letters." },
       { heading: "Marking words on paper", body: "Circle, highlight, or draw a line through every letter in one continuous path. Mark the corresponding word in the bank to keep track of completed targets." },
@@ -151,7 +151,7 @@ const publishedGuides: Guide[] = [
     slug: "word-search-solving-tips",
     title: "Word Search Solving Tips",
     description: "Practical techniques for scanning letters, checking word shapes, tracing directions, and tracking completed terms.",
-    introduction: "A consistent scan is often more useful than searching the whole grid at once. These strategies help organize the task without making claims about cognition or health.",
+    introduction: "A consistent scan is often more useful than searching the whole grid at once. These strategies help organize the task.",
     metaTitle: "Word Search Solving Tips | Practical Search Strategies",
     metaDescription: "Use practical word search strategies such as scanning for uncommon letters, checking endings, tracing directions, and tracking completed words.",
     words: ["list", "uncommon", "first", "last", "direction", "pairs", "length", "backwards", "mark", "stuck", "hint"],
@@ -180,7 +180,7 @@ const prompt6Guides: Guide[] = [
     slug: "large-print-word-searches",
     title: "How to Create and Print Large Print Word Searches",
     description: "Practical choices for creating and printing word searches with larger letters, cells, and word-bank text.",
-    introduction: "Large print is a layout choice: it gives the grid and labels more space while preserving the same seeded puzzle and answer key.",
+    introduction: "Choose Larger grid type for the ordinary layout or download a measured large-print PDF. Both options keep the same puzzle and matching answer key.",
     metaTitle: "How to Create and Print Large Print Word Searches",
     metaDescription: "Learn how grid size, word count, orientation, paper size, previews, and printer margins affect a large-print word search.",
     words: ["large", "letters", "grid", "words", "portrait", "landscape", "letter", "a4", "answer", "preview"],
@@ -190,14 +190,14 @@ const prompt6Guides: Guide[] = [
     relatedGuides: ["how-to-print-a-word-search", "word-search-difficulty-guide", "custom-word-lists-for-word-searches"],
     relatedTools: ["/large-print-word-searches", "/word-search-generator"],
     sections: [
-      { heading: "What large print changes", body: "Large print increases the visible size of grid letters, cells, headings, and word-bank text. It does not change the word placements, so standard and large-print outputs can still share one answer key." },
+      { heading: "What large print changes", body: "Larger grid type enlarges the grid letters in the ordinary layout. The measured large-print PDF uses at least 16-point grid letters and an 18-point word bank. The size minimums apply to the grid and word bank; word placements stay the same." },
       { heading: "Letter size and grid size", body: "A larger type size needs a larger cell. A compact 12 by 12 grid usually has more room to grow than an 18 by 18 grid on the same sheet, so compare the actual preview before printing." },
       { heading: "Choosing shorter word lists", body: "Fewer words leave room for a larger grid and a readable bank. Keep the terms most central to the topic instead of shrinking the page to accommodate an unnecessarily long list." },
       { heading: "Portrait versus landscape", body: "Portrait often suits a square grid with the word bank below it. Landscape can provide extra width for a larger grid or multi-column bank, but the best choice depends on the selected paper and content." },
       { heading: "Letter and A4 paper", body: "Select Letter for common North American paper or A4 for the international standard. The preview fits the layout to the chosen sheet rather than treating one paper size as a scaled copy of the other." },
       { heading: "Word-bank readability", body: "Check the bank as carefully as the grid. Terms should not crowd together, split unexpectedly, or become so small that the larger grid no longer provides a consistent large-print layout." },
       { heading: "Printing an answer key", body: "Put the solution on a separate page when space is limited. The highlighted key should be derived from the same grid coordinates, not generated again with different settings." },
-      { heading: "Using the site's Large Print option", body: "Open a reviewed puzzle or create one in the generator, choose Print, and enable Large Print in the output settings. The option enlarges the print layout without changing the stored puzzle definition." },
+      { heading: "Using the site's Large Print option", body: "For the ordinary layout, open Print and select Larger grid type. For the measured layout, open Download PDF and choose Download measured large-print PDF. Check the downloaded PDF before printing." },
       { heading: "Checking the preview", body: "Confirm that every grid row, word-bank item, title, and optional answer page appears before opening the browser dialog. Also check orientation and paper size because browser settings can override the preview." },
       { heading: "Printer-margin limitations", body: "Printable areas vary among printers. If an edge clips, choose another orientation or reduce browser scale slightly; do not assume a borderless setting is available on every device." }
     ]
@@ -295,7 +295,7 @@ const prompt6Guides: Guide[] = [
     relatedTools: ["/word-search-generator", "/word-search-with-answer-key"],
     sections: [
       { heading: "Choose one clear topic", body: "Name a subject narrow enough that every term has an obvious reason to be included. For example, a general garden-tools puzzle is clearer than a list that mixes tools, unrelated foods, and place names." },
-      { heading: "Use relevant terms", body: "A non-copyrighted garden example could use TROWEL, RAKE, SPADE, HOSE, GLOVES, WHEELBARROW, WATERING CAN, PRUNERS, FORK, and SHOVEL. Each term directly serves the stated topic." },
+      { heading: "Use relevant terms", body: "A garden example could use TROWEL, RAKE, SPADE, HOSE, GLOVES, WHEELBARROW, WATERING CAN, PRUNERS, FORK, and SHOVEL. Each term directly serves the stated topic." },
       { heading: "Remove duplicates", body: "Compare terms after trimming spaces and standardizing case. Also look for repeated phrases whose punctuation differs but whose normalized letters would be identical." },
       { heading: "Check spelling", body: "Verify the displayed form before generation. The puzzle and answer key will reproduce what the list supplies, so an accepted misspelling becomes part of every output." },
       { heading: "Consider word length", body: "The longest normalized term must fit a permitted straight path in the selected grid. Count letters after spaces and punctuation are removed." },

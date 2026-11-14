@@ -1,3 +1,4 @@
+import { SearchTools } from "@/components/page/PageSections";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -6,6 +7,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getGuide, guides } from "@/content/guides";
 import { authors } from "@/content/model";
 import { getRouteRecord } from "@/content/registry";
+import { editorialAdTemplate } from "@/lib/monetization/editorial-template";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo/structured-data";
 
@@ -38,6 +40,7 @@ export default async function GuidePage({ params }: Props) {
   if (!guide) notFound();
   const path = `/guides/${guide.slug}`;
   const record = getRouteRecord(path);
+  const adTemplate = editorialAdTemplate(record, "guide");
   const author = authors.find((item) => item.id === guide.authorId);
   const relatedGuides = (guide.relatedGuides ?? [])
     .map((relatedSlug) => guides.find((item) => item.slug === relatedSlug))
@@ -47,17 +50,16 @@ export default async function GuidePage({ params }: Props) {
   return (
     <>
       <JsonLd data={breadcrumbJsonLd(breadcrumbs, path)} />
-      {record?.indexable && author && guide.reviewedOn ? (
+      {record?.indexable && author ? (
         <JsonLd data={articleJsonLd({
           headline: guide.title,
           description: guide.description,
           path,
           authorName: author.name,
-          authorPath: author.profilePath,
-          dateModified: guide.reviewedOn
+          authorPath: author.profilePath
         })} />
       ) : null}
-      <MonetizedPageShell template="guide">
+      <MonetizedPageShell template={adTemplate}>
         <main>
           <Breadcrumbs items={breadcrumbs} />
         <article>
@@ -66,10 +68,9 @@ export default async function GuidePage({ params }: Props) {
               <span className="eyebrow">Word search guide</span>
               <h1>{guide.title}</h1>
               <p className="value-prop">{guide.introduction ?? guide.description}</p>
-              {author && guide.reviewedOn ? (
+              {author ? (
                 <p className="guide-attribution">
                   Written by <Link href={author.profilePath}>{author.name}</Link>
-                  {" · "}Reviewed on <time dateTime={guide.reviewedOn}>{guide.reviewedOn}</time>
                 </p>
               ) : null}
             </div>
@@ -80,7 +81,7 @@ export default async function GuidePage({ params }: Props) {
             </aside>
           </header>
 
-          <BelowHeaderAd template="guide" />
+          <BelowHeaderAd template={adTemplate} />
 
           <section className="content-section site-shell guide-body">
             <ol className="steps">
@@ -102,7 +103,7 @@ export default async function GuidePage({ params }: Props) {
                 ))}
               </div>
             </div>
-            <SeoSectionAd template="guide" />
+            <SeoSectionAd template={adTemplate} />
           </section>
 
           <section className="content-section site-shell">
@@ -114,15 +115,7 @@ export default async function GuidePage({ params }: Props) {
           </section>
         </article>
 
-        <section className="content-section site-shell tools-section">
-          <div className="section-heading"><h2>All tools</h2></div>
-          <div className="topic-list">
-            <Link href="/word-search-generator">Word Search Generator</Link>
-            <Link href="/free-printable-word-searches">Printable Word Searches</Link>
-            <Link href="/online-word-search">Online Word Search</Link>
-            <Link href="/word-search-pdf">Word Search PDFs</Link>
-          </div>
-        </section>
+        <SearchTools />
         </main>
       </MonetizedPageShell>
     </>

@@ -533,7 +533,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "SKELETON"
     ],
     "introduction": "Find major organs, tissues, structures, and body-system vocabulary in an introductory anatomy puzzle.",
-    "context": "The page is an educational vocabulary activity and must not provide medical advice, diagnosis, or health claims."
+    "context": "After finding the words, group them into organs, parts of the skeleton, and terms connected with movement."
   },
   {
     "order": 20,
@@ -610,7 +610,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "PARALLEL"
     ],
     "introduction": "Find introductory electricity vocabulary covering charge, circuits, current, voltage, and electrical materials.",
-    "context": "The page supports terminology review and must not provide instructions for working with live electrical systems."
+    "context": "Find circuit parts such as battery, wire, and switch, then compare the terms conductor and insulator. Use this as a vocabulary activity and follow your teacher’s safety instructions for practical work."
   },
   {
     "order": 23,
@@ -819,7 +819,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "CARIBBEAN"
     ],
     "introduction": "Search for countries, islands, and regional terms associated with North America and the Caribbean.",
-    "context": "The word list mixes political geography with broad regional vocabulary and should not be described as an exhaustive country list."
+    "context": "This selection includes country and island names alongside regional terms such as Arctic and Caribbean."
   },
   {
     "order": 30,
@@ -930,7 +930,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "NIGHT",
       "KNIGHT"
     ],
-    "introduction": "Search for eight sets or pairs of words that sound alike while differing in spelling or meaning.",
+    "introduction": "Search for seven sets or pairs of words that sound alike while differing in spelling or meaning.",
     "context": "The word bank works best with a follow-up matching or sentence activity that distinguishes the homophones."
   },
   {
@@ -1085,7 +1085,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "TOTAL"
     ],
     "introduction": "Find basic money vocabulary related to prices, coins, bills, saving, spending, and totals.",
-    "context": "The puzzle is a terminology activity and must not provide financial advice or claims about financial outcomes."
+    "context": "After solving, sort the words into things you can pay with, such as coins and bills, and words you might see on a price tag or receipt, such as price and total."
   },
   {
     "order": 40,
@@ -1139,7 +1139,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "CALCULATE"
     ],
     "introduction": "Find vocabulary used when interpreting percentages, rates, discounts, proportions, and parts of a whole.",
-    "context": "This is a math-language puzzle and must not be presented as financial, tax, or investment advice."
+    "context": "Pair the words part and whole, then find percent, fraction, and decimal. Use the list alongside a lesson on relating different ways of writing parts of a whole."
   },
   {
     "order": 42,
@@ -1247,7 +1247,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "FLOAT"
     ],
     "introduction": "Find swimming strokes, equipment, pool features, and race vocabulary.",
-    "context": "The puzzle is a vocabulary activity and must not be treated as water-safety or swimming instruction."
+    "context": "Compare freestyle, backstroke, breaststroke, and butterfly, then sort the remaining words into pool, equipment, or race terms. Use the puzzle for vocabulary practice and follow your instructor or lifeguard for water-safety guidance."
   },
   {
     "order": 46,
@@ -1443,7 +1443,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "NOTICE"
     ],
     "introduction": "Find words associated with appreciation, supportive people, everyday resources, and noticing positive experiences.",
-    "context": "The puzzle avoids mental-health claims and functions only as a general values-themed activity."
+    "context": "After solving, choose a word such as help, share, or kindness and use it in a short thank-you note."
   },
   {
     "order": 54,
@@ -1620,7 +1620,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "MEMORIES"
     ],
     "introduction": "Search for words connected with cards, flowers, family activities, appreciation, and Mother’s Day.",
-    "context": "Use inclusive supporting copy that acknowledges families may recognize caregivers and important adults in different ways."
+    "context": "Use the puzzle to think about how you might thank a mother, caregiver, or another important adult. May appears in the word list because some places celebrate Mother’s Day in May, and the date varies by country."
   },
   {
     "order": 61,
@@ -1651,7 +1651,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "OBELISK"
     ],
     "introduction": "Find names, places, objects, writing systems, and religious vocabulary associated with ancient Egypt.",
-    "context": "The page is a general historical vocabulary review and should avoid unsupported dates, sensational claims, or fictional portrayals."
+    "context": "This general historical vocabulary review includes the Nile, pyramids, hieroglyphs, scribes, and ancient Egyptian religious vocabulary."
   },
   {
     "order": 62,
@@ -1713,7 +1713,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "MEDITERRANEAN"
     ],
     "introduction": "Find political, military, architectural, social, and geographic vocabulary associated with ancient Rome.",
-    "context": "The word list spans the Republic and Empire and should be described as a broad review rather than one historical moment."
+    "context": "The word list spans the Roman Republic and Empire. Look for civic terms such as senate and consul alongside structures such as the Colosseum and aqueducts."
   },
   {
     "order": 64,
@@ -1740,7 +1740,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "FEAST"
     ],
     "introduction": "Search for places, occupations, objects, and institutions commonly discussed in medieval-history units.",
-    "context": "Avoid presenting fictional castle stories or modern fantasy conventions as historical fact."
+    "context": "This puzzle focuses on vocabulary often taught about medieval Europe. Look for castle features such as tower and moat, then find words about village life and work."
   },
   {
     "order": 65,
@@ -1798,7 +1798,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "TECHNOLOGY"
     ],
     "introduction": "Search for manufacturing, energy, transportation, labor, and urban vocabulary associated with industrialization.",
-    "context": "The puzzle is a terminology review and should not oversimplify the period’s social, regional, or economic effects."
+    "context": "Look for factory and transport terms such as textile, mill, canal, and locomotive alongside energy terms such as steam and coal."
   },
   {
     "order": 67,
@@ -2114,7 +2114,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "PERFORM"
     ],
     "introduction": "Find words connected with songs, vocal performance, musical structure, and rehearsal.",
-    "context": "The puzzle is a music-vocabulary activity and must not provide vocal-health or technique claims."
+    "context": "Find verse, chorus, and melody, then listen to a familiar song and try to identify its verse and chorus."
   },
   {
     "order": 79,
@@ -2137,7 +2137,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "LEARN"
     ],
     "introduction": "Search for familiar vocabulary connected with books, stories, pages, authors, and reading spaces.",
-    "context": "The page is a general reading-themed activity and must not promise literacy or academic improvement."
+    "context": "Use this easy puzzle before or after reading together. Ask solvers to point out a title, an author’s name, and a chapter in a book."
   },
   {
     "order": 80,
@@ -2368,7 +2368,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "PEDESTAL"
     ],
     "introduction": "Search for sculpture materials, processes, forms, tools, and display vocabulary.",
-    "context": "The puzzle is an art-terminology resource and must not provide instructions for hazardous tools or materials."
+    "context": "Compare materials such as clay, stone, metal, and wood, then look for display words such as studio and pedestal."
   },
   {
     "order": 89,
@@ -2418,7 +2418,7 @@ const sourceTopics: CuratedTopicPrompt6Source[] = [
       "CREATE"
     ],
     "introduction": "Search for common craft materials, tools, and creative actions.",
-    "context": "The page is a vocabulary activity and must not give age-specific or tool-safety assurances."
+    "context": "After solving, group paper, yarn, and fabric as materials and fold, cut, and design as actions. Follow the project’s safety directions if you try a craft afterward."
   }
 ];
 

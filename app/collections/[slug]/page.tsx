@@ -1,3 +1,4 @@
+import { SearchTools } from "@/components/page/PageSections";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -7,8 +8,13 @@ import { categories } from "@/content/categories";
 import { collections, getCollection } from "@/content/collections";
 import type { PuzzleContentRecord } from "@/content/model";
 import { getRouteRecord, routeInventory } from "@/content/registry";
+import { editorialAdTemplate } from "@/lib/monetization/editorial-template";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { breadcrumbJsonLd, itemListJsonLd } from "@/lib/seo/structured-data";
+import { RelatedActivityTools } from "@/components/page/RelatedActivityTools";
+import { CollectionFinder } from "@/components/page/CollectionFinder";
+import { collectionFinderSlugs } from "@/lib/content/collection-finder";
+import finderStyles from "@/components/page/CollectionFinder.module.css";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -39,6 +45,7 @@ export default async function CollectionPage({ params }: Props) {
   if (!collection) notFound();
   const path = `/collections/${collection.slug}`;
   const record = getRouteRecord(path);
+  const adTemplate = editorialAdTemplate(record, "collection");
   const puzzles = (record?.contentType === "collection" ? record.childContentIds ?? [] : [])
     .map((id) => routeInventory.find((item) => item.id === id))
     .filter((item): item is PuzzleContentRecord => item?.contentType === "puzzle" && item.indexable);
@@ -49,12 +56,15 @@ export default async function CollectionPage({ params }: Props) {
     .map((categorySlug) => categories.find((item) => item.slug === categorySlug))
     .filter((item) => item?.publicationStatus === "published");
   const breadcrumbs = [{ label: "Categories", href: "/categories" }, { label: collection.title }];
+  const findingEnabled = collectionFinderSlugs.some((candidate) => candidate === slug);
+  const cardsId = `collection-${slug}-cards`;
+  const headingId = `collection-${slug}-puzzles`;
 
   return (
     <>
       <JsonLd data={breadcrumbJsonLd(breadcrumbs, path)} />
       <JsonLd data={itemListJsonLd(collection.title, path, puzzles.map((puzzle) => ({ name: puzzle.title, path: puzzle.canonicalPath })))} />
-      <MonetizedPageShell template="collection">
+      <MonetizedPageShell template={adTemplate}>
         <main>
           <Breadcrumbs items={breadcrumbs} />
         <section className="hub-hero site-shell">
@@ -67,20 +77,24 @@ export default async function CollectionPage({ params }: Props) {
           <aside className="intent-panel">
             <strong>Choose and use</strong>
             <p>Open one puzzle page to play online, print, download a PDF, reveal answers, share, or make a QR link.</p>
-            <Link className="primary-button" href="/word-search-generator">Create a custom puzzle</Link>
+            {findingEnabled ? <div className="control-row">
+              <a className="primary-button" href={`#${headingId}`}>Browse {puzzles.length} puzzles</a>
+              <Link className="secondary-button" href="/word-search-generator">Create a custom puzzle</Link>
+            </div> : <Link className="primary-button" href="/word-search-generator">Create a custom puzzle</Link>}
           </aside>
         </section>
 
-        <BelowHeaderAd template="collection" />
+        <BelowHeaderAd template={adTemplate} />
 
         <section className="content-section site-shell">
           <div className="section-heading">
-            <h2>Included word searches</h2>
-            <p>The count is derived from reviewed, published records in this collection.</p>
+            <h2 id={findingEnabled ? headingId : undefined} tabIndex={findingEnabled ? -1 : undefined} className={findingEnabled ? finderStyles.jumpTarget : undefined}>Included word searches</h2>
+            {puzzles.length > 0 && <p>Check the difficulty on each card to find a puzzle that suits you.</p>}
           </div>
-          <div className="link-grid">
+          {findingEnabled && <CollectionFinder cardsId={cardsId} items={puzzles.map((puzzle) => ({ id: puzzle.id, title: puzzle.title, subject: categories.find(({ slug }) => slug === puzzle.taxonomy.primaryCategory)?.title ?? puzzle.taxonomy.primaryCategory, difficulty: puzzle.puzzle.difficulty }))} />}
+          <div id={findingEnabled ? cardsId : undefined} className={`link-grid${findingEnabled ? ` ${finderStyles.cards}` : ""}`}>
             {puzzles.map((puzzle) => (
-              <Link key={puzzle.id} href={puzzle.canonicalPath}>
+              <Link key={puzzle.id} href={puzzle.canonicalPath} data-collection-id={findingEnabled ? puzzle.id : undefined}>
                 <strong>{puzzle.title}</strong>
                 <span>{puzzle.description}</span>
                 <small>{puzzle.puzzle.difficulty} · Online · Print · PDF · Answers</small>
@@ -94,7 +108,7 @@ export default async function CollectionPage({ params }: Props) {
             <h2>How to choose</h2>
             <p>{collection.selectionGuidance}</p>
           </div>
-          <SeoSectionAd template="collection" />
+          <SeoSectionAd template={adTemplate} />
         </section>
 
         <section className="content-section site-shell">
@@ -106,15 +120,8 @@ export default async function CollectionPage({ params }: Props) {
           </div>
         </section>
 
-        <section className="content-section site-shell tools-section">
-          <div className="section-heading"><h2>All tools</h2><p>Keep the same puzzle definition across each output.</p></div>
-          <div className="topic-list">
-            <Link href="/free-printable-word-searches">Printable puzzles</Link>
-            <Link href="/online-word-search">Online play</Link>
-            <Link href="/word-search-pdf">PDF puzzles</Link>
-            <Link href="/word-search-generator">Custom generator</Link>
-          </div>
-        </section>
+        <SearchTools />
+        <RelatedActivityTools path={path} />
         </main>
       </MonetizedPageShell>
     </>

@@ -15,7 +15,7 @@ export type AlphabetPackId =
   | "emoji"
   | "asl";
 
-export type WordBankOrder = "custom" | "alphabetical" | "length";
+export type WordBankOrder = "custom" | "input" | "alphabetical" | "length";
 
 export type FillerMode = "alphabet" | "used" | "custom" | "rare";
 
@@ -57,6 +57,8 @@ export interface PuzzleRequest {
   hiddenMessage?: string;
   largePrint?: boolean;
   wordBankOrder?: WordBankOrder;
+  /** Opt-in line-based answer | clue input; omitted definitions keep legacy parsing. */
+  wordBankMode?: "words" | "clues";
   showCoordinates?: boolean;
   nameDateLine?: boolean;
   answerKey?: boolean;
@@ -80,6 +82,7 @@ export interface AlphabetPack {
   label: string;
   description: string;
   supportsPlainText: boolean;
+  supportsCustomFiller: boolean;
   normalizeInput(input: string): string;
   tokenize(input: string): string[];
   encodeWord(input: string): { label: string; normalized: string; tokens: string[]; warning?: string };

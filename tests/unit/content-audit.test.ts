@@ -19,6 +19,7 @@ function puzzle(id: string, overrides: Partial<PuzzleContentRecord> = {}): Puzzl
     breadcrumbs: [{ label: `${id} H1` }],
     relatedContentIds: [id],
     editorialStatus: "reviewed",
+    lastReviewed: "2026-07-25",
     puzzle: { puzzleTitle: `${id} puzzle`, words: [`${id}one`, `${id}two`, `${id}three`, `${id}four`, `${id}five`, `${id}six`, `${id}seven`, `${id}eight`, `${id}nine`, `${id}ten`], seed: `${id}-seed`, directions: ["E", "S"], allowOverlap: true, alphabetPack: "latin", difficulty: "easy", answerKeyAvailable: true, onlinePlayAvailable: true, printableAvailable: true, pdfAvailable: true, largePrintSuitable: true },
     taxonomy: { primaryCategory: "animals" },
     editorial: { puzzleNote: `${id} editorial note` },
@@ -53,7 +54,34 @@ describe("content audit safeguards", () => {
       puzzle: { ...puzzle("source").puzzle, seed: "", words: [] },
       editorial: {}
     });
-    expect(codes([record])).toEqual(expect.arrayContaining(["missing-content", "missing-seed", "empty-word-list", "broken-related-id", "thin-indexable-puzzle"]));
+    expect(codes([record])).toEqual(expect.arrayContaining(["missing-content", "missing-seed", "empty-word-list", "broken-related-id", "thin-indexable-puzzle", "puzzle-generation-failed"]));
+  });
+
+  test("requires real, non-future review dates for published puzzle records", () => {
+    const missing = puzzle("missing-date", { lastReviewed: "" });
+    const invalid = puzzle("invalid-date", { lastReviewed: "2026-02-30" });
+    const future = puzzle("future-date", { lastReviewed: "2100-01-01" });
+    const result = auditContent([missing, invalid, future]);
+    expect(result.errors.map((issue) => issue.code)).toEqual(expect.arrayContaining([
+      "missing-review-date",
+      "invalid-review-date",
+      "future-review-date"
+    ]));
+  });
+
+  test("rejects empty, unsupported, or repeated puzzle directions", () => {
+    const missing = puzzle("missing-direction", { puzzle: { ...puzzle("source").puzzle, directions: [] } });
+    const invalid = puzzle("invalid-direction", { puzzle: { ...puzzle("source").puzzle, directions: ["E", "OTHER"] as unknown as PuzzleContentRecord["puzzle"]["directions"] } });
+    const repeated = puzzle("repeated-direction", { puzzle: { ...puzzle("source").puzzle, directions: ["E", "E"] } });
+    const wrongType = puzzle("wrong-type-directions", { puzzle: { ...puzzle("source").puzzle, directions: null as unknown as PuzzleContentRecord["puzzle"]["directions"] } });
+    const sparse = puzzle("sparse-directions", { puzzle: { ...puzzle("source").puzzle, directions: new Array(1) as PuzzleContentRecord["puzzle"]["directions"] } });
+    const result = auditContent([missing, invalid, repeated, wrongType, sparse]);
+    expect(result.errors.map((issue) => issue.code)).toEqual(expect.arrayContaining([
+      "missing-directions",
+      "invalid-direction",
+      "duplicate-direction"
+    ]));
+    expect(auditContent([sparse]).errors.map((issue) => issue.code)).toContain("invalid-direction");
   });
 
   test("allows a noindex draft with incomplete editorial fields", () => {

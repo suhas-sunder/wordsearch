@@ -36,7 +36,12 @@ export const corePages: SitePage[] = [
     intro: "This print-first collection helps visitors choose an existing puzzle before using the custom generator.",
     presetWords: ["print", "paper", "worksheet", "answer", "letter", "a4", "teacher", "classroom", "word bank", "student"],
     difficulty: "easy",
-    modules: ["printTips", "categories", "largePrint", "faq"]
+    modules: ["printTips", "categories", "largePrint", "faq"],
+    faq: [
+      { question: "How do I print the puzzle without the surrounding website?", answer: "Open a puzzle and choose Print this puzzle. Its print view excludes navigation, editing controls and advertisements. Check the preview before printing student copies." },
+      { question: "How do I keep the answer key off a student copy?", answer: "In the print or PDF dialog, clear Answer key page for a puzzle-only copy. Keep a separate download with that option selected for checking answers." },
+      { question: "Which paper setting should I choose?", answer: "Match US Letter or A4 and the orientation to the paper in your printer. Check the printer preview at actual size; browser or printer scaling can otherwise change the size of the grid and word bank." }
+    ]
   },
   {
     slug: "online-word-search",
@@ -46,7 +51,12 @@ export const corePages: SitePage[] = [
     intro: "This play-first collection leads to existing topics and a featured online puzzle without duplicating the builder.",
     presetWords: ["online", "timer", "solve", "touch", "mobile", "reveal", "share", "daily", "random", "play"],
     difficulty: "medium",
-    modules: ["play", "mobile", "daily", "faq"]
+    modules: ["play", "mobile", "daily", "faq"],
+    faq: [
+      { question: "How can I select words with a keyboard?", answer: "Start a puzzle and focus a grid cell. Arrow keys move between cells. Enter or Space sets the start and submits the end of a straight path; Escape cancels an unfinished selection." },
+      { question: "Can I tap the first and last letter instead of dragging?", answer: "Open Accessibility and controls and choose Tap endpoints. Tap the first cell, then the last cell of a straight word. The word bank marks words that have been found." },
+      { question: "Can I print the same puzzle after playing online?", answer: "Yes. Use that puzzle’s print or PDF controls. Its existing seed and configuration determine the grid and answers; switching between play and output does not require generating a different puzzle." }
+    ]
   },
   {
     slug: "word-search-pdf",
@@ -56,7 +66,12 @@ export const corePages: SitePage[] = [
     intro: "The PDF hub explains the export workflow and routes visitors to existing puzzles or the custom generator.",
     presetWords: ["pdf", "download", "letter", "a4", "portrait", "landscape", "margins", "solution", "ink", "print"],
     difficulty: "medium",
-    modules: ["pdf", "answerKey", "margins", "faq"]
+    modules: ["pdf", "answerKey", "margins", "faq"],
+    faq: [
+      { question: "Where is my puzzle PDF created?", answer: "The browser creates the download from the current puzzle definition. A PDF download does not submit your word list to a PDF-generation server." },
+      { question: "Can I download a puzzle and its answers together?", answer: "Select Answer key page in the Download PDF dialog to include the matching solution. Clear it for a puzzle-only file. Preview the selected paper size and orientation before downloading." },
+      { question: "Why might a share link not fit in a QR code?", answer: "A custom share link contains the word list and settings. A long list can exceed QR capacity. Use the full copyable share link when the interface reports that a QR code cannot be created; a missing QR is not a different puzzle." }
+    ]
   },
   {
     slug: "word-search-worksheets",
@@ -106,7 +121,12 @@ export const corePages: SitePage[] = [
     intro: "This collection pairs real adult-friendly topics with guidance for readable print settings.",
     presetWords: ["garden", "travel", "music", "cooking", "birds", "holiday", "family", "memory", "reading", "nature"],
     difficulty: "easy",
-    modules: ["largePrint", "seniors", "printTips"]
+    modules: ["largePrint", "seniors", "printTips"],
+    faq: [
+      { question: "Why can a large grid still have small letters on paper?", answer: "A sheet has a fixed printable width. More columns leave less room for each cell, even when a larger display option is selected. Check the downloaded file at actual size and consider a smaller grid with fewer, shorter words." },
+      { question: "Does choosing larger print move the words?", answer: "Output sizing alone keeps the current puzzle’s placements. Editing the word list, grid dimensions, seed or directions can create a different puzzle, so keep those settings when you need a matching reprint." },
+      { question: "What should I check before making several copies?", answer: "Check both the grid letters and word-bank text, the page margins and the answer page. Make one test copy using the intended paper and printer settings. A large-print label does not guarantee a particular physical text size on every printer." }
+    ]
   },
   {
     slug: "word-searches-for-kids",
@@ -146,7 +166,12 @@ export const corePages: SitePage[] = [
     intro: "Choose an existing resource for quick use or send a lesson-specific list to the generator.",
     presetWords: ["vocabulary", "spelling", "lesson", "subject", "review", "clue", "answer", "grade", "classroom", "worksheet"],
     difficulty: "medium",
-    modules: ["teacherUses", "subjects", "answerKey", "faq"]
+    modules: ["teacherUses", "subjects", "answerKey", "faq"],
+    faq: [
+      { question: "Can I make a worksheet from my own lesson vocabulary?", answer: "Use the generator and enter the words you have chosen for the lesson. Check any excluded words before printing, and keep the word list and difficulty appropriate for your group." },
+      { question: "How do I add student name and date lines?", answer: "Select Name/date in the puzzle’s output controls, then check the printable preview. Keep Answer key page selected for your checking copy and clear it for a student-only download." },
+      { question: "What should I keep for an exact classroom reprint?", answer: "Keep the downloaded PDF or the full puzzle definition, including the seed, word list, grid dimensions and directions. A share link also encodes the word list, so do not include private student information in a link you distribute." }
+    ]
   },
   {
     slug: "homeschool-word-searches",
@@ -202,8 +227,8 @@ export const corePages: SitePage[] = [
     slug: "specialty-word-search-generators",
     title: "Specialty Word Search Generators | Morse, Braille, Binary and More",
     h1: "Specialty Word Search Generators",
-    description: "Explore symbol-based word search generators built on alphabet packs for Morse, Braille, binary, hex, Greek, kana, and hidden messages.",
-    intro: "Specialty modes use token-based generation so the engine is not limited to A-Z letters.",
+    description: "Explore experimental symbol mappings and draft specialty formats, with current input, PDF, and language limitations explained before use.",
+    intro: "These formats include experimental mappings and unfinished scaffolds. Review each format's current limitations before preparing a worksheet; native language and assistive-technology support is not implied.",
     presetWords: ["signal", "code", "symbol", "braille", "morse", "binary", "hex", "greek", "kana", "message"],
     difficulty: "medium",
     modules: ["specialty", "alphabetPacks", "faq"]
@@ -220,9 +245,16 @@ export const corePages: SitePage[] = [
   }
 ];
 
+// Preserve the existing general answers only where a page explicitly requests them.
+export const generalPuzzleFaq: NonNullable<SitePage["faq"]> = [
+  { question: "Are the puzzles free to print?", answer: "Yes. The core builder is designed for no-signup personal, classroom, homeschool, and casual puzzle use." },
+  { question: "Can I get an answer key?", answer: "Yes. The answer key uses the exact same seed and placements as the puzzle preview." },
+  { question: "Can the same puzzle be shared?", answer: "Yes. Share links encode the settings, words, seed, and alphabet pack needed to reproduce the puzzle." }
+];
+
 export const supportPages: SitePage[] = [
   { slug: "about", title: "About I Love Word Search", h1: "About I Love Word Search", description: "Learn about the I Love Word Search platform.", intro: "We build calm, useful word search tools for printing, play, teaching, and repeat use.", presetWords: ["about", "puzzle", "print", "share", "teacher"], difficulty: "easy", modules: ["support"] },
-  { slug: "faq", title: "Word Search FAQ", h1: "Word Search FAQ", description: "Answers to common word search generator, print, PDF, answer key, and sharing questions.", intro: "Common questions about making, printing, sharing, and solving word searches.", presetWords: ["question", "answer", "print", "share", "grid"], difficulty: "easy", modules: ["faq"] },
+  { slug: "faq", title: "Word Search FAQ", h1: "Word Search FAQ", description: "Answers to common word search generator, print, PDF, answer key, and sharing questions.", intro: "Common questions about making, printing, sharing, and solving word searches.", presetWords: ["question", "answer", "print", "share", "grid"], difficulty: "easy", modules: ["faq"], faq: generalPuzzleFaq },
   { slug: "contact", title: "Contact I Love Word Search", h1: "Contact", description: "Contact and support information for I Love Word Search.", intro: "For now, use this page as the support and feedback landing page for the project.", presetWords: ["contact", "support", "feedback", "help", "message"], difficulty: "easy", modules: ["support"] },
   { slug: "accessibility", title: "Accessibility", h1: "Accessibility", description: "Accessibility approach for I Love Word Search.", intro: "The generator prioritizes readable controls, keyboard operation, high contrast, and large-print output.", presetWords: ["access", "focus", "keyboard", "contrast", "print"], difficulty: "easy", modules: ["accessibility"] },
   { slug: "privacy", title: "Privacy Policy", h1: "Privacy Policy", description: "Privacy policy and local puzzle-state notes for I Love Word Search.", intro: "Generated puzzle state is encoded in links and recent puzzle state is stored locally in the browser.", presetWords: ["privacy", "local", "state", "browser", "share"], difficulty: "easy", modules: ["legal"] },

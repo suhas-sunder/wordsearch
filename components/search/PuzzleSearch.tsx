@@ -4,8 +4,10 @@ import { FormEvent, KeyboardEvent, useEffect, useId, useRef, useState } from "re
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
+import { CategoryIcon } from "@/components/page/CategoryIcon";
 import { searchStaticCatalog } from "@/lib/search/browser-catalog";
 import type { SearchCatalogItem } from "@/lib/search/search";
+import { boundSearchQuery, searchQueryMaxLength } from "@/lib/search/query";
 
 interface PuzzleSearchProps {
   initialQuery?: string;
@@ -21,7 +23,7 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
   const router = useRouter();
   const listboxId = useId();
   const wrapper = useRef<HTMLDivElement>(null);
-  const [query, setQuery] = useState(initialQuery);
+  const [query, setQuery] = useState(() => boundSearchQuery(initialQuery));
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [suggestions, setSuggestions] = useState<SearchCatalogItem[]>([]);
@@ -29,7 +31,7 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
   const showPanel = open && query.trim().length >= 2;
 
   useEffect(() => {
-    const value = query.trim();
+    const value = boundSearchQuery(query).trim();
     if (value.length < 2) {
       setSuggestions([]);
       setSuggestionStatus("idle");
@@ -59,7 +61,7 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const value = query.trim();
+    const value = boundSearchQuery(query).trim();
     if (!value) return;
     setOpen(false);
     router.push(`/search?q=${encodeURIComponent(value)}`);
@@ -89,6 +91,13 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
     }
   }
 
+  function categoryIcon(item: SearchCatalogItem) {
+    if (item.type === "Category") {
+      return <CategoryIcon slug={item.href.split("/").filter(Boolean).at(-1)} />;
+    }
+    return <CategoryIcon label={item.category} />;
+  }
+
   return (
     <div
       className={`puzzle-search ${compact ? "compact" : ""}`}
@@ -97,13 +106,15 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
         if (!wrapper.current?.contains(event.relatedTarget as Node | null)) setOpen(false);
       }}
     >
-      <form role="search" onSubmit={submit}>
+      <form role="search" action="/search" method="get" onSubmit={submit}>
         <label htmlFor={`${listboxId}-input`}>{label}</label>
         <div className="search-control">
           <Search size={20} aria-hidden="true" />
           <input
             id={`${listboxId}-input`}
             type="search"
+            name="q"
+            maxLength={searchQueryMaxLength}
             value={query}
             placeholder="Try animals, planets, summer, or spelling"
             autoComplete="off"
@@ -114,7 +125,7 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
             aria-activedescendant={showPanel && suggestions[activeIndex] ? `${listboxId}-${activeIndex}` : undefined}
             onFocus={() => setOpen(true)}
             onChange={(event) => {
-              setQuery(event.target.value);
+              setQuery(boundSearchQuery(event.target.value));
               setActiveIndex(0);
               setOpen(true);
             }}
@@ -144,7 +155,10 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
                 onMouseEnter={() => setActiveIndex(index)}
                 onClick={() => setOpen(false)}
               >
-                <span><strong>{item.title}</strong><small>{resultMeta(item)}</small></span>
+                <span className="search-suggestion-content">
+                  {categoryIcon(item)}
+                  <span className="search-suggestion-copy"><strong>{item.title}</strong><small>{resultMeta(item)}</small></span>
+                </span>
                 <span aria-hidden="true">→</span>
               </Link>
             ))

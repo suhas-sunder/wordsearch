@@ -1,0 +1,66 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`source-only evergreen hard batch > validates distinct source inventory, complete placements and frozen answers 1`] = `
+[
+  {
+    "answerSha256": "31edae704c22d3e63be06716db6869aa2fbd1929b37f7bdc93a13f44dfbd9bd1",
+    "gridSha256": "92ef1bb1817a3ffdec72ad76b49a17a95633335b967b930faf3f9461f12a44eb",
+    "id": "H01-P",
+    "requestSha256": "ed53edb63b581533b5a2fd74b1868ab4e2b011acaa15eccf2dd56b65cdfe43cc",
+  },
+  {
+    "answerSha256": "88dfeb40cd3e25e48a5435ab09fc7bc7ce1ff8d2ed52f272c07e464dbcb71fe5",
+    "gridSha256": "1b17b912045a9cc4959cd76e306f5b22840d568cc582482fb08097901874e7e3",
+    "id": "H02-C",
+    "requestSha256": "b853ac2dba358ed7484f1f346df8af1aaa2b85dfb456e112cc9e7060a069731b",
+  },
+  {
+    "answerSha256": "30b7954a5fcd6eadab778a7c11a4fc6e3845e8736512b2c5d513cb832ebcf984",
+    "gridSha256": "051ead126230dcd80d31aa7759e067b4c960e98fd6cc48fa27a0cc70c4363c95",
+    "id": "H03-O",
+    "requestSha256": "fe1a323d130a319be5358a498c79b9097cfb0622ddd0e8653c3a9cd3b0ca8a30",
+  },
+  {
+    "answerSha256": "1ee396ed734fd3eb6a017681786e21ebe28e88cb089beb1493ce55210329f55a",
+    "gridSha256": "c396010d88ba553a5549ede7bc57eff9ec45ccb1d0b1313144073ae952977216",
+    "id": "H04-P",
+    "requestSha256": "be2c67bb0f5f029f4235c4ffd559b0c38b3f732fcd6e6112e1656631db827132",
+  },
+  {
+    "answerSha256": "8501d7e01414bb063bafd6410c54e8f76a99accb900136e08aa0f490731706eb",
+    "gridSha256": "4da983b63bf302901caa63fb5bbd2dc4363906bded43df572b7f67c8764793a7",
+    "id": "H05-M",
+    "requestSha256": "e281571f3f1e59aa09117137b4fef8199d662fe0e06ff633bdcc3aba8f885a7d",
+  },
+  {
+    "answerSha256": "414a79ad1265856a9ebd61b45cfc4c4260b99747f61b01f6b14191ed425efd13",
+    "gridSha256": "8a6e64626a746a477190b0e01f36af00c253ce0b5d87cebb913283bec5deecc1",
+    "id": "H06-L",
+    "requestSha256": "5c006ad716b5dbdb98182b4c6f5ea7c0a6f57c0054d5b021325bbcd9abdc1b99",
+  },
+  {
+    "answerSha256": "855569122ae77cf47321e0c65fb71394ddb702614f3b13b2429f28aceb955fd7",
+    "gridSha256": "54f6604cf4ac2315fe98b7b2c66ae0cc7d10f5092f33a2f86c30f214d0222c3a",
+    "id": "H07-A",
+    "requestSha256": "128bc6770bdc9f6b0138942bf4cb6e84bc6c54084d28aab56bd00401a4955d48",
+  },
+  {
+    "answerSha256": "7a243e97d64f2177ec14634c5f2e7bdbd3310a100e81ddbe420a6f4829d72fdf",
+    "gridSha256": "073160afd9ef52d2fc18a2798f67da4435e6bcd71a4f1124367a1605035675ab",
+    "id": "H07-B",
+    "requestSha256": "53ac803a7bf4a1a86ec562dd54879007a1cfad5b0826bb7a20fe9ee28f977033",
+  },
+  {
+    "answerSha256": "7066ca7e228f25309ff3b5baed2300e361b8762650d688bbe4b42600ff1b5f7d",
+    "gridSha256": "894cd787d38d99a62d023b5e00fe052f4eceb9909278630b60a02c6884cee688",
+    "id": "H05-R",
+    "requestSha256": "f1ecd0dbd21826cf2282e9f53fd22b3625043e494ba7adbff575df9b8b5638bf",
+  },
+  {
+    "answerSha256": "a853e1dfb5559e576c0c25722517a66357b1feecd4f2e78984c0e1d9d2fecde5",
+    "gridSha256": "61b3679036902e3f147ae08350b94b050bb3bc3e7c05b4a317c168b792d84b26",
+    "id": "H06-W",
+    "requestSha256": "fa5c609726686183c4abaf546d363947d9f8f84a86ff222fa09474340fe93e9f",
+  },
+]
+`;

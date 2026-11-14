@@ -1,0 +1,3 @@
+# Intentional verbatim recovery bytes, not application source or generated output.
+raw/** binary
+tracked-preparation.patch binary

@@ -1,4 +1,5 @@
 import type { PuzzleRequest } from "@/lib/puzzle/types";
+import type { PrintedLetterCase } from "@/lib/puzzle/display-case";
 
 export type PaperSize = "letter" | "a4";
 export type PageOrientation = "portrait" | "landscape";
@@ -16,6 +17,7 @@ export interface PuzzleOutputOptions {
   qrCode: boolean;
   coordinates: boolean;
   inkSaving: boolean;
+  letterCase?: PrintedLetterCase;
 }
 
 export interface PdfPageSpec {
@@ -59,12 +61,28 @@ export function outputOptionsForRequest(request: Partial<PuzzleRequest>): Puzzle
   };
 }
 
+/** Apply edited definition defaults without resetting independent output choices. */
+export function syncRequestOutputOptions(
+  current: PuzzleOutputOptions,
+  previousRequest: Partial<PuzzleRequest>,
+  nextRequest: Partial<PuzzleRequest>
+): PuzzleOutputOptions {
+  const previous = outputOptionsForRequest(previousRequest);
+  const next = outputOptionsForRequest(nextRequest);
+  const patch: Partial<PuzzleOutputOptions> = {};
+  if (previous.printScale !== next.printScale) patch.printScale = next.printScale;
+  if (previous.coordinates !== next.coordinates) patch.coordinates = next.coordinates;
+  if (previous.nameDateLine !== next.nameDateLine) patch.nameDateLine = next.nameDateLine;
+  return Object.keys(patch).length ? { ...current, ...patch } : current;
+}
+
 export function normalizePuzzleOutputOptions(
   value: unknown,
   fallback: PuzzleOutputOptions = defaultPuzzleOutputOptions
 ): PuzzleOutputOptions {
   if (!value || typeof value !== "object") return { ...fallback };
   const saved = value as Partial<PuzzleOutputOptions>;
+  const letterCase = saved.letterCase === "uppercase" ? undefined : saved.letterCase === "lowercase" ? "lowercase" : fallback.letterCase;
   return {
     paperSize: saved.paperSize === "a4" || saved.paperSize === "letter" ? saved.paperSize : fallback.paperSize,
     orientation: saved.orientation === "landscape" || saved.orientation === "portrait" ? saved.orientation : fallback.orientation,
@@ -77,7 +95,8 @@ export function normalizePuzzleOutputOptions(
       : fallback.wordBankPlacement,
     qrCode: savedBoolean(saved.qrCode, fallback.qrCode),
     coordinates: savedBoolean(saved.coordinates, fallback.coordinates),
-    inkSaving: savedBoolean(saved.inkSaving, fallback.inkSaving)
+    inkSaving: savedBoolean(saved.inkSaving, fallback.inkSaving),
+    ...(letterCase === "lowercase" ? { letterCase } : {})
   };
 }
 
@@ -88,6 +107,7 @@ export function isPuzzleOutputOptions(value: unknown): value is PuzzleOutputOpti
     && (options.orientation === "portrait" || options.orientation === "landscape")
     && (options.printScale === "standard" || options.printScale === "large")
     && (options.wordBankPlacement === "below" || options.wordBankPlacement === "beside")
+    && (options.letterCase === undefined || options.letterCase === "uppercase" || options.letterCase === "lowercase")
     && booleanKeys.every((key) => typeof options[key] === "boolean");
 }
 
@@ -104,6 +124,7 @@ export function serializePuzzleOutputOptions(options: PuzzleOutputOptions) {
     coordinates: options.coordinates ? "1" : "0",
     ink: options.inkSaving ? "1" : "0"
   });
+  if (options.letterCase === "lowercase") params.set("case", "lower");
   return params.toString();
 }
 
@@ -137,7 +158,8 @@ export function parsePuzzleOutputOptions(
     wordBankPlacement,
     qrCode: parsedBoolean(params.get("qr") ?? params.get("qrCode"), fallback.qrCode),
     coordinates: parsedBoolean(params.get("coordinates"), fallback.coordinates),
-    inkSaving: parsedBoolean(params.get("ink") ?? params.get("inkSaving"), fallback.inkSaving)
+    inkSaving: parsedBoolean(params.get("ink") ?? params.get("inkSaving"), fallback.inkSaving),
+    letterCase: params.get("case") === "lower" ? "lowercase" : params.get("case") === "upper" ? "uppercase" : undefined
   }, fallback);
 }
 

@@ -1,3 +1,5 @@
+import { boundSearchQuery } from "@/lib/search/query";
+
 export type SearchResultType = "Puzzle" | "Category" | "Collection" | "Guide" | "Tool";
 
 export interface SearchCatalogItem {
@@ -47,8 +49,9 @@ function scoreItem(item: SearchCatalogItem, query: string) {
 }
 
 export function rankSearchCatalog(catalog: SearchCatalogItem[], query: string, limit = 24) {
+  const boundedQuery = boundSearchQuery(query);
   return catalog
-    .map((item) => ({ item, score: scoreItem(item, query) }))
+    .map((item) => ({ item, score: scoreItem(item, boundedQuery) }))
     .filter((entry) => entry.score > 0)
     .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title))
     .slice(0, limit)

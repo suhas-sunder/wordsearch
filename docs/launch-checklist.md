@@ -1,6 +1,14 @@
 # Launch checklist
 
-This checklist is specific to the current Next.js App Router deployment of I Love Word Search. It does not guarantee search rankings, advertising approval, or field performance.
+This checklist applies to the Next.js App Router static application. The
+[current release candidate](releases/PRODUCT-RELEASE-CANDIDATE-04.md) and
+[feature acceptance ledger](releases/PRODUCT-ACCEPTANCE.md) contain exact source,
+results and unresolved gates. A ready draft or preview is not production approval.
+It does not guarantee search rankings, advertising approval or field performance.
+
+Do not merge/push main, enable auto-merge, deploy production or publish new
+editorial content without separate authorization. Main triggers production.
+Follow the [protected advertising directive](../ai-issues/AD-PLACEHOLDER-SAFETY.md).
 
 ## Before the milestone commit
 
@@ -45,21 +53,31 @@ This checklist is specific to the current Next.js App Router deployment of I Lov
 
 - No secret environment variable is currently required for the application itself.
 - Keep `NEXT_PUBLIC_AD_PLACEHOLDERS` unset in production. Set it to exactly `on` only for restrained development placeholder review.
-- Do not add an AdSense publisher ID, ad script, or live placement until the site and account are ready. Apply only after the production content, navigation, policies, and traffic experience are stable.
+- Existing advertising integration is intentional. Preserve its script,
+  placements and first-real-filled-ad global placeholder suppression. Do not
+  restore placeholders after another slot fills or remove accepted blank spaces
+  as routine polish. Placement/lifecycle changes require separate authorization
+  and genuine-network verification. Keep printing and non-ad utilities ad-free.
 - Before personalized advertising where applicable, select and configure a suitable consent/CMP approach for the served regions and chosen ad provider.
 - Add analytics only after explicitly selecting a provider, retention rules, consent approach, and corresponding privacy-policy language. Do not use a placeholder analytics ID.
 - Configure error monitoring deliberately and verify that source maps, request data, and puzzle state do not expose sensitive information.
 
 ## Dependency security
 
-Reviewed on 2026-07-26 with local Node 25.9.0 and npm 10.9.0.
-
-- Verified runtime packages: Next.js 15.5.22 (`backport` registry tag), React 19.1.1, React DOM 19.1.1, PostCSS 8.5.23, and Sharp 0.35.3.
-- Verified lint packages: ESLint 9.39.4, `eslint-config-next` 15.5.22, and `@next/eslint-plugin-next` 15.5.22.
-- `npm audit --omit=dev` reports zero vulnerabilities after the reviewed PostCSS and Sharp overrides.
-- The full audit reports nine high-severity development-only records. They fan out from `GHSA-mh99-v99m-4gvg` in `brace-expansion` through `minimatch` in ESLint 9, its config packages, and the lint plugins included by `eslint-config-next`.
-- These development packages are absent from the production audit and production bundle. npm proposes ESLint 10.8.0 and `eslint-config-next` 16.2.12 as semver-major remediations; that forced migration was rejected for this milestone.
-- Revisit the residual lint advisory during a tested Next.js 16/ESLint 10 migration, or sooner if compatible ESLint 9 ecosystem patches become available. Do not run `npm audit fix --force`.
+- Use the exact reviewed lockfile and supported Node22 runtime; record actual
+  Node/npm versions, install command and source SHA. Do not use an incidental
+  system Node version to claim supported-runtime validation.
+- Run both `npm audit` and `npm audit --omit=dev`, preserve their actual output
+  and classify each finding. Candidate remediation is documented in
+  [runtime security](releases/BUILDOUT-ZOD-SECURITY.md) and
+  [tooling security](releases/BUILDOUT-TOOLING-SECURITY.md). Historical July
+  package/advisory counts are not a current audit result.
+- Zero candidate findings do not mean production already contains the updates.
+  Record candidate and production SHAs separately. Registry advisories can change;
+  repeat the audit for the final review checkpoint.
+- Resolve exploitable findings or obtain an explicit written risk disposition.
+  Do not run `npm audit fix --force`, waive a failure or blindly migrate major
+  versions to make a gate green.
 
 ## Deployment and discovery
 
@@ -68,7 +86,8 @@ Reviewed on 2026-07-26 with local Node 25.9.0 and npm 10.9.0.
 - `_redirects` supplies the reviewed permanent redirects and static rewrites for
   arbitrary encoded utility URLs. `_headers` supplies security and noindex
   response headers.
-- Deploy the validated static files without changing the canonical host.
+- After separate release authorization, deliver the approved exact SHA through
+  the reviewed Git workflow without changing the canonical host.
 - At the provider/DNS layer, confirm HTTP to HTTPS and non-`www` to `www` normalize in one hop, without adding a chain before application redirects.
 - Confirm Netlify applies the committed 301 redirects, static utility rewrites,
   cache behavior, and `_headers` rules.
@@ -83,7 +102,13 @@ Reviewed on 2026-07-26 with local Node 25.9.0 and npm 10.9.0.
 - Confirm PDF generation and downloads work locally in the browser without a
   request to an API or Function.
 - Confirm the preferred-host and HTTPS redirects are one hop and do not chain with consolidation aliases.
-- Confirm ads remain absent and leave no empty layout gaps.
+- Verify eligible-page ads never obstruct interaction and no placeholder covers
+  a real creative. First real fill must suppress all placeholders for that page
+  session; accepted blank slots are not a failed polish check. Check genuine
+  fill/consent separately from mocked regression tests. Keep print ad-free.
+- Recheck the three classified internal noindex/ad-eligibility findings and their
+  explicit owner disposition; they are not proved AdSense policy violations.
+  See [classification](releases/AD-ELIGIBILITY-2026-11-06.md).
 - Watch browser errors, broken-link reports, and Netlify function metrics during
   the first deployment window. Normal application use should produce zero
   Function and Edge Function invocations.
@@ -92,5 +117,30 @@ Reviewed on 2026-07-26 with local Node 25.9.0 and npm 10.9.0.
 ## Rollback
 
 - Keep the last known-good deployment/version available in the hosting provider.
-- If the smoke test finds a material regression, restore that known-good deployment first, then reproduce and fix the issue on the uncommitted or follow-up branch.
+- Record the known-good main SHA and provider deployment ID before release.
+  If an authorized release regresses, prepare a reviewed revert or fix-forward
+  through Git, preserving the known-good reference and checking the resulting
+  production SHA/deploy. Do not force-push main or perform a provider rollback
+  without separate authorization. An emergency operator action needs its own
+  approval, exact target, reason and post-action smoke evidence.
 - Do not repair a production regression by deleting content, weakening validation, or changing canonical URLs without a reviewed migration.
+
+## Manual acceptance record
+
+Record tester, date, exact SHA/deploy, device/browser and result for each check;
+leave unexecuted checks pending. A Chromium/PDF simulation is not physical signoff.
+
+- Print representative student/answer and measured-large-print sheets on actual
+  Letter and A4 at100% scale. Check full banks, page edges, title/instructions,
+  answer alignment and the measured profile without printer fit-to-page shrink.
+- Scan a printed QR on a real phone and compare the exact seed/grid/answers.
+  Exercise no-QR recovery and crowded-layout rejection separately.
+- On real Safari and Android, create/edit/solve, save/reload, share/cancel and
+  download/print. Check clipboard and unsupported-feature fallback messages.
+- With a screen reader and keyboard, test More/search, dialogs/focus return,
+  settings errors, solver selection/completion and local-library recovery.
+  Check native browser zoom and reduced-motion behavior; width/DPR emulation
+  alone does not certify native zoom or assistive technology.
+- Independently review owner biography/policy accuracy, editorial rights/facts/
+  audience and genuine ad/consent behavior. Product approval does not approve
+  any source-only draft or future calendar release.

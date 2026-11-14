@@ -1,0 +1,103 @@
+{
+  "artifactRoot": "C:\\Users\\Suhas\\.codex\\visualizations\\2026\\11\\13\\01a1d313-5cce-7880-aff3-d45fd55e6b71\\issue117",
+  "hostedApplicationHead": "64f1cc79b56b67e70c3b762e42e992c5b6c45ffb",
+  "artifacts": [
+    {
+      "artifact": "reviewed-copy-scope/capture.json",
+      "sha256": "4ebc9ccb0e2e0c3787dd1e2daec428446addf1178f83ba552d0a030374eadf73"
+    },
+    {
+      "artifact": "reviewed-copy-scope/report.json",
+      "sha256": "e51277952f8e912cb0a68d077cf93e6de87a81234fb4a3f5039511e6419822b8"
+    },
+    {
+      "artifact": "reviewed-copy-scope/independent-body-review.json",
+      "sha256": "4bd9d3bf4bc34e9b376c2c80d72c90676f0b7fd72082ba6135927818da6d5f69"
+    },
+    {
+      "artifact": "hosted-seo/capture.json",
+      "sha256": "fe5df638b288d90d722425648496e117896da299a01c6e47ea638d1bbc08846c"
+    },
+    {
+      "artifact": "hosted-main-diff.json",
+      "sha256": "3e9d0695756e3eb7c783f6fd1129982dc4303b92722bcc21e191c0e16a2f06ca"
+    },
+    {
+      "artifact": "hosted-delta-diff.json",
+      "sha256": "3d3a8028af02aff4d12d8517604f5d5f8d60b05e9ff52f172f017ca5bcf4ae7e"
+    },
+    {
+      "artifact": "hosted-source-export-identity.json",
+      "sha256": "49286cf61b9a57bbb2363d62730ccbfa2e1cde67c9d3d52b352be16543e8069d"
+    },
+    {
+      "artifact": "unit-final.log",
+      "sha256": "0579f7a64ef3c04dbf0920b6f7cd2af2c8684637fe46f547d76c647e99f332b7"
+    },
+    {
+      "artifact": "lint-composed-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "artifact": "typecheck-final.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "artifact": "build-final-corrected.log",
+      "sha256": "8cf8f5a3e9dc265cffe3b6090c4b1fe0c9a71085ec9b696c0e8fdb1affb6e916"
+    },
+    {
+      "artifact": "npm-audit-final.json",
+      "sha256": "fa013fe2d91a362dd4d8ccbe58156b837cd861def0c13bc1253df655d2df2c1b"
+    },
+    {
+      "artifact": "ads/reviewed-editorial-ad-eligibility-live.json",
+      "sha256": "2c017d53452b4e896ee149f421d32ae4d850957e96539977a992c9f2b108be8a"
+    },
+    {
+      "artifact": "ads/reviewed-monetization-placeholders-live.log",
+      "sha256": "2652f9e9132f44c3ab0d906fb52260ceded421403ce86d8099e9853304630140"
+    },
+    {
+      "artifact": "single-large-final.log",
+      "sha256": "b2c03be1705a3a0f3f9ed9730927476b88968be29c32c4ac57a401be5b40fb59"
+    },
+    {
+      "artifact": "parity-final.log",
+      "sha256": "b6e021520dfae5b1e7870f2783cba580b0d0156eeb874d610b5be7eceb995d12"
+    },
+    {
+      "artifact": "accessibility-final.log",
+      "sha256": "935152993a2bb06e36c1ffdd1e1e71b55512f01735eb86b2792744e166b029b6"
+    },
+    {
+      "artifact": "hosted-smoke.log",
+      "sha256": "5e2aefdae3bffca9d88c88ef800faeb439c543b5040a1881cc0060a9604599b1"
+    },
+    {
+      "artifact": "performance/lighthouse-a057-preview.json",
+      "sha256": "7acf441226a2503075131e827244b4d7eb9ccd317f99e3a0847b1c2e7d5eccaa"
+    },
+    {
+      "artifact": "performance/lighthouse-a057-preview.lhr.json",
+      "sha256": "ffd01b308815ad7f2328be8dc7747c3ab35f83662a40c9bead9209210af7c34b"
+    },
+    {
+      "artifact": "performance/lighthouse-production.json",
+      "sha256": "4af4c129355980b38eaab4d6bb430205dfef48582bed64cc6f3c240ad3b11878"
+    },
+    {
+      "artifact": "performance/lighthouse-production.lhr.json",
+      "sha256": "822e737a00c8d7a48768e6f38781719daed445157830a761731e47338b308917"
+    },
+    {
+      "artifact": "performance/lighthouse-candidate-final.json",
+      "sha256": "68c22b3429d54fe00f27e4cd383f1560409c5529f996d561d6affdca0f8b5059"
+    },
+    {
+      "artifact": "performance/lighthouse-candidate-final.lhr.json",
+      "sha256": "18410ef4eab7b90b2acc2ad1182950c73fc4db8593642d0951ccac30441d7da0"
+    }
+  ],
+  "releaseApproved": false
+}
