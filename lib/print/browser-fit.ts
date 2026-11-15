@@ -134,7 +134,13 @@ const serialMeasure = createPrintMeasurementQueue(measureHtml);
 
 export function validateBrowserPrintSheet(article: HTMLElement, options: PuzzleOutputOptions, signal?: AbortSignal): Promise<void> {
   try {
-    const css = Array.from(document.styleSheets).map((sheet) => Array.from(sheet.cssRules).map((rule) => rule.cssText).join("\n")).join("\n");
+    const css = Array.from(document.styleSheets).flatMap((sheet) => Array.from(sheet.cssRules, (rule) => {
+      // The hidden frame can keep optional fallback glyphs after fonts.ready.
+      // Measure with the loaded faces, independently of the visible page's font policy.
+      return rule.type === CSSRule.FONT_FACE_RULE
+        ? rule.cssText.replace(/font-display\s*:\s*optional\s*;/i, "font-display: swap;")
+        : rule.cssText;
+    })).join("\n");
     const html = document.createElement("html");
     html.className = document.documentElement.className;
     const head = document.createElement("head");

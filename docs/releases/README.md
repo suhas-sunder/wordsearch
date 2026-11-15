@@ -1,11 +1,13 @@
 # Controlled delivery: two independent tracks
 
 Current candidate: [draft PR118](https://github.com/suhas-sunder/wordsearch/pull/118),
-the [issue117 implementation and release handoff](ISSUE117-RELEASE.md).
-The owner-directed copy decisions and twelve draft-ad eligibility conflicts are
-resolved with fresh exact verification. Ordinary Lighthouse and genuine manual,
-consent and release acceptance remain unwaived. No production action is authorized
-by this evidence. The candidate descriptions below are retained historical records.
+the [final readiness decision](FINAL-READINESS.md). **NO-GO for production:**
+material mobile performance failures and critical regional consent acceptance remain
+open. The final assignment corrects demonstrated ad-free navigation, privacy and
+browser-print defects without changing the protected ad lifecycle or publishing
+content. Exact source/immutable-preview evidence and independent review control the
+weekly handoff. The [issue117 record](ISSUE117-RELEASE.md) and candidate descriptions
+below remain historical evidence. No production action is authorized by this record.
 
 Current review: [draft PR108](https://github.com/suhas-sunder/wordsearch/pull/108),
 [release evidence](PRODUCT-EXCELLENCE-RELEASE-CANDIDATE.md),

@@ -1,5 +1,7 @@
 "use client";
 
+import { DocumentLink } from "@/components/layout/DocumentLink";
+
 import { useEffect, useRef, type MouseEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,8 +17,10 @@ function isCurrent(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function NavLink({ href, label, pathname }: { href: string; label: string; pathname: string }) {
+function NavLink({ href, label, pathname, documentNavigation = false }: { href: string; label: string; pathname: string; documentNavigation?: boolean }) {
   const current = isCurrent(pathname, href);
+  // Trust and search destinations must not inherit provider-owned Auto Ads.
+  if (documentNavigation) return <DocumentLink href={href} aria-current={current ? "page" : undefined} className={current ? "active" : undefined}>{label}</DocumentLink>;
   return (
     <Link href={href} aria-current={current ? "page" : undefined} className={current ? "active" : undefined}>
       {label}
@@ -97,7 +101,7 @@ export function SiteHeader() {
             <nav className={styles.groups} aria-label="All site navigation">
               <div><strong>Find a puzzle</strong>{primaryNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}</div>
               <div><strong>Formats and audiences</strong>{secondaryNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}<NavLink href="/topics" label="All topics" pathname={pathname} /></div>
-              <div><strong>About and help</strong>{helpNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} />)}</div>
+              <div><strong>About and help</strong>{helpNavigation.map((item) => <NavLink key={item.href} {...item} pathname={pathname} documentNavigation />)}</div>
             </nav>
           </div>
         </details>

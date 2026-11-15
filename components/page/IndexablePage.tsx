@@ -1,6 +1,6 @@
+import { DocumentLink } from "@/components/layout/DocumentLink";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BelowHeaderAd, MonetizedPageShell, type AdTemplate } from "@/components/layout/AdSlot";
-import Link from "next/link";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { DeferredWordSearchBuilder } from "@/components/builder/DeferredWordSearchBuilder";
 import { EditorialModules, QuickLinks, SearchTools } from "@/components/page/PageSections";
@@ -97,7 +97,7 @@ export function IndexablePage({
           <EditorialModules modules={modules} faq={faq} adTemplate={adTemplate} />
           <RelatedActivityTools path={path} />
           <section className="content-section site-shell standards-link">
-            <p>Learn about <Link href="/how-word-searches-are-made">how our puzzles are made</Link> and the site&apos;s <Link href="/editorial-policy">editorial and puzzle standards</Link>.</p>
+            <p>Learn about <DocumentLink href="/how-word-searches-are-made">how our puzzles are made</DocumentLink> and the site&apos;s <DocumentLink href="/editorial-policy">editorial and puzzle standards</DocumentLink>.</p>
           </section>
           <SearchTools />
         </main>

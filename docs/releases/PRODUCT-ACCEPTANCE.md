@@ -10,6 +10,9 @@ is still blocked by the ordinary performance disposition and applicable genuine
 manual/CMP/legal/exact-artifact acceptance gates; technical ad tests do not certify
 those gates. The new exact semantic fixtures preserve the historical fixture.
 
+The November 14 Lighthouse comparison records the gate failure on the immutable
+PR118 candidate. [Final readiness performance evidence](FINAL-READINESS-PERFORMANCE.md)
+
 Generated from PRODUCT-ACCEPTANCE.json. Run audit:product-acceptance to verify coverage; --markdown reproduces this view. Tests and manual approval are independent. No production or new-content approval is recorded.
 
 Production reference: `471a118dd459f2181cd641ed0572ba6dd7005540`. Initially at most one genuinely new indexable URL per independently approved weekly release; zero is a valid outcome.

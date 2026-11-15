@@ -65,7 +65,7 @@ try {
       await page.locator(".tools-section [role=option]").first().waitFor();
       await page.evaluate(() => { window.__nativeSearchSpaMarker = "same-document"; });
       await Promise.all([page.waitForURL((url) => url.pathname === "/search" && url.searchParams.get("q") === "animals"), form.getByRole("button", { name: "Search", exact: true }).click()]);
-      assert.equal(await page.evaluate(() => window.__nativeSearchSpaMarker), "same-document", "Hydrated submission still uses the client router");
+      assert.equal(await page.evaluate(() => window.__nativeSearchSpaMarker), undefined, "Full search submission opens a new ad-free document");
       await page.getByRole("heading", { name: "Results for “animals”", exact: true }).waitFor();
       assert.equal(await page.locator("main noscript p").isVisible(), false);
       await page.locator(".site-header summary").focus(); await page.keyboard.press("Enter");
@@ -73,11 +73,12 @@ try {
       await header.getByRole("combobox").fill("science");
       await page.locator(".site-header [role=option]").first().waitFor();
       await header.getByRole("combobox").press("ArrowDown");
+      await page.evaluate(() => { window.__nativeSearchSpaMarker = "same-document"; });
       const chosen = await page.locator('.site-header [role=option][aria-selected="true"]').getAttribute("href");
       await Promise.all([page.waitForURL((url) => url.pathname === new URL(chosen, base).pathname), header.getByRole("combobox").press("Enter")]);
       assert.equal(await page.evaluate(() => window.__nativeSearchSpaMarker), "same-document", "Suggestion keyboard activation remains client navigation");
       assert.deepEqual(errors, []);
-      result.hydrated.push({ width, inlineClientSubmitPreserved: true, keyboardSuggestionHref: chosen, appErrors: errors });
+      result.hydrated.push({ width, inlineSubmitOpenedNewDocument: true, keyboardSuggestionHref: chosen, appErrors: errors });
     } finally { await context.close(); }
   }
   if (output) await writeFile(`${output}/result.json`, `${JSON.stringify(result, null, 2)}\n`);

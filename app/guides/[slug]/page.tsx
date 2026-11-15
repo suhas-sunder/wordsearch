@@ -1,3 +1,4 @@
+import { DocumentLink } from "@/components/layout/DocumentLink";
 import { SearchTools } from "@/components/page/PageSections";
 import { notFound } from "next/navigation";
 import Link from "next/link";
@@ -70,14 +71,14 @@ export default async function GuidePage({ params }: Props) {
               <p className="value-prop">{guide.introduction ?? guide.description}</p>
               {author ? (
                 <p className="guide-attribution">
-                  Written by <Link href={author.profilePath}>{author.name}</Link>
+                  Written by <DocumentLink href={author.profilePath}>{author.name}</DocumentLink>
                 </p>
               ) : null}
             </div>
             <aside className="intent-panel">
               <strong>Related standards</strong>
-              <p><Link href="/editorial-policy">Editorial Policy</Link></p>
-              <p><Link href="/how-word-searches-are-made">Methodology</Link></p>
+              <p><DocumentLink href="/editorial-policy">Editorial Policy</DocumentLink></p>
+              <p><DocumentLink href="/how-word-searches-are-made">Methodology</DocumentLink></p>
             </aside>
           </header>
 

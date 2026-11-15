@@ -1,3 +1,4 @@
+import { DocumentLink } from "@/components/layout/DocumentLink";
 import Link from "next/link";
 import { BookOpen, ExternalLink, FileDown, Grid3X3, Printer, ZoomIn } from "lucide-react";
 import { categories } from "@/content/categories";
@@ -13,7 +14,7 @@ export function SiteFooter() {
         <div>
           <p className="footer-brand brand"><BrandIdentity /><span className="sr-only">I Love Word Search</span></p>
           <p>Find, print, play, and create clean word search puzzles for home, classrooms, and casual solving.</p>
-          {maintainer && <p className={styles.maintainer}>Built and maintained by <Link href={maintainer.profilePath}>{maintainer.name}</Link>, a software engineer.</p>}
+          {maintainer && <p className={styles.maintainer}>Built and maintained by <DocumentLink href={maintainer.profilePath}>{maintainer.name}</DocumentLink>, a software engineer.</p>}
         </div>
         <div>
           <h2>Find puzzles</h2>
@@ -41,12 +42,12 @@ export function SiteFooter() {
         </div>
         <div>
           <h2>Site</h2>
-          <Link href="/about">About</Link>
-          <Link href="/how-word-searches-are-made">How puzzles are made</Link>
-          <Link href="/editorial-policy">Editorial policy</Link>
-          <Link href="/contact">Contact</Link>
-          <Link href="/faq">FAQ</Link>
-          <Link href="/accessibility">Accessibility</Link>
+          <DocumentLink href="/about">About</DocumentLink>
+          <DocumentLink href="/how-word-searches-are-made">How puzzles are made</DocumentLink>
+          <DocumentLink href="/editorial-policy">Editorial policy</DocumentLink>
+          <DocumentLink href="/contact">Contact</DocumentLink>
+          <DocumentLink href="/faq">FAQ</DocumentLink>
+          <DocumentLink href="/accessibility">Accessibility</DocumentLink>
         </div>
       </div>
       {maintainer && <nav className={`site-shell ${styles.profiles}`} aria-label="Creator profiles">
@@ -58,9 +59,9 @@ export function SiteFooter() {
       </nav>}
       <nav className="site-shell footer-legal" aria-label="Legal information">
         <span className={styles.copyright}>© {new Date().getUTCFullYear()} I Love Word Search</span>
-        <Link href="/privacy">Privacy</Link>
-        <Link href="/terms">Terms</Link>
-        <Link href="/copyright">Copyright</Link>
+        <DocumentLink href="/privacy">Privacy</DocumentLink>
+        <DocumentLink href="/terms">Terms</DocumentLink>
+        <DocumentLink href="/copyright">Copyright</DocumentLink>
       </nav>
     </footer>
   );

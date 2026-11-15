@@ -64,7 +64,8 @@ export function PuzzleSearch({ initialQuery = "", label = "Search puzzles and ca
     const value = boundSearchQuery(query).trim();
     if (!value) return;
     setOpen(false);
-    router.push(`/search?q=${encodeURIComponent(value)}`);
+    // Search is ad-free: discard any provider-owned Auto Ads from this document.
+    window.location.assign(`/search?q=${encodeURIComponent(value)}`);
   }
 
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {

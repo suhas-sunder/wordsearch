@@ -45,7 +45,27 @@ export function validateProductAcceptance(input: unknown): string[] {
 }
 
 export function renderProductAcceptance(value: ProductAcceptance): string {
-  const lines = ["# Product acceptance ledger", "", `Updated ${value.updatedOn}. Status: **${value.productStatus}**.`, "", "Generated from PRODUCT-ACCEPTANCE.json. Run audit:product-acceptance to verify coverage; --markdown reproduces this view. Tests and manual approval are independent. No production or new-content approval is recorded.", "", `Production reference: \`${value.productionSha}\`. Initially at most one genuinely new indexable URL per independently approved weekly release; zero is a valid outcome.`, ""];
+  const lines = [
+    "# Product acceptance ledger",
+    "",
+    `Updated ${value.updatedOn}. Historical C4 status: **${value.productStatus}**.`,
+    "",
+    "**Issue117 update, 2026-11-13:** [PR118 and current handoff](ISSUE117-RELEASE.md)",
+    "supersede the indexed-copy and draft-ad findings below. All13 exact copy decisions",
+    "are resolved under owner issue117; all12 draft ad conflicts are corrected and",
+    "tested. The historical evidence and counts below remain intact. Production release",
+    "is still blocked by the ordinary performance disposition and applicable genuine",
+    "manual/CMP/legal/exact-artifact acceptance gates; technical ad tests do not certify",
+    "those gates. The new exact semantic fixtures preserve the historical fixture.",
+    "",
+    "The November 14 Lighthouse comparison records the gate failure on the immutable",
+    "PR118 candidate. [Final readiness performance evidence](FINAL-READINESS-PERFORMANCE.md)",
+    "",
+    "Generated from PRODUCT-ACCEPTANCE.json. Run audit:product-acceptance to verify coverage; --markdown reproduces this view. Tests and manual approval are independent. No production or new-content approval is recorded.",
+    "",
+    `Production reference: \`${value.productionSha}\`. Initially at most one genuinely new indexable URL per independently approved weekly release; zero is a valid outcome.`,
+    ""
+  ];
   for (let area = 0; area <= 6; area++) {
     lines.push(`## F${area}`, "", "| Feature | Status | Evidence and remaining work |", "| --- | --- | --- |");
     for (const feature of value.features.filter(({ id }) => id.startsWith(`F${area}.`))) {

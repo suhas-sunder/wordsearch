@@ -1,3 +1,4 @@
+import { DocumentLink } from "@/components/layout/DocumentLink";
 import { FaqBlock, SearchTools } from "@/components/page/PageSections";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
@@ -303,7 +304,7 @@ export function RouteHub({ page }: { page: SitePage }) {
           <div className="hero-actions">
             <Link className="primary-button" href={config.primary.href}>{config.primary.label}</Link>
             <Link className="secondary-button" href={config.secondary.href}>{config.secondary.label}</Link>
-            {["word-searches-for-teachers", "word-search-worksheets"].includes(page.slug) && <Link className="secondary-button" href="/pack-builder">Create a worksheet pack</Link>}
+            {["word-searches-for-teachers", "word-search-worksheets"].includes(page.slug) && <DocumentLink className="secondary-button" href="/pack-builder">Create a worksheet pack</DocumentLink>}
           </div>
         </div>
         <aside className="intent-panel" aria-label={`${page.h1} features`}>
@@ -347,7 +348,7 @@ export function RouteHub({ page }: { page: SitePage }) {
           <p>Find a real puzzle, category, collection, or guide. If nothing matches, create a custom word search from your own list.</p>
         </div>
         <div className="hero-actions">
-          <Link className="primary-button" href="/search">Search puzzles</Link>
+          <DocumentLink className="primary-button" href="/search">Search puzzles</DocumentLink>
           <Link className="secondary-button" href="/word-search-generator">Open the generator</Link>
         </div>
       </section>

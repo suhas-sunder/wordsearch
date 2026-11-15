@@ -1,3 +1,4 @@
+import { DocumentLink } from "@/components/layout/DocumentLink";
 import Link from "next/link";
 import type { PuzzleContentRecord } from "@/content/model";
 import { IndexablePage } from "@/components/page/IndexablePage";
@@ -74,7 +75,7 @@ export function GuideAttribution({ authorName, authorPath, reviewerName, dateMod
   if (!authorName && !reviewerName && !dateModified) return null;
   return (
     <p className="guide-attribution">
-      {authorName ? <>By {authorPath ? <Link href={authorPath}>{authorName}</Link> : authorName}</> : null}
+      {authorName ? <>By {authorPath ? <DocumentLink href={authorPath}>{authorName}</DocumentLink> : authorName}</> : null}
       {reviewerName ? <> · Reviewed by {reviewerName}</> : null}
       {dateModified ? <> · Updated <time dateTime={dateModified}>{dateModified}</time></> : null}
     </p>

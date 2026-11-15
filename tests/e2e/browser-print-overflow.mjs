@@ -36,8 +36,22 @@ try {
   } finally { await failedTask.destroy(); }
   await student.getByRole("link", { name: "Use a bank below the grid", exact: true }).click();
   await student.locator('.print-fit-status[data-fit-state="error"]').waitFor();
-  assert.match(await student.locator(".print-fit-status").textContent(), /labels do not fit inside their cells/);
+  const belowMessage = /labels do not fit inside their cells/;
+  assert.match(await student.locator(".print-fit-status").textContent(), belowMessage);
   assert.equal(await student.locator(".print-word-bank span").count(), 200);
+  assert.equal(await student.locator(".puzzle-token").count(), 1600);
+  await page.getByRole("button", { name: "Print", exact: true }).click();
+  assert.equal(await page.evaluate(() => window.__printCalls), 0);
+  const collapsed = await page.pdf({ preferCSSPageSize: true, printBackground: true });
+  await writeFile(resolve(output, "crowded-below-diagnostic.pdf"), collapsed);
+  const collapsedTask = getDocument({ data: new Uint8Array(collapsed), useSystemFonts: true });
+  try {
+    const pdf = await collapsedTask.promise;
+    assert.equal(pdf.numPages, 1, "a collapsed student grid must not produce a partial worksheet packet");
+    const text = (await (await pdf.getPage(1)).getTextContent()).items.filter((item) => "str" in item).map((item) => item.str).join(" ");
+    assert.match(text, belowMessage);
+    assert.doesNotMatch(text, /WORD AA|Answer key\. Keep/);
+  } finally { await collapsedTask.destroy(); }
   await page.evaluate(() => localStorage.setItem("ilws:puzzle-output-options", JSON.stringify({ includeAnswerKey: true, qrCode: false, wordBankPlacement: "below" })));
   await student.getByRole("link", { name: "Edit puzzle and print settings", exact: true }).click();
   const input = page.getByRole("textbox", { name: "Words and clues", exact: true });
