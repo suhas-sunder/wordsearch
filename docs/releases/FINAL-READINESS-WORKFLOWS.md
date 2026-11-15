@@ -45,6 +45,17 @@ The stylesheet copy in `lib/print/browser-fit.ts` uses `font-display: swap` for 
 | `node node_modules/vitest/vitest.mjs run tests/unit/print-fit-coalescing.test.ts --maxWorkers=1` | PASS. Nine tests cover exact-input coalescing, isolated cancellation and listener/frame-work cleanup. |
 | `node node_modules/tsx/dist/cli.mjs tests/e2e/output-cancellation.ts` | PASS on unchanged retry. Six delayed HTML export cases, both PDF navigation cases, and PNG style-change recovery emitted the expected current output with no stale files, errors or leaked frames. |
 
+## Corrected immutable deployment verification
+
+Both targeted checks passed fresh on [immutable Netlify deploy 6af9219f10ca250d880fc55a](https://6af9219f10ca250d880fc55a--ilovewordsearch.netlify.app) at source `676faafc06fc3f63deaf561375122a4b1feccdd6`. This was a READY, unpublished deploy.
+
+| Check | Hosted result |
+| --- | --- |
+| `node tests/e2e/browser-print-overflow.mjs` | PASS. The beside-bank and collapsed below-bank browser print attempts each emitted a single Letter diagnostic page. The 40-word edit produced two complete Letter pages with in-bounds grid and word-bank output. Maximum header, multi-token tests and offline refusal/recovery also passed. |
+| Focused cross-engine preflight harness | PASS. Both Letter portrait and wide A4 landscape reached print-ready with exact matching student and answer grids in Chromium 147, Firefox 150 and WebKit 26.4. |
+
+The browser logs, six-case report and three actual PDF files are in the evidence directory's `workflows/final-host` folder. The classroom pack and broader browser matrix results above retain their recorded origins.
+
 ## Retained failures and equipment limits
 
 - The stock overflow test failed on the immutable preview at the below-bank rejection assertion. The visible result, two-page PDF, 0.426 pt text measurement and the font experiment are retained. The corrected static build passed the extended assertion.

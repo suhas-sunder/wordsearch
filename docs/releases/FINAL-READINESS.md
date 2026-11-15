@@ -8,7 +8,10 @@ do not authorize production.
 
 ## Candidate and rollback boundary
 
-The candidate continues PR118, `codex/owner-approved-quality-117`, from exact
+The candidate continues PR118, `codex/owner-approved-quality-117`. Corrected runtime
+`676faafc06fc3f63deaf561375122a4b1feccdd6` was independently verified on immutable
+[Netlify deploy6af9219f](https://6af9219f10ca250d880fc55a--ilovewordsearch.netlify.app),
+READY, deploy-preview, unpublished. It builds on exact
 `008ab2ac2484aa6003a37b2ce8708133aeb3ed3d`. The final exact head and immutable
 deployment are recorded in the final issue113/PR118 handoff; never substitute the
 mutable PR preview URL or a newer untested branch head. The clean isolated
@@ -51,15 +54,41 @@ anchor, not a new hydrated page/layout. The ledger generator is tooling only.
 | --- | --- |
 | Fresh supported install | GO: Node22.23.4, clean `npm ci`,490 installed packages; no lockfile change. |
 | Lint/type/unit/build | GO on corrected runtime: lint and nonincremental TypeScript clean,750 tests/91 files, production static build. One new semantic continuity check separately joins the19 existing focused checks. |
-| SEO/routes/puzzles | GO locally:217 canonical routes,35 redirects,227 link targets, six static utility shells; existing puzzle and staged-isolation regressions pass. Final hosted exact-diff record is required below. |
-| Navigation isolation | GO for tested document behavior:16 cases,15 clean ad-free document exits and one published SPA control;11 native/hydrated search cases. Inert-provider tests are not genuine fills. |
+| SEO/routes/puzzles | GO: fresh exact-host217-page capture and35 redirects pass;227 local link targets and six static utility shells pass. Independent replay verified every raw response hash, complete sitemap, preview noindex and one exact privacy difference. Existing puzzle/staged-isolation regressions pass. |
+| Navigation isolation | GO for tested document behavior:16 cases on local and immutable hosts,15 clean ad-free document exits and one published SPA control;11 native/hydrated search cases. Independent genuine mobile/desktop final Privacy visits had no destination provider traffic, frames, slots or loader; no candidate source fill was available. |
+| Accessibility | GO for28 fresh hosted axe archetype/viewport combinations, skip-link, reduced motion and simulated200% CSS viewport checks; no serious/critical violations, runtime errors or overflow. Native AT/zoom remains NOT TESTED. |
 | Browser workflows and PDFs | See [fresh workflow record](FINAL-READINESS-WORKFLOWS.md), including actual PDF files, three available engines and failure/recovery evidence. |
-| Mobile performance | **NO-GO:** matched baseline40 samples materially fail unchanged LCP and editorial performance thresholds. No safe causal application speed fix was established. See [distributions and traces](FINAL-READINESS-PERFORMANCE.md). |
-| Provider Best Practices | GO WITH DOCUMENTED EXCEPTION proposed only for exact external `third-party-cookies` and `inspector-issues` audits. Actual77 remains failed; this exception does not cover performance, consent, ads or application faults. |
+| Mobile performance | **NO-GO:** fresh final40 matched samples fail unchanged LCP on11/20 candidate runs and editorial performance on6/10. No safe causal application speed fix was established. See [distributions and traces](FINAL-READINESS-PERFORMANCE.md). |
+| Provider Best Practices | GO WITH DOCUMENTED EXCEPTION only for exact external `third-party-cookies` and `inspector-issues` audits. Actual77 remains failed; this exception does not cover performance, consent, ads or application faults. |
 | Consent and genuine fill | **NO-GO / critical NOT TESTED:** configured regions and real choice/dependency behavior remain unverified. Natural Canadian observations and Firefox GPC forwarding do not certify consent enforcement. See [ad/privacy evidence](FINAL-READINESS-ADS.md). |
 | Security | GO for dependency review: fresh audit reports zero vulnerabilities. No new dependencies, services, tracking configuration or secrets. |
 | Physical/native acceptance | NOT TESTED: iOS/iPadOS, Android hardware, physical printer, native browser zoom and screen-reader task acceptance. Browser emulation, PDF rendering and keyboard tests are explicitly separate. |
 | Independent review | [Independent decision](FINAL-READINESS-INDEPENDENT.md). Source review permits a review-branch push, not production. |
+
+## Final matched performance result
+
+Five valid cold mobile samples per route and origin on exact runtime676faaf;40
+valid, no retries or run warnings. Actual provider traffic remained enabled.
+
+| Route | Candidate median LCP / approximate p75 | Production median LCP |
+| --- | ---: | ---: |
+| Home | 6368 /6435 ms | 7292 ms |
+| Hard collection | 6374 /6460 ms | 2676 ms |
+| Ancient Egypt | 2330 /6356 ms | 7969 ms |
+| Generator | 6364 /6644 ms | 3193 ms |
+
+Home and Hard median performance both scored69, below90. All candidate accessibility
+scores were100 and CLS stayed below0.1. Best Practices remained77 with the same two
+DoubleClick audits; production scored58 with additional provider deprecations.
+Preview raw SEO66/69 is caused by the expected HTTP noindex boundary; production
+canonical/indexable HTML and sitemap were independently checked separately.
+
+The relative comparison is mixed: candidate collection and generator medians were
+slower than production in this final series. Lower host load than the first series
+and both fast/slow paint clusters prohibit attributing the between-series changes
+to the navigation/print fixes. No application performance correction was claimed.
+A generator1044ms TBT outlier remains in the valid results. The material failed
+thresholds remain release-blocking; they are not a19ms single-run fluctuation.
 
 ## Exact preservation and evidence
 
@@ -69,10 +98,12 @@ remain. The61 staged editorial paths remain excluded; no replacement guide dates
 were invented. Historical issue117 allowances are unchanged. The only new semantic
 allowance is exact `/privacy` `body.editorial`, chained to issue117's hash in
 `tests/seo/final-readiness-delta-allowlist.json`. Navigation changes preserve link
-labels and destinations. Full hosted capture must match this single-field delta.
+labels and destinations. The full hosted capture matches this single-field delta; main-to-corrected composition
+contains2468 explained fields, zero unexplained or stale allowances. Every217 raw
+HTML digest and the sitemap were independently replayed.
 
-The final hosted evidence and its source identity are appended after the immutable
-preview is ready. Raw artifacts live outside Git; their manifest is
+Hosted evidence is bound to runtime676faaf and deploy6af9219f above.
+`final-seo/` and `independent-final-seo.json` contain the exact comparison and replay. Raw artifacts live outside Git; their manifest is
 `FINAL-READINESS-EVIDENCE.json`. Historical PDF reinspection is labeled separately
 from newly generated PDFs. Failed attempts remain preserved, including the original
 ledger failure, preflight defect, stale selector assertions and interim lint failure.

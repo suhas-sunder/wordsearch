@@ -1,6 +1,33 @@
 # Final readiness performance evidence
 
-## Decision
+## Final comparison on the replacement runtime
+
+The ordinary mobile Lighthouse gate remains **FAIL** for runtime `676faafc06fc3f63deaf561375122a4b1feccdd6`. Median LCP exceeds 2,500 ms on home, hard collection and generator. Home and hard collection both score 69 against the editorial performance minimum of 90. Egypt passes the median LCP threshold at 2,330 ms, with two of five samples above the threshold and sample p75 of 6,356 ms. Candidate LCP failed in 11 of 20 samples. Editorial performance failed in six of ten. [Exact immutable candidate preview](https://6af9219f10ca250d880fc55a--ilovewordsearch.netlify.app)
+
+The replacement runtime and live production `471a118dd459f2181cd641ed0572ba6dd7005540` each contributed five valid samples for each route. All 40 planned navigations completed with no invalid attempts, retries or Lighthouse run warnings. All 40 isolated Chrome profiles closed gracefully and were cleaned up. The runner retained the earlier plan, interleaving, mobile viewport, Chrome 157.0.8103.52, Lighthouse 13.4.1, Node 22.23.4, Chrome flags and simulated `mobileSlow4G` settings. It used ordinary provider traffic. Concurrent browser/build validation finished before collection. Host-wide CPU busy time still ranged from 6.6% to 67.0%. The Lighthouse host benchmark index ranged from 1654 to 3661.
+
+Performance, LCP and TBT cells show median / sample p75 / min–max. LCP and TBT are rounded to milliseconds. Each row contains five samples.
+
+| Route | Origin | Performance | LCP ms | TBT ms | BP | SEO |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `/` | Candidate | 69 / 98 / 68–98 | 6368 / 6435 / 2305–6504 | 30 / 40 / 18–51 | 77 | 66 |
+| `/` | Production | 64 / 89 / 61–94 | 7292 / 7404 / 2755–8297 | 56 / 121 / 46–152 | 58 | 100 |
+| `/collections/hard-printable-word-searches` | Candidate | 69 / 98 / 67–98 | 6374 / 6460 / 2334–6966 | 23 / 31 / 20–45 | 77 | 66 |
+| `/collections/hard-printable-word-searches` | Production | 95 / 95 / 58–95 | 2676 / 2747 / 2670–10335 | 71 / 74 / 21–84 | 58 | 100 |
+| `/word-searches/history/ancient-egypt-word-search` | Candidate | 96 / 96 / 66–96 | 2330 / 6356 / 2306–6436 | 168 / 181 / 112–207 | 77 | 69 |
+| `/word-searches/history/ancient-egypt-word-search` | Production | 60 / 60 / 47–94 | 7969 / 9152 / 2716–10302 | 102 / 148 / 49–425 | 58 | 100 |
+| `/word-search-generator` | Candidate | 67 / 98 / 41–98 | 6364 / 6644 / 2310–7126 | 104 / 106 / 54–1044 | 77 | 69 |
+| `/word-search-generator` | Production | 90 / 90 / 58–94 | 3193 / 7774 / 2681–8939 | 81 / 117 / 61–124 | 58 | 100 |
+
+Accessibility scored 100 on all 40 samples. Maximum CLS was 0.0135133 on the candidate and 0.0066496 on production. Raw preview SEO scored 66 or 69. All 20 candidate main-document responses had the Netlify preview `X-Robots-Tag: noindex` header, which the `is-crawlable` audit records. The affected crawlability finding is specific to the preview and the reported scores remain unadjusted.
+
+**Best Practices disposition: GO WITH DOCUMENTED EXCEPTION for the two observed candidate provider audit IDs.** The raw candidate score is 77 in 20 of 20 samples and remains below 95. Every candidate failure is `third-party-cookies` or `inspector-issues`, both traced exclusively to `googleads.g.doubleclick.net/pagead/ads`. This technical exception applies only to those two audit IDs on the exact tested candidate. Production scored 58 in 20 of 20 samples. Its additional `deprecations` audit cites Cloudflare `/cdn-cgi/challenge-platform/scripts/precursor/main.js` on all 20 and Google `lidar.js` on two. The exception excludes those production findings, the absolute speed failures, live ad or consent acceptance and production approval.
+
+Candidate simulated LCP medians were lower on home and Egypt and higher on hard collection and generator. Observed median LCP was 1281 / 1331 ms on home, 1314 / 269 ms on collection, 280 / 1325 ms on Egypt and 1315 / 366 ms on generator, in candidate / production order. Production used Cloudflare YYZ and a mix of HTTP/2 and HTTP/3, while the candidate used Netlify HTTP/2. Production had Funding Choices requests in all 20 samples and the candidate had none. Google ads request counts were 9–50 on production and 8–12 on the candidate. This design measures each origin with its own normal provider and hosting configuration. It cannot isolate a causal application LCP change. No application timing correction has been validated. The supplemental traces below remain evidence from the earlier runtime.
+
+The local `C:/Users/Suhas/.codex/visualizations/2026/11/13/01a1d313-5cce-7880-aff3-d45fd55e6b71/readiness-20261114/performance-final` directory contains the complete forty-report set, raw run diagnostics, `comparison.md`, `summary.json`, exact plan and execution log. Collection exit 0 means all required samples were collected. The gate outcome is **FAIL**.
+
+## Decision on the earlier candidate
 
 The ordinary mobile Lighthouse gate **fails** on immutable candidate `008ab2ac2484aa6003a37b2ce8708133aeb3ed3d`. Candidate median LCP exceeds 2,500 ms on all four routes, and median performance falls below 90 on both editorial routes. Best Practices is 77 throughout. Raw preview SEO is 66 or 69, with the failed `is-crawlable` audit identifying the HTTP `X-Robots-Tag: noindex` directive on every preview sample. Accessibility is 100 on every sample and all CLS measurements meet the 0.1 limit. These are independent results. A Best Practices exception for the observed provider audit IDs would leave the LCP and editorial performance gates open.
 

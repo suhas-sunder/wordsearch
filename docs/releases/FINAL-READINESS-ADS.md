@@ -78,6 +78,33 @@ fixture is explicitly not genuine-ad acceptance. `native-search-local/` has11
 no-JavaScript and hydrated search tests. Final immutable repeats are recorded in
 the main handoff.
 
+## Corrected immutable acceptance
+
+Exact runtime676faafc06fc3f63deaf561375122a4b1feccdd6 is READY and unpublished at
+[deploy6af9219f](https://6af9219f10ca250d880fc55a--ilovewordsearch.netlify.app).
+The independent genuine-network retest at mobile and desktop confirmed a native
+Privacy document, changed time origin/lost marker, and no destination provider
+requests, frames, application units or loader through seven seconds. Source pages
+made actual HTTP200 advertising requests, but no candidate fill was available.
+This verifies the corrected document boundary without certifying an unobserved fill.
+
+The final full live series completed56/56 with zero recorded findings, JavaScript
+errors or execution errors:42 candidate visits and14 production controls. All24
+candidate draft visits and six direct trust/search/utility visits had no provider
+attempts. All12 eligible candidate visits contacted the provider but remained
+unfilled. Both candidate homepage theme/resize sequences showed no repeated named
+slot request in the recorded network log. Both Privacy exits changed document and
+had zero destination provider requests/units/frames. A provider-marked fill on
+production mobile Hard is a distinct positive control, not candidate fill proof.
+The two unavailable production Theme controls are explicitly recorded. The original
+failed56-case attempt and independent production Privacy defect remain evidence.
+
+The hosted deterministic document suite passed16 cases and search passed11.
+The protected mock-provider suite also passed nine eligible routes at five widths
+and14 ad-free routes, including delayed fill, global first-fill suppression, late
+loader failure, sidebar resizing and print hiding. This is fresh regression evidence
+for the unchanged protective code, explicitly separate from real-network fill.
+
 ## Consent observations and limits
 
 Cloudflare's public trace reported `loc=CA`, `colo=YYZ`. Only country/POP/protocol
