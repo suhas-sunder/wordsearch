@@ -83,7 +83,7 @@ export function articleJsonLd(input: {
   path: string;
   authorName: string;
   authorPath: string;
-  dateModified: string;
+  dateModified?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -96,7 +96,7 @@ export function articleJsonLd(input: {
       name: input.authorName,
       url: `${SITE_URL}${input.authorPath}`
     },
-    dateModified: input.dateModified,
+    ...(input.dateModified ? { dateModified: input.dateModified } : {}),
     publisher: { "@id": `${SITE_URL}/#organization` },
     mainEntityOfPage: `${SITE_URL}${input.path}`
   };

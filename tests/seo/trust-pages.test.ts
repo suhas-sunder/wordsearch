@@ -4,11 +4,14 @@ import { describe, expect, test } from "vitest";
 const root = process.cwd();
 
 describe("trust and ownership pages", () => {
-  test("About includes approved facts and exact profile links", () => {
+  test("About preserves owner-published biography and links without unsupported graduate-study details", () => {
     const source = readFileSync(`${root}/app/about/page.tsx`, "utf8");
     expect(source).toContain("Suhas Sunder");
     expect(source).toContain("bachelor’s degree in engineering");
-    expect(source).toContain("Master of Engineering in Electrical and Computer Engineering");
+    expect(source).toContain("master’s degree in Electrical and Computer Engineering");
+    expect(source).not.toContain("management-focused graduate study");
+    expect(source).toContain("created and maintained by Suhas Sunder");
+    expect(readFileSync(`${root}/components/layout/SiteFooter.tsx`, "utf8")).toContain("a software engineer");
     expect(source).toContain("https://www.suhassunder.com/");
     expect(source).toContain("https://www.linkedin.com/in/s-sunder/");
   });

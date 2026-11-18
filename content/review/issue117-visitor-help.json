@@ -1,0 +1,157 @@
+{
+  "issue": 117,
+  "baseline": "a057692afaadf4d530d1dfe60b0fcd351e473a7e",
+  "reuseEvidence": "docs/releases/QUALITY-PAGE-COPY.json#passages",
+  "corrections": [
+    {
+      "source": "content/categories.ts",
+      "record": "holiday-word-searches",
+      "field": "introduction",
+      "before": "Browse seasonal word searches for spring, summer, fall, winter, Halloween, and Christmas. The topics use generic seasonal vocabulary without copyrighted characters or commercial franchises.",
+      "after": "Browse seasonal word searches for spring, summer, fall, winter, Halloween, and Christmas.",
+      "constraint": "Keep rights screening in editorial review.",
+      "baselineOccurrences": [{ "path": "/categories/holiday-word-searches", "occurrences": 1 }]
+    },
+    {
+      "source": "content/categories.ts",
+      "record": "books-and-reading-word-searches",
+      "field": "introduction",
+      "before": "Browse word searches about reading, libraries, book genres, book parts, nonfiction text features, and storytelling. These puzzles are designed as general reading and language resources without using copyrighted books or characters.",
+      "after": "Browse word searches about reading, libraries, book genres, book parts, nonfiction text features, and storytelling.",
+      "constraint": "Keep rights screening in editorial review.",
+      "baselineOccurrences": [{ "path": "/categories/books-and-reading-word-searches", "occurrences": 1 }]
+    },
+    {
+      "source": "content/categories.ts",
+      "record": "classroom-and-values-word-searches",
+      "field": "notes[1]",
+      "before": "Use values topics as discussion starters rather than outcome claims.",
+      "after": "Use kindness and friendship puzzles as discussion starters.",
+      "constraint": "Keep discussion as an optional use without implying learning or developmental outcomes.",
+      "baselineOccurrences": [{ "path": "/categories/classroom-and-values-word-searches", "occurrences": 1 }]
+    },
+    {
+      "source": "components/page/RouteHub.tsx",
+      "record": "word-search-pdf",
+      "field": "editorial[1]",
+      "before": "Answer keys remain a separate noindex utility view, which makes it easier to save or print student and solution pages independently.",
+      "after": "Select Answer key page in Download PDF or Print to include the matching solution on a second page. Clear it for a puzzle-only copy.",
+      "constraint": "Keep answer utilities noindex and derive the solution from the same puzzle.",
+      "baselineOccurrences": [{ "path": "/word-search-pdf", "occurrences": 1 }]
+    },
+    {
+      "source": "components/page/RouteHub.tsx",
+      "record": "word-searches-for-adults",
+      "field": "firstDescription",
+      "before": "Browse richer themes without childish styling or unsupported wellness claims.",
+      "after": "Try puzzles about world capitals, biology, soccer, weather, or desserts.",
+      "constraint": "Name available themes without implying health or wellness benefits.",
+      "baselineOccurrences": [{ "path": "/word-searches-for-adults", "occurrences": 1 }]
+    },
+    {
+      "source": "components/page/RouteHub.tsx",
+      "record": "easy-word-searches",
+      "field": "secondDescription",
+      "before": "This hub explains the Easy preset; the collection is the print-first inventory.",
+      "after": "Choose a familiar subject, such as animals, food, math, or books.",
+      "constraint": "Refer to the categories directly below this description.",
+      "baselineOccurrences": [{ "path": "/easy-word-searches", "occurrences": 1 }]
+    },
+    {
+      "source": "components/page/RouteHub.tsx",
+      "record": "hard-word-searches",
+      "field": "editorial[1]",
+      "before": "This hub explains and browses the difficulty. The Hard Printable collection is the print-first route to the same reviewed pages.",
+      "after": "Open the printable collection to compare Hard puzzles by subject before choosing one to print.",
+      "constraint": "Use the existing printable collection link and retain the preceding description of the preset.",
+      "baselineOccurrences": [{ "path": "/hard-word-searches", "occurrences": 1 }]
+    },
+    {
+      "source": "components/page/RouteHub.tsx",
+      "record": "word-search-with-answer-key",
+      "field": "editorial[1]",
+      "before": "This page explains the workflow. The Printable Word Searches with Answer Keys collection is the browse-first inventory.",
+      "after": "Open the Printable Word Searches with Answer Keys collection to choose a topic. Use Show Answers on the puzzle page to see its matching solution.",
+      "constraint": "Retain the existing collection destination and matching solution behavior.",
+      "baselineOccurrences": [{ "path": "/word-search-with-answer-key", "occurrences": 1 }]
+    },
+    {
+      "source": "components/page/RouteHub.tsx",
+      "record": "word-searches-for-seniors",
+      "field": "editorial[0]",
+      "before": "This hub emphasizes adult themes and straightforward browsing. The Large Print hub focuses on layout, cell size, contrast, paper, and custom settings.",
+      "after": "Choose a topic above, then use the large-print guide to compare cell size, contrast, and paper options.",
+      "constraint": "Use the existing large-print guide link and preserve practical selection guidance.",
+      "baselineOccurrences": [{ "path": "/word-searches-for-seniors", "occurrences": 1 }]
+    },
+    {
+      "source": "components/page/RouteHub.tsx",
+      "record": "word-searches-for-seniors",
+      "field": "editorial[1]",
+      "before": "Neither page makes medical, therapeutic, vision, memory, or cognitive claims. Preview the actual grid and bank before printing.",
+      "after": "Preview the grid and word bank before printing.",
+      "constraint": "Keep medical, therapeutic, vision, memory, and cognitive claims outside the activity's scope.",
+      "baselineOccurrences": [{ "path": "/word-searches-for-seniors", "occurrences": 1 }]
+    },
+    {
+      "source": "components/page/RouteHub.tsx",
+      "record": "esl-word-searches",
+      "field": "editorial[1]",
+      "before": "The guide covers shorter lists, spelling checks, cultural clarity, and answer keys without promising language outcomes.",
+      "after": "Use the ESL activity guide to choose a short, familiar word list, check spelling and context, and prepare an answer key.",
+      "constraint": "Keep written-word practice framed as a standalone activity alongside the complementary activities named in the preceding paragraph.",
+      "baselineOccurrences": [{ "path": "/esl-word-searches", "occurrences": 1 }]
+    },
+    {
+      "source": "content/categories.ts",
+      "record": "sports-word-searches",
+      "field": "description",
+      "before": "Sports, fitness, Olympics, and movement vocabulary for teams, PE, camps, and hobby solvers.",
+      "after": "Sports, fitness, and movement vocabulary for teams, PE, camps, and hobby solvers.",
+      "constraint": "There is no published Olympics topic. Retain the existing explicit category metadata.",
+      "baselineOccurrences": [
+        { "path": "/", "occurrences": 1 },
+        { "path": "/categories", "occurrences": 1 },
+        { "path": "/large-print-word-searches", "occurrences": 1 },
+        { "path": "/word-searches-for-adults", "occurrences": 1 }
+      ]
+    },
+    {
+      "source": "content/categories.ts",
+      "record": "music-word-searches",
+      "field": "description",
+      "before": "Music vocabulary puzzles for instruments, terms, artists, rhythm, listening, and hobby themes.",
+      "after": "Music vocabulary puzzles for instruments, music theory, rhythm, listening, and singing.",
+      "constraint": "Use actual subject matter such as the Music Theory and Singing puzzles. Retain the existing explicit category metadata.",
+      "baselineOccurrences": [
+        { "path": "/", "occurrences": 1 },
+        { "path": "/categories", "occurrences": 1 },
+        { "path": "/word-searches-for-seniors", "occurrences": 1 }
+      ]
+    },
+    {
+      "source": "content/categories.ts",
+      "record": "books-and-reading-word-searches",
+      "field": "description",
+      "before": "Book, reading, library, genre, and author-themed word searches for reading corners and calm breaks.",
+      "after": "Word searches about reading, libraries, book genres, and book parts for reading corners and calm breaks.",
+      "constraint": "The card names puzzle topics, so use the published Book Parts topic. Retain the existing explicit category metadata.",
+      "baselineOccurrences": [
+        { "path": "/", "occurrences": 1 },
+        { "path": "/categories", "occurrences": 1 },
+        { "path": "/easy-word-searches", "occurrences": 1 },
+        { "path": "/word-search-with-answer-key", "occurrences": 1 },
+        { "path": "/word-searches-for-seniors", "occurrences": 1 }
+      ]
+    },
+    {
+      "source": "components/page/RouteHub.tsx",
+      "record": "word-searches-for-teachers",
+      "field": "firstDescription",
+      "before": "Use existing classroom, science, and substitute-teacher collections when you need a quick handout.",
+      "after": "Browse classroom worksheets, science puzzles, or word searches with answer keys for a quick handout.",
+      "constraint": "Name the three displayed published collections. Substitute Teacher Word Searches is a draft.",
+      "baselineOccurrences": [{ "path": "/word-searches-for-teachers", "occurrences": 1 }]
+    }
+  ]
+}

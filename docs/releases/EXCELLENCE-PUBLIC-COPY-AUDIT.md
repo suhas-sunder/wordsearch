@@ -1,0 +1,142 @@
+# Independent public-copy audit
+
+Read-only baseline: production main `471a118dd459f2181cd641ed0572ba6dd7005540`; review R `ada6b6e89a67ca5c1c31a4cc927453994ba9d3d4`. R preserves application B runtime. This audit compares Git source and the retained B static export, not a fresh live-browser production comparison. The independent [owner review](https://github.com/suhas-sunder/wordsearch/pull/97#issuecomment-6707903955) and attached Final Product Excellence Program govern the decisions below. No production change or editorial approval is implied.
+
+Worktree: `wordsearch-excellence-copy-audit`, branch `codex/excellence-copy-audit`. Original owner work, frozen B/R and their reports remain untouched. Read AGENTS, owner README, protected AD-PLACEHOLDER-SAFETY, master/finalization/calendar and final acceptance/reconciliation/control records. The current sources, rather than former pass counts, determine these findings.
+
+Categories: **A** interface/local help; **B** shared indexed-template copy; **C** existing indexed editorial content, held by default; **D** new unpublished content. Visitor-value classifications follow the independent review: essential task help; optional contextual help; process/boilerplate; misleading or unverified; successful existing copy. An internal implementation label or a noindex flag alone does not justify removing an accurate limitation.
+
+## Prioritized change and non-change ledger
+
+| Priority / source and affected URL | Exact current text / main comparison | Visitor problem and classification | Proposed correction and preservation | SEO radius / status / required verification |
+| --- | --- | --- | --- | --- |
+| P1: `components/page/RouteHub.tsx:83–94`, `/word-search-pdf` | “The PDF tool prepares the same SVG puzzle grid used in preview and print. Your browser's print dialog can save that page as a PDF without placing advertisements on the worksheet.” Main and R identical. Also “Answer keys remain a separate noindex utility view”. | Existing C; partly useful task help, now incomplete workflow description plus unnecessary indexing terminology. Visitors seeking a downloadable file are directed to browser printing instead of the actual Download PDF action. Direct downloads can include a separate answer page. | Owner-held factual proposal: “Open a puzzle and choose Download PDF. Select Letter or A4 and whether to include the answer page. You can also use Print to open your browser's print dialog.” For second sentence: “Keep the student sheet and answer page separate when distributing copies.” Preserve H1, title, metadata, topics, controls and canonical. | Exactly one indexed route. Requires owner approval for material existing body change, source/static semantic diff and an actual direct-download/answer-page check. Not implemented in this package. |
+| P1: `app/specialty/[slug]/page.tsx:32–34`, all 13 specialty URLs | R badge “Scaffold — this format is not implemented” on ASL/semaphore/Roman; full status duplicated in readiness note and intro, then repeated in format directory. Main did not have the new readiness note. | A local tool notice; essential limitation, but “scaffold” is developer terminology and repeated warning obscures the actual boundary. Noindex does not remove user-trust risk. | Badge “Format not available yet”; display-only “This scaffold” → “This preview” in the immediate notice. Remove only duplicated status from below-builder intro, retain full notice before preview. Leave source capability records, directory descriptions, H1/meta/URLs/alphabets, sample banks and generation unchanged. No format is activated. | Zero indexed URLs; 13 existing noindex tool routes. ASL/semaphore/Roman label change affects 3. Source-only focused implementation in this worktree; targeted rendered-note/order/metadata/ad-free tests, before/after rendering and browser review required. Shared directory wording held separately below. |
+| P2: `components/page/PageSections.tsx:110`, `/guides` | “Short, useful guides support the generator workflow without bloating puzzle pages.” Unchanged from main. | B shared section, process narration. Explains the site author's strategy rather than what a visitor can learn. | Proposed “Get help with printing, answer keys and puzzle settings.” Preserve guide titles, destinations and section H2. | Exact indexed occurrence count 1. Independent measured one-route review now supports the exact visitor-help correction; final candidate semantic/static verification remains. No guide content rewrite. |
+| P2: `components/page/RouteHub.tsx:137`, `/word-searches-for-adults`; `:237–248`, `/word-searches-for-seniors` | Adults: “Browse richer themes without childish styling or unsupported wellness claims.” Seniors point: “No health claims”; body explains that the two pages do not make medical/therapeutic claims. Unchanged from main. | C established editorial copy, process/negative framing. Visitors need themes and print choices; restrictions are important but not a product feature. | Owner-held proposal adults: “Browse travel, history, nature, books and music topics.” Seniors feature could describe available larger grid type only if output semantics are explicit. Preserve truthful safety limitations in relevant guidance; do not introduce health or accessibility promises. | Adults 1, seniors 1 indexed route. Subjective editorial improvement, not urgent misinformation. No implementation. |
+| P2: `components/page/RouteHub.tsx:346–354`, 14 hub routes | “Find a real puzzle, category, collection, or guide. If nothing matches, create a custom word search from your own list.” Existing main panel; R adds inline SearchTools immediately after it. | B shared routing/help. Task intent useful, but now directs to separate search just before an inline search doing the same job. “real” adds no useful distinction. | Prefer measured structural review of competing search actions; if retained, “Search puzzles, categories, collections and guides” is sufficient. Keep functioning dedicated search URL, keyboard access and fallback generator route. | 14 indexed hubs. Needs actual visual/task comparison before structural removal; parent WP-A owns. No blind deletion. |
+| P2: `components/page/PageSections.tsx:90–98`, directory on generator plus specialty pages | “These draft formats include limited mappings and unfinished scaffolds.” / “Scaffold — format not implemented”. R adds candid limits relative to main's “Token-based alphabet packs … beyond single A-Z cells.” | B when shown on indexed generator; essential limitations mixed with internal vocabulary. The directory is not a promise that absent ASL/semaphore/Roman behavior works. | Independently reviewed display-only correction “Some formats are experimental; others are not available yet. Read the limitations before choosing a format.” Label unavailable entries clearly. Never delete the exact limitations or change readiness data to imply support. | 1 indexed route plus 13 noindex specialty routes (and noindex specialty hub). Central `content/specialty.ts` statuses are deliberately unchanged in A package because they also render here. |
+| KEEP: `components/page/PageSections.tsx:124–136`, `IndexablePage.tsx:98–101` | “Make, Check, Print” and “Learn about … how our puzzles are made … editorial and puzzle standards.” Both already on main. | B; optional general help/trust links. Some deterministic-placement wording is technical, but explaining a matching answer key is useful. Repetition alone is not proof of harm. | Preserve pending route-specific rendered comparison. Do not treat these as newly added SEO filler or remove them globally. Link destinations convey real standards/correction information. | Exactly 151 indexed routes each: generator + all 150 published puzzles. Broad change would hit every puzzle and requires route manifest, semantic diff and independent review. Sensitive hard printable collection does not contain this block. |
+| KEEP: `FaqBlock` / `EditorialModules`, `content/routes.ts:249–253` | The original free-print/answer/share fallback became explicit-only; five selected hub FAQs added concrete print/play/classroom advice. | B; essential or optional help depending on route. No observed mass fallback duplication on indexed pages. | Keep real page FAQs. No blanket pruning or mechanically generated replacements. R static sitemap probe found 0 literal “Are the puzzles free to print?” occurrences; this is occurrence evidence, not a semantic guarantee that no FAQ topic repeats. | New FAQ destinations need individual semantic allowlisting by parent preservation audit. Unconditional fallback removal already completed earlier, do not redo. |
+| KEEP: `RelatedActivityTools`, `content/activity-tools.ts` | “Optional tools from the same creator for timing an activity or preparing a different handout.” R new; paths explicitly selected. | B optional contextual help, accurately discloses external creator relationship and concrete tasks; no invented endorsement. | Keep 3 task links where relevant. Do not insert them on all 150 puzzles or unrelated legal/answer routes. | Exact path-set scope 7 total: 6 indexed (/teachers, /worksheets, /homeschool, classroom collection, free-printable, kids) and noindex pack builder. No sitewide cross-site footer directory. |
+| KEEP: builder advanced help, `WordSearchBuilder.tsx:345–395` | “Keep the same title, words, seed, and settings to reproduce the same grid. Shuffle chooses another seed.” / filler mode fallback explanation. | A essential control help. Seed is a real user-facing setting; exact state matters more than a simplistic shorter sentence. | Retain reproducibility and fallback truths. Do not promise seed alone reproduces a changed word list/title. Large-grid type correctly says it does not guarantee minimum bank size. | Hydrated builder appears on 151 indexed routes and noindex tools; control copy still merits focused testing. No change proposed. |
+| KEEP: `PuzzleUtilities.tsx:402–409, 426–445` | Link includes word list/settings and no progress; service drafts disclosure; exact measured 16-point-grid/18-point-bank description with portrait/below/no-QR/no-coordinates and crowding refusal. | A essential privacy/output limitations; wording is long because choices genuinely differ. | Keep core disclosure and exact measured action. Do not call every ordinary larger-grid output accessible large print. A future compact disclosure needs equivalent information visible before action. | Reused tool surface; exact output tests already exist, changed runtime would need new validation. No claim of physical printer certification. |
+| KEEP: `ClassroomPackBuilder.tsx:88–107` | “Create 5, 10 or 20 different grids from the same word list”; input limits; seed/title/list preservation; local preset privacy. | A essential task help; precise restrictions prevent rejected jobs. “existing ink-saving style” is mildly internal but truthful gray/tint limitation is useful. | Potential A shortening: “The PDF is created in your browser. Some elements use light gray shading.” Preserve field limits, local-only storage/shared-browser warning and separate answer ordering. No automatic mass help cleanup. | One noindex pack-builder route. Parent workflow audit should establish readability before further changes. |
+| KEEP: `app/editorial-policy/page.tsx:8–17` | R replaces main's false future-advertising/inactive-placeholder claim with “Eligible content pages may display advertising.” Other standards/automation/corrections remain. | C factual correction already implemented under prior package; genuine trust purpose. Describes standards and review requirement, does not certify every new draft. | Keep corrected advertising fact, reporting link, rights/health restrictions and accurate automation disclosure. Do not change review dates or claim expert/editorial approval from tests. | Exactly 1 indexed route within the 217-entry sitemap; HTML robots are index,follow, canonical unchanged. Existing R factual advertising correction still needs owner editorial approval. Do not strip legal/trust text simply because it is procedural. |
+| OWNER REVIEW: `app/about/page.tsx:26–41` | Existing production creator/degree/profile description, responsible for development/standards/corrections; main-to-R About source and observed copy are unchanged. “engineering … emphasis on deterministic puzzle generation …” | C established About content; legitimate author trust but credentials require owner truth acceptance. Engineering experience is not education/medical/Braille/ASL expertise. | Preserve factual linked identity; optionally shorten implementation vocabulary after owner verification. Do not invent editorial staff, human testing, accessibility certification or subject expertise. | One indexed About URL plus footer creator strip link; owner-held credentials/legal approval remains. |
+| D: staged 61 main, 8 owner, utility/collection reviews | Approval flags false; offline artifacts display source/provenance and review limitations. | D useful internal review artifacts, not public marketing copy. | Keep unpublished and do not promote source QA to editorial acceptance. This public-copy pass does not require padding inventory or replacing existing banks. | Zero new runtime/indexable routes. No new content authored here. |
+
+## Exact scope and verification limits
+
+The PowerShell occurrence probe intersected the retained B export with its 217 sitemap paths. It read actual HTML (not just source references): HowItWorks 151; standards-link 151; All tools 208; GuideGrid strategy sentence 1; RouteHub “Find a real puzzle” 14; “No health claims” 1; adults' wellness phrase 1; “This hub explains” 2; “Scaffold —” 1. It excludes non-sitemap drafts. The raw exact path lists are external at `C:/Users/Suhas/.codex/visualizations/2026/11/06/01a1b33a-7733-7163-8af2-24bcc8caa97a/excellence-copy-route-coverage.json`. Literal matching is deliberately bounded: HTML entities can change phrase spelling; negative matches are not an exhaustive semantic audit. New candidate source still needs fresh final static comparison.
+
+Main-to-R Git diffs establish that HowItWorks, standards links, most RouteHub editorial text and the GuideGrid sentence predate this buildout. R changes shared search, chosen hub FAQs, specialty readiness and contextual tools; these are not interchangeable with substantive topic prose. The successful hard-printable collection's title/H1/meta/body/list/links remain preservation-first; no copy rewrite is proposed for it.
+
+This is a source/static independent audit, not the required comprehensive WP-A browser audit. No Chrome or Next build was run for the audit. Exact before/after specialty rendering and focused tests are recorded separately when executed. Prior 448/84/Lighthouse results are historical, not passes for this changed specialty candidate. The [ad decision analysis](EXCELLENCE-AD-ELIGIBILITY-DECISION.md) preserves the three historical strict-audit findings and expands actual draft-output scope to 12 pages pending explicit owner choice.
+
+
+
+## Implemented A package: validation and retained limits
+
+Only `app/specialty/[slug]/page.tsx` changes runtime. All central specialty records and all shared indexed templates remain byte-unchanged. The badge is clearer; the full format-specific limitation remains before the editor, and the below-editor intro no longer repeats it. The existing unavailable-format title/meta and hero descriptions remain preserved, so this package does not claim to remove every internal term from the site.
+
+Supported Node v22.23.4: full single-worker Vitest **564 tests / 80 files** passed, full lint and TypeScript passed, production build generated **335 pages**, static audit passed **217 sitemap / 35 redirects / 6 utility shells**. Thirteen new server-render tests verify exact limitation retention/order, unchanged heading/canonical and noindex/ad-free metadata/markup; existing specialty tests additionally cover actual deterministic placements, answers and supported/refused PDF behavior. The initial SSR test attempt failed because Next's search control lacked its app-router context; a narrowly scoped navigation stub fixes that harness only. It is not used as a browser substitute.
+
+`tests/e2e/specialty-copy-review.ts` then passed **16 actual paired browser views / 32 screenshots**: all 13 specialty pages at 390px light, plus the 3 unavailable formats at 1280px dark, before immutable R preview `https://6aeecf5d87e1713c8c60f2f2--ilovewordsearch.netlify.app` versus this package's built local export. It checks hydrated grid token equality, unchanged title/canonical, noindex, absent ads, exact warning before editor, no horizontal overflow and no page errors. It uses the standard advertising-loader mock for correctness, not performance/provider acceptance. Three selected screenshots were individually inspected (ASL mobile before/after, semaphore desktop dark after), not all 32. No physical-device, assistive-technology or editorial approval is claimed.
+
+Artifacts remain external under `excellence-copy/`: full-unit/lint/type/build/static logs, `render-comparison.json` with 13 retained B HTML-before/source-SSR-after hash pairs, and `browser/result.json` plus screenshots. The local static host on 3511 was stopped gracefully through original session 52901 after browser completion. No active browser/build/test job remains. The changed candidate requires final combined acceptance; frozen B's former matrices are not relabeled as testing this change.
+
+Audit correction retained transparently: an early draft incorrectly inferred that editorial-policy was outside the sitemap/noindex from a partial registry list. Independent review and exact XML/HTML verification confirmed it is indexable and included in all 217 main/R sitemap entries; the ledger above is corrected. There is no indexing change proposed here.
+
+## Independent follow-up corrections and bounded B implementation
+
+The complete live217-route corpus and exact retained static paths independently establish GuideGrid appears only on **/guides**, not the generator. Earlier source-audit route inference was wrong and is corrected above; its original committed version remains in PR102 history. SpecialtyGrid appears on15contexts: exactlyone indexed generator and14noindex routes (13specialty plus specialty directory); each hasthree unavailable badges. Counts distinguish routes from occurrences. Both trust/editorial policy routes are indexed members of217. See PR104 follow-up corpus/source record for exact paths and hashes.
+
+Before implementation, the independent guard reviewer confirmed two bounded CategoryB visitor-help corrections: GuideGrid strategy narration becomes “Get help with printing, answer keys and puzzle settings.” (one /guides paragraph; unchanged H2/cards/titles/descriptions/links/metadata); SpecialtyGrid intro/badges replace implementation-scaffold wording with experimental/unavailable language, and display-only “This scaffold” becomes “This preview” with every handshape/semaphore/Roman/native-input/PDF limitation retained. Its indexable blast radius is only /word-search-generator. Central capability records, readiness attributes, mappings, options, seeds, metadata and all150 puzzle bodies remain unchanged. These precise shared-help changes satisfy measured scope, content-diff and independent review; they are not a sitewide editorial cleanup.
+
+The maker ASL option likewise uses the local display label “ASL labels (not handshapes)” while preserving value/order/mapping and the full limitation help. All other subjective B/C proposals, five earlier FAQ sets, biography, privacy and policy material remain owner-held as recorded by the semantic guard. New application source still requires final combined browser/static/semantic validation; the old package results are historical.
+
+The later exact footer CategoryB review is in [EXCELLENCE-FOOTER-B-REVIEW.md](EXCELLENCE-FOOTER-B-REVIEW.md): the original230-field report is preserved, while the new50-group disposition retains13material CategoryC fields after independently reviewing the exact owner-requested footer. This is not a change to the public footer or an owner/manual product approval. About-source corrections and exact scope counts are recorded in [the supplemental classifier review](EXCELLENCE-SEO-SITE-CHROME-REFINEMENT.md).
+
+
+## Final visual follow-up — bounded interface copy and retained owner decision
+
+Independent C2 rendered/source review supports a Category A correction on the
+sole existing noindex `/search` route: “Search existing puzzles, categories,
+collections, guides, and primary tools. Arbitrary queries do not create public
+puzzle pages.” becomes “Search puzzles, categories, collections, guides and tools.”
+Actual HTTP200 contains the old sentence once, robots noindex/follow and canonical
+/search. Only the task-help paragraph changes; H1, metadata, query handling,
+search kinds/index and result links stay unchanged. This removes indexing
+plumbing from a visitor instruction. It creates no new indexed-copy allowance.
+
+The PDF dialog also receives a Category A contextual sentence correction:
+inside Download PDF, the measured-choice help says “Choose Download large-print
+PDF below for the separate measured layout.” The Print dialog retains “Open
+Download PDF for the separate measured large-print choice.” Minimum sizes,
+limitations, actions, settings and output bytes remain preserved.
+
+A distinct **existing Category C owner-held factual proposal** was confirmed on
+`/word-searches-for-teachers`: it names classroom/science/substitute-teacher
+collections, while the actual published cards are classroom/science/answer-key;
+the substitute-teacher collection remains draft. Proposed owner-review wording:
+“Use existing classroom, science and answer-key collections when you need a
+quick handout.” This source sentence is unchanged from production and is
+additional to the 13 observed main-to-candidate changed-field holds. No teacher
+editorial copy or draft publication status is changed by this follow-up.
+These pending interface edits need the next combined candidate validation.
+
+
+Root's actual C2 image review also identified internal rendering terminology in
+`StaticPuzzleRoute.tsx` help. A bounded Category A follow-up replaces “real PDF
+generated entirely in this browser” with “Download a PDF in your browser, or print
+this worksheet”; “same deterministic placements” with “This answer key matches
+your puzzle”; and “print-only CSS” with an instruction to use the print button or
+browser command while retaining the no-ad worksheet disclosure. The shared
+loading/ready play/custom intro now says printing, downloads, answers and share
+links use the same puzzle, instead of “exact seed and placement set.” Builder
+seed/recreation help, local-progress privacy, output limits, validation/recovery,
+no-fallback behavior, titles, metadata and all puzzle/print/PDF code stay exact.
+Scope is five existing noindex utility kinds (print/pdf/answer/play/custom);
+embed is unchanged. Utility loading/ready layout and CLS must be rerun on the
+next candidate, since shorter help can affect reserved geometry. These changes
+are task help, not indexed editorial changes or new capability claims.
+
+
+## Final assessment closure and new no-JS tool notice
+
+Actual C3 generator/Dog samples at390light/1280dark establish HowItWorks and the
+standards links are useful, readable and unobstructed: **KEEP**, with unchanged
+151-route scope. Actual classroom print-help review at390 establishes the exact
+size/fit/directions caveats are useful: **KEEP**. The14hub search panel likewise
+stays after eight actual native/JS/keyboard contexts. These decisions close the
+earlier hypothetical structural-removal/pending-rendered items; no blind removal
+is authorized or needed. Existing CategoryC proposals remain owner-held.
+
+A true-noJS generator/Dog reproduction did confirm a falsely busy/inert deferred
+loader. The PR112 fallback is essential local tool help (CategoryA) with bounded
+shared SSR scope (CategoryB):243existing pages,151indexed,92noindex, independently
+measured/reviewed before editing. Exact H2 is “JavaScript is required for the
+interactive puzzle”; paragraph is “The puzzle editor, online play, puzzle printing
+and downloads need JavaScript. You can still read this page and browse the
+published catalog or guides.” The only new links are “Browse published topics”
+to /topics and “Read word search guides” to /guides. The existing loading section
+is only data-marked; noscript hides that subtree and supplies the notice. Normal
+JS loading/error/retry, all editorial/H1/metadata/schema/word banks/ad definitions
+remain unchanged. Before final capture, independent exact expectations were
+prepared for453tool-only field pairs/3groups; no wildcard UI ignore or owner-hold
+approval is permitted. Final observations must still match those predictions.
+
+## Final C4 acceptance closure
+
+The final C4 release record now binds the exact implemented display changes to
+fresh 58-fixture functional,448-case visual,84-pair utility and14-fixture hosted
+acceptance. Independent semantic review observed C3→C4 453 exact tool-only pairs/
+3 groups, R→C4 677/11 and main→C4 2242/58 with13 material owner-held fields and
+zero unexplained/stale changes. All217 indexed C4 bodies were second-fetched
+byte-exact and all243 fallback contexts checked. The exact shared footer and
+tool fallback reviews remain Category B; no Category C approval is inferred.
+Existing KEEP decisions and separate unchanged editorial proposals above remain.
+See [current release evidence](PRODUCT-EXCELLENCE-RELEASE-CANDIDATE.md) and the
+[owner review procedure](PRODUCT-EXCELLENCE-OWNER-HANDBOOK.md). No indexed content
+or staged inventory is newly approved for publication by this closure.

@@ -107,6 +107,16 @@ When a command cannot run, report:
   - a dependency migration
   - a clearly unrelated workstream
 
+## Release Management
+
+- Before release work, read and follow `docs/releases/README.md` and the relevant package evidence record.
+- Every push to `main` automatically deploys production on Netlify. Never push unfinished or unvalidated work to `main`.
+- Keep weekly functional work on dedicated `release/YYYY-Www-*` branches and fast-track visual work on separate `fasttrack/*` branches. Push completed authorized packages and open/update their PRs with exact test evidence.
+- Neither track may merge until its release gate and production approval pass. Never enable automatic PR merging.
+- ChatGPT independently reviews GitHub commits/evidence and coordinates approved releases through its connected Netlify integration. Do not request local Netlify CLI login, tokens, or credentials.
+- When approved, merge only the validated change into `main`; Netlify deploys automatically. Do not trigger a duplicate manual deployment.
+- Record the exact production commit SHA and deployment ID for verification and rollback. Continue unrelated authorized work when one release is blocked.
+
 ## Change Discipline
 
 - Inspect the existing implementation before editing it.

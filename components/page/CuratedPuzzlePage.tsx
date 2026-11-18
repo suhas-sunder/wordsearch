@@ -1,3 +1,4 @@
+import { DocumentLink } from "@/components/layout/DocumentLink";
 import Link from "next/link";
 import type { PuzzleContentRecord } from "@/content/model";
 import { IndexablePage } from "@/components/page/IndexablePage";
@@ -8,8 +9,18 @@ export interface RelatedContentLink {
   path: string;
 }
 
+function normalizeContext(text: string | undefined) {
+  return text?.trim().replace(/\s+/g, " ") ?? "";
+}
+
 export function CuratedPuzzlePage({ record, category, related = [] }: { record: PuzzleContentRecord; category: RelatedContentLink; related?: RelatedContentLink[] }) {
   const { puzzle, editorial } = record;
+  const displayedContext = [normalizeContext(record.description), normalizeContext(record.introduction)];
+  const puzzleNote = normalizeContext(editorial.puzzleNote);
+  const wordListContext = normalizeContext(editorial.wordListContext);
+  const showPuzzleNote = puzzleNote && !displayedContext.includes(puzzleNote);
+  const showWordListContext = wordListContext && wordListContext !== puzzleNote && !displayedContext.includes(wordListContext);
+
   return (
     <IndexablePage
       title={record.title}
@@ -37,9 +48,9 @@ export function CuratedPuzzlePage({ record, category, related = [] }: { record: 
       <section className="content-section site-shell two-col">
         <div>
           <h2>Puzzle details</h2>
-          {editorial.puzzleNote ? <p>{editorial.puzzleNote}</p> : null}
+          {showPuzzleNote ? <p>{editorial.puzzleNote}</p> : null}
           {editorial.difficultyExplanation ? <p><strong>Difficulty:</strong> {editorial.difficultyExplanation}</p> : null}
-          {editorial.wordListContext ? <p>{editorial.wordListContext}</p> : null}
+          {showWordListContext ? <p>{editorial.wordListContext}</p> : null}
         </div>
         <div>
           <h2>Using this puzzle</h2>
@@ -64,7 +75,7 @@ export function GuideAttribution({ authorName, authorPath, reviewerName, dateMod
   if (!authorName && !reviewerName && !dateModified) return null;
   return (
     <p className="guide-attribution">
-      {authorName ? <>By {authorPath ? <Link href={authorPath}>{authorName}</Link> : authorName}</> : null}
+      {authorName ? <>By {authorPath ? <DocumentLink href={authorPath}>{authorName}</DocumentLink> : authorName}</> : null}
       {reviewerName ? <> · Reviewed by {reviewerName}</> : null}
       {dateModified ? <> · Updated <time dateTime={dateModified}>{dateModified}</time></> : null}
     </p>

@@ -1,0 +1,42 @@
+:global(.site-footer) .maintainer a {
+  display: inline;
+  margin: 0;
+  font-size: inherit;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.copyright {
+  align-self: center;
+  font-size: .9rem;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+}
+
+.profiles {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-block: 20px;
+  border-top: 1px solid #485267;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.profiles > span { display: grid; gap: 5px; min-width: 0; }
+.profiles > span > span { color: inherit; font-size: .9rem; }
+.profiles > div { display: flex; flex-wrap: wrap; gap: 12px; min-width: 0; max-width: 100%; }
+.profiles > div a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #64748b;
+  border-radius: 7px;
+  color: inherit;
+}
+.profiles > div a:hover { border-color: var(--accent); }
+.profiles > div a:focus-visible { outline-color: white; }

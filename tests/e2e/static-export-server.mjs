@@ -125,7 +125,8 @@ async function staticResponse(filePath, acceptEncoding = "") {
 const server = createServer(async (request, response) => {
   try {
     const url = new URL(request.url ?? "/", `http://${request.headers.host ?? `${host}:${port}`}`);
-    let pathname = decodeURIComponent(url.pathname);
+    const requestedPathname = decodeURIComponent(url.pathname);
+    let pathname = requestedPathname;
     const rule = redirects.find((item) => matches(item.from, pathname));
     if (rule?.status === 301 || rule?.status === 302 || rule?.status === 307 || rule?.status === 308) {
       response.writeHead(rule.status, { Location: `${rule.to}${url.search}` });
@@ -138,7 +139,7 @@ const server = createServer(async (request, response) => {
     if (!filePath) {
       const notFoundPath = resolve(outputRoot, "404.html");
       const payload = await staticResponse(notFoundPath, request.headers["accept-encoding"]);
-      const headers = responseHeaders(pathname, notFoundPath);
+      const headers = responseHeaders(requestedPathname, notFoundPath);
       if (payload.encoding !== "identity") {
         headers["Content-Encoding"] = payload.encoding;
         headers.Vary = "Accept-Encoding";
@@ -151,7 +152,7 @@ const server = createServer(async (request, response) => {
     }
 
     const payload = await staticResponse(filePath, request.headers["accept-encoding"]);
-    const headers = responseHeaders(pathname, filePath);
+    const headers = responseHeaders(requestedPathname, filePath);
     if (payload.encoding !== "identity") {
       headers["Content-Encoding"] = payload.encoding;
       headers.Vary = "Accept-Encoding";

@@ -1,0 +1,16 @@
+.controls { min-inline-size: 0; margin: 0 0 20px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); }
+.controls legend { padding: 0 6px; font-weight: 700; }
+.fields { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; }
+.fields label { flex: 1 1 160px; min-width: 0; }
+.fields label:first-child { flex-grow: 2; }
+.fields input, .fields select { width: 100%; min-height: 44px; }
+.fields button { min-height: 44px; }
+.controls p { margin: 12px 0 0; }
+.hint { color: var(--muted); font-size: .88rem; }
+.empty { margin: 0 0 20px; }
+.empty[hidden], .cards > [hidden] { display: none; }
+@media (max-width: 520px) { .fields { flex-direction: column; align-items: stretch; } .fields label { flex-basis: auto; } }
+@media print { .controls { display: none; } }
+.jumpTarget {
+  scroll-margin-top: 80px;
+}

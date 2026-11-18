@@ -26,7 +26,7 @@ export default function AboutPage() {
           heading: "Created and maintained by Suhas Sunder",
           paragraphs: [
             "I Love Word Search is created and maintained by Suhas Sunder, a software developer who builds full-stack web applications and focused browser tools. His work includes React, TypeScript, JavaScript, Node.js, APIs, relational data, and responsive interface development.",
-            "Suhas holds a bachelor’s degree in engineering and a Master of Engineering in Electrical and Computer Engineering, with management-focused graduate study.",
+            "Suhas holds a bachelor’s degree in engineering and a master’s degree in Electrical and Computer Engineering.",
             <>View Suhas&apos;s <a href="https://www.suhassunder.com/" target="_blank" rel="noopener noreferrer">portfolio</a> or <a href="https://www.linkedin.com/in/s-sunder/" target="_blank" rel="noopener noreferrer">LinkedIn profile</a>.</>
           ]
         },

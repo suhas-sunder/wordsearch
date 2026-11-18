@@ -1,0 +1,408 @@
+import type { Difficulty } from "@/lib/puzzle/types";
+
+export const GROWTH_REVIEW_DATE = "2026-09-14";
+
+export interface CuratedTopicGrowth {
+  order: number;
+  title: string;
+  categorySegment: string;
+  slug: string;
+  difficulty: Difficulty;
+  words: string[];
+  introduction: string;
+  context: string;
+  topicSlug: string;
+  routeSlug: string;
+  categorySlug: string;
+  audience: string[];
+  seed: string;
+  reviewedOn: string;
+  rows: number;
+  columns: number;
+  difficultyNote: string;
+  printNote: string;
+  metaTitle: string;
+  metaDescription: string;
+}
+
+const hardDifficultyNote =
+  "This Hard puzzle uses an 18 by 18 grid with twenty words, overlap, reverse paths, and diagonal placements.";
+
+export const curatedTopicsGrowth: CuratedTopicGrowth[] = [
+  {
+    order: 1,
+    title: "Countries Around the World Word Search",
+    categorySegment: "geography",
+    slug: "countries-word-search",
+    difficulty: "hard",
+    words: [
+      "ARGENTINA",
+      "AUSTRALIA",
+      "BRAZIL",
+      "CANADA",
+      "COSTA RICA",
+      "EGYPT",
+      "FIJI",
+      "FRANCE",
+      "GERMANY",
+      "INDIA",
+      "INDONESIA",
+      "JAPAN",
+      "JORDAN",
+      "KENYA",
+      "MEXICO",
+      "NEW ZEALAND",
+      "NIGERIA",
+      "NORWAY",
+      "POLAND",
+      "SOUTH AFRICA"
+    ],
+    introduction:
+      "Travel across six inhabited continents as you find a deliberately varied selection of country names in a challenging grid.",
+    context:
+      "The twenty-country list samples several regions rather than attempting to represent every country, with examples from Africa, Asia, Europe, North America, South America, and Oceania.",
+    topicSlug: "countries-word-search",
+    routeSlug: "geography/countries-word-search",
+    categorySlug: "geography-word-searches",
+    audience: ["Classroom", "general"],
+    seed: "curated-countries-word-search-v1-329",
+    reviewedOn: GROWTH_REVIEW_DATE,
+    rows: 18,
+    columns: 18,
+    difficultyNote: hardDifficultyNote,
+    printNote:
+      "The printable word bank retains spaces in Costa Rica, New Zealand, and South Africa while the grid places each country name as one continuous letter path.",
+    metaTitle: "Countries Around the World Word Search | Hard Printable",
+    metaDescription:
+      "Find twenty selected countries from six continents in a hard 18 × 18 word search. Play online or print the puzzle, PDF, and answer key."
+  },
+  {
+    order: 2,
+    title: "U.S. State Capitals Word Search",
+    categorySegment: "geography",
+    slug: "state-capitals-word-search",
+    difficulty: "hard",
+    words: [
+      "ALBANY",
+      "ANNAPOLIS",
+      "ATLANTA",
+      "AUSTIN",
+      "BATON ROUGE",
+      "BISMARCK",
+      "BOISE",
+      "BOSTON",
+      "CARSON CITY",
+      "CHEYENNE",
+      "COLUMBUS",
+      "DENVER",
+      "DES MOINES",
+      "HONOLULU",
+      "INDIANAPOLIS",
+      "JACKSON",
+      "JUNEAU",
+      "PHOENIX",
+      "SACRAMENTO",
+      "SANTA FE"
+    ],
+    introduction:
+      "Find twenty U.S. state capital cities drawn from different regions, including Juneau, Santa Fe, Annapolis, and Honolulu.",
+    context:
+      "This is a selected set of twenty state capitals, not a complete list of all fifty. The mix includes single-word cities and multiword names from across the United States.",
+    topicSlug: "state-capitals-word-search",
+    routeSlug: "geography/state-capitals-word-search",
+    categorySlug: "geography-word-searches",
+    audience: ["Classroom", "general"],
+    seed: "curated-state-capitals-word-search-v1-293",
+    reviewedOn: GROWTH_REVIEW_DATE,
+    rows: 18,
+    columns: 18,
+    difficultyNote: hardDifficultyNote,
+    printNote:
+      "Print copies with the answer key kept separate, then use the city names as prompts for matching each selected capital to its state.",
+    metaTitle: "U.S. State Capitals Word Search | Hard Printable PDF",
+    metaDescription:
+      "Search for twenty selected U.S. state capitals in a hard printable word search, with online play, a matching PDF, and an answer key."
+  },
+  {
+    order: 3,
+    title: "World Landmarks Word Search",
+    categorySegment: "geography",
+    slug: "landmarks-word-search",
+    difficulty: "hard",
+    words: [
+      "ACROPOLIS",
+      "ALHAMBRA",
+      "ANGKOR WAT",
+      "BOROBUDUR",
+      "CHICHEN ITZA",
+      "COLOSSEUM",
+      "EIFFEL TOWER",
+      "FORBIDDEN CITY",
+      "GREAT WALL",
+      "MACHU PICCHU",
+      "MOUNT FUJI",
+      "PETRA",
+      "POTALA PALACE",
+      "PYRAMIDS OF GIZA",
+      "STATUE OF LIBERTY",
+      "STONEHENGE",
+      "SYDNEY OPERA HOUSE",
+      "TAJ MAHAL",
+      "TIMBUKTU",
+      "VICTORIA FALLS"
+    ],
+    introduction:
+      "Explore a cross-regional set of cultural and natural landmarks, from Stonehenge and Petra to Machu Picchu and Victoria Falls.",
+    context:
+      "The word list spans recognized sites in Africa, Asia, Europe, North America, South America, and Oceania, pairing ancient places with later monuments and natural features.",
+    topicSlug: "landmarks-word-search",
+    routeSlug: "geography/landmarks-word-search",
+    categorySlug: "geography-word-searches",
+    audience: ["Classroom", "general"],
+    seed: "curated-landmarks-word-search-v1-221",
+    reviewedOn: GROWTH_REVIEW_DATE,
+    rows: 18,
+    columns: 18,
+    difficultyNote: hardDifficultyNote,
+    printNote:
+      "Several landmark names span two or three words in the word bank; solvers trace their letters continuously in the grid without spaces.",
+    metaTitle: "World Landmarks Word Search | Challenging Printable",
+    metaDescription:
+      "Explore twenty world landmarks in a challenging 18 × 18 word search. Play online or print the puzzle, PDF, and matching solution."
+  },
+  {
+    order: 4,
+    title: "U.S. National Parks Word Search",
+    categorySegment: "geography",
+    slug: "national-parks-word-search",
+    difficulty: "hard",
+    words: [
+      "ACADIA",
+      "ARCHES",
+      "BADLANDS",
+      "BIG BEND",
+      "BISCAYNE",
+      "BRYCE CANYON",
+      "CANYONLANDS",
+      "CONGAREE",
+      "DENALI",
+      "EVERGLADES",
+      "GLACIER",
+      "GRAND CANYON",
+      "GREAT BASIN",
+      "MESA VERDE",
+      "HOT SPRINGS",
+      "JOSHUA TREE",
+      "OLYMPIC",
+      "REDWOOD",
+      "YELLOWSTONE",
+      "YOSEMITE"
+    ],
+    introduction:
+      "Search for twenty official U.S. national park names, ranging from Acadia and Congaree to Denali, Mesa Verde, and Yosemite.",
+    context:
+      "Every entry in this selected set carries the National Park designation; monuments, national historical parks, preserves, and other National Park System units are intentionally excluded.",
+    topicSlug: "national-parks-word-search",
+    routeSlug: "geography/national-parks-word-search",
+    categorySlug: "geography-word-searches",
+    audience: ["Classroom", "general"],
+    seed: "curated-national-parks-word-search-v1-103",
+    reviewedOn: GROWTH_REVIEW_DATE,
+    rows: 18,
+    columns: 18,
+    difficultyNote: hardDifficultyNote,
+    printNote:
+      "The printable list uses the distinctive part of each official park name, omitting the repeated words “National Park” to keep the hunt readable.",
+    metaTitle: "U.S. National Parks Word Search | Hard Printable",
+    metaDescription:
+      "Find twenty official U.S. national parks in a hard printable word search, with an 18 × 18 grid, online play, PDF, and answer key."
+  },
+  {
+    order: 5,
+    title: "American Revolution Word Search",
+    categorySegment: "history",
+    slug: "american-revolution-word-search",
+    difficulty: "hard",
+    words: [
+      "BOSTON TEA PARTY",
+      "LEXINGTON",
+      "CONCORD",
+      "BUNKER HILL",
+      "SARATOGA",
+      "YORKTOWN",
+      "CONTINENTAL ARMY",
+      "MINUTEMEN",
+      "PATRIOTS",
+      "LOYALISTS",
+      "INDEPENDENCE",
+      "DECLARATION",
+      "STAMP ACT",
+      "TEA ACT",
+      "INTOLERABLE ACTS",
+      "PAUL REVERE",
+      "GEORGE WASHINGTON",
+      "BENJAMIN FRANKLIN",
+      "TREATY OF PARIS",
+      "VALLEY FORGE"
+    ],
+    introduction:
+      "Review people, places, documents, laws, and turning points associated with the American Revolution in one twenty-term puzzle.",
+    context:
+      "The vocabulary connects colonial protest and the opening fighting at Lexington and Concord with the Continental Army, major campaigns, independence, and the peace settlement.",
+    topicSlug: "american-revolution-word-search",
+    routeSlug: "history/american-revolution-word-search",
+    categorySlug: "history-word-searches",
+    audience: ["Classroom", "general"],
+    seed: "curated-american-revolution-word-search-v1-19",
+    reviewedOn: GROWTH_REVIEW_DATE,
+    rows: 18,
+    columns: 18,
+    difficultyNote: hardDifficultyNote,
+    printNote:
+      "Use the printable as a vocabulary companion to historical sources; the word bank is a focused selection, not a complete timeline of the Revolution.",
+    metaTitle: "American Revolution Word Search | Hard Printable",
+    metaDescription:
+      "Find twenty American Revolution people, places, events, and documents in a hard printable word search with PDF and answer key."
+  },
+  {
+    order: 6,
+    title: "Civil Rights Movement Word Search",
+    categorySegment: "history",
+    slug: "civil-rights-word-search",
+    difficulty: "hard",
+    words: [
+      "EQUALITY",
+      "JUSTICE",
+      "NONVIOLENCE",
+      "SEGREGATION",
+      "INTEGRATION",
+      "BOYCOTT",
+      "SIT IN",
+      "FREEDOM RIDES",
+      "FREEDOM SUMMER",
+      "MARCH ON WASHINGTON",
+      "CIVIL RIGHTS ACT",
+      "VOTING RIGHTS ACT",
+      "BROWN V BOARD",
+      "MONTGOMERY",
+      "SELMA",
+      "LITTLE ROCK NINE",
+      "GREENSBORO FOUR",
+      "ROSA PARKS",
+      "MARTIN LUTHER KING",
+      "THURGOOD MARSHALL"
+    ],
+    introduction:
+      "This carefully selected vocabulary set connects central campaigns, court action, federal legislation, places, and leaders in the U.S. Civil Rights Movement.",
+    context:
+      "Terms such as segregation and boycott refer to injustice and organized resistance, while the named students, leaders, cases, marches, and laws require historical context beyond the puzzle itself.",
+    topicSlug: "civil-rights-word-search",
+    routeSlug: "history/civil-rights-word-search",
+    categorySlug: "history-word-searches",
+    audience: ["Classroom", "general"],
+    seed: "curated-civil-rights-word-search-v1-402",
+    reviewedOn: GROWTH_REVIEW_DATE,
+    rows: 18,
+    columns: 18,
+    difficultyNote: hardDifficultyNote,
+    printNote:
+      "Pair the printable with age-appropriate historical materials so the people, student groups, protests, decisions, and laws are discussed with their proper significance.",
+    metaTitle: "Civil Rights Movement Word Search | History Printable",
+    metaDescription:
+      "Explore twenty carefully reviewed Civil Rights Movement terms in a hard history word search with printable PDF and matching answer key."
+  },
+  {
+    order: 7,
+    title: "Periodic Table Word Search",
+    categorySegment: "science",
+    slug: "periodic-table-word-search",
+    difficulty: "hard",
+    words: [
+      "PERIODIC TABLE",
+      "ELEMENT",
+      "ATOMIC NUMBER",
+      "ATOMIC WEIGHT",
+      "PERIOD",
+      "GROUP",
+      "METAL",
+      "NONMETAL",
+      "METALLOID",
+      "ALKALI METAL",
+      "ALKALINE EARTH",
+      "HALOGEN",
+      "NOBLE GAS",
+      "LANTHANIDE",
+      "ACTINIDE",
+      "TRANSITION METAL",
+      "VALENCE ELECTRON",
+      "PROTON",
+      "SYMBOL",
+      "PERIODICITY"
+    ],
+    introduction:
+      "Find vocabulary used to read and discuss the periodic table, including its rows, columns, classifications, and atomic information.",
+    context:
+      "The twenty terms distinguish periods from groups and include standard family and classification names; the list focuses on periodic-table structure rather than mixing in individual element names.",
+    topicSlug: "periodic-table-word-search",
+    routeSlug: "science/periodic-table-word-search",
+    categorySlug: "science-word-searches",
+    audience: ["Classroom", "general"],
+    seed: "curated-periodic-table-word-search-v1-32",
+    reviewedOn: GROWTH_REVIEW_DATE,
+    rows: 18,
+    columns: 18,
+    difficultyNote: hardDifficultyNote,
+    printNote:
+      "Keep a current periodic table nearby if the printable is used for review, especially when comparing a group, a period, and the displayed atomic information.",
+    metaTitle: "Periodic Table Word Search | Hard Science Printable",
+    metaDescription:
+      "Find twenty periodic-table terms in a hard 18 × 18 science word search. Play online or print the PDF and matching answer key."
+  },
+  {
+    order: 8,
+    title: "Genetics Word Search",
+    categorySegment: "science",
+    slug: "genetics-word-search",
+    difficulty: "hard",
+    words: [
+      "NUCLEOTIDE",
+      "GENE",
+      "ALLELE",
+      "DNA",
+      "CHROMOSOME",
+      "GENOME",
+      "GENOTYPE",
+      "PHENOTYPE",
+      "HEREDITY",
+      "TRAIT",
+      "DOMINANT",
+      "RECESSIVE",
+      "HOMOZYGOUS",
+      "HETEROZYGOUS",
+      "MUTATION",
+      "MEIOSIS",
+      "GAMETE",
+      "LOCUS",
+      "INHERITANCE",
+      "RECOMBINATION"
+    ],
+    introduction:
+      "Search for standard genetics vocabulary about DNA, genes, chromosomes, inheritance, variation, and the formation of reproductive cells.",
+    context:
+      "The word list pairs foundational structures with terms used to describe allele combinations and observable traits, without making claims about health or individual outcomes.",
+    topicSlug: "genetics-word-search",
+    routeSlug: "science/genetics-word-search",
+    categorySlug: "science-word-searches",
+    audience: ["Classroom", "general"],
+    seed: "curated-genetics-word-search-v1-33",
+    reviewedOn: GROWTH_REVIEW_DATE,
+    rows: 18,
+    columns: 18,
+    difficultyNote: hardDifficultyNote,
+    printNote:
+      "Use the printable alongside definitions or a genetics reference so related terms such as genotype, phenotype, homozygous, and heterozygous remain distinct.",
+    metaTitle: "Genetics Word Search | Challenging Science Printable",
+    metaDescription:
+      "Review twenty standard genetics terms in a challenging 18 × 18 word search with online play, printable PDF, and answer key."
+  }
+];

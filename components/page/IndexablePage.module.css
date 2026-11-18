@@ -1,0 +1,19 @@
+.toolStatus {
+  margin-block: 16px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--subtle);
+  color: var(--ink);
+}
+
+.toolStatus strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.toolStatus p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}

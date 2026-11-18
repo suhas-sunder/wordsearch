@@ -1,0 +1,11 @@
+# F2 — edited request print flags update actual output
+
+Reproduced before edits: maker Large print checked while preview print-scale-large was false; Coordinates checked while preview had zero coordinate labels. PuzzleUtilities initialized output options only once and never reconciled changed request defaults.
+
+A small shared reconciliation helper now applies only changed largePrint/showCoordinates/nameDateLine defaults to current output options. Unrelated title/word/seed edits retain selected paper/orientation/answer/bank/QR/ink choices. Initial remembered output preferences retain their existing precedence. Current preview/print portal and PDF consume the corrected same options. The builder explains shared defaults. No request or generator mutation is introduced; legacy largePrint auto-size behavior remains, including possible dimension changes. Manual-dimension replay is unchanged when only print defaults differ.
+
+Lint/typecheck and17output-option unit cases PASS, including preservation, normalization and immutability. Final production/browser checks were economically combined with one-cell and exact maker-save paths: isolated03+55+59+47 baseline, Node22.23.4 lint/typecheck411tests53files/build335/static-host PASS. New390/1280 workflow verifies all three request controls update actual preview and PDF choices; fixed manual grid stays identical; later title edits keep choices; real2pageA4landscape PDF and name/date absence verified. Initial fixture incorrectly treated an empty loading preview as hidden name/date; it now requires a present final sheet before asserting state. No assertion weakened.
+
+Combined regressions PASS: opt-in resume/time, completion PNG/share, library, offline HTML/PDF,8width preview,9eligiblex5width/14ad-free advertising and14archetype mobile/desktop axe/focus/zoom/reducedmotion checks. See combined F2 evidence and draft PRs for exact source/combined SHAs. These bounded repairs do not claim all F2 functionality is complete: advanced modes/clue output and remaining settings acceptance work continue. Physical printing/devices/manual review remain gates.
+
+No published puzzle, seed, grid, metadata, advertising or dependencies change. No main merge/push, auto-merge or production deployment. Rollback exclude/revert this request-default reconciliation.

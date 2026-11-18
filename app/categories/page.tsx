@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { DocumentLink } from "@/components/layout/DocumentLink";
+import { SearchTools } from "@/components/page/PageSections";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
 import { DiscoveryCards } from "@/components/page/DiscoveryCards";
@@ -20,14 +21,15 @@ export default function CategoriesPage() {
         <Breadcrumbs items={[{ label: "Categories" }]} />
       <section className="hub-hero site-shell">
         <div><span className="eyebrow">{categories.filter((category) => category.publicationStatus === "published").length} reviewed categories</span><h1>Word Search Categories</h1><p className="value-prop">Choose a broad subject, then narrow it to an existing printable and online puzzle topic.</p></div>
-        <aside className="intent-panel"><strong>Not sure where to begin?</strong><p>Search by theme, audience, season, or format.</p><Link className="primary-button" href="/search">Search the catalog</Link></aside>
+        <aside className="intent-panel"><strong>Not sure where to begin?</strong><p>Search by theme, audience, season, or format.</p><DocumentLink className="primary-button" href="/search">Search the catalog</DocumentLink></aside>
       </section>
       <BelowHeaderAd template="category" />
       <CategoryGrid />
       <section className="content-section site-shell soft-section"><div className="section-heading"><h2>Featured puzzle topics</h2><p>Start with a real curated puzzle rather than an empty filter page.</p></div><DiscoveryCards items={featuredPuzzles} /></section>
       <SeoSectionAd template="category" />
       <TopicStrip />
-      </main>
+      <SearchTools />
+</main>
     </MonetizedPageShell>
   );
 }

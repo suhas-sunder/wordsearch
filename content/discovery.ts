@@ -8,6 +8,7 @@ export interface DiscoveryLink {
   title: string;
   description: string;
   meta?: string;
+  categorySlug?: string;
 }
 
 function topicLink(slug: string): DiscoveryLink {
@@ -28,7 +29,8 @@ function categoryLink(slug: string): DiscoveryLink {
     href: `/categories/${category.slug}`,
     title: category.title,
     description: category.description,
-    meta: "Category"
+    meta: "Category",
+    categorySlug: category.slug
   };
 }
 

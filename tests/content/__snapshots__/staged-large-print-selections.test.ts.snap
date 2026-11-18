@@ -1,0 +1,70 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`source-only larger-type utility selections > provides L01–L16 as output assets without sixteen indexed variants 1`] = `
+[
+  {
+    "fingerprint": "91f2b9ebecdbaceffcff423cd825b0226cf1aac38597396fd5b4b970f4c87a09",
+    "id": "L01",
+  },
+  {
+    "fingerprint": "20c267245957565927502eaf49cf1619c64760ace75e291b3e65049d485401a9",
+    "id": "L02",
+  },
+  {
+    "fingerprint": "ebf1492565d3eb5c83fe7974a246af9cefdee42c1793e80572ffe22f887146ec",
+    "id": "L03",
+  },
+  {
+    "fingerprint": "f31afa566d6aab55735956cc1e86c53b29d047163dddfd0d37b9fb65d91d5836",
+    "id": "L04",
+  },
+  {
+    "fingerprint": "19f29188df7f88573511ad5b045d04cf0ea0c4a76f805451c9aa39a9f9cee582",
+    "id": "L05",
+  },
+  {
+    "fingerprint": "c115aa408c85a5aaf6ef70d2fccb4b949c32fd432057e204c399ba780f19ab2e",
+    "id": "L06",
+  },
+  {
+    "fingerprint": "ebdefb37151d4df148acdb5d7193c38f4bdc00fea22f09976bb45fced5da1301",
+    "id": "L07",
+  },
+  {
+    "fingerprint": "4a8656e255ae627e236c3d12d814189b7e27dc66a010c165cc67a147a7c1159b",
+    "id": "L08",
+  },
+  {
+    "fingerprint": "e41c091d2720e02a8d361f53853eddeb918f43ac2e8be6817ab3baa4704c568a",
+    "id": "L09",
+  },
+  {
+    "fingerprint": "14ec09446441ba0ddba9baf12027741b2eb809e6fcbca517e793cdcf08078005",
+    "id": "L10",
+  },
+  {
+    "fingerprint": "76e278b304d10de8d65eac1da1e5610b5cac08101538269c05548664f3a435ef",
+    "id": "L11",
+  },
+  {
+    "fingerprint": "22c3554c9ae88f28f64791fbac737da530355a34eece3a41cc3d59928b2f4610",
+    "id": "L12",
+  },
+  {
+    "fingerprint": "3b32904560cb5ba16844f7a76148504495b4a4f6f14ed496c2cca48e6c017717",
+    "id": "L13",
+  },
+  {
+    "fingerprint": "8dba9ff485801be68b9a5fa6ea4a013b3a1ec7509e5237777bc9bb7b6586ca32",
+    "id": "L14",
+  },
+  {
+    "fingerprint": "9350684dda819bd9cc80b8624904b1e31617753dc90da423a5b39a03a09b2e6d",
+    "id": "L15",
+  },
+  {
+    "fingerprint": "9f88e0f1e9530c8b9d185fad33304372c479ac2657be69a3490d2d73ab285a40",
+    "id": "L16",
+  },
+]
+`;

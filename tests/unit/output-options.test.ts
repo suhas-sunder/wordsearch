@@ -6,6 +6,7 @@ import {
   defaultPuzzleOutputOptions,
   normalizePuzzleOutputOptions,
   outputOptionsForRequest,
+  syncRequestOutputOptions,
   parsePuzzleOutputOptions,
   pdfPagePlan,
   pdfPageSpec,
@@ -142,5 +143,31 @@ describe("share and answer utility state", () => {
     expect(hidden.foundPlacementIds).toEqual(found);
     expect(hidden.answersVisible).toBe(false);
     expect(wordRevealState("beta-1", found, false)).toBe("unsolved");
+  });
+});
+
+describe("edited request print defaults", () => {
+  const chosen = { ...defaultPuzzleOutputOptions, paperSize: "a4" as const, orientation: "landscape" as const, includeAnswerKey: true, qrCode: false, inkSaving: true, wordBankPlacement: "beside" as const };
+  test.each([
+    [{ largePrint: true }, { printScale: "large" }],
+    [{ showCoordinates: true }, { coordinates: true }],
+    [{ nameDateLine: false }, { nameDateLine: false }]
+  ] as const)("applies the edited default while retaining independent choices", (request, changed) => {
+    expect(syncRequestOutputOptions(chosen, {}, request)).toEqual({ ...chosen, ...changed });
+  });
+  test("keeps selected output preferences on ordinary title/word/seed edits or equivalent omitted defaults", () => {
+    const selected = { ...chosen, printScale: "large" as const, coordinates: true, nameDateLine: false };
+    expect(syncRequestOutputOptions(selected, { title: "Before" }, { title: "After", seed: "another", wordsText: "CAT\nDOG" })).toBe(selected);
+    expect(syncRequestOutputOptions(selected, {}, { largePrint: false, showCoordinates: false, nameDateLine: true })).toBe(selected);
+  });
+  test("turns defaults off without mutating output choices; explicit manual-grid replay stays identical", () => {
+    const previous = { largePrint: true, showCoordinates: true, nameDateLine: false };
+    const next = { largePrint: false, showCoordinates: false, nameDateLine: true };
+    const selected = Object.freeze({ ...chosen, printScale: "large" as const, coordinates: true, nameDateLine: false });
+    expect(syncRequestOutputOptions(selected, previous, next)).toEqual({ ...chosen, printScale: "standard", coordinates: false, nameDateLine: true });
+    const request = { title: "Unchanged grid", wordsText: "CAT\nDOG", seed: "print-options", autoSize: false, rows: 12, cols: 12, directions: ["E"] as PuzzleRequest["directions"] };
+    const first = generatePuzzle({ ...request, ...previous }), second = generatePuzzle({ ...request, ...next });
+    expect(second.grid).toEqual(first.grid);
+    expect(second.placed).toEqual(first.placed);
   });
 });

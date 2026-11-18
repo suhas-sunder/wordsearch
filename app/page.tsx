@@ -170,6 +170,7 @@ export default function HomePage() {
       </section>
 
       <section className="content-section site-shell tools-section">
+        <PuzzleSearch label="Search the puzzle catalog" />
         <div className="section-heading"><span className="eyebrow">Puzzle tools</span><h2>All Tools</h2><p>Use the primary destination that matches what you want to do next.</p></div>
         <div className="tool-grid">
           {allTools.map(([href, title, description]) => (

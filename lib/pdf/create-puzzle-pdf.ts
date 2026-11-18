@@ -1,5 +1,7 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf-lib";
-import { orderWordBank } from "@/lib/puzzle/parse";
+import { puzzleBankLabels } from "@/lib/puzzle/word-bank";
+import { printedLatinText, type PrintedLetterCase } from "@/lib/puzzle/display-case";
+import { printableInstructions } from "@/lib/puzzle/printable-instructions";
 import { directionVectors } from "@/lib/puzzle/generate";
 import type { PuzzleResult } from "@/lib/puzzle/types";
 import {
@@ -13,6 +15,22 @@ export interface CreatePuzzlePdfInput {
   options: PuzzleOutputOptions;
   shareUrl: string;
   qrDataUrl?: string;
+  layoutProfile?: "legacy" | "pack" | "large-print";
+  classLine?: boolean;
+}
+
+export class PdfLayoutError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PdfLayoutError";
+  }
+}
+
+export class PdfPackLayoutError extends PdfLayoutError {
+  constructor(message: string) {
+    super(message);
+    this.name = "PdfPackLayoutError";
+  }
 }
 
 export class UnsupportedPdfTextError extends Error {
@@ -22,14 +40,19 @@ export class UnsupportedPdfTextError extends Error {
   }
 }
 
-function pdfSafeText(value: string | undefined, font: PDFFont) {
+/** The existing PDF text substitutions, shared with output measurement. */
+export function normalizePdfText(value: string | undefined) {
   if (!value) return "";
-  const normalized = value
+  return value
     .replace(/[\u2010-\u2015]/g, "-")
     .replace(/[\u2018\u2019]/g, "'")
     .replace(/[\u201c\u201d]/g, '"')
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function pdfSafeText(value: string | undefined, font: PDFFont) {
+  const normalized = normalizePdfText(value);
   return Array.from(normalized, (character) => {
     try {
       font.encodeText(character);
@@ -78,17 +101,8 @@ function pngBytes(dataUrl: string) {
   return Uint8Array.from(binary, (character) => character.charCodeAt(0));
 }
 
-function orderedLabels(puzzle: PuzzleResult) {
-  return orderWordBank(
-    puzzle.placed.map((placement) => ({
-      id: placement.wordId,
-      raw: placement.label,
-      label: placement.label,
-      normalized: placement.label,
-      tokens: placement.tokens
-    })),
-    puzzle.request.wordBankOrder
-  ).map((word) => word.label);
+function orderedLabels(puzzle: PuzzleResult, answerKey = false, letterCase?: PrintedLetterCase) {
+  return puzzleBankLabels(puzzle, answerKey, letterCase);
 }
 
 function drawWordBankBelow(
@@ -98,19 +112,25 @@ function drawWordBankBelow(
   y: number,
   left: number,
   width: number,
-  large: boolean
+  large: boolean,
+  measuredLarge = false,
+  footerRuleY = 0,
+  LayoutError = PdfLayoutError
 ) {
-  const size = large ? 11.5 : 9.5;
+  const size = measuredLarge ? 18 : large ? 11.5 : 9.5;
+  const descender = font.heightAtSize(size) - font.heightAtSize(size, { descender: false });
   const gap = 12;
   let x = left;
   let currentY = y;
   for (const rawLabel of labels) {
     const label = pdfSafeText(rawLabel, font);
     const itemWidth = textWidth(font, label, size) + gap;
+    if (itemWidth - gap > width) throw new LayoutError("A word is too wide for the printable word bank. Use shorter words or another word-bank placement.");
     if (x > left && x + itemWidth > left + width) {
       x = left;
       currentY -= size + 6;
     }
+    if (currentY - descender - 1 < footerRuleY) throw new LayoutError("The word bank cannot fit above the footer. Use fewer words, put the word bank beside the grid, or turn off the QR code.");
     page.drawText(label, { x, y: currentY, size, font, color: rgb(0.08, 0.12, 0.18) });
     x += itemWidth;
   }
@@ -123,14 +143,18 @@ function drawWordBankBeside(
   top: number,
   left: number,
   width: number,
-  large: boolean
+  large: boolean,
+  footerRuleY = 0,
+  LayoutError = PdfLayoutError
 ) {
   const size = large ? 11.5 : 9.5;
+  const descender = font.heightAtSize(size) - font.heightAtSize(size, { descender: false });
   let y = top;
   for (const rawLabel of labels) {
     const label = pdfSafeText(rawLabel, font);
     const lines = wrapText(label, font, size, width);
     for (const line of lines) {
+      if (textWidth(font, line, size) > width || y - descender - 1 < footerRuleY) throw new LayoutError("The beside-grid word bank cannot fit on this page. Use shorter or fewer words, or put the word bank below the grid.");
       page.drawText(line, { x: left, y, size, font, color: rgb(0.08, 0.12, 0.18) });
       y -= size + 3;
     }
@@ -145,7 +169,9 @@ async function drawPuzzlePage(
   answerKey: boolean,
   fonts: { regular: PDFFont; bold: PDFFont },
   shareTarget: string,
-  qrDataUrl?: string
+  qrDataUrl?: string,
+  layoutProfile: "legacy" | "pack" | "large-print" = "legacy",
+  classLine = false
 ) {
   const spec = pdfPageSpec(options.paperSize, options.orientation);
   const page = document.addPage([spec.width, spec.height]);
@@ -153,6 +179,10 @@ async function drawPuzzlePage(
   const margin = options.orientation === "landscape" ? 30 : 36;
   const usableWidth = width - margin * 2;
   const large = options.printScale === "large";
+  const measured = layoutProfile !== "legacy";
+  const measuredLarge = layoutProfile === "large-print";
+  const LayoutError = measured ? PdfPackLayoutError : PdfLayoutError;
+  const bankSize = measuredLarge ? 18 : 9.5;
   const ink = options.inkSaving ? rgb(0.08, 0.08, 0.08) : rgb(0.07, 0.1, 0.16);
 
   page.drawText("www.iLoveWordSearch.com", {
@@ -165,22 +195,32 @@ async function drawPuzzlePage(
 
   const title = pdfSafeText(`${puzzle.request.title}${answerKey ? " - Answer Key" : ""}`, fonts.bold);
   const titleSize = large ? 20 : 18;
-  page.drawText(title, { x: margin, y: height - margin - 24, size: titleSize, font: fonts.bold, color: ink });
-  let headerBottom = height - margin - 42;
+  const titleWidth = usableWidth - (options.nameDateLine && !answerKey ? Math.min(140, usableWidth * 0.25) + 16 : 0);
+  const titleLines = measured ? wrapText(title, fonts.bold, titleSize, titleWidth) : [title];
+  if (titleLines.length > 4 || titleLines.some((line) => textWidth(fonts.bold, line, titleSize) > titleWidth)) {
+    throw new LayoutError("The title is too long to fit the printable page. Use a shorter title or turn off the name/date line.");
+  }
+  titleLines.forEach((line, index) => page.drawText(line, { x: margin, y: height - margin - 24 - index * 22, size: titleSize, font: fonts.bold, color: ink }));
+  let headerBottom = height - margin - 42 - (titleLines.length - 1) * 22;
 
   if (!answerKey && puzzle.request.subtitle) {
     const subtitle = pdfSafeText(puzzle.request.subtitle, fonts.regular);
-    page.drawText(subtitle, { x: margin, y: headerBottom, size: 9.5, font: fonts.regular, color: rgb(0.3, 0.34, 0.4) });
-    headerBottom -= 15;
+    const subtitleLines = measured ? wrapText(subtitle, fonts.regular, 9.5, titleWidth) : [subtitle];
+    if (subtitleLines.length > 3 || subtitleLines.some((line) => textWidth(fonts.regular, line, 9.5) > titleWidth)) throw new LayoutError("The subtitle is too long to fit the printable page. Use a shorter subtitle.");
+    for (const line of subtitleLines) {
+      page.drawText(line, { x: margin, y: headerBottom, size: 9.5, font: fonts.regular, color: rgb(0.3, 0.34, 0.4) });
+      headerBottom -= 15;
+    }
   }
 
   if (options.instructions) {
     const instructions = pdfSafeText(
-      answerKey ? "Answer key. Keep this page separate from puzzle copies." : puzzle.request.instructions,
+      answerKey ? "Answer key. Keep this page separate from puzzle copies." : printableInstructions(puzzle.request),
       fonts.regular
     );
     const lines = wrapText(instructions, fonts.regular, 9.2, usableWidth * (options.nameDateLine && !answerKey ? 0.68 : 1));
-    for (const line of lines.slice(0, 2)) {
+    if (lines.length > (measured ? 3 : 2) || lines.some((line) => textWidth(fonts.regular, line, 9.2) > usableWidth * (options.nameDateLine && !answerKey ? 0.68 : 1))) throw new LayoutError("Instructions are too long to fit the printable page. Shorten them or turn off the name/date line.");
+    for (const line of measured ? lines : lines.slice(0, 2)) {
       page.drawText(line, { x: margin, y: headerBottom, size: 9.2, font: fonts.regular, color: rgb(0.3, 0.34, 0.4) });
       headerBottom -= 12;
     }
@@ -194,18 +234,42 @@ async function drawPuzzlePage(
     page.drawLine({ start: { x: lineX, y: topLineY - 4 }, end: { x: lineX + lineWidth, y: topLineY - 4 }, thickness: 0.7, color: ink });
     page.drawText("Date", { x: lineX, y: topLineY - 25, size: 8, font: fonts.regular, color: ink });
     page.drawLine({ start: { x: lineX, y: topLineY - 29 }, end: { x: lineX + lineWidth, y: topLineY - 29 }, thickness: 0.7, color: ink });
+    if (classLine) {
+      page.drawText("Class", { x: lineX, y: topLineY - 50, size: 8, font: fonts.regular, color: ink });
+      page.drawLine({ start: { x: lineX, y: topLineY - 54 }, end: { x: lineX + lineWidth, y: topLineY - 54 }, thickness: 0.7, color: ink });
+      headerBottom = Math.min(headerBottom, topLineY - 66);
+    }
   }
 
   headerBottom -= 8;
   page.drawLine({ start: { x: margin, y: headerBottom }, end: { x: width - margin, y: headerBottom }, thickness: 0.7, color: rgb(0.65, 0.68, 0.72) });
   headerBottom -= 14;
 
-  const labels = orderedLabels(puzzle);
+  const clueMode = puzzle.request.wordBankMode === "clues";
+  const showBank = !answerKey || clueMode;
+  const labels = orderedLabels(puzzle, answerKey, options.letterCase);
+  const clueSize = measuredLarge ? 18 : large ? 11.5 : 9.5;
+  const clueLines = clueMode ? labels.map((label) => wrapText(pdfSafeText(label, fonts.bold), fonts.bold, clueSize, usableWidth)) : [];
+  const clueBankHeight = clueMode ? 26 + clueLines.reduce((height, lines) => height + lines.length * (clueSize + 3) + 4, 0) : 0;
   const footerHeight = options.qrCode ? 94 : 30;
-  const belowBankHeight = !answerKey && options.wordBankPlacement === "below"
-    ? Math.min(92, Math.max(42, Math.ceil(labels.length / (large ? 4 : 6)) * (large ? 18 : 15)))
+  let measuredBankHeight = 0;
+  if (measured && showBank && !clueMode) {
+    let usedWidth = 0;
+    let rows = 1;
+    for (const rawLabel of labels) {
+      const labelWidth = textWidth(fonts.bold, pdfSafeText(rawLabel, fonts.bold), bankSize) + 12;
+      if (labelWidth > usableWidth) throw new PdfPackLayoutError("A word is too wide for the printable word bank.");
+      if (usedWidth && usedWidth + labelWidth > usableWidth) { rows += 1; usedWidth = 0; }
+      usedWidth += labelWidth;
+    }
+    // Match drawWordBankBelow's starting baseline and line spacing, plus
+    // clearance above the footer rule for the last line's descenders.
+    measuredBankHeight = Math.max(42, (measuredLarge ? 34 : 26) + (rows - 1) * (bankSize + 6));
+  }
+  const belowBankHeight = showBank && options.wordBankPlacement === "below"
+    ? clueMode ? clueBankHeight : measured ? measuredBankHeight : Math.min(92, Math.max(42, Math.ceil(labels.length / (large ? 4 : 6)) * (large ? 18 : 15)))
     : 0;
-  const besideWidth = !answerKey && options.wordBankPlacement === "beside" ? Math.min(150, usableWidth * 0.27) : 0;
+  const besideWidth = showBank && options.wordBankPlacement === "beside" ? Math.min(150, usableWidth * 0.27) : 0;
   const coordinateUnits = options.coordinates ? 1 : 0;
   const gridAreaWidth = usableWidth - besideWidth - (besideWidth ? 18 : 0);
   const gridAreaHeight = headerBottom - margin - footerHeight - belowBankHeight;
@@ -213,6 +277,8 @@ async function drawPuzzlePage(
     gridAreaWidth / (puzzle.cols + coordinateUnits),
     gridAreaHeight / (puzzle.rows + coordinateUnits)
   );
+  if (!Number.isFinite(cell) || cell <= 0) throw new LayoutError("There is no room for the grid on this page. Shorten the heading or change the paper layout.");
+  if (measured && (!Number.isFinite(cell) || cell * (measuredLarge ? 0.58 : 0.48) < (measuredLarge ? 16 : 9) || puzzle.grid.some((row) => row.some((token) => token.length !== 1)))) throw new PdfPackLayoutError(`This puzzle cannot fit at the minimum ${measuredLarge ? 16 : 9}-point grid type. Use fewer or shorter words, or a shorter title.`);
   const gutter = coordinateUnits * cell;
   const gridWidth = puzzle.cols * cell + gutter;
   const gridHeight = puzzle.rows * cell + gutter;
@@ -233,12 +299,13 @@ async function drawPuzzlePage(
       const x = gridLeft + gutter + col * cell;
       const y = gridBottom + (puzzle.rows - row - 1) * cell;
       page.drawRectangle({ x, y, width: cell, height: cell, borderWidth: options.inkSaving ? 0.45 : 0.7, borderColor: ink });
-      const token = pdfSafeText(puzzle.grid[row]?.[col] ?? "", fonts.bold);
+      const token = pdfSafeText(printedLatinText(puzzle.grid[row]?.[col] ?? "", puzzle.request.alphabetPack, options.letterCase), fonts.bold);
       const tokenSize = token.length > 3
         ? cell * (large ? 0.29 : 0.24)
         : token.length > 1
           ? cell * (large ? 0.39 : 0.32)
           : cell * (large ? 0.58 : 0.48);
+      if (textWidth(fonts.bold, token, tokenSize) > cell * 0.9) throw new LayoutError("This alphabet's multi-character cells cannot fit the downloadable PDF. Choose a single-letter alphabet pack.");
       drawCenteredText(page, token, fonts.bold, tokenSize, x + cell / 2, y + (cell - tokenSize) / 2 + tokenSize * 0.16);
     }
   }
@@ -260,10 +327,22 @@ async function drawPuzzlePage(
         opacity: options.inkSaving ? 0.52 : 0.48
       });
     }
-  } else if (options.wordBankPlacement === "beside") {
-    drawWordBankBeside(page, labels, fonts.bold, headerBottom - 4, margin + gridAreaWidth + 18, besideWidth, large);
-  } else {
-    drawWordBankBelow(page, labels, fonts.bold, gridBottom - 18, margin, usableWidth, large);
+  }
+  if (showBank && options.wordBankPlacement === "beside") {
+    drawWordBankBeside(page, labels, fonts.bold, headerBottom - 4, margin + gridAreaWidth + 18, besideWidth, large, margin + (options.qrCode ? 82 : 26), LayoutError);
+  } else if (showBank && clueMode) {
+    let y = gridBottom - 18;
+    const minimumY = margin + (options.qrCode ? 82 : 26);
+    for (const lines of clueLines) {
+      for (const line of lines) {
+        if (textWidth(fonts.bold, line, clueSize) > usableWidth || y - fonts.bold.heightAtSize(clueSize) < minimumY) throw new LayoutError("The clues cannot fit on this page. Shorten the clues or reduce the list.");
+        page.drawText(line, { x: margin, y, size: clueSize, font: fonts.bold, color: ink });
+        y -= clueSize + 3;
+      }
+      y -= 4;
+    }
+  } else if (showBank) {
+    drawWordBankBelow(page, labels, fonts.bold, gridBottom - (measuredLarge ? 26 : 18), margin, usableWidth, large, measuredLarge, margin + (options.qrCode ? 82 : 26), LayoutError);
   }
 
   const footerY = margin + 4;
@@ -273,7 +352,7 @@ async function drawPuzzlePage(
   const footerDetailY = footerY + (qrSize ? 21 : -2);
   page.drawLine({ start: { x: margin, y: footerRuleY }, end: { x: width - margin, y: footerRuleY }, thickness: 0.5, color: rgb(0.7, 0.72, 0.76) });
   page.drawText(answerKey ? "Answer key" : "Exact seeded word search", { x: margin, y: footerTitleY, size: 8, font: fonts.bold, color: ink });
-  page.drawText(options.qrCode ? "Scan to open the same unsolved puzzle." : pdfSafeText(shareTarget.slice(0, 86), fonts.regular), {
+  page.drawText(options.qrCode ? "Scan to open the same unsolved puzzle." : measured ? "Recreate with the same words, seed and puzzle settings." : pdfSafeText(shareTarget.slice(0, 86), fonts.regular), {
     x: margin,
     y: footerDetailY,
     size: 7.2,
@@ -300,7 +379,7 @@ export function validatePuzzleForPdf(value: unknown): value is PuzzleResult {
   if (!Array.isArray(puzzle.request.directions) || !puzzle.request.directions.length || !puzzle.request.directions.every((direction) => direction in directionVectors)) return false;
   if (!Array.isArray(puzzle.grid) || puzzle.grid.length !== puzzle.rows) return false;
   if (!puzzle.grid.every((row) => Array.isArray(row) && row.length === puzzle.cols && row.every((token) => typeof token === "string" && token.length <= 32))) return false;
-  if (!Array.isArray(puzzle.placed) || puzzle.placed.length > 300) return false;
+  if (!Array.isArray(puzzle.placed) || puzzle.placed.length < 1 || puzzle.placed.length > 300) return false;
   const placementIds = new Set<string>();
   return puzzle.placed.every((placement) => {
     if (typeof placement.wordId !== "string" || !placement.wordId || placementIds.has(placement.wordId)) return false;
@@ -326,7 +405,10 @@ export function validatePuzzleForPdf(value: unknown): value is PuzzleResult {
   });
 }
 
-export async function createPuzzlePdf({ puzzle, options, shareUrl, qrDataUrl }: CreatePuzzlePdfInput) {
+export async function createPuzzlePdf({ puzzle, options, shareUrl, qrDataUrl, layoutProfile = "legacy", classLine = false }: CreatePuzzlePdfInput) {
+  if (typeof classLine !== "boolean" || (classLine && (layoutProfile === "legacy" || !options.nameDateLine))) throw new Error("The class line requires a measured worksheet layout with name/date fields.");
+  if (!["legacy", "pack", "large-print"].includes(layoutProfile)) throw new Error("Invalid PDF layout profile.");
+  if (layoutProfile !== "legacy" && (options.orientation !== "portrait" || options.printScale !== (layoutProfile === "large-print" ? "large" : "standard") || options.wordBankPlacement !== "below" || options.qrCode || options.coordinates)) throw new Error("Measured layout requires portrait pages, the matching print scale, a below-grid word bank and no QR code or coordinates.");
   if (!validatePuzzleForPdf(puzzle)) throw new Error("Puzzle data is invalid for PDF generation.");
   if (options.qrCode && !qrDataUrl) throw new Error("QR image data is required when QR output is enabled.");
   const parsedShareUrl = new URL(shareUrl);
@@ -348,7 +430,7 @@ export async function createPuzzlePdf({ puzzle, options, shareUrl, qrDataUrl }: 
   };
 
   for (const pageType of pdfPagePlan(options)) {
-    await drawPuzzlePage(document, puzzle, options, pageType === "answer-key", fonts, shareUrl, qrDataUrl);
+    await drawPuzzlePage(document, puzzle, options, pageType === "answer-key", fonts, shareUrl, qrDataUrl, layoutProfile, classLine);
   }
   return document.save({ useObjectStreams: false });
 }

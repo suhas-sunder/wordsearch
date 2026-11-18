@@ -220,8 +220,9 @@ const guideRecords: ContentRecord[] = guides.map((guide) => ({
   indexable: guide.publicationStatus === "published",
   title: guide.title, h1: guide.title, introduction: guide.introduction ?? guide.description, description: guide.description,
   metadata: {
-    ...metadata(guide.metaTitle ?? guide.title, guide.metaDescription ?? guide.description, `/guides/${guide.slug}`, guide.publicationStatus === "published"),
-    ...(guide.reviewedOn ? { lastModified: guide.reviewedOn } : {})
+    // The stored reviewedOn value does not establish a verified update event.
+    // Keep it internally below; do not emit it as sitemap lastmod.
+    ...metadata(guide.metaTitle ?? guide.title, guide.metaDescription ?? guide.description, `/guides/${guide.slug}`, guide.publicationStatus === "published")
   },
   breadcrumbs: [{ label: "Guides", href: "/guides" }, { label: guide.title }],
   editorialStatus: guide.publicationStatus === "published" ? "reviewed" as const : "unreviewed" as const,
@@ -235,7 +236,7 @@ const guideRecords: ContentRecord[] = guides.map((guide) => ({
 const specialtyRecords: ContentRecord[] = specialtyRoutes.map((route) => ({
   id: `tool-specialty-${route.slug}`, slug: route.slug, canonicalPath: `/specialty/${route.slug}`, contentType: "tool" as const, publicationStatus: "draft" as const, indexable: false,
   title: route.title, h1: route.title, introduction: route.status, description: route.description, metadata: metadata(route.title, route.description, `/specialty/${route.slug}`, false),
-  breadcrumbs: [{ label: "Specialty", href: "/specialty-word-search-generators" }, { label: route.title }], editorialStatus: "unreviewed" as const, capabilities: ["specialty alphabet-pack puzzle generation"]
+  breadcrumbs: [{ label: "Specialty", href: "/specialty-word-search-generators" }, { label: route.title }], editorialStatus: "unreviewed" as const, capabilities: [route.implementation === "scaffold" ? "experimental token-grid scaffold" : "experimental alphabet-pack token mapping"]
 }));
 
 const redirectDefinitions = [

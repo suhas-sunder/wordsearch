@@ -1,3 +1,4 @@
+import { SearchTools } from "@/components/page/PageSections";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BelowHeaderAd, MonetizedPageShell, SeoSectionAd } from "@/components/layout/AdSlot";
@@ -24,7 +25,8 @@ export default function GuidesIndex() {
       <GuideGrid />
       <SeoSectionAd template="guide" />
       <section className="content-section site-shell editorial-copy"><div><span className="eyebrow">How these guides help</span><h2>Practical answers without filler</h2></div><div><p>Use a guide when you need to make a choice about grid size, word difficulty, printing, large print, or classroom workflow. Use the puzzle directories when you are ready to choose a topic.</p><p>Every guide links back to real tools or puzzle pages, so reading does not lead to empty search combinations.</p></div></section>
-      </main>
+      <SearchTools />
+</main>
     </MonetizedPageShell>
   );
 }

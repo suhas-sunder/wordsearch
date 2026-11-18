@@ -1,3 +1,4 @@
+import { SearchTools } from "@/components/page/PageSections";
 import Link from "next/link";
 import { BelowHeaderAd, MonetizedPageShell } from "@/components/layout/AdSlot";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
@@ -79,7 +80,8 @@ export default function TopicsPage() {
           </div>
           <Link className="primary-button" href="/word-search-generator">Open the generator</Link>
         </section>
-        </main>
+        <SearchTools />
+</main>
       </MonetizedPageShell>
     </>
   );

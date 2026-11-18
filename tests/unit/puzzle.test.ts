@@ -37,7 +37,7 @@ describe("word search generation", () => {
   test("reports words that cannot fit in a manual grid", () => {
     const puzzle = generatePuzzle({
       ...base,
-      wordsText: "supercalifragilistic",
+      wordsText: "CAT\nsupercalifragilistic",
       autoSize: false,
       rows: 6,
       cols: 6

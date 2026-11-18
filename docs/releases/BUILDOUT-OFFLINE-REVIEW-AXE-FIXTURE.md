@@ -1,0 +1,11 @@
+# Offline collection-review accessibility fixture
+
+The finalB browser acceptance run stopped at the first offline collection review document while Axe4.12.1 analyzed a Playwright context with JavaScript disabled. All preceding content, exact-bank/reference, no-product-script/no-resource, no-network and overflow assertions passed. The failed attempt is retained, not reported as a product pass.
+
+A bounded two-case diagnostic reproduced the installed Axe default and legacy single-frame runners failing after about30 seconds each with execution-context-destroyed errors. Both diagnostic contexts and browser closed normally. Legacy mode is not used as a fallback.
+
+The fixture now keeps the original JavaScript-disabled page and every original content/network/overflow assertion. Screenshots still come from that no-JavaScript page. A separate JavaScript-enabled analysis context opens the identical script-free file and verifies exact body HTML, heading, all answer banks, seeds and canonical references. It rejects product scripts, frames, images and links/resources and external requests. The unchanged Axe analyzer and serious/critical threshold run only there; exact body and no-network checks repeat afterward. This enables Axe's own asynchronous analysis without adding or executing product JavaScript. No rule exclusions or reduced thresholds were introduced.
+
+Application finalB remains frozen at f7849cddda2a7df5daff2425ba179b9af21f6272. The fixture is an explicit separate test-source override with its own file SHA, while other suites use frozenB source. Original failures and all retry evidence remain outside Git under product-final-f7849cd/functional/. This is fixture maintenance, not a publication/editorial approval.
+
+Validation completed on frozen finalB: original01..06 passed; explicit fixture retry07..10 passed, including all four offline files/views. Node syntax, targeted ESLint and diff checks passed. Application/source/export and served-byte guards passed before and after. The fixture file SHA at execution is2a68db8f9e70536aec701cbbbe8eb3f2acc2a89d37dd4ca718774d843604a558. Exact failed/retry logs, diagnostic errors and final reconciliation are retained outsideGit under product-final-f7849cd/functional/. The separate enabled-default route audit exits1 with exactly the three known ad/noindex eligibility findings, retained and unwaived.

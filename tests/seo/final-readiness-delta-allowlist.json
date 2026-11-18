@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/privacy",
+    "field": "body.editorial",
+    "beforeSha256": "ff045b34c4f1218b7b671b0230a616f2964ce609c3f1a7b0d3a7e78a82e5eccf",
+    "afterSha256": "b454cc757a4466a922b2551300b7b5b933bc2e55ee413ad6691f8c55cd9eb003",
+    "category": "approved-functional-content",
+    "reason": "Correct the production-observed Cloudflare measurement disclosure, including synthetic shared URL collection; no other editorial change.",
+    "reviewDisposition": "technical-intent-recorded",
+    "reviewReference": "docs/releases/FINAL-READINESS-ADS.md"
+  }
+]

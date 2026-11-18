@@ -147,3 +147,13 @@ describe("exact placement matching", () => {
     expect(coordinatePathsEqual(path, horizontal.cells)).toBe(true);
   });
 });
+
+describe("one-cell placement selection", () => {
+  test("matches only the exact placed cell and refuses empty or already-found selections", () => {
+    const one: Placement = { wordId: "a-0", label: "A", tokens: ["A"], row: 1, col: 2, direction: "E", cells: [{ row: 1, col: 2, token: "A" }] };
+    expect(findMatchingPlacement([one], [{ row: 1, col: 2 }], new Set())).toBe(one);
+    expect(findMatchingPlacement([one], [{ row: 1, col: 3 }], new Set())).toBeUndefined();
+    expect(findMatchingPlacement([one], [], new Set())).toBeUndefined();
+    expect(findMatchingPlacement([one], [{ row: 1, col: 2 }], new Set(["a-0"]))).toBeUndefined();
+  });
+});

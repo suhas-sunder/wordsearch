@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ComponentType } from "react";
+import Link from "next/link";
 import type { BuilderProps } from "@/components/builder/WordSearchBuilder";
 
 export function DeferredWordSearchBuilder(props: BuilderProps) {
@@ -43,15 +44,25 @@ export function DeferredWordSearchBuilder(props: BuilderProps) {
 
   if (!Builder) {
     return (
-      <section className="builder-loading-shell" aria-busy={status === "loading"} aria-live="polite">
-        <div>
-          <h2>{status === "error" ? "The interactive puzzle did not load" : "Preparing the interactive puzzle"}</h2>
-          <p>{status === "error" ? "Check the connection and retry. The page guidance and links remain available." : "The puzzle editor, preview, and output controls are loading. The page guidance and links remain available."}</p>
-          <button type="button" className="secondary-button" onClick={loadImmediately}>
-            {status === "error" ? "Retry puzzle" : "Load puzzle now"}
-          </button>
-        </div>
-      </section>
+      <>
+        <noscript>
+          <style dangerouslySetInnerHTML={{ __html: "[data-builder-loading-shell]{display:none}" }} />
+          <section data-builder-noscript>
+            <h2>JavaScript is required for the interactive puzzle</h2>
+            <p>The puzzle editor, online play, puzzle printing and downloads need JavaScript. You can still read this page and browse the published catalog or guides.</p>
+            <p><Link href="/topics">Browse published topics</Link>{" · "}<Link href="/guides">Read word search guides</Link></p>
+          </section>
+        </noscript>
+        <section className="builder-loading-shell" data-builder-loading-shell aria-busy={status === "loading"} aria-live="polite">
+          <div>
+            <h2>{status === "error" ? "The interactive puzzle did not load" : "Preparing the interactive puzzle"}</h2>
+            <p>{status === "error" ? "Check the connection and retry. The page guidance and links remain available." : "The puzzle editor, preview, and output controls are loading. The page guidance and links remain available."}</p>
+            <button type="button" className="secondary-button" onClick={loadImmediately}>
+              {status === "error" ? "Retry puzzle" : "Load puzzle now"}
+            </button>
+          </div>
+        </section>
+      </>
     );
   }
 

@@ -13,24 +13,43 @@
     "test:unit": "vitest run tests/unit",
     "test:seo": "vitest run tests/seo",
     "audit:content": "vitest run tests/content/current-content-audit.test.ts --reporter=verbose",
+    "report:cohorts": "tsx scripts/report-release-cohorts.ts",
     "audit:routes": "node tests/e2e/route-audit.mjs",
+    "test:route-ad-contract": "vitest run tests/unit/ad-markup-contract.test.ts",
     "test:a11y": "node tests/e2e/accessibility.mjs",
     "audit:lighthouse": "node tests/e2e/lighthouse-audit.mjs",
     "audit:pdf": "node tests/e2e/pdf-visual-audit.mjs",
     "audit:static": "node tests/e2e/static-export-audit.mjs",
     "audit:static-host": "node tests/e2e/static-export-audit.mjs",
     "test:preview": "node tests/e2e/preview-toolbar.mjs",
-    "test:e2e": "node tests/e2e/browser-smoke.mjs && node tests/e2e/monetization-placeholders.mjs",
-    "test:ads": "node tests/e2e/monetization-placeholders.mjs"
+    "test:directions": "node tests/e2e/direction-validation.mjs",
+    "test:instructions": "node tests/e2e/printable-instructions.mjs",
+    "test:inputs": "node tests/e2e/request-validation.mjs",
+    "test:workload": "node tests/e2e/generation-workload.mjs",
+    "test:parity": "node tests/e2e/share-route-parity.mjs",
+    "test:provider-preview": "tsx tests/e2e/provider-preview-smoke.ts",
+    "test:transport": "tsx tests/e2e/share-transport-study.ts",
+    "test:completion": "tsx tests/e2e/completion-card.ts",
+    "test:navigation": "node tests/e2e/header-navigation.mjs",
+    "test:e2e": "node tests/e2e/request-validation.mjs && node tests/e2e/direction-validation.mjs && node tests/e2e/browser-smoke.mjs && node tests/e2e/monetization-placeholders.mjs",
+    "test:ads": "node tests/e2e/monetization-placeholders.mjs",
+    "inventory:content": "tsx scripts/content-inventory.ts",
+    "audit:candidates": "tsx scripts/audit-candidates.ts",
+    "audit:print-measure": "tsx scripts/measure-print.ts",
+    "audit:staged-inventory": "tsx scripts/audit-staged-inventory.ts",
+    "audit:preserved-owner-export": "tsx scripts/audit-preserved-owner-export.ts",
+    "audit:product-acceptance": "tsx scripts/audit-product-acceptance.ts",
+    "audit:published-pdf-fit": "tsx scripts/audit-published-pdf-fit.ts",
+    "test:solver-progress": "tsx tests/e2e/solver-progress.ts"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
-    "next": "^15.5.22",
+    "next": "^15.5.29",
     "pdf-lib": "^1.17.1",
     "qrcode": "^1.5.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "zod": "^3.25.76"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
@@ -39,17 +58,20 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "eslint": "^9.36.0",
-    "eslint-config-next": "^15.5.22",
+    "eslint-config-next": "^15.5.29",
     "lighthouse": "^13.4.1",
-    "pdfjs-dist": "^5.7.284",
+    "pdfjs-dist": "^6.5.438",
     "playwright": "^1.59.1",
     "tailwindcss": "^4.1.4",
     "tsx": "^4.23.1",
     "typescript": "^5.8.3",
-    "vitest": "^3.2.7"
+    "vitest": "^4.1.12"
   },
   "overrides": {
     "postcss": "8.5.23",
-    "sharp": "0.35.3"
+    "sharp": "0.35.5",
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "11.0.5"
+    }
   }
 }

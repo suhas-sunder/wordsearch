@@ -12,4 +12,6 @@ The reviewed indexable set consists of the homepage, canonical generator, eight 
 
 Drafts may be incomplete. To promote a curated puzzle, supply a stable ID and canonical path, distinct title/H1/copy/metadata, a topic-specific word list, stable seed and placement settings, category and related records, useful puzzle-specific editorial modules, and a completed editorial review decision. Do not generate a build-time seed or build-time modification date.
 
+Before publication, follow the [content review checklist](./content-review-checklist.md). Automated validation covers dates, directions, deterministic generation, placement, and route structure; factual, pedagogical, claim-support, and audience decisions require human review.
+
 `app/sitemap.ts` and `app/robots.ts` are authoritative. The former reads the registry; the latter allows crawling so route-level `noindex` can be observed. Static `public/sitemap.xml` and `public/robots.txt` were removed to prevent drift.

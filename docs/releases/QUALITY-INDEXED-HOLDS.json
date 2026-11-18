@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "kind": "source-only-owner-decision-manifest",
+  "reviewedOn": "2026-11-12",
+  "baselineSha": "471a118dd459f2181cd641ed0572ba6dd7005540",
+  "candidateApplicationSha": "39c0d3564eb014741e259507c9564a4ee1699f1d",
+  "candidateReviewHead": "a0df44f6bdaccd1ecd72e34ff0bd32a65fa01d80",
+  "evidence": "Retained main-to-C4 semantic report; not a fresh network capture",
+  "evidenceFile": "C:/Users/Suhas/.codex/visualizations/2026/11/06/01a1b33a-7733-7163-8af2-24bcc8caa97a/product-excellence/final-39c0d35/seo-preservation/main-to-c4-diff.json",
+  "evidenceSha256": "79d518c456397fcdedaae36c01598320d0880fd23bc9fae266909fc91269cd18",
+  "heldFieldCount": 13,
+  "heldUrlCount": 7,
+  "ownerApprovalRecorded": false,
+  "fields": [
+    {
+      "path": "/editorial-policy",
+      "field": "body.editorial",
+      "originalProduction": "Publishing standards Editorial and Puzzle Standards I Love Word Search exists to provide useful free online and printable word search resources. Originality An indexable curated puzzle page should have a distinct purpose, topic-specific word list, stable puzzle definition, unique supporting copy, accurate metadata, and useful related links. Arbitrary user-generated states, search results, and thin variants are not indexed by default. Topic standards Suitable subjects include evergreen general interest, classroom subjects, vocabulary, nature, geography, science, math, language arts, generic holidays, seasons, sports vocabulary, hobbies, food, and animals. Copyrighted characters, celebrity-focused topics, entertainment franchises, and brand-dependent topics require deliberate review. Explicit or hateful content, dangerous instructions, and misleading health claims are not suitable for the general library. Word-list standards Review spelling and topic relevance. Remove duplicates and choose an appropriate difficulty. Check grid fit and audience suitability. Do not add filler terms solely to increase the word count. Description standards Write unique, useful copy rather than lightly spun templates. Avoid keyword stuffing, fake counts, fabricated popularity claims, and unsupported educational or health outcomes. Corrections Visitors can report spelling errors, broken puzzles, print or PDF problems, accessibility issues, unsuitable content, or duplicate pages. Advertising separation If advertising is enabled later, it must remain separate from puzzle controls, never imitate download or navigation buttons, stay out of print and PDF output, avoid obstructing play, and never determine editorial topic selection. The current ad-labelled areas are layout placeholders, not active advertising. Automation and review Software and automation assist with puzzle generation, validation, formatting, and parts of the publishing workflow. Indexable puzzle topics, word lists, and supporting page content are subject to editorial review before they are treated as finished resources.",
+      "currentCandidate": "Publishing standards Editorial and Puzzle Standards I Love Word Search exists to provide useful free online and printable word search resources. Originality An indexable curated puzzle page should have a distinct purpose, topic-specific word list, stable puzzle definition, unique supporting copy, accurate metadata, and useful related links. Arbitrary user-generated states, search results, and thin variants are not indexed by default. Topic standards Suitable subjects include evergreen general interest, classroom subjects, vocabulary, nature, geography, science, math, language arts, generic holidays, seasons, sports vocabulary, hobbies, food, and animals. Copyrighted characters, celebrity-focused topics, entertainment franchises, and brand-dependent topics require deliberate review. Explicit or hateful content, dangerous instructions, and misleading health claims are not suitable for the general library. Word-list standards Review spelling and topic relevance. Remove duplicates and choose an appropriate difficulty. Check grid fit and audience suitability. Do not add filler terms solely to increase the word count. Description standards Write unique, useful copy rather than lightly spun templates. Avoid keyword stuffing, fake counts, fabricated popularity claims, and unsupported educational or health outcomes. Corrections Visitors can report spelling errors, broken puzzles, print or PDF problems, accessibility issues, unsuitable content, or duplicate pages. Advertising separation Eligible content pages may display advertising. Ads must remain separate from puzzle controls, never imitate download or navigation buttons, stay out of print and PDF output, avoid obstructing play, and never determine editorial topic selection. Automation and review Software and automation assist with puzzle generation, validation, formatting, and parts of the publishing workflow. Indexable puzzle topics, word lists, and supporting page content are subject to editorial review before they are treated as finished resources.",
+      "recommendedFinal": "Publishing standards Editorial and Puzzle Standards I Love Word Search exists to provide useful free online and printable word search resources. Originality An indexable curated puzzle page should have a distinct purpose, topic-specific word list, stable puzzle definition, unique supporting copy, accurate metadata, and useful related links. Arbitrary user-generated states, search results, and thin variants are not indexed by default. Topic standards Suitable subjects include evergreen general interest, classroom subjects, vocabulary, nature, geography, science, math, language arts, generic holidays, seasons, sports vocabulary, hobbies, food, and animals. Copyrighted characters, celebrity-focused topics, entertainment franchises, and brand-dependent topics require deliberate review. Explicit or hateful content, dangerous instructions, and misleading health claims are not suitable for the general library. Word-list standards Review spelling and topic relevance. Remove duplicates and choose an appropriate difficulty. Check grid fit and audience suitability. Do not add filler terms solely to increase the word count. Description standards Write unique, useful copy rather than lightly spun templates. Avoid keyword stuffing, fake counts, fabricated popularity claims, and unsupported educational or health outcomes. Corrections Visitors can report spelling errors, broken puzzles, print or PDF problems, accessibility issues, unsuitable content, or duplicate pages. Advertising separation Eligible content pages may display advertising. Ads must remain separate from puzzle controls, never imitate download or navigation buttons, stay out of print and PDF output, avoid obstructing play, and never determine editorial topic selection. Automation and review Software and automation assist with puzzle generation, validation, formatting, and parts of the publishing workflow. Indexable puzzle topics, word lists, and supporting page content are subject to editorial review before they are treated as finished resources.",
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Corrects inaccurate inactive-advertising policy claim. One indexed legal/trust amendment requires owner acceptance; no advertising source or lifecycle change.",
+      "originalSha256": "56930f25aadd4562d5d14af1094b169493b0912ea2dcd6ed587357289a721d8c",
+      "candidateSha256": "ca22270468ee9e848b13b9bdb4bcc65bb2a6599058ed9c417fe03c3e4e1a4599",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/84",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/free-printable-word-searches",
+      "field": "body.faq",
+      "originalProduction": null,
+      "currentCandidate": "FAQ How do I print the puzzle without the surrounding website? Open a puzzle and choose Print this puzzle. Its print view excludes navigation, editing controls and advertisements. Check the preview before printing student copies. How do I keep the answer key off a student copy? In the print or PDF dialog, clear Answer key page for a puzzle-only copy. Keep a separate download with that option selected for checking answers. Which paper setting should I choose? Match US Letter or A4 and the orientation to the paper in your printer. Check the printer preview at actual size; browser or printer scaling can otherwise change the size of the grid and word bank.",
+      "recommendedFinal": "FAQ How do I print the puzzle without the surrounding website? Open a puzzle and choose Print this puzzle. Its print view excludes navigation, editing controls and advertisements. Check the preview before printing student copies. How do I keep the answer key off a student copy? In the print or PDF dialog, clear Answer key page for a puzzle-only copy. Keep a separate download with that option selected for checking answers. Which paper setting should I choose? Match US Letter or A4 and the orientation to the paper in your printer. Check the printer preview at actual size; browser or printer scaling can otherwise change the size of the grid and word bank.",
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "650b03fabbaceebeac75c58d9a9f8f2f080f989f92609382c19d784477399c57",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/free-printable-word-searches",
+      "field": "headings.faq",
+      "originalProduction": null,
+      "currentCandidate": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "recommendedFinal": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "f329830bbd27d2074b50e4948958fe10a14d6aa10d30d018035d90611a892e64",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/large-print-word-searches",
+      "field": "body.faq",
+      "originalProduction": null,
+      "currentCandidate": "FAQ Why can a large grid still have small letters on paper? A sheet has a fixed printable width. More columns leave less room for each cell, even when a larger display option is selected. Check the downloaded file at actual size and consider a smaller grid with fewer, shorter words. Does choosing larger print move the words? Output sizing alone keeps the current puzzle’s placements. Editing the word list, grid dimensions, seed or directions can create a different puzzle, so keep those settings when you need a matching reprint. What should I check before making several copies? Check both the grid letters and word-bank text, the page margins and the answer page. Make one test copy using the intended paper and printer settings. A large-print label does not guarantee a particular physical text size on every printer.",
+      "recommendedFinal": "FAQ Why can a large grid still have small letters on paper? A sheet has a fixed printable width. More columns leave less room for each cell, even when a larger display option is selected. Check the downloaded file at actual size and consider a smaller grid with fewer, shorter words. Does choosing larger print move the words? Output sizing alone keeps the current puzzle’s placements. Editing the word list, grid dimensions, seed or directions can create a different puzzle, so keep those settings when you need a matching reprint. What should I check before making several copies? Check both the grid letters and word-bank text, the page margins and the answer page. Make one test copy using the intended paper and printer settings. A large-print label does not guarantee a particular physical text size on every printer.",
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "14e9069ba1fda2a2c782c8acd8d659b24c2ad9ba05f9a16aebbe4e1846a28899",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/large-print-word-searches",
+      "field": "headings.faq",
+      "originalProduction": null,
+      "currentCandidate": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "recommendedFinal": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "f329830bbd27d2074b50e4948958fe10a14d6aa10d30d018035d90611a892e64",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/online-word-search",
+      "field": "body.faq",
+      "originalProduction": null,
+      "currentCandidate": "FAQ How can I select words with a keyboard? Start a puzzle and focus a grid cell. Arrow keys move between cells. Enter or Space sets the start and submits the end of a straight path; Escape cancels an unfinished selection. Can I tap the first and last letter instead of dragging? Open the solver Settings and choose tap selection. Tap the first cell, then the last cell of a straight word. The word bank marks words that have been found. Can I print the same puzzle after playing online? Yes. Use that puzzle’s print or PDF controls. Its existing seed and configuration determine the grid and answers; switching between play and output does not require generating a different puzzle.",
+      "recommendedFinal": "FAQ How can I select words with a keyboard? Start a puzzle and focus a grid cell. Arrow keys move between cells. Enter or Space sets the start and submits the end of a straight path; Escape cancels an unfinished selection. Can I tap the first and last letter instead of dragging? Open the solver Settings and choose tap selection. Tap the first cell, then the last cell of a straight word. The word bank marks words that have been found. Can I print the same puzzle after playing online? Yes. Use that puzzle’s print or PDF controls. Its existing seed and configuration determine the grid and answers; switching between play and output does not require generating a different puzzle.",
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "136daf193671e1a9ce69b379bf52b20db883846a6c3c23e79046d18b826b0f8d",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/online-word-search",
+      "field": "headings.faq",
+      "originalProduction": null,
+      "currentCandidate": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "recommendedFinal": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "f329830bbd27d2074b50e4948958fe10a14d6aa10d30d018035d90611a892e64",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/privacy",
+      "field": "body.editorial",
+      "originalProduction": "Current site behavior Privacy Policy I Love Word Search does not require an account to create, solve, print, download, or share a puzzle. Browser storage The site uses local browser storage for builder state and puzzle display or output preferences. That information remains in the browser unless you clear it. The current application does not install analytics. Eligible production content pages may load Google AdSense; an explicit emergency setting can disable advertising. Shared puzzle links A share link can encode the puzzle definition needed to reproduce a custom puzzle. It does not include which words a solver has found, reveal progress, or completion progress. Avoid entering private or sensitive information in a word list that you plan to share. PDF and QR behavior PDF files are created by the site’s server endpoint from the submitted puzzle definition. QR images are generated locally in the browser from the share URL; the site does not use an external QR service. Advertising and external links Eligible production content pages load Google AdSense by default, while search, utility, print, PDF, play, answer-key, trust, and legal pages remain ad-free. If advertising is explicitly disabled or Google cannot serve any eligible unit, labelled fallback ad areas may be shown instead. Google may use cookies or similar technologies and process device or interaction data to deliver and measure advertising under Google’s own privacy terms. A Google-certified consent management platform must be configured before personalized ads are enabled where Google requires one. Links to other external sites follow those sites’ own privacy practices. Questions Use the Contact page for a privacy question. The site currently directs contact through the owner’s public portfolio or LinkedIn profile rather than collecting a message through an on-site form.",
+      "currentCandidate": "Current site behavior Privacy Policy I Love Word Search does not require an account to create, solve, print, download, or share a puzzle. Browser storage The site uses local browser storage for builder state, puzzle display, sound or output preferences, and your light or dark theme choice. System theme follows your device preference. If you choose to remember solver progress, the browser stores an opaque puzzle fingerprint, found-placement indexes and elapsed time on that device; you can clear that saved progress. This information remains in the browser unless you clear it. The current application does not install analytics. Eligible production content pages may load Google AdSense; an explicit emergency setting can disable advertising. Named saved puzzles The main puzzle builder can explicitly save up to twenty named puzzle definitions on this device. Saved names, titles, words and seeds are unencrypted and readable by other people using the same browser. This library is not uploaded or synchronized and is separate from solver progress and classroom presets. Delete individual puzzles or clear the named library in the builder; clearing it does not delete solver progress or classroom presets. Saved classroom presets The classroom pack builder saves a preset only when you choose Save preset on this device. It stores the exact title, words, seed and output choices in this browser, up to five saved titles. People using the same browser can read these unencrypted entries. Presets are not uploaded or synchronized. Delete saved presets in the pack builder, or clear the site's browser storage, to remove them. Shared puzzle links A share link can encode the puzzle definition needed to reproduce a custom puzzle. It does not include which words a solver has found, reveal progress, or completion progress. Avoid entering private or sensitive information in a word list that you plan to share. PDF and QR behavior PDF files are created locally in your browser from the current puzzle definition. Downloading a PDF does not require submitting your word list to a site PDF endpoint. QR images are generated locally in the browser from the share URL; the site does not use an external QR service. Advertising and external links Eligible production content pages load Google AdSense by default, while search, utility, print, PDF, play, answer-key, trust, and legal pages remain ad-free. If advertising is explicitly disabled or Google cannot serve any eligible unit, labelled fallback ad areas may be shown instead. Google may use cookies or similar technologies and process device or interaction data to deliver and measure advertising under Google’s own privacy terms. A Google-certified consent management platform must be configured before personalized ads are enabled where Google requires one. Links to other external sites follow those sites’ own privacy practices. Questions Use the Contact page for a privacy question. The site currently directs contact through the owner’s public portfolio or LinkedIn profile rather than collecting a message through an on-site form.",
+      "recommendedFinal": "Current site behavior Privacy Policy I Love Word Search does not require an account to create, solve, print, download, or share a puzzle. Browser storage The site uses local browser storage for builder state, puzzle display, sound or output preferences, and your light or dark theme choice. System theme follows your device preference. If you choose to remember solver progress, the browser stores an opaque puzzle fingerprint, found-placement indexes and elapsed time on that device; you can clear that saved progress. This information remains in the browser unless you clear it. The current application does not install analytics. Eligible production content pages may load Google AdSense; an explicit emergency setting can disable advertising. Named saved puzzles The main puzzle builder can explicitly save up to twenty named puzzle definitions on this device. Saved names, titles, words and seeds are unencrypted and readable by other people using the same browser. This library is not uploaded or synchronized and is separate from solver progress and classroom presets. Delete individual puzzles or clear the named library in the builder; clearing it does not delete solver progress or classroom presets. Saved classroom presets The classroom pack builder saves a preset only when you choose Save preset on this device. It stores the exact title, words, seed and output choices in this browser, up to five saved titles. People using the same browser can read these unencrypted entries. Presets are not uploaded or synchronized. Delete saved presets in the pack builder, or clear the site's browser storage, to remove them. Shared puzzle links A share link can encode the puzzle definition needed to reproduce a custom puzzle. It does not include which words a solver has found, reveal progress, or completion progress. Avoid entering private or sensitive information in a word list that you plan to share. PDF and QR behavior PDF files are created locally in your browser from the current puzzle definition. Downloading a PDF does not require submitting your word list to a site PDF endpoint. QR images are generated locally in the browser from the share URL; the site does not use an external QR service. Advertising and external links Eligible production content pages load Google AdSense by default, while search, utility, print, PDF, play, answer-key, trust, and legal pages remain ad-free. If advertising is explicitly disabled or Google cannot serve any eligible unit, labelled fallback ad areas may be shown instead. Google may use cookies or similar technologies and process device or interaction data to deliver and measure advertising under Google’s own privacy terms. A Google-certified consent management platform must be configured before personalized ads are enabled where Google requires one. Links to other external sites follow those sites’ own privacy practices. Questions Use the Contact page for a privacy question. The site currently directs contact through the owner’s public portfolio or LinkedIn profile rather than collecting a message through an on-site form.",
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Actual local named library/presets/progress/theme/sound and browser-PDF disclosures. Material legal/trust text/headings require owner/legal acceptance despite technical evidence.",
+      "originalSha256": "fea58ac4a74207fc855e85ba78c90a2097f79bb221ad3342ec0046e339a60788",
+      "candidateSha256": "93b5730bfe38c7773bb2c5affcc7f24d5e4d3ef06841efe566f6cd27199792b9",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/34 https://github.com/suhas-sunder/wordsearch/pull/44 https://github.com/suhas-sunder/wordsearch/pull/55",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/privacy",
+      "field": "headings.editorial",
+      "originalProduction": [
+        {
+          "level": "h1",
+          "text": "Privacy Policy",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Browser storage",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Shared puzzle links",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "PDF and QR behavior",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Advertising and external links",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Questions",
+          "partition": "editorial"
+        }
+      ],
+      "currentCandidate": [
+        {
+          "level": "h1",
+          "text": "Privacy Policy",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Browser storage",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Named saved puzzles",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Saved classroom presets",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Shared puzzle links",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "PDF and QR behavior",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Advertising and external links",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Questions",
+          "partition": "editorial"
+        }
+      ],
+      "recommendedFinal": [
+        {
+          "level": "h1",
+          "text": "Privacy Policy",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Browser storage",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Named saved puzzles",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Saved classroom presets",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Shared puzzle links",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "PDF and QR behavior",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Advertising and external links",
+          "partition": "editorial"
+        },
+        {
+          "level": "h2",
+          "text": "Questions",
+          "partition": "editorial"
+        }
+      ],
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Actual local named library/presets/progress/theme/sound and browser-PDF disclosures. Material legal/trust text/headings require owner/legal acceptance despite technical evidence.",
+      "originalSha256": "a0941fcca0502113a426435f33a79e232602c9fd9755137205285e37fa1f5d02",
+      "candidateSha256": "e4aa0002b94e0ffe35c63340e09fd4d4969daea6f732322b09539c2a516951dc",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/34 https://github.com/suhas-sunder/wordsearch/pull/44 https://github.com/suhas-sunder/wordsearch/pull/55",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/word-search-pdf",
+      "field": "body.faq",
+      "originalProduction": null,
+      "currentCandidate": "FAQ Where is my puzzle PDF created? The browser creates the download from the current puzzle definition. A PDF download does not submit your word list to a PDF-generation server. Can I download a puzzle and its answers together? Select Answer key page in the Download PDF dialog to include the matching solution. Clear it for a puzzle-only file. Preview the selected paper size and orientation before downloading. Why might a share link not fit in a QR code? A custom share link contains the word list and settings. A long list can exceed QR capacity. Use the full copyable share link when the interface reports that a QR code cannot be created; a missing QR is not a different puzzle.",
+      "recommendedFinal": "FAQ Where is my puzzle PDF created? The browser creates the download from the current puzzle definition. A PDF download does not submit your word list to a PDF-generation server. Can I download a puzzle and its answers together? Select Answer key page in the Download PDF dialog to include the matching solution. Clear it for a puzzle-only file. Preview the selected paper size and orientation before downloading. Why might a share link not fit in a QR code? A custom share link contains the word list and settings. A long list can exceed QR capacity. Use the full copyable share link when the interface reports that a QR code cannot be created; a missing QR is not a different puzzle.",
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "ec0b4f8fea7c6673c255fa272570e07f22f387a813fc0ee6898635dda2a1b3f1",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/word-search-pdf",
+      "field": "headings.faq",
+      "originalProduction": null,
+      "currentCandidate": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "recommendedFinal": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "f329830bbd27d2074b50e4948958fe10a14d6aa10d30d018035d90611a892e64",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/word-searches-for-teachers",
+      "field": "body.faq",
+      "originalProduction": null,
+      "currentCandidate": "FAQ Can I make a worksheet from my own lesson vocabulary? Use the generator and enter the words you have chosen for the lesson. Check any excluded words before printing, and keep the word list and difficulty appropriate for your group. How do I add student name and date lines? Select Name/date in the puzzle’s output controls, then check the printable preview. Keep Answer key page selected for your checking copy and clear it for a student-only download. What should I keep for an exact classroom reprint? Keep the downloaded PDF or the full puzzle definition, including the seed, word list, grid dimensions and directions. A share link also encodes the word list, so do not include private student information in a link you distribute.",
+      "recommendedFinal": "FAQ Can I make a worksheet from my own lesson vocabulary? Use the generator and enter the words you have chosen for the lesson. Check any excluded words before printing, and keep the word list and difficulty appropriate for your group. How do I add student name and date lines? Select Name/date in the puzzle’s output controls, then check the printable preview. Keep Answer key page selected for your checking copy and clear it for a student-only download. What should I keep for an exact classroom reprint? Keep the downloaded PDF or the full puzzle definition, including the seed, word list, grid dimensions and directions. A share link also encodes the word list, so do not include private student information in a link you distribute.",
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "b5e9cd286117e61b7b18059af5300e7d500d4ff8d73a96d2c0be68f97bd6d7c6",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    },
+    {
+      "path": "/word-searches-for-teachers",
+      "field": "headings.faq",
+      "originalProduction": null,
+      "currentCandidate": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "recommendedFinal": [
+        {
+          "level": "h2",
+          "text": "FAQ",
+          "partition": "faq"
+        }
+      ],
+      "default": "Retain candidate wording for explicit owner review; do not publish or approve automatically",
+      "reason": "Five hubs gained authored task FAQs/FAQ headings. Substantive indexed additions remain pinned for independent content review; no blanket FAQ replacement or owner approval.",
+      "originalSha256": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c",
+      "candidateSha256": "f329830bbd27d2074b50e4948958fe10a14d6aa10d30d018035d90611a892e64",
+      "reference": "https://github.com/suhas-sunder/wordsearch/pull/50",
+      "approvalRecorded": false
+    }
+  ]
+}
